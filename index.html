@@ -3,466 +3,592 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>太空乘法任务 | 星际数学挑战</title>
+<title>🚀 太空乘法任务 | 星际数学大冒险</title>
 <style>
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Roboto', sans-serif;
 }
 
 body {
-  background: radial-gradient(ellipse at 30% 40%, #0b0f2a, #03051a);
-  background-attachment: fixed;
   min-height: 100vh;
+  background: linear-gradient(135deg, #0a0f2a 0%, #0a1a3a 50%, #0a0f2a 100%);
+  overflow-x: hidden;
+  font-family: 'Comic Neue', 'Segoe UI', 'Comic Neue', 'Chalkboard SE', 'Comic Sans MS', cursive, sans-serif;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
-  color: #fff;
-  position: relative;
-  overflow-x: hidden;
 }
 
-/* 动态星空 */
-.star {
+/* 动态星空背景 */
+.stars {
   position: fixed;
-  background: white;
-  border-radius: 50%;
-  opacity: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 0;
-  animation: twinkle 4s infinite alternate;
-}
-@keyframes twinkle {
-  0% { opacity: 0.1; transform: scale(1);}
-  100% { opacity: 0.8; transform: scale(1.2);}
 }
 
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.2; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.2); }
+}
+
+/* 行星装饰 */
+.planet {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(3px);
+  animation: float 20s infinite ease-in-out;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+/* 火箭动画 */
+.rocket {
+  position: fixed;
+  bottom: 20px;
+  left: -100px;
+  font-size: 60px;
+  animation: fly 15s infinite linear;
+  z-index: 1;
+  filter: drop-shadow(0 0 10px rgba(255,100,0,0.5));
+  pointer-events: none;
+}
+
+@keyframes fly {
+  0% { left: -100px; transform: rotate(-5deg); }
+  100% { left: 120%; transform: rotate(5deg); }
+}
+
+/* UFO动画 */
+.ufo {
+  position: fixed;
+  top: 15%;
+  right: -80px;
+  font-size: 50px;
+  animation: ufoFly 18s infinite linear;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes ufoFly {
+  0% { right: -80px; transform: rotate(0deg); }
+  100% { right: 120%; transform: rotate(360deg); }
+}
+
+/* 主容器 */
 .app-container {
   position: relative;
-  z-index: 20;
-  background: rgba(12, 20, 45, 0.55);
-  backdrop-filter: blur(18px);
-  border-radius: 48px;
-  border: 1px solid rgba(255, 220, 150, 0.4);
-  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.1);
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 80px;
+  border: 3px solid rgba(255, 215, 100, 0.6);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
   width: 100%;
-  max-width: 980px;
-  padding: 38px 32px;
-  transition: all 0.3s ease;
+  max-width: 1000px;
+  padding: 40px 35px;
+  transition: all 0.3s;
 }
 
+/* 语言切换按钮 */
 .lang-switch {
   position: absolute;
-  top: 26px;
-  right: 32px;
-  background: rgba(255, 200, 100, 0.2);
-  border: 1px solid rgba(255, 210, 130, 0.6);
-  color: #fff5e6;
+  top: 25px;
+  right: 30px;
+  background: linear-gradient(135deg, #ffaa44, #ff8844);
+  border: 2px solid #ffdd99;
+  color: white;
   padding: 8px 20px;
   border-radius: 60px;
   cursor: pointer;
   font-size: 0.9rem;
-  font-weight: 600;
-  backdrop-filter: blur(8px);
-  transition: all 0.2s ease;
-  z-index: 25;
-}
-.lang-switch:hover {
-  background: rgba(255, 200, 100, 0.45);
-  transform: scale(1.02);
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  transition: all 0.3s;
+  z-index: 20;
 }
 
+.lang-switch:hover {
+  transform: scale(1.05) rotate(2deg);
+  background: linear-gradient(135deg, #ffbb55, #ff9955);
+}
+
+/* 屏幕切换 */
 .screen {
   display: none;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
-  width: 100%;
-  animation: fadeUp 0.4s ease-out;
+  gap: 35px;
+  animation: bounceIn 0.5s ease-out;
 }
+
 .screen.active {
   display: flex;
 }
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px);}
-  to { opacity: 1; transform: translateY(0);}
+
+@keyframes bounceIn {
+  0% { opacity: 0; transform: scale(0.9) translateY(-30px); }
+  70% { transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
+/* 标题 */
 .title {
-  font-size: 48px;
+  font-size: 52px;
   font-weight: 900;
   text-align: center;
-  background: linear-gradient(135deg, #FFE6B0, #FFC26E);
+  background: linear-gradient(135deg, #FFD966, #FFA559, #FF6B6B);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-.subtitle {
-  font-size: 1.4rem;
-  color: #FFE9C7;
-  text-align: center;
-  font-weight: 500;
+  text-shadow: 0 0 30px rgba(255,200,100,0.5);
+  letter-spacing: 2px;
 }
 
+.subtitle {
+  font-size: 1.5rem;
+  color: #FFE5B4;
+  text-align: center;
+  background: rgba(0,0,0,0.3);
+  padding: 10px 25px;
+  border-radius: 60px;
+  display: inline-block;
+}
+
+/* 表单 */
 .form-group {
   width: 100%;
   max-width: 550px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 25px;
 }
+
 .form-item {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  background: rgba(255,255,200,0.1);
+  padding: 15px 25px;
+  border-radius: 60px;
+  backdrop-filter: blur(5px);
 }
+
 .form-item label {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #FFE3AA;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #FFE5B4;
 }
+
 .form-item input {
-  padding: 16px 24px;
-  border-radius: 48px;
-  border: 1px solid rgba(255,215,140,0.5);
-  background: rgba(20, 28, 55, 0.7);
+  padding: 14px 24px;
+  border-radius: 60px;
+  border: 2px solid #ffaa66;
+  background: rgba(30, 40, 70, 0.8);
   color: white;
   font-size: 1.1rem;
   outline: none;
-}
-.form-item input:focus {
-  border-color: #ffbc6e;
-  box-shadow: 0 0 15px rgba(255,180,80,0.4);
-}
-.start-btn {
-  background: linear-gradient(95deg, #FFB347, #FF8C33);
-  border: none;
-  border-radius: 48px;
-  padding: 16px 0;
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #221c0f;
-  cursor: pointer;
-  transition: 0.2s;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-}
-.start-btn:hover {
-  transform: scale(1.02);
-  background: linear-gradient(95deg, #ffa13a, #ff7a1f);
+  transition: all 0.3s;
 }
 
+.form-item input:focus {
+  border-color: #ffcc88;
+  box-shadow: 0 0 20px rgba(255,200,100,0.5);
+  transform: scale(1.02);
+}
+
+/* 按钮通用样式 */
+.start-btn, .level-btn, .submit-btn, .restart-btn {
+  background: linear-gradient(135deg, #FFB347, #FF8C33);
+  border: none;
+  border-radius: 60px;
+  padding: 16px 32px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #221c0f;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.start-btn:hover, .level-btn:hover, .submit-btn:hover, .restart-btn:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(255,140,0,0.5);
+}
+
+.start-btn:active, .level-btn:active {
+  transform: translateY(2px);
+}
+
+/* 等级按钮网格 */
 .level-buttons {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 25px;
   width: 100%;
   margin-top: 20px;
 }
+
 .level-btn {
-  background: radial-gradient(circle at 30% 10%, rgba(255, 200, 100, 0.25), rgba(80, 70, 130, 0.6));
-  border: 1px solid rgba(255, 215, 120, 0.7);
-  border-radius: 48px;
-  padding: 28px 12px;
-  color: #fff3e0;
-  font-size: 1.8rem;
-  font-weight: 800;
-  cursor: pointer;
-  transition: all 0.25s;
-  text-align: center;
+  padding: 35px 20px;
+  font-size: 2rem;
+  background: linear-gradient(135deg, rgba(100,80,200,0.6), rgba(80,60,180,0.8));
+  border: 3px solid #ffcc66;
+  backdrop-filter: blur(5px);
 }
-.level-btn:hover {
-  background: radial-gradient(circle at 30% 10%, rgba(255, 210, 80, 0.5), rgba(120, 100, 180, 0.8));
-  transform: translateY(-8px);
-  border-color: #ffcd94;
+
+.level-btn span {
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 10px;
+  color: #FFE5B4;
+}
+
+/* 计时器 */
+.timer-container {
+  width: 100%;
+  position: relative;
+  margin-bottom: 10px;
 }
 
 .timer-bar {
   width: 100%;
-  height: 12px;
-  background: rgba(30, 30, 60, 0.7);
+  height: 20px;
+  background: rgba(0,0,0,0.4);
   border-radius: 20px;
   overflow: hidden;
-  margin-bottom: 5px;
-}
-.timer-progress {
-  height: 100%;
-  background: linear-gradient(90deg, #ffbc6e, #ffde9c);
-  width: 100%;
-  transition: width linear;
-  border-radius: 20px;
+  border: 1px solid #ffaa66;
 }
 
+.timer-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #ffaa44, #ff6644);
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 0 10px #ff8844;
+}
+
+/* 题目 */
 .question {
-  font-size: 5.5rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, #FFF8E7, #FFE3B0);
+  font-size: 6rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #FFE5B4, #FFB347);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  letter-spacing: 5px;
+  text-shadow: 0 0 30px rgba(255,200,100,0.5);
+  letter-spacing: 10px;
+  padding: 20px;
+  animation: pulse 1s infinite;
 }
 
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* 选项按钮 */
 .options {
   display: flex;
-  gap: 28px;
+  gap: 30px;
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
 }
+
 .option-btn {
-  background: rgba(20, 35, 70, 0.6);
-  border: 2px solid rgba(255, 190, 80, 0.7);
+  background: radial-gradient(circle at 30% 30%, #ffaa66, #ff8844);
+  border: 4px solid #FFE5B4;
   border-radius: 60px;
-  width: 130px;
-  height: 130px;
+  width: 140px;
+  height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 800;
-  color: #ffefcf;
+  color: white;
   cursor: pointer;
   transition: all 0.2s;
-}
-.option-btn:hover {
-  background: rgba(255, 170, 70, 0.5);
-  transform: scale(1.07);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
+.option-btn:hover {
+  transform: scale(1.1) rotate(5deg);
+  background: radial-gradient(circle at 30% 30%, #ffbb77, #ff9955);
+  box-shadow: 0 15px 30px rgba(255,140,0,0.6);
+}
+
+/* 输入框 */
 .input-answer {
-  background: rgba(20, 30, 60, 0.8);
-  border: 2px solid rgba(255, 200, 110, 0.8);
+  background: rgba(30, 40, 70, 0.9);
+  border: 3px solid #ffaa66;
   border-radius: 60px;
-  width: 280px;
-  height: 120px;
-  font-size: 3.5rem;
+  width: 300px;
+  height: 130px;
+  font-size: 4rem;
   text-align: center;
-  color: #fff2cf;
+  color: #FFE5B4;
   outline: none;
   font-weight: bold;
+  transition: all 0.3s;
 }
-.submit-btn {
-  background: linear-gradient(95deg, #ffb259, #ff9a3c);
-  border: none;
-  border-radius: 60px;
-  padding: 18px 52px;
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: #221c0e;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-top: 12px;
-}
-.submit-btn:hover {
+
+.input-answer:focus {
+  border-color: #ffcc88;
+  box-shadow: 0 0 30px rgba(255,200,100,0.5);
   transform: scale(1.05);
 }
 
-.report-lang {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  margin-bottom: 16px;
-}
-.report-lang button {
-  padding: 8px 22px;
-  border-radius: 60px;
-  border: 1px solid rgba(255,215,140,0.6);
-  background: rgba(0,0,0,0.3);
-  color: #ffeecd;
-  font-weight: bold;
-  cursor: pointer;
-}
-.report-lang button.active {
-  background: #ffb359;
-  color: #1f1b0c;
-}
-
+/* 报告页面 */
 .report-card {
-  background: rgba(15, 25, 55, 0.7);
-  backdrop-filter: blur(12px);
-  border-radius: 48px;
-  padding: 32px 36px;
+  background: rgba(20, 30, 55, 0.8);
+  backdrop-filter: blur(15px);
+  border-radius: 60px;
+  padding: 35px;
   width: 100%;
-  border: 1px solid rgba(255,200,110,0.4);
-  max-height: 600px;
+  border: 2px solid #ffcc88;
+  max-height: 550px;
   overflow-y: auto;
 }
+
 .report-row {
   display: flex;
   justify-content: space-between;
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(255, 210, 140, 0.25);
-  font-size: 1.25rem;
+  padding: 15px 0;
+  border-bottom: 2px solid rgba(255,200,100,0.3);
+  font-size: 1.2rem;
   font-weight: 500;
 }
+
 .table-results {
-  margin-top: 28px;
+  margin-top: 25px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   max-height: 280px;
   overflow-y: auto;
 }
+
 .table-item {
   display: flex;
   justify-content: space-between;
   font-size: 1.1rem;
   padding: 12px 20px;
-  background: rgba(255, 235, 170, 0.12);
+  background: rgba(255,200,100,0.15);
   border-radius: 40px;
+  transition: all 0.3s;
 }
+
+.table-item:hover {
+  background: rgba(255,200,100,0.3);
+  transform: translateX(5px);
+}
+
 .report-conclusion {
   font-size: 1.8rem;
   font-weight: 800;
   text-align: center;
-  margin-top: 32px;
-  color: #ffda88;
+  margin-top: 30px;
+  color: #ffcc88;
+  text-shadow: 0 0 15px #ffaa66;
 }
+
 .history-item {
-  background: rgba(255, 200, 100, 0.15);
+  background: rgba(100,150,255,0.2);
   margin-top: 12px;
   padding: 15px;
-  border-radius: 24px;
-}
-.clear-history-btn {
-  background: rgba(255, 100, 80, 0.3);
-  border: 1px solid #ff8866;
-  padding: 8px 20px;
   border-radius: 30px;
+  transition: all 0.3s;
+}
+
+.history-item:hover {
+  background: rgba(100,150,255,0.4);
+  transform: translateX(8px);
+}
+
+.clear-history-btn {
+  background: rgba(255,100,80,0.4);
+  border: 1px solid #ff8866;
+  padding: 10px 25px;
+  border-radius: 40px;
   margin-top: 15px;
   cursor: pointer;
   font-size: 0.9rem;
-  transition: all 0.2s;
-}
-.clear-history-btn:hover {
-  background: rgba(255, 100, 80, 0.6);
-}
-.restart-btn {
-  margin-top: 30px;
-  background: rgba(255, 210, 110, 0.25);
-  border: 1px solid #ffcd88;
-  border-radius: 60px;
-  padding: 16px 48px;
-  color: #fff3cf;
-  font-size: 1.4rem;
-  font-weight: bold;
-  cursor: pointer;
-}
-.restart-btn:hover {
-  background: rgba(255, 210, 110, 0.5);
+  transition: all 0.3s;
 }
 
+.clear-history-btn:hover {
+  background: rgba(255,100,80,0.7);
+  transform: scale(1.05);
+}
+
+/* 响应式 */
 @media (max-width: 700px) {
-  .app-container { padding: 28px 20px; }
+  .app-container { padding: 30px 20px; }
   .title { font-size: 2rem; }
-  .question { font-size: 3rem; }
-  .option-btn { width: 85px; height: 85px; font-size: 2rem; }
-  .input-answer { width: 200px; height: 85px; font-size: 2.5rem; }
+  .question { font-size: 3rem; letter-spacing: 5px; }
+  .option-btn { width: 90px; height: 90px; font-size: 2rem; }
+  .input-answer { width: 220px; height: 100px; font-size: 2.5rem; }
+  .level-btn { font-size: 1.5rem; padding: 20px; }
+  .lang-switch { top: 15px; right: 15px; padding: 6px 15px; font-size: 0.8rem; }
 }
 </style>
 </head>
 <body>
 
-<div id="starfield"></div>
+<!-- 太空装饰元素 -->
+<div class="stars" id="stars"></div>
+<div class="planet" style="width: 150px; height: 150px; background: radial-gradient(circle, #ffaa66, #aa6644); top: 10%; right: 5%; opacity: 0.3;"></div>
+<div class="planet" style="width: 80px; height: 80px; background: radial-gradient(circle, #66aaff, #3366aa); bottom: 15%; left: 3%; opacity: 0.4;"></div>
+<div class="rocket">🚀</div>
+<div class="ufo">🛸</div>
+
 <div class="app-container">
   <button class="lang-switch" id="langBtn">🌙 中 / EN</button>
 
-  <!-- 学生信息 -->
+  <!-- 学生信息页面 -->
   <div class="screen active" id="infoScreen">
-    <h1 class="title" data-zh="🚀 太空乘法任务" data-en="🌌 Space Math Mission">🚀 太空乘法任务</h1>
-    <p class="subtitle" data-zh="✦ 填写宇航员资料 ✦" data-en="✦ Astronaut Profile ✦">✦ 填写宇航员资料 ✦</p>
+    <h1 class="title" id="mainTitle">🚀 太空乘法任务 🌟</h1>
+    <p class="subtitle" id="infoSubtitle">✦ 填写宇航员资料 ✦</p>
     <div class="form-group">
-      <div class="form-item"><label data-zh="🏫 学校" data-en="🏫 School">🏫 学校</label><input type="text" id="school" placeholder="银河小学"></div>
-      <div class="form-item"><label data-zh="📚 班级" data-en="📚 Class">📚 班级</label><input type="text" id="className" placeholder="5A"></div>
-      <div class="form-item"><label data-zh="👩‍🚀 姓名" data-en="👨‍🚀 Name">👩‍🚀 姓名</label><input type="text" id="studentName" placeholder="星际探索者"></div>
-      <button class="start-btn" id="startBtn" data-zh="⚡ 启程 ⚡" data-en="⚡ Launch ⚡">⚡ 启程 ⚡</button>
+      <div class="form-item"><label id="schoolLabel">🏫 学校</label><input type="text" id="school" placeholder="银河小学"></div>
+      <div class="form-item"><label id="classLabel">📚 班级</label><input type="text" id="className" placeholder="星际5班"></div>
+      <div class="form-item"><label id="nameLabel">👩‍🚀 姓名</label><input type="text" id="studentName" placeholder="小宇航员"></div>
+      <button class="start-btn" id="startBtn">⚡ 发射启程 ⚡</button>
     </div>
   </div>
 
-  <!-- 等级选择 -->
+  <!-- 等级页面 -->
   <div class="screen" id="levelScreen">
-    <h1 class="title" data-zh="🪐 选择任务等级" data-en="🪐 Select Mission Level">🪐 选择任务等级</h1>
-    <div class="level-buttons">
-      <button class="level-btn" data-lvl="1">🌟 Lv.1<br><span style="font-size:0.8rem;">2的乘法表</span></button>
-      <button class="level-btn" data-lvl="2">🌙 Lv.2<br><span style="font-size:0.8rem;">0~5 乘法表</span></button>
-      <button class="level-btn" data-lvl="3">☀️ Lv.3<br><span style="font-size:0.8rem;">2~9 全面挑战</span></button>
-      <button class="level-btn" data-lvl="4">🌀 Lv.4<br><span style="font-size:0.8rem;">进阶 0~12 混合</span></button>
+    <h1 class="title" id="levelTitle">🪐 选择任务等级 🪐</h1>
+    <div class="level-buttons" id="levelButtons">
+      <button class="level-btn" data-lvl="1">🌟 新手宇航员<br><span>2的乘法表</span></button>
+      <button class="level-btn" data-lvl="2">🌙 月球探险家<br><span>0~5 乘法表</span></button>
+      <button class="level-btn" data-lvl="3">☀️ 太阳勇士<br><span>2~9 全面挑战</span></button>
+      <button class="level-btn" data-lvl="4">🌀 银河霸主<br><span>0~12 终极挑战</span></button>
     </div>
   </div>
 
-  <!-- 答题界面 -->
+  <!-- 答题页面 -->
   <div class="screen" id="quizScreen">
-    <div class="timer-bar"><div class="timer-progress" id="timerProgress"></div></div>
+    <div class="timer-container">
+      <div class="timer-bar"><div class="timer-progress" id="timerProgress"></div></div>
+    </div>
     <div class="question" id="questionDisplay">3 × 4 = ?</div>
     <div class="options" id="optionsContainer"></div>
     <input type="number" class="input-answer" id="answerInput" style="display:none" placeholder="?" inputmode="numeric">
-    <button class="submit-btn" id="submitBtn" data-zh="✨ 确认答案 ✨" data-en="✨ Submit ✨">✨ 确认答案 ✨</button>
+    <button class="submit-btn" id="submitBtn">✨ 确认答案 ✨</button>
   </div>
 
   <!-- 报告页面 -->
   <div class="screen" id="reportScreen">
-    <h2 class="title" data-zh="📋 星际评估报告" data-en="📋 Star Assessment">📋 星际评估报告</h2>
-    <div class="report-lang">
-      <button class="report-btn active" data-lang="zh">中文</button>
-      <button class="report-btn" data-lang="en">English</button>
-      <button class="report-btn" data-lang="ms">Bahasa Melayu</button>
+    <h2 class="title" id="reportTitle">📋 星际评估报告 🌟</h2>
+    <div class="report-lang" style="display: flex; gap: 15px; justify-content: center; margin-bottom: 15px;">
+      <button class="report-btn active" data-lang="zh" style="background: #ffaa55; border: none; padding: 8px 20px; border-radius: 30px; cursor: pointer;">中文</button>
+      <button class="report-btn" data-lang="en" style="background: rgba(255,170,85,0.3); border: none; padding: 8px 20px; border-radius: 30px; cursor: pointer;">English</button>
+      <button class="report-btn" data-lang="ms" style="background: rgba(255,170,85,0.3); border: none; padding: 8px 20px; border-radius: 30px; cursor: pointer;">Bahasa Melayu</button>
     </div>
     <div class="report-card" id="reportCard"></div>
-    <button class="restart-btn" id="restartBtn" data-zh="🔄 重新启航 🔄" data-en="🔄 Restart Mission">🔄 重新启航</button>
+    <button class="restart-btn" id="restartBtn">🔄 重新启航 🔄</button>
   </div>
 </div>
 
 <script>
 // ======================= 全局变量 ======================
-let currentLang = (navigator.language || 'zh').includes('zh') ? 'zh' : 'en';
+let currentLang = 'zh';
 let reportLang = 'zh';
-const student = { school: '', className: '', name: '' };
-
-// 多语言词库
-const reportTexts = {
-  zh: { 
-    school:"学校", class:"班级", name:"姓名", date:"测试日期", level:"等级", 
-    total:"总题数", correct:"答对", accuracy:"正确率", timesTable:"的乘法表", 
-    mastered:"🚀 已掌握", basic:"✨ 基本掌握", needs:"🌱 需加强", 
-    masterMsg:"🎉 满分宇航员！星际领航员就是你！", 
-    goodMsg:"⭐️ 表现优秀，继续探索宇宙吧！", 
-    tryMsg:"💪 再练习几次，下次必定超越光速！", 
-    history:"📊 历史成绩记录", previous:"上次成绩", improvement:"进步幅度",
-    clearHistory:"🗑️ 清除我的历史记录"
-  },
-  en: { 
-    school:"School", class:"Class", name:"Name", date:"Date", level:"Level", 
-    total:"Total", correct:"Correct", accuracy:"Accuracy", timesTable:" Times Table", 
-    mastered:"🚀 Mastered", basic:"✨ Good", needs:"🌱 Need Practice", 
-    masterMsg:"🎉 Perfect! You are a Space Math Hero!", 
-    goodMsg:"⭐️ Great job! Keep reaching for the stars!", 
-    tryMsg:"💪 More practice will make you unstoppable!", 
-    history:"📊 History Records", previous:"Previous Score", improvement:"Improvement",
-    clearHistory:"🗑️ Clear My History"
-  },
-  ms: { 
-    school:"Sekolah", class:"Kelas", name:"Nama", date:"Tarikh", level:"Tahap", 
-    total:"Jumlah", correct:"Betul", accuracy:"Ketepatan", timesTable:" Sifir", 
-    mastered:"🚀 Dikuasai", basic:"✨ Baik", needs:"🌱 Perlu Latihan", 
-    masterMsg:"🎉 Cemerlang! Anda Wira Matematik Angkasa!", 
-    goodMsg:"⭐️ Bagus! Terus usaha ke bintang!", 
-    tryMsg:"💪 Lebih latihan, pasti hebat!", 
-    history:"📊 Rekod Sejarah", previous:"Keputusan Lepas", improvement:"Peningkatan",
-    clearHistory:"🗑️ Padam Rekod Saya"
-  }
-};
-
-// 游戏状态
+let gameStarted = false;
 let currentLevel = null;
 let questions = [];
 let currentIndex = 0;
 let correctCount = 0;
 let timerInterval = null;
 let stats = {};
+
+const student = { school: '', className: '', name: '' };
+
+// 多语言词库
+const texts = {
+  zh: {
+    mainTitle: '🚀 太空乘法任务 🌟',
+    infoSubtitle: '✦ 填写宇航员资料 ✦',
+    schoolLabel: '🏫 学校',
+    classLabel: '📚 班级',
+    nameLabel: '👩‍🚀 姓名',
+    startBtn: '⚡ 发射启程 ⚡',
+    levelTitle: '🪐 选择任务等级 🪐',
+    submitBtn: '✨ 确认答案 ✨',
+    reportTitle: '📋 星际评估报告 🌟',
+    restartBtn: '🔄 重新启航 🔄'
+  },
+  en: {
+    mainTitle: '🚀 Space Math Mission 🌟',
+    infoSubtitle: '✦ Fill in Astronaut Info ✦',
+    schoolLabel: '🏫 School',
+    classLabel: '📚 Class',
+    nameLabel: '👨‍🚀 Name',
+    startBtn: '⚡ Launch ⚡',
+    levelTitle: '🪐 Select Mission Level 🪐',
+    submitBtn: '✨ Submit ✨',
+    reportTitle: '📋 Star Assessment Report 🌟',
+    restartBtn: '🔄 Restart Mission 🔄'
+  }
+};
+
+const reportTexts = {
+  zh: { 
+    school:"🏫 学校", class:"📚 班级", name:"👩‍🚀 姓名", date:"📅 测试日期", level:"🎯 等级", 
+    total:"📊 总题数", correct:"✅ 答对", accuracy:"⭐ 正确率", timesTable:"的乘法表", 
+    mastered:"🚀 已掌握", basic:"✨ 基本掌握", needs:"🌱 需加强", 
+    masterMsg:"🎉 太棒了！你是真正的星际领航员！🚀✨", 
+    goodMsg:"⭐️ 表现优秀！继续向宇宙深处探索！🌌", 
+    tryMsg:"💪 再练习几次，下次一定能征服银河系！🌟", 
+    history:"📜 历史成绩记录", previous:"📈 上次成绩", improvement:"🚀 进步幅度",
+    clearHistory:"🗑️ 清除我的历史记录"
+  },
+  en: { 
+    school:"🏫 School", class:"📚 Class", name:"👨‍🚀 Name", date:"📅 Date", level:"🎯 Level", 
+    total:"📊 Total", correct:"✅ Correct", accuracy:"⭐ Accuracy", timesTable:" Times Table", 
+    mastered:"🚀 Mastered", basic:"✨ Good", needs:"🌱 Need Practice", 
+    masterMsg:"🎉 Amazing! You're a true Space Navigator! 🚀✨", 
+    goodMsg:"⭐️ Great job! Keep exploring the cosmos! 🌌", 
+    tryMsg:"💪 More practice and you'll conquer the galaxy! 🌟", 
+    history:"📜 History Records", previous:"📈 Previous Score", improvement:"🚀 Improvement",
+    clearHistory:"🗑️ Clear My History"
+  },
+  ms: { 
+    school:"🏫 Sekolah", class:"📚 Kelas", name:"👩‍🚀 Nama", date:"📅 Tarikh", level:"🎯 Tahap", 
+    total:"📊 Jumlah", correct:"✅ Betul", accuracy:"⭐ Ketepatan", timesTable:" Sifir", 
+    mastered:"🚀 Dikuasai", basic:"✨ Baik", needs:"🌱 Perlu Latihan", 
+    masterMsg:"🎉 Hebat! Anda Navigator Angkasa Sejati! 🚀✨", 
+    goodMsg:"⭐️ Bagus! Terus terokai angkasa! 🌌", 
+    tryMsg:"💪 Lebih latihan, pasti takluk galaksi! 🌟", 
+    history:"📜 Rekod Sejarah", previous:"📈 Keputusan Lepas", improvement:"🚀 Peningkatan",
+    clearHistory:"🗑️ Padam Rekod Saya"
+  }
+};
 
 // ======================= 辅助函数 ======================
 function shuffleArray(arr) {
@@ -473,7 +599,6 @@ function shuffleArray(arr) {
   return arr;
 }
 
-// 生成题目
 function generateQuestionsByLevel(level) {
   let qList = [];
   stats = {};
@@ -522,22 +647,23 @@ function generateQuestionsByLevel(level) {
   return qList;
 }
 
-// UI语言切换
 function applyUILang() {
-  const els = document.querySelectorAll('[data-zh][data-en]');
-  els.forEach(el => {
-    const txt = el.dataset[currentLang];
-    if (txt) el.textContent = txt;
-  });
-  const submitBtn = document.getElementById('submitBtn');
-  if (submitBtn) {
-    submitBtn.textContent = currentLang === 'zh' ? '✨ 确认答案 ✨' : '✨ Submit ✨';
-  }
+  const t = texts[currentLang];
+  if (document.getElementById('mainTitle')) document.getElementById('mainTitle').textContent = t.mainTitle;
+  if (document.getElementById('infoSubtitle')) document.getElementById('infoSubtitle').textContent = t.infoSubtitle;
+  if (document.getElementById('schoolLabel')) document.getElementById('schoolLabel').textContent = t.schoolLabel;
+  if (document.getElementById('classLabel')) document.getElementById('classLabel').textContent = t.classLabel;
+  if (document.getElementById('nameLabel')) document.getElementById('nameLabel').textContent = t.nameLabel;
+  if (document.getElementById('startBtn')) document.getElementById('startBtn').textContent = t.startBtn;
+  if (document.getElementById('levelTitle')) document.getElementById('levelTitle').textContent = t.levelTitle;
+  if (document.getElementById('submitBtn')) document.getElementById('submitBtn').textContent = t.submitBtn;
+  if (document.getElementById('reportTitle')) document.getElementById('reportTitle').textContent = t.reportTitle;
+  if (document.getElementById('restartBtn')) document.getElementById('restartBtn').textContent = t.restartBtn;
 }
 
-// 生成选择题选项
 function renderOptions(correctAns, countOpt) {
   const container = document.getElementById('optionsContainer');
+  if (!container) return;
   container.innerHTML = '';
   let opts = [correctAns];
   while (opts.length < countOpt) {
@@ -555,22 +681,23 @@ function renderOptions(correctAns, countOpt) {
   });
 }
 
-// 计时器（修复bug）
 function startTimerForQuestion() {
   if (timerInterval) clearInterval(timerInterval);
   const duration = (currentLevel === 1 || currentLevel === 2) ? 15 : 10;
   const progressDiv = document.getElementById('timerProgress');
+  if (!progressDiv) return;
   
-  // 重置进度条动画
   progressDiv.style.transition = 'none';
   progressDiv.style.width = '100%';
-  progressDiv.offsetHeight; // 强制重绘
+  void progressDiv.offsetWidth;
   progressDiv.style.transition = `width ${duration}s linear`;
-  progressDiv.style.width = '0%';
   
   let timeLeft = duration;
   timerInterval = setInterval(() => {
     timeLeft--;
+    const percent = (timeLeft / duration) * 100;
+    if (progressDiv) progressDiv.style.width = `${Math.max(0, percent)}%`;
+    
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
       timerInterval = null;
@@ -581,7 +708,6 @@ function startTimerForQuestion() {
   }, 1000);
 }
 
-// 显示题目
 function showCurrentQuestion() {
   if (currentIndex >= questions.length) {
     saveAndShowReport();
@@ -592,20 +718,21 @@ function showCurrentQuestion() {
   const optDiv = document.getElementById('optionsContainer');
   const inputField = document.getElementById('answerInput');
   if (currentLevel === 1 || currentLevel === 2) {
-    inputField.style.display = 'none';
-    optDiv.style.display = 'flex';
+    if (inputField) inputField.style.display = 'none';
+    if (optDiv) optDiv.style.display = 'flex';
     const optCount = (currentLevel === 1) ? 4 : 5;
     renderOptions(q.ans, optCount);
   } else {
-    optDiv.style.display = 'none';
-    inputField.style.display = 'block';
-    inputField.value = '';
-    inputField.focus();
+    if (optDiv) optDiv.style.display = 'none';
+    if (inputField) {
+      inputField.style.display = 'block';
+      inputField.value = '';
+      inputField.focus();
+    }
   }
   startTimerForQuestion();
 }
 
-// 检查答案
 function checkAnswer(userAnswer) {
   if (timerInterval) {
     clearInterval(timerInterval);
@@ -624,7 +751,6 @@ function checkAnswer(userAnswer) {
   }, 280);
 }
 
-// 保存到本地存储
 function saveToLocalStorage() {
   const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
   const newRecord = {
@@ -639,49 +765,39 @@ function saveToLocalStorage() {
     dateDisplay: new Date().toLocaleString(),
     stats: stats
   };
-  records.unshift(newRecord); // 最新记录放前面
-  // 只保留最近50条记录
+  records.unshift(newRecord);
   if (records.length > 50) records.pop();
   localStorage.setItem('mathRecords', JSON.stringify(records));
-  console.log('💾 成绩已保存到本地');
 }
 
-// 获取历史记录
 function getHistoryRecords() {
   const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
-  // 筛选当前学生的记录
   return records.filter(r => r.name === student.name && r.school === student.school);
 }
 
-// 清除历史记录
 function clearHistory() {
-  if (confirm(currentLang === 'zh' ? '确定要清除所有历史记录吗？此操作不可撤销！' : 'Are you sure to clear all history? This cannot be undone!')) {
+  if (confirm(currentLang === 'zh' ? '确定要清除所有历史记录吗？🚀' : 'Clear all history? 🚀')) {
     const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
     const otherRecords = records.filter(r => r.name !== student.name || r.school !== student.school);
     localStorage.setItem('mathRecords', JSON.stringify(otherRecords));
-    // 重新渲染报告
-    if (document.getElementById('reportScreen').classList.contains('active')) {
+    if (document.getElementById('reportScreen').classList.contains('active') && gameStarted) {
       const history = getHistoryRecords();
-      const currentAccuracy = Math.round((correctCount / questions.length) * 100);
+      const currentAccuracy = questions.length > 0 ? Math.round((correctCount / questions.length) * 100) : 0;
       renderReport(history, currentAccuracy);
     }
-    alert(currentLang === 'zh' ? '历史记录已清除' : 'History cleared');
+    alert(currentLang === 'zh' ? '历史记录已清除 ✨' : 'History cleared ✨');
   }
 }
 
-// 显示报告（带历史对比）
-async function saveAndShowReport() {
-  // 保存当前成绩
+function saveAndShowReport() {
+  if (!gameStarted || questions.length === 0) return;
   saveToLocalStorage();
-  
-  // 获取历史记录
   const history = getHistoryRecords();
   const currentAccuracy = Math.round((correctCount / questions.length) * 100);
   let previousAccuracy = null;
   let previousRecord = null;
   
   if (history.length > 1) {
-    // 找到上一次相同等级的成绩（跳过第一条，因为第一条是刚保存的当前记录）
     const previousSameLevel = history.slice(1).find(h => h.level === currentLevel);
     if (previousSameLevel) {
       previousAccuracy = previousSameLevel.accuracy;
@@ -694,11 +810,10 @@ async function saveAndShowReport() {
   renderReport(history, currentAccuracy, previousAccuracy, previousRecord);
 }
 
-// 渲染报告
 function renderReport(history = null, currentAccuracy = null, previousAccuracy = null, previousRecord = null) {
   const t = reportTexts[reportLang];
-  const totalQ = questions.length;
-  const accuracy = currentAccuracy !== null ? currentAccuracy : Math.round((correctCount / totalQ) * 100);
+  const totalQ = questions.length || 1;
+  const accuracy = currentAccuracy !== null ? currentAccuracy : (questions.length > 0 ? Math.round((correctCount / totalQ) * 100) : 0);
   const nowDate = new Date().toLocaleString();
   
   let html = `
@@ -707,11 +822,10 @@ function renderReport(history = null, currentAccuracy = null, previousAccuracy =
     <div class="report-row"><span>${t.name}</span><span>${student.name || '—'}</span></div>
     <div class="report-row"><span>${t.date}</span><span>${nowDate}</span></div>
     <div class="report-row"><span>${t.level}</span><span>Level ${currentLevel}</span></div>
-    <div class="report-row"><span>${t.total}</span><span>${totalQ}</span></div>
+    <div class="report-row"><span>${t.total}</span><span>${questions.length}</span></div>
     <div class="report-row"><span>${t.correct}</span><span>${correctCount}</span></div>
     <div class="report-row"><span>${t.accuracy}</span><span>${accuracy}%</span></div>`;
   
-  // 显示进步对比
   if (previousAccuracy !== null && previousRecord) {
     const improvement = accuracy - previousAccuracy;
     const improvementText = improvement >= 0 ? `📈 +${improvement}%` : `📉 ${improvement}%`;
@@ -727,14 +841,17 @@ function renderReport(history = null, currentAccuracy = null, previousAccuracy =
   html += `<div class="table-results"><div style="font-weight:bold; padding:0 12px;">📊 乘法表掌握情况</div>`;
   
   const sortedKeys = Object.keys(stats).sort((a,b)=> +a - +b);
-  for (let mult of sortedKeys) {
-    const item = stats[mult];
-    const percent = item.total ? Math.round((item.correct / item.total)*100) : 0;
-    let levelText = percent >= 85 ? t.mastered : (percent >= 60 ? t.basic : t.needs);
-    html += `<div class="table-item"><span>${mult} ${t.timesTable}</span><span>${levelText} (${percent}%)</span></div>`;
+  if (sortedKeys.length === 0) {
+    html += `<div class="table-item">暂无数据</div>`;
+  } else {
+    for (let mult of sortedKeys) {
+      const item = stats[mult];
+      const percent = item.total ? Math.round((item.correct / item.total)*100) : 0;
+      let levelText = percent >= 85 ? t.mastered : (percent >= 60 ? t.basic : t.needs);
+      html += `<div class="table-item"><span>${mult} ${t.timesTable}</span><span>${levelText} (${percent}%)</span></div>`;
+    }
   }
   
-  // 显示历史成绩（如果有）
   if (history && history.length > 1) {
     html += `<div style="margin-top: 25px;"><div style="font-weight:bold; margin-bottom: 15px;">📜 ${t.history}</div>`;
     const lastFive = history.slice(0, 5);
@@ -745,11 +862,10 @@ function renderReport(history = null, currentAccuracy = null, previousAccuracy =
       html += `<div class="history-item" ${highlight}>
         ${date}<br>
         Level ${record.level}: ${record.correct}/${record.total} (${record.accuracy}%)
-        ${isCurrent ? ' ✨ 本次测试' : ''}
+        ${isCurrent ? ' ✨ 本次测试 ✨' : ''}
       </div>`;
     });
     
-    // 添加清除历史按钮
     html += `<div style="text-align: center; margin-top: 15px;">
       <button class="clear-history-btn" id="clearHistoryBtn">🗑️ ${t.clearHistory}</button>
     </div>`;
@@ -758,13 +874,11 @@ function renderReport(history = null, currentAccuracy = null, previousAccuracy =
   
   let msg = accuracy >= 90 ? t.masterMsg : (accuracy >= 70 ? t.goodMsg : t.tryMsg);
   html += `</div><div class="report-conclusion">${msg}</div>`;
-  document.getElementById('reportCard').innerHTML = html;
+  const reportCard = document.getElementById('reportCard');
+  if (reportCard) reportCard.innerHTML = html;
   
-  // 绑定清除历史按钮
   const clearBtn = document.getElementById('clearHistoryBtn');
-  if (clearBtn) {
-    clearBtn.onclick = clearHistory;
-  }
+  if (clearBtn) clearBtn.onclick = clearHistory;
 }
 
 // ======================= 事件绑定 ======================
@@ -778,7 +892,7 @@ document.getElementById('startBtn').onclick = () => {
   student.className = document.getElementById('className').value.trim();
   student.name = document.getElementById('studentName').value.trim();
   if (!student.school || !student.className || !student.name) {
-    alert(currentLang === 'zh' ? '请完整填写学校、班级和姓名 🪐' : 'Please fill in School, Class and Name 🪐');
+    alert(currentLang === 'zh' ? '请完整填写宇航员资料 🚀' : 'Please fill in astronaut info 🚀');
     return;
   }
   document.getElementById('infoScreen').classList.remove('active');
@@ -791,6 +905,7 @@ document.querySelectorAll('.level-btn').forEach(btn => {
     questions = generateQuestionsByLevel(currentLevel);
     currentIndex = 0;
     correctCount = 0;
+    gameStarted = true;
     document.getElementById('levelScreen').classList.remove('active');
     document.getElementById('quizScreen').classList.add('active');
     showCurrentQuestion();
@@ -798,7 +913,7 @@ document.querySelectorAll('.level-btn').forEach(btn => {
 });
 
 document.getElementById('submitBtn').onclick = () => {
-  if (currentLevel === 3 || currentLevel === 4) {
+  if ((currentLevel === 3 || currentLevel === 4) && gameStarted) {
     const inputVal = parseInt(document.getElementById('answerInput').value);
     if (isNaN(inputVal)) return;
     checkAnswer(inputVal);
@@ -809,13 +924,12 @@ document.getElementById('restartBtn').onclick = () => {
   location.reload();
 };
 
-// 报告语言切换
 document.querySelectorAll('.report-btn').forEach(btn => {
   btn.onclick = () => {
-    document.querySelectorAll('.report-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    document.querySelectorAll('.report-btn').forEach(b => b.style.background = 'rgba(255,170,85,0.3)');
+    btn.style.background = '#ffaa55';
     reportLang = btn.dataset.lang;
-    if (document.getElementById('reportScreen').classList.contains('active')) {
+    if (document.getElementById('reportScreen').classList.contains('active') && gameStarted && questions.length > 0) {
       const history = getHistoryRecords();
       const currentAccuracy = Math.round((correctCount / questions.length) * 100);
       renderReport(history, currentAccuracy);
@@ -823,10 +937,10 @@ document.querySelectorAll('.report-btn').forEach(btn => {
   };
 });
 
-// 创建星星
 function createStars() {
-  const starContainer = document.getElementById('starfield');
-  for (let i = 0; i < 120; i++) {
+  const starsContainer = document.getElementById('stars');
+  if (!starsContainer) return;
+  for (let i = 0; i < 200; i++) {
     let star = document.createElement('div');
     star.classList.add('star');
     let size = Math.random() * 3 + 1;
@@ -834,9 +948,9 @@ function createStars() {
     star.style.height = size + 'px';
     star.style.left = Math.random() * 100 + '%';
     star.style.top = Math.random() * 100 + '%';
-    star.style.animationDelay = Math.random() * 4 + 's';
+    star.style.animationDelay = Math.random() * 3 + 's';
     star.style.animationDuration = 2 + Math.random() * 4 + 's';
-    starContainer.appendChild(star);
+    starsContainer.appendChild(star);
   }
 }
 createStars();
