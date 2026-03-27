@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>太空乘法任务 | 星际数学挑战</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Roboto', sans-serif;
+}
+
+body {
+  background: radial-gradient(ellipse at 30% 40%, #0b0f2a, #03051a);
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: #fff;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 动态星空 */
+.star {
+  position: fixed;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  animation: twinkle 4s infinite alternate;
+}
+@keyframes twinkle {
+  0% { opacity: 0.1; transform: scale(1);}
+  100% { opacity: 0.8; transform: scale(1.2);}
+}
+
+.app-container {
+  position: relative;
+  z-index: 20;
+  background: rgba(12, 20, 45, 0.55);
+  backdrop-filter: blur(18px);
+  border-radius: 48px;
+  border: 1px solid rgba(255, 220, 150, 0.4);
+  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.1);
+  width: 100%;
+  max-width: 980px;
+  padding: 38px 32px;
+  transition: all 0.3s ease;
+}
+
+.lang-switch {
+  position: absolute;
+  top: 26px;
+  right: 32px;
+  background: rgba(255, 200, 100, 0.2);
+  border: 1px solid rgba(255, 210, 130, 0.6);
+  color: #fff5e6;
+  padding: 8px 20px;
+  border-radius: 60px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+  z-index: 25;
+}
+.lang-switch:hover {
+  background: rgba(255, 200, 100, 0.45);
+  transform: scale(1.02);
+}
+
+.screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  animation: fadeUp 0.4s ease-out;
+}
+.screen.active {
+  display: flex;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+.title {
+  font-size: 48px;
+  font-weight: 900;
+  text-align: center;
+  background: linear-gradient(135deg, #FFE6B0, #FFC26E);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.subtitle {
+  font-size: 1.4rem;
+  color: #FFE9C7;
+  text-align: center;
+  font-weight: 500;
+}
+
+.form-group {
+  width: 100%;
+  max-width: 550px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.form-item label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #FFE3AA;
+}
+.form-item input {
+  padding: 16px 24px;
+  border-radius: 48px;
+  border: 1px solid rgba(255,215,140,0.5);
+  background: rgba(20, 28, 55, 0.7);
+  color: white;
+  font-size: 1.1rem;
+  outline: none;
+}
+.form-item input:focus {
+  border-color: #ffbc6e;
+  box-shadow: 0 0 15px rgba(255,180,80,0.4);
+}
+.start-btn {
+  background: linear-gradient(95deg, #FFB347, #FF8C33);
+  border: none;
+  border-radius: 48px;
+  padding: 16px 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #221c0f;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+.start-btn:hover {
+  transform: scale(1.02);
+  background: linear-gradient(95deg, #ffa13a, #ff7a1f);
+}
+
+.level-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  width: 100%;
+  margin-top: 20px;
+}
+.level-btn {
+  background: radial-gradient(circle at 30% 10%, rgba(255, 200, 100, 0.25), rgba(80, 70, 130, 0.6));
+  border: 1px solid rgba(255, 215, 120, 0.7);
+  border-radius: 48px;
+  padding: 28px 12px;
+  color: #fff3e0;
+  font-size: 1.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: center;
+}
+.level-btn:hover {
+  background: radial-gradient(circle at 30% 10%, rgba(255, 210, 80, 0.5), rgba(120, 100, 180, 0.8));
+  transform: translateY(-8px);
+  border-color: #ffcd94;
+}
+
+.timer-bar {
+  width: 100%;
+  height: 12px;
+  background: rgba(30, 30, 60, 0.7);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+.timer-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #ffbc6e, #ffde9c);
+  width: 100%;
+  transition: width linear;
+  border-radius: 20px;
+}
+
+.question {
+  font-size: 5.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #FFF8E7, #FFE3B0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 5px;
+}
+
+.options {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+.option-btn {
+  background: rgba(20, 35, 70, 0.6);
+  border: 2px solid rgba(255, 190, 80, 0.7);
+  border-radius: 60px;
+  width: 130px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #ffefcf;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.option-btn:hover {
+  background: rgba(255, 170, 70, 0.5);
+  transform: scale(1.07);
+}
+
+.input-answer {
+  background: rgba(20, 30, 60, 0.8);
+  border: 2px solid rgba(255, 200, 110, 0.8);
+  border-radius: 60px;
+  width: 280px;
+  height: 120px;
+  font-size: 3.5rem;
+  text-align: center;
+  color: #fff2cf;
+  outline: none;
+  font-weight: bold;
+}
+.submit-btn {
+  background: linear-gradient(95deg, #ffb259, #ff9a3c);
+  border: none;
+  border-radius: 60px;
+  padding: 18px 52px;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #221c0e;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 12px;
+}
+.submit-btn:hover {
+  transform: scale(1.05);
+}
+
+.report-lang {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.report-lang button {
+  padding: 8px 22px;
+  border-radius: 60px;
+  border: 1px solid rgba(255,215,140,0.6);
+  background: rgba(0,0,0,0.3);
+  color: #ffeecd;
+  font-weight: bold;
+  cursor: pointer;
+}
+.report-lang button.active {
+  background: #ffb359;
+  color: #1f1b0c;
+}
+
+.report-card {
+  background: rgba(15, 25, 55, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 48px;
+  padding: 32px 36px;
+  width: 100%;
+  border: 1px solid rgba(255,200,110,0.4);
+  max-height: 600px;
+  overflow-y: auto;
+}
+.report-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 210, 140, 0.25);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+.table-results {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+.table-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  padding: 12px 20px;
+  background: rgba(255, 235, 170, 0.12);
+  border-radius: 40px;
+}
+.report-conclusion {
+  font-size: 1.8rem;
+  font-weight: 800;
+  text-align: center;
+  margin-top: 32px;
+  color: #ffda88;
+}
+.history-item {
+  background: rgba(255, 200, 100, 0.15);
+  margin-top: 12px;
+  padding: 15px;
+  border-radius: 24px;
+}
+.restart-btn {
+  margin-top: 30px;
+  background: rgba(255, 210, 110, 0.25);
+  border: 1px solid #ffcd88;
+  border-radius: 60px;
+  padding: 16px 48px;
+  color: #fff3cf;
+  font-size: 1.4rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.restart-btn:hover {
+  background: rgba(255, 210, 110, 0.5);
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #ffd966;
+}
+
+@media (max-width: 700px) {
+  .app-container { padding: 28px 20px; }
+  .title { font-size: 2rem; }
+  .question { font-size: 3rem; }
+  .option-btn { width: 85px; height: 85px; font-size: 2rem; }
+  .input-answer { width: 200px; height: 85px; font-size: 2.5rem; }
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div id="starfield"></div>
+<div class="app-container">
+  <button class="lang-switch" id="langBtn">🌙 中 / EN</button>
+
+  <!-- 学生信息 -->
+  <div class="screen active" id="infoScreen">
+    <h1 class="title" data-zh="🚀 太空乘法任务" data-en="🌌 Space Math Mission">🚀 太空乘法任务</h1>
+    <p class="subtitle" data-zh="✦ 填写宇航员资料 ✦" data-en="✦ Astronaut Profile ✦">✦ 填写宇航员资料 ✦</p>
+    <div class="form-group">
+      <div class="form-item"><label data-zh="🏫 学校" data-en="🏫 School">🏫 学校</label><input type="text" id="school" placeholder="银河小学"></div>
+      <div class="form-item"><label data-zh="📚 班级" data-en="📚 Class">📚 班级</label><input type="text" id="className" placeholder="5A"></div>
+      <div class="form-item"><label data-zh="👩‍🚀 姓名" data-en="👨‍🚀 Name">👩‍🚀 姓名</label><input type="text" id="studentName" placeholder="星际探索者"></div>
+      <button class="start-btn" id="startBtn" data-zh="⚡ 启程 ⚡" data-en="⚡ Launch ⚡">⚡ 启程 ⚡</button>
+    </div>
+  </div>
+
+  <!-- 等级选择 -->
+  <div class="screen" id="levelScreen">
+    <h1 class="title" data-zh="🪐 选择任务等级" data-en="🪐 Select Mission Level">🪐 选择任务等级</h1>
+    <div class="level-buttons">
+      <button class="level-btn" data-lvl="1">🌟 Lv.1<br><span style="font-size:0.8rem;">2的乘法表</span></button>
+      <button class="level-btn" data-lvl="2">🌙 Lv.2<br><span style="font-size:0.8rem;">0~5 乘法表</span></button>
+      <button class="level-btn" data-lvl="3">☀️ Lv.3<br><span style="font-size:0.8rem;">2~9 全面挑战</span></button>
+      <button class="level-btn" data-lvl="4">🌀 Lv.4<br><span style="font-size:0.8rem;">进阶 0~12 混合</span></button>
+    </div>
+  </div>
+
+  <!-- 答题界面 -->
+  <div class="screen" id="quizScreen">
+    <div class="timer-bar"><div class="timer-progress" id="timerProgress"></div></div>
+    <div class="question" id="questionDisplay">3 × 4 = ?</div>
+    <div class="options" id="optionsContainer"></div>
+    <input type="number" class="input-answer" id="answerInput" style="display:none" placeholder="?" inputmode="numeric">
+    <button class="submit-btn" id="submitBtn" data-zh="✨ 确认答案 ✨" data-en="✨ Submit ✨">✨ 确认答案 ✨</button>
+  </div>
+
+  <!-- 报告页面 -->
+  <div class="screen" id="reportScreen">
+    <h2 class="title" data-zh="📋 星际评估报告" data-en="📋 Star Assessment">📋 星际评估报告</h2>
+    <div class="report-lang">
+      <button class="report-btn active" data-lang="zh">中文</button>
+      <button class="report-btn" data-lang="en">English</button>
+      <button class="report-btn" data-lang="ms">Bahasa Melayu</button>
+    </div>
+    <div class="report-card" id="reportCard"></div>
+    <button class="restart-btn" id="restartBtn" data-zh="🔄 重新启航 🔄" data-en="🔄 Restart Mission">🔄 重新启航</button>
+  </div>
+</div>
+
+<script>
+// ======================= Supabase 配置 ======================
+// 请在这里替换为您自己的 Supabase 配置
+// 注册地址: https://supabase.com
+const SUPABASE_URL = 'https://your-project.supabase.co';  // 替换为您的 URL
+const SUPABASE_ANON_KEY = 'your-anon-key';  // 替换为您的 anon key
+
+// 初始化 Supabase 客户端
+let supabase = null;
+try {
+  if (SUPABASE_URL !== 'https://your-project.supabase.co' && SUPABASE_ANON_KEY !== 'your-anon-key') {
+    supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('✅ Supabase 已连接');
+  } else {
+    console.log('⚠️ 请先配置 Supabase 连接信息');
+  }
+} catch(e) {
+  console.log('⚠️ Supabase 未配置，数据将保存在本地');
+}
+
+// ======================= 全局变量 ======================
+let currentLang = (navigator.language || 'zh').includes('zh') ? 'zh' : 'en';
+let reportLang = 'zh';
+const student = { school: '', className: '', name: '' };
+
+// 多语言词库
+const reportTexts = {
+  zh: { school:"学校", class:"班级", name:"姓名", date:"测试日期", level:"等级", total:"总题数", correct:"答对", accuracy:"正确率", timesTable:"的乘法表", mastered:"🚀 已掌握", basic:"✨ 基本掌握", needs:"🌱 需加强", masterMsg:"🎉 满分宇航员！星际领航员就是你！", goodMsg:"⭐️ 表现优秀，继续探索宇宙吧！", tryMsg:"💪 再练习几次，下次必定超越光速！", history:"📊 历史成绩对比", previous:"上次成绩", improvement:"进步幅度" },
+  en: { school:"School", class:"Class", name:"Name", date:"Date", level:"Level", total:"Total", correct:"Correct", accuracy:"Accuracy", timesTable:" Times Table", mastered:"🚀 Mastered", basic:"✨ Good", needs:"🌱 Need Practice", masterMsg:"🎉 Perfect! You are a Space Math Hero!", goodMsg:"⭐️ Great job! Keep reaching for the stars!", tryMsg:"💪 More practice will make you unstoppable!", history:"📊 History Comparison", previous:"Previous Score", improvement:"Improvement" },
+  ms: { school:"Sekolah", class:"Kelas", name:"Nama", date:"Tarikh", level:"Tahap", total:"Jumlah", correct:"Betul", accuracy:"Ketepatan", timesTable:" Sifir", mastered:"🚀 Dikuasai", basic:"✨ Baik", needs:"🌱 Perlu Latihan", masterMsg:"🎉 Cemerlang! Anda Wira Matematik Angkasa!", goodMsg:"⭐️ Bagus! Terus usaha ke bintang!", tryMsg:"💪 Lebih latihan, pasti hebat!", history:"📊 Perbandingan Sejarah", previous:"Keputusan Lepas", improvement:"Peningkatan" }
+};
+
+// 游戏状态
+let currentLevel = null;
+let questions = [];
+let currentIndex = 0;
+let correctCount = 0;
+let timerInterval = null;
+let stats = {};
+
+// ======================= 辅助函数 ======================
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// 生成题目
+function generateQuestionsByLevel(level) {
+  let qList = [];
+  stats = {};
+  if (level === 1) {
+    let base = [];
+    for (let i = 0; i <= 12; i++) base.push({ a: 2, b: i, ans: 2 * i });
+    let copy = shuffleArray([...base]);
+    qList = [...base, ...copy];
+    stats[2] = { total: qList.length, correct: 0 };
+  } 
+  else if (level === 2) {
+    for (let m = 0; m <= 5; m++) {
+      stats[m] = { total: 13, correct: 0 };
+      for (let i = 0; i <= 12; i++) qList.push({ a: m, b: i, ans: m * i });
+    }
+    qList = shuffleArray(qList);
+  }
+  else if (level === 3) {
+    let pool = [];
+    stats[0] = { total: 2, correct: 0 }; pool.push({ a: 0, b: 4, ans: 0 }, { a: 0, b: 9, ans: 0 });
+    stats[1] = { total: 2, correct: 0 }; pool.push({ a: 1, b: 5, ans: 5 }, { a: 1, b: 12, ans: 12 });
+    for (let n = 2; n <= 9; n++) {
+      stats[n] = { total: 13, correct: 0 };
+      for (let i = 0; i <= 12; i++) pool.push({ a: n, b: i, ans: n * i });
+    }
+    qList = shuffleArray(pool);
+  }
+  else if (level === 4) {
+    let pool = [];
+    stats[0] = { total: 2, correct: 0 }; pool.push({ a: 0, b: 3, ans: 0 }, { a: 0, b: 8, ans: 0 });
+    stats[1] = { total: 2, correct: 0 }; pool.push({ a: 1, b: 6, ans: 6 }, { a: 1, b: 11, ans: 11 });
+    for (let n = 2; n <= 9; n++) {
+      stats[n] = { total: 11, correct: 0 };
+      for (let i = 2; i <= 12; i++) pool.push({ a: n, b: i, ans: n * i });
+    }
+    stats[10] = { total: 4, correct: 0 };
+    let tenChoices = shuffleArray([...Array(13).keys()]).slice(0, 4);
+    tenChoices.forEach(b => pool.push({ a: 10, b: b, ans: 10 * b }));
+    stats[11] = { total: 4, correct: 0 };
+    let elevenChoices = shuffleArray([...Array(13).keys()]).slice(0, 4);
+    elevenChoices.forEach(b => pool.push({ a: 11, b: b, ans: 11 * b }));
+    stats[12] = { total: 11, correct: 0 };
+    for (let i = 2; i <= 12; i++) pool.push({ a: 12, b: i, ans: 12 * i });
+    qList = shuffleArray(pool);
+  }
+  return qList;
+}
+
+// UI语言切换
+function applyUILang() {
+  const els = document.querySelectorAll('[data-zh][data-en]');
+  els.forEach(el => {
+    const txt = el.dataset[currentLang];
+    if (txt) el.textContent = txt;
+  });
+  const submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) {
+    submitBtn.textContent = currentLang === 'zh' ? '✨ 确认答案 ✨' : '✨ Submit ✨';
+  }
+}
+
+// 生成选择题选项
+function renderOptions(correctAns, countOpt) {
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  let opts = [correctAns];
+  while (opts.length < countOpt) {
+    let offset = Math.floor(Math.random() * 21) - 10;
+    let candidate = correctAns + offset;
+    if (candidate >= 0 && candidate <= 300 && !opts.includes(candidate)) opts.push(candidate);
+  }
+  shuffleArray(opts);
+  opts.forEach(val => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = val;
+    btn.onclick = () => checkAnswer(val);
+    container.appendChild(btn);
+  });
+}
+
+// 计时器（修复bug）
+function startTimerForQuestion() {
+  if (timerInterval) clearInterval(timerInterval);
+  const duration = (currentLevel === 1 || currentLevel === 2) ? 15 : 10;
+  const progressDiv = document.getElementById('timerProgress');
+  
+  // 重置进度条动画
+  progressDiv.style.transition = 'none';
+  progressDiv.style.width = '100%';
+  progressDiv.offsetHeight; // 强制重绘
+  progressDiv.style.transition = `width ${duration}s linear`;
+  progressDiv.style.width = '0%';
+  
+  let timeLeft = duration;
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      if (currentIndex < questions.length) {
+        checkAnswer(null);
+      }
+    }
+  }, 1000);
+}
+
+// 显示题目
+function showCurrentQuestion() {
+  if (currentIndex >= questions.length) {
+    saveAndShowReport();
+    return;
+  }
+  const q = questions[currentIndex];
+  document.getElementById('questionDisplay').textContent = `${q.a} × ${q.b} = ?`;
+  const optDiv = document.getElementById('optionsContainer');
+  const inputField = document.getElementById('answerInput');
+  if (currentLevel === 1 || currentLevel === 2) {
+    inputField.style.display = 'none';
+    optDiv.style.display = 'flex';
+    const optCount = (currentLevel === 1) ? 4 : 5;
+    renderOptions(q.ans, optCount);
+  } else {
+    optDiv.style.display = 'none';
+    inputField.style.display = 'block';
+    inputField.value = '';
+    inputField.focus();
+  }
+  startTimerForQuestion();
+}
+
+// 检查答案
+function checkAnswer(userAnswer) {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+  if (currentIndex >= questions.length) return;
+  const q = questions[currentIndex];
+  const isCorrect = (userAnswer === q.ans);
+  if (isCorrect) correctCount++;
+  if (stats[q.a]) {
+    stats[q.a].correct += isCorrect ? 1 : 0;
+  }
+  currentIndex++;
+  setTimeout(() => {
+    showCurrentQuestion();
+  }, 280);
+}
+
+// 保存记录到Supabase
+async function saveRecordToSupabase() {
+  if (!supabase) {
+    // 如果没有Supabase，保存到localStorage
+    saveToLocalStorage();
+    return;
+  }
+  
+  const total = questions.length;
+  const accuracy = Math.round((correctCount / total) * 100);
+  const record = {
+    school: student.school,
+    class: student.className,
+    name: student.name,
+    level: currentLevel,
+    correct: correctCount,
+    total: total,
+    accuracy: accuracy,
+    details: stats,
+    created_at: new Date().toISOString()
+  };
+  
+  try {
+    const { data, error } = await supabase
+      .from('test_records')
+      .insert([record]);
+    
+    if (error) {
+      console.error('保存失败:', error);
+      saveToLocalStorage();
+    } else {
+      console.log('✅ 成绩已保存到云端');
+    }
+  } catch(e) {
+    console.log('⚠️ 云端保存失败，保存到本地');
+    saveToLocalStorage();
+  }
+}
+
+// 保存到本地存储
+function saveToLocalStorage() {
+  const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
+  records.push({
+    ...student,
+    level: currentLevel,
+    correct: correctCount,
+    total: questions.length,
+    accuracy: Math.round((correctCount / questions.length) * 100),
+    date: new Date().toISOString(),
+    stats: stats
+  });
+  localStorage.setItem('mathRecords', JSON.stringify(records));
+  console.log('💾 成绩已保存到本地');
+}
+
+// 获取历史记录
+async function getHistoryRecords() {
+  if (!supabase) {
+    const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
+    return records.filter(r => r.name === student.name && r.school === student.school);
+  }
+  
+  try {
+    const { data, error } = await supabase
+      .from('test_records')
+      .select('*')
+      .eq('name', student.name)
+      .eq('school', student.school)
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data || [];
+  } catch(e) {
+    console.error('获取历史记录失败:', e);
+    return [];
+  }
+}
+
+// 显示报告（带历史对比）
+async function saveAndShowReport() {
+  // 保存当前成绩
+  await saveRecordToSupabase();
+  
+  // 获取历史记录
+  const history = await getHistoryRecords();
+  const currentAccuracy = Math.round((correctCount / questions.length) * 100);
+  let previousAccuracy = null;
+  
+  if (history.length > 1) {
+    // 找到上一次相同等级的成绩
+    const previousSameLevel = history.find(h => h.level === currentLevel && h !== history[0]);
+    if (previousSameLevel) {
+      previousAccuracy = previousSameLevel.accuracy;
+    }
+  }
+  
+  document.getElementById('quizScreen').classList.remove('active');
+  document.getElementById('reportScreen').classList.add('active');
+  renderReport(history, currentAccuracy, previousAccuracy);
+}
+
+// 渲染报告
+function renderReport(history = null, currentAccuracy = null, previousAccuracy = null) {
+  const t = reportTexts[reportLang];
+  const totalQ = questions.length;
+  const accuracy = currentAccuracy !== null ? currentAccuracy : Math.round((correctCount / totalQ) * 100);
+  const nowDate = new Date().toLocaleDateString();
+  
+  let html = `
+    <div class="report-row"><span>${t.school}</span><span>${student.school || '—'}</span></div>
+    <div class="report-row"><span>${t.class}</span><span>${student.className || '—'}</span></div>
+    <div class="report-row"><span>${t.name}</span><span>${student.name || '—'}</span></div>
+    <div class="report-row"><span>${t.date}</span><span>${nowDate}</span></div>
+    <div class="report-row"><span>${t.level}</span><span>Level ${currentLevel}</span></div>
+    <div class="report-row"><span>${t.total}</span><span>${totalQ}</span></div>
+    <div class="report-row"><span>${t.correct}</span><span>${correctCount}</span></div>
+    <div class="report-row"><span>${t.accuracy}</span><span>${accuracy}%</span></div>`;
+  
+  // 显示进步对比
+  if (previousAccuracy !== null) {
+    const improvement = accuracy - previousAccuracy;
+    const improvementText = improvement >= 0 ? `📈 +${improvement}%` : `📉 ${improvement}%`;
+    html += `<div class="report-row" style="background: rgba(255,200,100,0.2); border-radius: 20px; margin-top: 10px;">
+      <span>${t.previous}</span><span>${previousAccuracy}%</span>
+      <span>${t.improvement}</span><span>${improvementText}</span>
+    </div>`;
+  }
+  
+  html += `<div class="table-results"><div style="font-weight:bold; padding:0 12px;">📊 乘法表掌握情况</div>`;
+  
+  const sortedKeys = Object.keys(stats).sort((a,b)=> +a - +b);
+  for (let mult of sortedKeys) {
+    const item = stats[mult];
+    const percent = item.total ? Math.round((item.correct / item.total)*100) : 0;
+    let levelText = percent >= 85 ? t.mastered : (percent >= 60 ? t.basic : t.needs);
+    html += `<div class="table-item"><span>${mult} ${t.timesTable}</span><span>${levelText} (${percent}%)</span></div>`;
+  }
+  
+  // 显示历史成绩（如果有）
+  if (history && history.length > 1) {
+    html += `<div style="margin-top: 25px;"><div style="font-weight:bold; margin-bottom: 15px;">📜 ${t.history}</div>`;
+    const lastThree = history.slice(0, 3);
+    lastThree.forEach((record, idx) => {
+      const date = new Date(record.created_at || record.date).toLocaleDateString();
+      html += `<div class="history-item">
+        ${date} - Level ${record.level}: ${record.correct}/${record.total} (${record.accuracy}%)
+      </div>`;
+    });
+    html += `</div>`;
+  }
+  
+  let msg = accuracy >= 90 ? t.masterMsg : (accuracy >= 70 ? t.goodMsg : t.tryMsg);
+  html += `</div><div class="report-conclusion">${msg}</div>`;
+  document.getElementById('reportCard').innerHTML = html;
+}
+
+// ======================= 事件绑定 ======================
+document.getElementById('langBtn').addEventListener('click', () => {
+  currentLang = currentLang === 'zh' ? 'en' : 'zh';
+  applyUILang();
+});
+
+document.getElementById('startBtn').onclick = () => {
+  student.school = document.getElementById('school').value.trim();
+  student.className = document.getElementById('className').value.trim();
+  student.name = document.getElementById('studentName').value.trim();
+  if (!student.school || !student.className || !student.name) {
+    alert(currentLang === 'zh' ? '请完整填写学校、班级和姓名 🪐' : 'Please fill in School, Class and Name 🪐');
+    return;
+  }
+  document.getElementById('infoScreen').classList.remove('active');
+  document.getElementById('levelScreen').classList.add('active');
+};
+
+document.querySelectorAll('.level-btn').forEach(btn => {
+  btn.onclick = () => {
+    currentLevel = parseInt(btn.dataset.lvl);
+    questions = generateQuestionsByLevel(currentLevel);
+    currentIndex = 0;
+    correctCount = 0;
+    document.getElementById('levelScreen').classList.remove('active');
+    document.getElementById('quizScreen').classList.add('active');
+    showCurrentQuestion();
+  };
+});
+
+document.getElementById('submitBtn').onclick = () => {
+  if (currentLevel === 3 || currentLevel === 4) {
+    const inputVal = parseInt(document.getElementById('answerInput').value);
+    if (isNaN(inputVal)) return;
+    checkAnswer(inputVal);
+  }
+};
+
+document.getElementById('restartBtn').onclick = () => {
+  location.reload();
+};
+
+// 报告语言切换
+document.querySelectorAll('.report-btn').forEach(btn => {
+  btn.onclick = async () => {
+    document.querySelectorAll('.report-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    reportLang = btn.dataset.lang;
+    if (document.getElementById('reportScreen').classList.contains('active')) {
+      const history = await getHistoryRecords();
+      renderReport(history);
+    }
+  };
+});
+
+// 创建星星
+function createStars() {
+  const starContainer = document.getElementById('starfield');
+  for (let i = 0; i < 120; i++) {
+    let star = document.createElement('div');
+    star.classList.add('star');
+    let size = Math.random() * 3 + 1;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDelay = Math.random() * 4 + 's';
+    star.style.animationDuration = 2 + Math.random() * 4 + 's';
+    starContainer.appendChild(star);
+  }
+}
+createStars();
+applyUILang();
+</script>
+</body>
+</html>
