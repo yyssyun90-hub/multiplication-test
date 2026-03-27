@@ -109,6 +109,38 @@ body {
   transition: all 0.3s;
 }
 
+/* 导航按钮组 */
+.nav-buttons {
+  position: absolute;
+  top: 25px;
+  left: 30px;
+  display: flex;
+  gap: 12px;
+  z-index: 20;
+}
+
+.nav-btn {
+  background: rgba(100, 150, 255, 0.3);
+  border: 2px solid #88aaff;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 60px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.nav-btn:hover {
+  background: rgba(100, 150, 255, 0.6);
+  transform: scale(1.05);
+  border-color: #ffdd99;
+}
+
 /* 语言切换按钮 */
 .lang-switch {
   position: absolute;
@@ -217,7 +249,7 @@ body {
 }
 
 /* 按钮通用样式 */
-.start-btn, .level-btn, .submit-btn, .restart-btn {
+.start-btn, .level-btn, .submit-btn, .restart-btn, .back-btn {
   background: linear-gradient(135deg, #FFB347, #FF8C33);
   border: none;
   border-radius: 60px;
@@ -228,17 +260,16 @@ body {
   cursor: pointer;
   transition: all 0.3s;
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  position: relative;
-  overflow: hidden;
 }
 
-.start-btn:hover, .level-btn:hover, .submit-btn:hover, .restart-btn:hover {
+.start-btn:hover, .level-btn:hover, .submit-btn:hover, .restart-btn:hover, .back-btn:hover {
   transform: translateY(-5px) scale(1.02);
   box-shadow: 0 15px 30px rgba(255,140,0,0.5);
 }
 
-.start-btn:active, .level-btn:active {
-  transform: translateY(2px);
+.back-btn {
+  background: linear-gradient(135deg, #6688ff, #4466cc);
+  color: white;
 }
 
 /* 等级按钮网格 */
@@ -361,6 +392,15 @@ body {
   transform: scale(1.05);
 }
 
+/* 按钮组 */
+.button-group {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
 /* 报告页面 */
 .report-card {
   background: rgba(20, 30, 55, 0.8);
@@ -453,6 +493,10 @@ body {
   .input-answer { width: 220px; height: 100px; font-size: 2.5rem; }
   .level-btn { font-size: 1.5rem; padding: 20px; }
   .lang-switch { top: 15px; right: 15px; padding: 6px 15px; font-size: 0.8rem; }
+  .nav-buttons { top: 15px; left: 15px; gap: 8px; }
+  .nav-btn { padding: 6px 12px; font-size: 0.75rem; }
+  .button-group { flex-direction: column; gap: 12px; }
+  .back-btn, .submit-btn { width: 100%; }
 }
 </style>
 </head>
@@ -466,6 +510,9 @@ body {
 <div class="ufo">🛸</div>
 
 <div class="app-container">
+  <div class="nav-buttons">
+    <button class="nav-btn" id="homeBtn">🏠 首页</button>
+  </div>
   <button class="lang-switch" id="langBtn">🌙 中 / EN</button>
 
   <!-- 学生信息页面 -->
@@ -489,6 +536,7 @@ body {
       <button class="level-btn" data-lvl="3">☀️ 太阳勇士<br><span>2~9 全面挑战</span></button>
       <button class="level-btn" data-lvl="4">🌀 银河霸主<br><span>0~12 终极挑战</span></button>
     </div>
+    <button class="back-btn" id="backToInfoBtn">◀ 返回填写资料</button>
   </div>
 
   <!-- 答题页面 -->
@@ -499,7 +547,10 @@ body {
     <div class="question" id="questionDisplay">3 × 4 = ?</div>
     <div class="options" id="optionsContainer"></div>
     <input type="number" class="input-answer" id="answerInput" style="display:none" placeholder="?" inputmode="numeric">
-    <button class="submit-btn" id="submitBtn">✨ 确认答案 ✨</button>
+    <div class="button-group">
+      <button class="back-btn" id="backToLevelBtn">◀ 返回选等级</button>
+      <button class="submit-btn" id="submitBtn">✨ 确认答案 ✨</button>
+    </div>
   </div>
 
   <!-- 报告页面 -->
@@ -511,7 +562,10 @@ body {
       <button class="report-btn" data-lang="ms" style="background: rgba(255,170,85,0.3); border: none; padding: 8px 20px; border-radius: 30px; cursor: pointer;">Bahasa Melayu</button>
     </div>
     <div class="report-card" id="reportCard"></div>
-    <button class="restart-btn" id="restartBtn">🔄 重新启航 🔄</button>
+    <div class="button-group">
+      <button class="back-btn" id="backToLevelFromReportBtn">◀ 返回选等级</button>
+      <button class="restart-btn" id="restartBtn">🔄 重新测试 🔄</button>
+    </div>
   </div>
 </div>
 
@@ -541,7 +595,10 @@ const texts = {
     levelTitle: '🪐 选择任务等级 🪐',
     submitBtn: '✨ 确认答案 ✨',
     reportTitle: '📋 星际评估报告 🌟',
-    restartBtn: '🔄 重新启航 🔄'
+    restartBtn: '🔄 重新测试 🔄',
+    homeBtn: '🏠 首页',
+    backToInfo: '◀ 返回填写资料',
+    backToLevel: '◀ 返回选等级'
   },
   en: {
     mainTitle: '🚀 Space Math Mission 🌟',
@@ -553,7 +610,10 @@ const texts = {
     levelTitle: '🪐 Select Mission Level 🪐',
     submitBtn: '✨ Submit ✨',
     reportTitle: '📋 Star Assessment Report 🌟',
-    restartBtn: '🔄 Restart Mission 🔄'
+    restartBtn: '🔄 Retry 🔄',
+    homeBtn: '🏠 Home',
+    backToInfo: '◀ Back to Info',
+    backToLevel: '◀ Back to Levels'
   }
 };
 
@@ -659,6 +719,68 @@ function applyUILang() {
   if (document.getElementById('submitBtn')) document.getElementById('submitBtn').textContent = t.submitBtn;
   if (document.getElementById('reportTitle')) document.getElementById('reportTitle').textContent = t.reportTitle;
   if (document.getElementById('restartBtn')) document.getElementById('restartBtn').textContent = t.restartBtn;
+  if (document.getElementById('homeBtn')) document.getElementById('homeBtn').innerHTML = t.homeBtn;
+  if (document.getElementById('backToInfoBtn')) document.getElementById('backToInfoBtn').innerHTML = t.backToInfo;
+  if (document.getElementById('backToLevelBtn')) document.getElementById('backToLevelBtn').innerHTML = t.backToLevel;
+  if (document.getElementById('backToLevelFromReportBtn')) document.getElementById('backToLevelFromReportBtn').innerHTML = t.backToLevel;
+}
+
+// 停止计时器
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+// 返回等级选择页面（修复版）
+function goToLevelSelect() {
+  stopTimer();
+  gameStarted = false;
+  stats = {};
+  currentLevel = null;
+  questions = [];
+  currentIndex = 0;
+  correctCount = 0;
+  document.getElementById('quizScreen').classList.remove('active');
+  document.getElementById('reportScreen').classList.remove('active');
+  document.getElementById('levelScreen').classList.add('active');
+}
+
+// 返回信息填写页面（修复版）
+function goToInfo() {
+  stopTimer();
+  gameStarted = false;
+  stats = {};
+  currentLevel = null;
+  questions = [];
+  currentIndex = 0;
+  correctCount = 0;
+  document.getElementById('levelScreen').classList.remove('active');
+  document.getElementById('quizScreen').classList.remove('active');
+  document.getElementById('reportScreen').classList.remove('active');
+  document.getElementById('infoScreen').classList.add('active');
+}
+
+// 返回首页（修复版）
+function goToHome() {
+  stopTimer();
+  gameStarted = false;
+  currentLevel = null;
+  questions = [];
+  currentIndex = 0;
+  correctCount = 0;
+  stats = {};
+  
+  // 清空输入框
+  if (document.getElementById('school')) document.getElementById('school').value = '';
+  if (document.getElementById('className')) document.getElementById('className').value = '';
+  if (document.getElementById('studentName')) document.getElementById('studentName').value = '';
+  
+  document.getElementById('infoScreen').classList.add('active');
+  document.getElementById('levelScreen').classList.remove('active');
+  document.getElementById('quizScreen').classList.remove('active');
+  document.getElementById('reportScreen').classList.remove('active');
 }
 
 function renderOptions(correctAns, countOpt) {
@@ -682,7 +804,7 @@ function renderOptions(correctAns, countOpt) {
 }
 
 function startTimerForQuestion() {
-  if (timerInterval) clearInterval(timerInterval);
+  stopTimer();
   const duration = (currentLevel === 1 || currentLevel === 2) ? 15 : 10;
   const progressDiv = document.getElementById('timerProgress');
   if (!progressDiv) return;
@@ -691,16 +813,13 @@ function startTimerForQuestion() {
   progressDiv.style.width = '100%';
   void progressDiv.offsetWidth;
   progressDiv.style.transition = `width ${duration}s linear`;
+  progressDiv.style.width = '0%';
   
   let timeLeft = duration;
   timerInterval = setInterval(() => {
     timeLeft--;
-    const percent = (timeLeft / duration) * 100;
-    if (progressDiv) progressDiv.style.width = `${Math.max(0, percent)}%`;
-    
     if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      timerInterval = null;
+      stopTimer();
       if (currentIndex < questions.length) {
         checkAnswer(null);
       }
@@ -734,10 +853,7 @@ function showCurrentQuestion() {
 }
 
 function checkAnswer(userAnswer) {
-  if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
-  }
+  stopTimer();
   if (currentIndex >= questions.length) return;
   const q = questions[currentIndex];
   const isCorrect = (userAnswer === q.ans);
@@ -887,6 +1003,26 @@ document.getElementById('langBtn').addEventListener('click', () => {
   applyUILang();
 });
 
+document.getElementById('homeBtn').addEventListener('click', () => {
+  if (confirm(currentLang === 'zh' ? '确定要返回首页吗？当前进度将丢失。' : 'Return to home? Current progress will be lost.')) {
+    goToHome();
+  }
+});
+
+document.getElementById('backToInfoBtn').addEventListener('click', () => {
+  goToInfo();
+});
+
+document.getElementById('backToLevelBtn').addEventListener('click', () => {
+  if (confirm(currentLang === 'zh' ? '返回选等级？当前测试进度将丢失。' : 'Return to level select? Current progress will be lost.')) {
+    goToLevelSelect();
+  }
+});
+
+document.getElementById('backToLevelFromReportBtn').addEventListener('click', () => {
+  goToLevelSelect();
+});
+
 document.getElementById('startBtn').onclick = () => {
   student.school = document.getElementById('school').value.trim();
   student.className = document.getElementById('className').value.trim();
@@ -921,7 +1057,15 @@ document.getElementById('submitBtn').onclick = () => {
 };
 
 document.getElementById('restartBtn').onclick = () => {
-  location.reload();
+  if (gameStarted && currentLevel) {
+    questions = generateQuestionsByLevel(currentLevel);
+    currentIndex = 0;
+    correctCount = 0;
+    stats = {};
+    document.getElementById('reportScreen').classList.remove('active');
+    document.getElementById('quizScreen').classList.add('active');
+    showCurrentQuestion();
+  }
 };
 
 document.querySelectorAll('.report-btn').forEach(btn => {
