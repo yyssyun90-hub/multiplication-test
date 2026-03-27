@@ -328,6 +328,19 @@ body {
   padding: 15px;
   border-radius: 24px;
 }
+.clear-history-btn {
+  background: rgba(255, 100, 80, 0.3);
+  border: 1px solid #ff8866;
+  padding: 8px 20px;
+  border-radius: 30px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.clear-history-btn:hover {
+  background: rgba(255, 100, 80, 0.6);
+}
 .restart-btn {
   margin-top: 30px;
   background: rgba(255, 210, 110, 0.25);
@@ -343,12 +356,6 @@ body {
   background: rgba(255, 210, 110, 0.5);
 }
 
-.loading {
-  text-align: center;
-  padding: 20px;
-  color: #ffd966;
-}
-
 @media (max-width: 700px) {
   .app-container { padding: 28px 20px; }
   .title { font-size: 2rem; }
@@ -357,7 +364,6 @@ body {
   .input-answer { width: 200px; height: 85px; font-size: 2.5rem; }
 }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -411,25 +417,6 @@ body {
 </div>
 
 <script>
-// ======================= Supabase 配置 ======================
-// 请在这里替换为您自己的 Supabase 配置
-// 注册地址: https://supabase.com
-const SUPABASE_URL = 'https://your-project.supabase.co';  // 替换为您的 URL
-const SUPABASE_ANON_KEY = 'your-anon-key';  // 替换为您的 anon key
-
-// 初始化 Supabase 客户端
-let supabase = null;
-try {
-  if (SUPABASE_URL !== 'https://your-project.supabase.co' && SUPABASE_ANON_KEY !== 'your-anon-key') {
-    supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log('✅ Supabase 已连接');
-  } else {
-    console.log('⚠️ 请先配置 Supabase 连接信息');
-  }
-} catch(e) {
-  console.log('⚠️ Supabase 未配置，数据将保存在本地');
-}
-
 // ======================= 全局变量 ======================
 let currentLang = (navigator.language || 'zh').includes('zh') ? 'zh' : 'en';
 let reportLang = 'zh';
@@ -437,9 +424,36 @@ const student = { school: '', className: '', name: '' };
 
 // 多语言词库
 const reportTexts = {
-  zh: { school:"学校", class:"班级", name:"姓名", date:"测试日期", level:"等级", total:"总题数", correct:"答对", accuracy:"正确率", timesTable:"的乘法表", mastered:"🚀 已掌握", basic:"✨ 基本掌握", needs:"🌱 需加强", masterMsg:"🎉 满分宇航员！星际领航员就是你！", goodMsg:"⭐️ 表现优秀，继续探索宇宙吧！", tryMsg:"💪 再练习几次，下次必定超越光速！", history:"📊 历史成绩对比", previous:"上次成绩", improvement:"进步幅度" },
-  en: { school:"School", class:"Class", name:"Name", date:"Date", level:"Level", total:"Total", correct:"Correct", accuracy:"Accuracy", timesTable:" Times Table", mastered:"🚀 Mastered", basic:"✨ Good", needs:"🌱 Need Practice", masterMsg:"🎉 Perfect! You are a Space Math Hero!", goodMsg:"⭐️ Great job! Keep reaching for the stars!", tryMsg:"💪 More practice will make you unstoppable!", history:"📊 History Comparison", previous:"Previous Score", improvement:"Improvement" },
-  ms: { school:"Sekolah", class:"Kelas", name:"Nama", date:"Tarikh", level:"Tahap", total:"Jumlah", correct:"Betul", accuracy:"Ketepatan", timesTable:" Sifir", mastered:"🚀 Dikuasai", basic:"✨ Baik", needs:"🌱 Perlu Latihan", masterMsg:"🎉 Cemerlang! Anda Wira Matematik Angkasa!", goodMsg:"⭐️ Bagus! Terus usaha ke bintang!", tryMsg:"💪 Lebih latihan, pasti hebat!", history:"📊 Perbandingan Sejarah", previous:"Keputusan Lepas", improvement:"Peningkatan" }
+  zh: { 
+    school:"学校", class:"班级", name:"姓名", date:"测试日期", level:"等级", 
+    total:"总题数", correct:"答对", accuracy:"正确率", timesTable:"的乘法表", 
+    mastered:"🚀 已掌握", basic:"✨ 基本掌握", needs:"🌱 需加强", 
+    masterMsg:"🎉 满分宇航员！星际领航员就是你！", 
+    goodMsg:"⭐️ 表现优秀，继续探索宇宙吧！", 
+    tryMsg:"💪 再练习几次，下次必定超越光速！", 
+    history:"📊 历史成绩记录", previous:"上次成绩", improvement:"进步幅度",
+    clearHistory:"🗑️ 清除我的历史记录"
+  },
+  en: { 
+    school:"School", class:"Class", name:"Name", date:"Date", level:"Level", 
+    total:"Total", correct:"Correct", accuracy:"Accuracy", timesTable:" Times Table", 
+    mastered:"🚀 Mastered", basic:"✨ Good", needs:"🌱 Need Practice", 
+    masterMsg:"🎉 Perfect! You are a Space Math Hero!", 
+    goodMsg:"⭐️ Great job! Keep reaching for the stars!", 
+    tryMsg:"💪 More practice will make you unstoppable!", 
+    history:"📊 History Records", previous:"Previous Score", improvement:"Improvement",
+    clearHistory:"🗑️ Clear My History"
+  },
+  ms: { 
+    school:"Sekolah", class:"Kelas", name:"Nama", date:"Tarikh", level:"Tahap", 
+    total:"Jumlah", correct:"Betul", accuracy:"Ketepatan", timesTable:" Sifir", 
+    mastered:"🚀 Dikuasai", basic:"✨ Baik", needs:"🌱 Perlu Latihan", 
+    masterMsg:"🎉 Cemerlang! Anda Wira Matematik Angkasa!", 
+    goodMsg:"⭐️ Bagus! Terus usaha ke bintang!", 
+    tryMsg:"💪 Lebih latihan, pasti hebat!", 
+    history:"📊 Rekod Sejarah", previous:"Keputusan Lepas", improvement:"Peningkatan",
+    clearHistory:"🗑️ Padam Rekod Saya"
+  }
 };
 
 // 游戏状态
@@ -610,113 +624,82 @@ function checkAnswer(userAnswer) {
   }, 280);
 }
 
-// 保存记录到Supabase
-async function saveRecordToSupabase() {
-  if (!supabase) {
-    // 如果没有Supabase，保存到localStorage
-    saveToLocalStorage();
-    return;
-  }
-  
-  const total = questions.length;
-  const accuracy = Math.round((correctCount / total) * 100);
-  const record = {
+// 保存到本地存储
+function saveToLocalStorage() {
+  const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
+  const newRecord = {
     school: student.school,
     class: student.className,
     name: student.name,
     level: currentLevel,
     correct: correctCount,
-    total: total,
-    accuracy: accuracy,
-    details: stats,
-    created_at: new Date().toISOString()
-  };
-  
-  try {
-    const { data, error } = await supabase
-      .from('test_records')
-      .insert([record]);
-    
-    if (error) {
-      console.error('保存失败:', error);
-      saveToLocalStorage();
-    } else {
-      console.log('✅ 成绩已保存到云端');
-    }
-  } catch(e) {
-    console.log('⚠️ 云端保存失败，保存到本地');
-    saveToLocalStorage();
-  }
-}
-
-// 保存到本地存储
-function saveToLocalStorage() {
-  const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
-  records.push({
-    ...student,
-    level: currentLevel,
-    correct: correctCount,
     total: questions.length,
     accuracy: Math.round((correctCount / questions.length) * 100),
     date: new Date().toISOString(),
+    dateDisplay: new Date().toLocaleString(),
     stats: stats
-  });
+  };
+  records.unshift(newRecord); // 最新记录放前面
+  // 只保留最近50条记录
+  if (records.length > 50) records.pop();
   localStorage.setItem('mathRecords', JSON.stringify(records));
   console.log('💾 成绩已保存到本地');
 }
 
 // 获取历史记录
-async function getHistoryRecords() {
-  if (!supabase) {
+function getHistoryRecords() {
+  const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
+  // 筛选当前学生的记录
+  return records.filter(r => r.name === student.name && r.school === student.school);
+}
+
+// 清除历史记录
+function clearHistory() {
+  if (confirm(currentLang === 'zh' ? '确定要清除所有历史记录吗？此操作不可撤销！' : 'Are you sure to clear all history? This cannot be undone!')) {
     const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
-    return records.filter(r => r.name === student.name && r.school === student.school);
-  }
-  
-  try {
-    const { data, error } = await supabase
-      .from('test_records')
-      .select('*')
-      .eq('name', student.name)
-      .eq('school', student.school)
-      .order('created_at', { ascending: false });
-    
-    if (error) throw error;
-    return data || [];
-  } catch(e) {
-    console.error('获取历史记录失败:', e);
-    return [];
+    const otherRecords = records.filter(r => r.name !== student.name || r.school !== student.school);
+    localStorage.setItem('mathRecords', JSON.stringify(otherRecords));
+    // 重新渲染报告
+    if (document.getElementById('reportScreen').classList.contains('active')) {
+      const history = getHistoryRecords();
+      const currentAccuracy = Math.round((correctCount / questions.length) * 100);
+      renderReport(history, currentAccuracy);
+    }
+    alert(currentLang === 'zh' ? '历史记录已清除' : 'History cleared');
   }
 }
 
 // 显示报告（带历史对比）
 async function saveAndShowReport() {
   // 保存当前成绩
-  await saveRecordToSupabase();
+  saveToLocalStorage();
   
   // 获取历史记录
-  const history = await getHistoryRecords();
+  const history = getHistoryRecords();
   const currentAccuracy = Math.round((correctCount / questions.length) * 100);
   let previousAccuracy = null;
+  let previousRecord = null;
   
   if (history.length > 1) {
-    // 找到上一次相同等级的成绩
-    const previousSameLevel = history.find(h => h.level === currentLevel && h !== history[0]);
+    // 找到上一次相同等级的成绩（跳过第一条，因为第一条是刚保存的当前记录）
+    const previousSameLevel = history.slice(1).find(h => h.level === currentLevel);
     if (previousSameLevel) {
       previousAccuracy = previousSameLevel.accuracy;
+      previousRecord = previousSameLevel;
     }
   }
   
   document.getElementById('quizScreen').classList.remove('active');
   document.getElementById('reportScreen').classList.add('active');
-  renderReport(history, currentAccuracy, previousAccuracy);
+  renderReport(history, currentAccuracy, previousAccuracy, previousRecord);
 }
 
 // 渲染报告
-function renderReport(history = null, currentAccuracy = null, previousAccuracy = null) {
+function renderReport(history = null, currentAccuracy = null, previousAccuracy = null, previousRecord = null) {
   const t = reportTexts[reportLang];
   const totalQ = questions.length;
   const accuracy = currentAccuracy !== null ? currentAccuracy : Math.round((correctCount / totalQ) * 100);
-  const nowDate = new Date().toLocaleDateString();
+  const nowDate = new Date().toLocaleString();
   
   let html = `
     <div class="report-row"><span>${t.school}</span><span>${student.school || '—'}</span></div>
@@ -729,12 +712,15 @@ function renderReport(history = null, currentAccuracy = null, previousAccuracy =
     <div class="report-row"><span>${t.accuracy}</span><span>${accuracy}%</span></div>`;
   
   // 显示进步对比
-  if (previousAccuracy !== null) {
+  if (previousAccuracy !== null && previousRecord) {
     const improvement = accuracy - previousAccuracy;
     const improvementText = improvement >= 0 ? `📈 +${improvement}%` : `📉 ${improvement}%`;
-    html += `<div class="report-row" style="background: rgba(255,200,100,0.2); border-radius: 20px; margin-top: 10px;">
-      <span>${t.previous}</span><span>${previousAccuracy}%</span>
-      <span>${t.improvement}</span><span>${improvementText}</span>
+    const prevDate = new Date(previousRecord.date).toLocaleDateString();
+    html += `<div class="report-row" style="background: rgba(255,200,100,0.2); border-radius: 20px; margin-top: 10px; padding: 12px;">
+      <span>📅 ${prevDate}<br>${t.previous}</span>
+      <span><strong>${previousAccuracy}%</strong></span>
+      <span>${t.improvement}</span>
+      <span><strong style="color: ${improvement >= 0 ? '#90ff90' : '#ff9090'}">${improvementText}</strong></span>
     </div>`;
   }
   
@@ -751,19 +737,34 @@ function renderReport(history = null, currentAccuracy = null, previousAccuracy =
   // 显示历史成绩（如果有）
   if (history && history.length > 1) {
     html += `<div style="margin-top: 25px;"><div style="font-weight:bold; margin-bottom: 15px;">📜 ${t.history}</div>`;
-    const lastThree = history.slice(0, 3);
-    lastThree.forEach((record, idx) => {
-      const date = new Date(record.created_at || record.date).toLocaleDateString();
-      html += `<div class="history-item">
-        ${date} - Level ${record.level}: ${record.correct}/${record.total} (${record.accuracy}%)
+    const lastFive = history.slice(0, 5);
+    lastFive.forEach((record, idx) => {
+      const date = new Date(record.date).toLocaleString();
+      const isCurrent = idx === 0;
+      const highlight = isCurrent ? 'style="background: rgba(255,200,100,0.3); border-left: 4px solid #ffb359;"' : '';
+      html += `<div class="history-item" ${highlight}>
+        ${date}<br>
+        Level ${record.level}: ${record.correct}/${record.total} (${record.accuracy}%)
+        ${isCurrent ? ' ✨ 本次测试' : ''}
       </div>`;
     });
+    
+    // 添加清除历史按钮
+    html += `<div style="text-align: center; margin-top: 15px;">
+      <button class="clear-history-btn" id="clearHistoryBtn">🗑️ ${t.clearHistory}</button>
+    </div>`;
     html += `</div>`;
   }
   
   let msg = accuracy >= 90 ? t.masterMsg : (accuracy >= 70 ? t.goodMsg : t.tryMsg);
   html += `</div><div class="report-conclusion">${msg}</div>`;
   document.getElementById('reportCard').innerHTML = html;
+  
+  // 绑定清除历史按钮
+  const clearBtn = document.getElementById('clearHistoryBtn');
+  if (clearBtn) {
+    clearBtn.onclick = clearHistory;
+  }
 }
 
 // ======================= 事件绑定 ======================
@@ -810,13 +811,14 @@ document.getElementById('restartBtn').onclick = () => {
 
 // 报告语言切换
 document.querySelectorAll('.report-btn').forEach(btn => {
-  btn.onclick = async () => {
+  btn.onclick = () => {
     document.querySelectorAll('.report-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     reportLang = btn.dataset.lang;
     if (document.getElementById('reportScreen').classList.contains('active')) {
-      const history = await getHistoryRecords();
-      renderReport(history);
+      const history = getHistoryRecords();
+      const currentAccuracy = Math.round((correctCount / questions.length) * 100);
+      renderReport(history, currentAccuracy);
     }
   };
 });
