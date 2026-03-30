@@ -648,7 +648,7 @@ const SUPABASE_URL = 'https://nlvfaurgathcoftyucfw.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdmZhdXJnYXRoY29mdHl1Y2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MzI5NTksImV4cCI6MjA5MDQwODk1OX0.jTODbPq65I9LEz7950Qe1Lf9viT2He5UYxNO-tJfz5w';
 
 // 教师后台密码（可以修改）
-const TEACHER_PASSWORD = 'teacher123';
+const TEACHER_PASSWORD = 'SJKHK';
 
 // 初始化 Supabase 客户端（等待CDN加载完成）
 let supabaseClient = null;
@@ -753,7 +753,7 @@ const reportTexts = {
 
 // ==================== 密码验证函数 ====================
 function verifyTeacherPassword() {
-  const inputPassword = prompt('🔐 请输入教师密码：\n\n默认密码: teacher123\n(可在代码中修改)');
+  const inputPassword = prompt('🔐 请输入教师密码：   ');
   if (inputPassword === TEACHER_PASSWORD) {
     return true;
   } else if (inputPassword !== null) {
