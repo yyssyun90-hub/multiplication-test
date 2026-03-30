@@ -484,7 +484,7 @@ body {
   justify-content: center;
 }
 
-.filter-bar input {
+.filter-bar select, .filter-bar input {
   padding: 10px 20px;
   border-radius: 40px;
   border: 2px solid #ffaa66;
@@ -504,6 +504,7 @@ body {
   margin: 10px 0;
   padding: 15px;
   border-radius: 30px;
+  cursor: pointer;
   transition: all 0.3s;
 }
 
@@ -578,7 +579,7 @@ canvas {
     <p class="subtitle" id="infoSubtitle">✦ 填写宇航员资料 ✦</p>
     <div class="form-group">
       <div class="form-item"><label id="schoolLabel">🏫 学校</label><input type="text" id="school" placeholder="银河小学"></div>
-      <div class="form-item"><label id="classLabel">📚 班级</label><input type="text" id="className" placeholder="5A"></div>
+      <div class="form-item"><label id="classLabel">📚 班级</label><input type="text" id="className" placeholder="星际5班"></div>
       <div class="form-item"><label id="nameLabel">👩‍🚀 姓名</label><input type="text" id="studentName" placeholder="小宇航员"></div>
       <button class="start-btn" id="startBtn">⚡ 发射启程 ⚡</button>
     </div>
@@ -642,15 +643,17 @@ canvas {
 
 <script>
 // ==================== Supabase 配置 ====================
-const SUPABASE_URL = 'https://nlvfaurgathcoftyucfw.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdmZhdXJnYXRoY29mdHl1Y2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MzI5NTksImV4cCI6MjA5MDQwODk1OX0.jTODbPq65I9LEz7950Qe1Lf9viT2He5UYxNO-tJfz5w';
-let supabase = null;
+// 🔴 请替换为您的 Supabase 配置信息！
+const SUPABASE_URL = 'https://your-project.supabase.co';  // 替换为您的 Project URL
+const SUPABASE_ANON_KEY = 'your-anon-key';  // 替换为您的 anon public key
 
-try {
-  supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// 初始化 Supabase 客户端
+let supabaseClient = null;
+if (SUPABASE_URL !== 'https://your-project.supabase.co' && SUPABASE_ANON_KEY !== 'your-anon-key') {
+  supabaseClient = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   console.log('✅ Supabase 已连接');
-} catch(e) {
-  console.warn('⚠️ Supabase 连接失败:', e);
+} else {
+  console.warn('⚠️ 请先配置 Supabase 连接信息！');
 }
 
 // ==================== 全局变量 ====================
@@ -666,9 +669,8 @@ let stats = {};
 let chart = null;
 
 const student = { school: '', className: '', name: '' };
-const TEACHER_PASSWORD = 'SJKHK';
 
-// ==================== 多语言词库 ====================
+// 多语言词库
 const texts = {
   zh: {
     mainTitle: '🚀 太空乘法任务 🌟',
@@ -737,7 +739,7 @@ const reportTexts = {
   }
 };
 
-// ==================== 核心游戏函数 ====================
+// ==================== 辅助函数 ====================
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -796,21 +798,21 @@ function generateQuestionsByLevel(level) {
 
 function applyUILang() {
   const t = texts[currentLang];
-  document.getElementById('mainTitle').textContent = t.mainTitle;
-  document.getElementById('infoSubtitle').textContent = t.infoSubtitle;
-  document.getElementById('schoolLabel').textContent = t.schoolLabel;
-  document.getElementById('classLabel').textContent = t.classLabel;
-  document.getElementById('nameLabel').textContent = t.nameLabel;
-  document.getElementById('startBtn').textContent = t.startBtn;
-  document.getElementById('levelTitle').textContent = t.levelTitle;
-  document.getElementById('submitBtn').textContent = t.submitBtn;
-  document.getElementById('reportTitle').textContent = t.reportTitle;
-  document.getElementById('restartBtn').textContent = t.restartBtn;
-  document.getElementById('homeBtn').innerHTML = t.homeBtn;
-  document.getElementById('teacherBtn').innerHTML = t.teacherBtn;
-  document.getElementById('backToInfoBtn').innerHTML = t.backToInfo;
-  document.getElementById('backToLevelBtn').innerHTML = t.backToLevel;
-  document.getElementById('backToLevelFromReportBtn').innerHTML = t.backToLevel;
+  if (document.getElementById('mainTitle')) document.getElementById('mainTitle').textContent = t.mainTitle;
+  if (document.getElementById('infoSubtitle')) document.getElementById('infoSubtitle').textContent = t.infoSubtitle;
+  if (document.getElementById('schoolLabel')) document.getElementById('schoolLabel').textContent = t.schoolLabel;
+  if (document.getElementById('classLabel')) document.getElementById('classLabel').textContent = t.classLabel;
+  if (document.getElementById('nameLabel')) document.getElementById('nameLabel').textContent = t.nameLabel;
+  if (document.getElementById('startBtn')) document.getElementById('startBtn').textContent = t.startBtn;
+  if (document.getElementById('levelTitle')) document.getElementById('levelTitle').textContent = t.levelTitle;
+  if (document.getElementById('submitBtn')) document.getElementById('submitBtn').textContent = t.submitBtn;
+  if (document.getElementById('reportTitle')) document.getElementById('reportTitle').textContent = t.reportTitle;
+  if (document.getElementById('restartBtn')) document.getElementById('restartBtn').textContent = t.restartBtn;
+  if (document.getElementById('homeBtn')) document.getElementById('homeBtn').innerHTML = t.homeBtn;
+  if (document.getElementById('teacherBtn')) document.getElementById('teacherBtn').innerHTML = t.teacherBtn;
+  if (document.getElementById('backToInfoBtn')) document.getElementById('backToInfoBtn').innerHTML = t.backToInfo;
+  if (document.getElementById('backToLevelBtn')) document.getElementById('backToLevelBtn').innerHTML = t.backToLevel;
+  if (document.getElementById('backToLevelFromReportBtn')) document.getElementById('backToLevelFromReportBtn').innerHTML = t.backToLevel;
 }
 
 function stopTimer() {
@@ -855,9 +857,9 @@ function goToHome() {
   currentIndex = 0;
   correctCount = 0;
   stats = {};
-  document.getElementById('school').value = '';
-  document.getElementById('className').value = '';
-  document.getElementById('studentName').value = '';
+  if (document.getElementById('school')) document.getElementById('school').value = '';
+  if (document.getElementById('className')) document.getElementById('className').value = '';
+  if (document.getElementById('studentName')) document.getElementById('studentName').value = '';
   document.getElementById('infoScreen').classList.add('active');
   document.getElementById('levelScreen').classList.remove('active');
   document.getElementById('quizScreen').classList.remove('active');
@@ -865,22 +867,9 @@ function goToHome() {
   document.getElementById('teacherScreen').classList.remove('active');
 }
 
-function openTeacherDashboard() {
-  const password = prompt('请输入教师密码：');
-  if (password === TEACHER_PASSWORD) {
-    document.getElementById('infoScreen').classList.remove('active');
-    document.getElementById('levelScreen').classList.remove('active');
-    document.getElementById('quizScreen').classList.remove('active');
-    document.getElementById('reportScreen').classList.remove('active');
-    document.getElementById('teacherScreen').classList.add('active');
-    loadTeacherData();
-  } else if (password !== null) {
-    alert(currentLang === 'zh' ? '密码错误！' : 'Wrong password!');
-  }
-}
-
 function renderOptions(correctAns, countOpt) {
   const container = document.getElementById('optionsContainer');
+  if (!container) return;
   container.innerHTML = '';
   let opts = [correctAns];
   while (opts.length < countOpt) {
@@ -902,6 +891,7 @@ function startTimerForQuestion() {
   stopTimer();
   const duration = (currentLevel === 1 || currentLevel === 2) ? 15 : 10;
   const progressDiv = document.getElementById('timerProgress');
+  if (!progressDiv) return;
   progressDiv.style.transition = 'none';
   progressDiv.style.width = '100%';
   void progressDiv.offsetWidth;
@@ -929,15 +919,17 @@ function showCurrentQuestion() {
   const optDiv = document.getElementById('optionsContainer');
   const inputField = document.getElementById('answerInput');
   if (currentLevel === 1 || currentLevel === 2) {
-    inputField.style.display = 'none';
-    optDiv.style.display = 'flex';
+    if (inputField) inputField.style.display = 'none';
+    if (optDiv) optDiv.style.display = 'flex';
     const optCount = (currentLevel === 1) ? 4 : 5;
     renderOptions(q.ans, optCount);
   } else {
-    optDiv.style.display = 'none';
-    inputField.style.display = 'block';
-    inputField.value = '';
-    inputField.focus();
+    if (optDiv) optDiv.style.display = 'none';
+    if (inputField) {
+      inputField.style.display = 'block';
+      inputField.value = '';
+      inputField.focus();
+    }
   }
   startTimerForQuestion();
 }
@@ -958,7 +950,8 @@ function checkAnswer(userAnswer) {
 }
 
 async function saveToSupabase() {
-  if (!supabase) {
+  if (!supabaseClient) {
+    console.log('Supabase未配置，保存到本地');
     saveToLocalStorage();
     return;
   }
@@ -974,7 +967,8 @@ async function saveToSupabase() {
     created_at: new Date().toISOString()
   };
   try {
-    await supabase.from('math_records').insert([newRecord]);
+    const { error } = await supabaseClient.from('math_records').insert([newRecord]);
+    if (error) throw error;
     console.log('✅ 成绩已保存到云端');
   } catch(e) {
     console.log('云端保存失败，保存到本地:', e);
@@ -1003,16 +997,18 @@ function getHistoryFromLocal() {
 }
 
 async function getHistoryRecords() {
-  if (!supabase) return getHistoryFromLocal();
+  if (!supabaseClient) return getHistoryFromLocal();
   try {
-    const { data } = await supabase
+    const { data, error } = await supabaseClient
       .from('math_records')
       .select('*')
       .eq('name', student.name)
       .eq('school', student.school)
       .order('created_at', { ascending: false });
+    if (error) throw error;
     return data || [];
   } catch(e) {
+    console.log('获取云端记录失败，使用本地:', e);
     return getHistoryFromLocal();
   }
 }
@@ -1095,11 +1091,13 @@ function renderReport(history = null, currentAccuracy = null, previousAccuracy =
 
 async function clearHistory() {
   if (confirm(currentLang === 'zh' ? '确定要清除所有历史记录吗？🚀' : 'Clear all history? 🚀')) {
-    if (supabase) {
+    if (supabaseClient) {
       try {
-        await supabase.from('math_records').delete().eq('name', student.name).eq('school', student.school);
+        await supabaseClient.from('math_records').delete().eq('name', student.name).eq('school', student.school);
         alert('云端历史记录已清除 ✨');
-      } catch(e) {}
+      } catch(e) {
+        console.log('清除云端失败');
+      }
     }
     const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
     const otherRecords = records.filter(r => r.name !== student.name || r.school !== student.school);
@@ -1110,10 +1108,10 @@ async function clearHistory() {
   }
 }
 
-// ==================== 教师后台函数 ====================
-let filterTimeout;
+// 教师后台功能
+let loadTimeout = null;
 async function loadTeacherData() {
-  if (!supabase) {
+  if (!supabaseClient) {
     document.getElementById('teacherCard').innerHTML = '<div class="loading">⚠️ 请先配置 Supabase 连接信息</div>';
     return;
   }
@@ -1121,10 +1119,11 @@ async function loadTeacherData() {
   try {
     const schoolFilter = document.getElementById('filterSchool').value;
     const classFilter = document.getElementById('filterClass').value;
-    let query = supabase.from('math_records').select('*').order('created_at', { ascending: false });
+    let query = supabaseClient.from('math_records').select('*').order('created_at', { ascending: false });
     if (schoolFilter) query = query.eq('school', schoolFilter);
     if (classFilter) query = query.eq('class', classFilter);
-    const { data } = await query;
+    const { data, error } = await query;
+    if (error) throw error;
     renderTeacherDashboard(data || []);
   } catch(e) {
     document.getElementById('teacherCard').innerHTML = `<div class="loading">❌ 加载失败: ${e.message}</div>`;
@@ -1162,10 +1161,10 @@ function renderTeacherDashboard(records) {
   document.getElementById('teacherCard').innerHTML = html;
   const ctx = document.getElementById('trendChart');
   if (ctx) {
-    const canvasCtx = ctx.getContext('2d');
+    const chartCtx = ctx.getContext('2d');
     if (chart) chart.destroy();
     const last10 = records.slice(0, 10).reverse();
-    chart = new Chart(canvasCtx, {
+    chart = new Chart(chartCtx, {
       type: 'line',
       data: {
         labels: last10.map((_, i) => `测试${i+1}`),
@@ -1188,8 +1187,8 @@ function renderTeacherDashboard(records) {
 }
 
 function exportToExcel() {
-  if (!supabase) return;
-  supabase.from('math_records').select('*').order('created_at', { ascending: false }).then(({ data }) => {
+  if (!supabaseClient) return alert('请先配置 Supabase');
+  supabaseClient.from('math_records').select('*').order('created_at', { ascending: false }).then(({ data }) => {
     if (!data || data.length === 0) return alert('暂无数据');
     let csv = '学校,班级,姓名,等级,正确数,总题数,正确率,测试时间\n';
     data.forEach(r => {
@@ -1204,9 +1203,100 @@ function exportToExcel() {
   });
 }
 
-// ==================== 创建星星 ====================
+// 事件绑定
+document.getElementById('langBtn').addEventListener('click', () => {
+  currentLang = currentLang === 'zh' ? 'en' : 'zh';
+  applyUILang();
+});
+document.getElementById('homeBtn').addEventListener('click', () => {
+  if (confirm(currentLang === 'zh' ? '确定要返回首页吗？当前进度将丢失。' : 'Return to home?')) goToHome();
+});
+document.getElementById('teacherBtn').addEventListener('click', () => {
+  document.getElementById('infoScreen').classList.remove('active');
+  document.getElementById('levelScreen').classList.remove('active');
+  document.getElementById('quizScreen').classList.remove('active');
+  document.getElementById('reportScreen').classList.remove('active');
+  document.getElementById('teacherScreen').classList.add('active');
+  loadTeacherData();
+});
+document.getElementById('backFromTeacherBtn').addEventListener('click', () => {
+  document.getElementById('teacherScreen').classList.remove('active');
+  document.getElementById('infoScreen').classList.add('active');
+});
+document.getElementById('exportBtn').addEventListener('click', exportToExcel);
+
+let filterTimeout;
+document.getElementById('filterSchool').addEventListener('input', () => {
+  if (filterTimeout) clearTimeout(filterTimeout);
+  filterTimeout = setTimeout(loadTeacherData, 300);
+});
+document.getElementById('filterClass').addEventListener('input', () => {
+  if (filterTimeout) clearTimeout(filterTimeout);
+  filterTimeout = setTimeout(loadTeacherData, 300);
+});
+
+document.getElementById('backToInfoBtn').addEventListener('click', goToInfo);
+document.getElementById('backToLevelBtn').addEventListener('click', () => {
+  if (confirm(currentLang === 'zh' ? '返回选等级？当前测试进度将丢失。' : 'Return to level select?')) goToLevelSelect();
+});
+document.getElementById('backToLevelFromReportBtn').addEventListener('click', goToLevelSelect);
+document.getElementById('startBtn').onclick = () => {
+  student.school = document.getElementById('school').value.trim();
+  student.className = document.getElementById('className').value.trim();
+  student.name = document.getElementById('studentName').value.trim();
+  if (!student.school || !student.className || !student.name) {
+    alert(currentLang === 'zh' ? '请完整填写宇航员资料 🚀' : 'Please fill in astronaut info 🚀');
+    return;
+  }
+  document.getElementById('infoScreen').classList.remove('active');
+  document.getElementById('levelScreen').classList.add('active');
+};
+document.querySelectorAll('.level-btn').forEach(btn => {
+  btn.onclick = () => {
+    currentLevel = parseInt(btn.dataset.lvl);
+    questions = generateQuestionsByLevel(currentLevel);
+    currentIndex = 0;
+    correctCount = 0;
+    gameStarted = true;
+    document.getElementById('levelScreen').classList.remove('active');
+    document.getElementById('quizScreen').classList.add('active');
+    showCurrentQuestion();
+  };
+});
+document.getElementById('submitBtn').onclick = () => {
+  if ((currentLevel === 3 || currentLevel === 4) && gameStarted) {
+    const inputVal = parseInt(document.getElementById('answerInput').value);
+    if (isNaN(inputVal)) return;
+    checkAnswer(inputVal);
+  }
+};
+document.getElementById('restartBtn').onclick = () => {
+  if (gameStarted && currentLevel) {
+    questions = generateQuestionsByLevel(currentLevel);
+    currentIndex = 0;
+    correctCount = 0;
+    stats = {};
+    document.getElementById('reportScreen').classList.remove('active');
+    document.getElementById('quizScreen').classList.add('active');
+    showCurrentQuestion();
+  }
+};
+document.querySelectorAll('.report-btn').forEach(btn => {
+  btn.onclick = async () => {
+    document.querySelectorAll('.report-btn').forEach(b => b.style.background = 'rgba(255,170,85,0.3)');
+    btn.style.background = '#ffaa55';
+    reportLang = btn.dataset.lang;
+    if (document.getElementById('reportScreen').classList.contains('active') && gameStarted && questions.length > 0) {
+      const history = await getHistoryRecords();
+      const currentAccuracy = Math.round((correctCount / questions.length) * 100);
+      renderReport(history, currentAccuracy);
+    }
+  };
+});
+
 function createStars() {
   const starsContainer = document.getElementById('stars');
+  if (!starsContainer) return;
   for (let i = 0; i < 200; i++) {
     let star = document.createElement('div');
     star.classList.add('star');
@@ -1220,120 +1310,8 @@ function createStars() {
     starsContainer.appendChild(star);
   }
 }
-
-// ==================== 页面加载完成后绑定所有事件 ====================
-window.onload = function() {
-  console.log('页面加载完成，开始绑定事件...');
-  
-  // 绑定所有按钮
-  document.getElementById('langBtn').onclick = function() {
-    currentLang = currentLang === 'zh' ? 'en' : 'zh';
-    applyUILang();
-  };
-  
-  document.getElementById('homeBtn').onclick = function() {
-    if (confirm(currentLang === 'zh' ? '确定要返回首页吗？当前进度将丢失。' : 'Return to home?')) goToHome();
-  };
-  
-  document.getElementById('teacherBtn').onclick = openTeacherDashboard;
-  
-  document.getElementById('backFromTeacherBtn').onclick = function() {
-    document.getElementById('teacherScreen').classList.remove('active');
-    document.getElementById('infoScreen').classList.add('active');
-  };
-  
-  document.getElementById('exportBtn').onclick = exportToExcel;
-  
-  document.getElementById('filterSchool').oninput = function() {
-    clearTimeout(filterTimeout);
-    filterTimeout = setTimeout(loadTeacherData, 500);
-  };
-  
-  document.getElementById('filterClass').oninput = function() {
-    clearTimeout(filterTimeout);
-    filterTimeout = setTimeout(loadTeacherData, 500);
-  };
-  
-  document.getElementById('backToInfoBtn').onclick = goToInfo;
-  
-  document.getElementById('backToLevelBtn').onclick = function() {
-    if (confirm(currentLang === 'zh' ? '返回选等级？当前测试进度将丢失。' : 'Return to level select?')) goToLevelSelect();
-  };
-  
-  document.getElementById('backToLevelFromReportBtn').onclick = goToLevelSelect;
-  
-  document.getElementById('startBtn').onclick = function() {
-    student.school = document.getElementById('school').value.trim();
-    student.className = document.getElementById('className').value.trim();
-    student.name = document.getElementById('studentName').value.trim();
-    if (!student.school || !student.className || !student.name) {
-      alert(currentLang === 'zh' ? '请完整填写宇航员资料 🚀' : 'Please fill in astronaut info 🚀');
-      return;
-    }
-    document.getElementById('infoScreen').classList.remove('active');
-    document.getElementById('levelScreen').classList.add('active');
-  };
-  
-  // 等级按钮
-  const levelBtns = document.querySelectorAll('.level-btn');
-  for (let i = 0; i < levelBtns.length; i++) {
-    levelBtns[i].onclick = function() {
-      currentLevel = parseInt(this.getAttribute('data-lvl'));
-      questions = generateQuestionsByLevel(currentLevel);
-      currentIndex = 0;
-      correctCount = 0;
-      gameStarted = true;
-      document.getElementById('levelScreen').classList.remove('active');
-      document.getElementById('quizScreen').classList.add('active');
-      showCurrentQuestion();
-    };
-  }
-  
-  document.getElementById('submitBtn').onclick = function() {
-    if ((currentLevel === 3 || currentLevel === 4) && gameStarted) {
-      const inputVal = parseInt(document.getElementById('answerInput').value);
-      if (isNaN(inputVal)) return;
-      checkAnswer(inputVal);
-    }
-  };
-  
-  document.getElementById('restartBtn').onclick = function() {
-    if (gameStarted && currentLevel) {
-      questions = generateQuestionsByLevel(currentLevel);
-      currentIndex = 0;
-      correctCount = 0;
-      stats = {};
-      document.getElementById('reportScreen').classList.remove('active');
-      document.getElementById('quizScreen').classList.add('active');
-      showCurrentQuestion();
-    }
-  };
-  
-  // 报告语言切换
-  const reportBtns = document.querySelectorAll('.report-btn');
-  for (let i = 0; i < reportBtns.length; i++) {
-    reportBtns[i].onclick = async function() {
-      for (let j = 0; j < reportBtns.length; j++) {
-        reportBtns[j].style.background = 'rgba(255,170,85,0.3)';
-      }
-      this.style.background = '#ffaa55';
-      reportLang = this.getAttribute('data-lang');
-      if (document.getElementById('reportScreen').classList.contains('active') && gameStarted && questions.length > 0) {
-        const history = await getHistoryRecords();
-        const currentAccuracy = Math.round((correctCount / questions.length) * 100);
-        renderReport(history, currentAccuracy);
-      }
-    };
-  }
-  
-  console.log('✅ 所有事件绑定完成');
-  
-  // 应用语言
-  applyUILang();
-};
-
-// 创建星星
 createStars();
+applyUILang();
 </script>
 </body>
 </html>
