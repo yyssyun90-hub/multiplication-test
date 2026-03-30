@@ -641,7 +641,7 @@ canvas {
 </div>
 
 <script>
-// ==================== 初始化 Supabase ====================
+// ==================== Supabase 配置 ====================
 const SUPABASE_URL = 'https://nlvfaurgathcoftyucfw.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdmZhdXJnYXRoY29mdHl1Y2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MzI5NTksImV4cCI6MjA5MDQwODk1OX0.jTODbPq65I9LEz7950Qe1Lf9viT2He5UYxNO-tJfz5w';
 let supabase = null;
@@ -737,7 +737,7 @@ const reportTexts = {
   }
 };
 
-// ==================== 辅助函数 ====================
+// ==================== 核心游戏函数 ====================
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -796,37 +796,21 @@ function generateQuestionsByLevel(level) {
 
 function applyUILang() {
   const t = texts[currentLang];
-  const mainTitle = document.getElementById('mainTitle');
-  const infoSubtitle = document.getElementById('infoSubtitle');
-  const schoolLabel = document.getElementById('schoolLabel');
-  const classLabel = document.getElementById('classLabel');
-  const nameLabel = document.getElementById('nameLabel');
-  const startBtn = document.getElementById('startBtn');
-  const levelTitle = document.getElementById('levelTitle');
-  const submitBtn = document.getElementById('submitBtn');
-  const reportTitle = document.getElementById('reportTitle');
-  const restartBtn = document.getElementById('restartBtn');
-  const homeBtn = document.getElementById('homeBtn');
-  const teacherBtn = document.getElementById('teacherBtn');
-  const backToInfoBtn = document.getElementById('backToInfoBtn');
-  const backToLevelBtn = document.getElementById('backToLevelBtn');
-  const backToLevelFromReportBtn = document.getElementById('backToLevelFromReportBtn');
-  
-  if (mainTitle) mainTitle.textContent = t.mainTitle;
-  if (infoSubtitle) infoSubtitle.textContent = t.infoSubtitle;
-  if (schoolLabel) schoolLabel.textContent = t.schoolLabel;
-  if (classLabel) classLabel.textContent = t.classLabel;
-  if (nameLabel) nameLabel.textContent = t.nameLabel;
-  if (startBtn) startBtn.textContent = t.startBtn;
-  if (levelTitle) levelTitle.textContent = t.levelTitle;
-  if (submitBtn) submitBtn.textContent = t.submitBtn;
-  if (reportTitle) reportTitle.textContent = t.reportTitle;
-  if (restartBtn) restartBtn.textContent = t.restartBtn;
-  if (homeBtn) homeBtn.innerHTML = t.homeBtn;
-  if (teacherBtn) teacherBtn.innerHTML = t.teacherBtn;
-  if (backToInfoBtn) backToInfoBtn.innerHTML = t.backToInfo;
-  if (backToLevelBtn) backToLevelBtn.innerHTML = t.backToLevel;
-  if (backToLevelFromReportBtn) backToLevelFromReportBtn.innerHTML = t.backToLevel;
+  document.getElementById('mainTitle').textContent = t.mainTitle;
+  document.getElementById('infoSubtitle').textContent = t.infoSubtitle;
+  document.getElementById('schoolLabel').textContent = t.schoolLabel;
+  document.getElementById('classLabel').textContent = t.classLabel;
+  document.getElementById('nameLabel').textContent = t.nameLabel;
+  document.getElementById('startBtn').textContent = t.startBtn;
+  document.getElementById('levelTitle').textContent = t.levelTitle;
+  document.getElementById('submitBtn').textContent = t.submitBtn;
+  document.getElementById('reportTitle').textContent = t.reportTitle;
+  document.getElementById('restartBtn').textContent = t.restartBtn;
+  document.getElementById('homeBtn').innerHTML = t.homeBtn;
+  document.getElementById('teacherBtn').innerHTML = t.teacherBtn;
+  document.getElementById('backToInfoBtn').innerHTML = t.backToInfo;
+  document.getElementById('backToLevelBtn').innerHTML = t.backToLevel;
+  document.getElementById('backToLevelFromReportBtn').innerHTML = t.backToLevel;
 }
 
 function stopTimer() {
@@ -871,12 +855,9 @@ function goToHome() {
   currentIndex = 0;
   correctCount = 0;
   stats = {};
-  const schoolInput = document.getElementById('school');
-  const classInput = document.getElementById('className');
-  const nameInput = document.getElementById('studentName');
-  if (schoolInput) schoolInput.value = '';
-  if (classInput) classInput.value = '';
-  if (nameInput) nameInput.value = '';
+  document.getElementById('school').value = '';
+  document.getElementById('className').value = '';
+  document.getElementById('studentName').value = '';
   document.getElementById('infoScreen').classList.add('active');
   document.getElementById('levelScreen').classList.remove('active');
   document.getElementById('quizScreen').classList.remove('active');
@@ -900,7 +881,6 @@ function openTeacherDashboard() {
 
 function renderOptions(correctAns, countOpt) {
   const container = document.getElementById('optionsContainer');
-  if (!container) return;
   container.innerHTML = '';
   let opts = [correctAns];
   while (opts.length < countOpt) {
@@ -922,7 +902,6 @@ function startTimerForQuestion() {
   stopTimer();
   const duration = (currentLevel === 1 || currentLevel === 2) ? 15 : 10;
   const progressDiv = document.getElementById('timerProgress');
-  if (!progressDiv) return;
   progressDiv.style.transition = 'none';
   progressDiv.style.width = '100%';
   void progressDiv.offsetWidth;
@@ -950,17 +929,15 @@ function showCurrentQuestion() {
   const optDiv = document.getElementById('optionsContainer');
   const inputField = document.getElementById('answerInput');
   if (currentLevel === 1 || currentLevel === 2) {
-    if (inputField) inputField.style.display = 'none';
-    if (optDiv) optDiv.style.display = 'flex';
+    inputField.style.display = 'none';
+    optDiv.style.display = 'flex';
     const optCount = (currentLevel === 1) ? 4 : 5;
     renderOptions(q.ans, optCount);
   } else {
-    if (optDiv) optDiv.style.display = 'none';
-    if (inputField) {
-      inputField.style.display = 'block';
-      inputField.value = '';
-      inputField.focus();
-    }
+    optDiv.style.display = 'none';
+    inputField.style.display = 'block';
+    inputField.value = '';
+    inputField.focus();
   }
   startTimerForQuestion();
 }
@@ -997,8 +974,7 @@ async function saveToSupabase() {
     created_at: new Date().toISOString()
   };
   try {
-    const { error } = await supabase.from('math_records').insert([newRecord]);
-    if (error) throw error;
+    await supabase.from('math_records').insert([newRecord]);
     console.log('✅ 成绩已保存到云端');
   } catch(e) {
     console.log('云端保存失败，保存到本地:', e);
@@ -1029,13 +1005,12 @@ function getHistoryFromLocal() {
 async function getHistoryRecords() {
   if (!supabase) return getHistoryFromLocal();
   try {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('math_records')
       .select('*')
       .eq('name', student.name)
       .eq('school', student.school)
       .order('created_at', { ascending: false });
-    if (error) throw error;
     return data || [];
   } catch(e) {
     return getHistoryFromLocal();
@@ -1149,9 +1124,8 @@ async function loadTeacherData() {
     let query = supabase.from('math_records').select('*').order('created_at', { ascending: false });
     if (schoolFilter) query = query.eq('school', schoolFilter);
     if (classFilter) query = query.eq('class', classFilter);
-    const { data, error } = await query;
-    if (error) throw error;
-    renderTeacherDashboard(data);
+    const { data } = await query;
+    renderTeacherDashboard(data || []);
   } catch(e) {
     document.getElementById('teacherCard').innerHTML = `<div class="loading">❌ 加载失败: ${e.message}</div>`;
   }
@@ -1233,7 +1207,6 @@ function exportToExcel() {
 // ==================== 创建星星 ====================
 function createStars() {
   const starsContainer = document.getElementById('stars');
-  if (!starsContainer) return;
   for (let i = 0; i < 200; i++) {
     let star = document.createElement('div');
     star.classList.add('star');
@@ -1249,103 +1222,62 @@ function createStars() {
 }
 
 // ==================== 页面加载完成后绑定所有事件 ====================
-window.addEventListener('DOMContentLoaded', function() {
+window.onload = function() {
   console.log('页面加载完成，开始绑定事件...');
   
-  // 语言切换
-  const langBtn = document.getElementById('langBtn');
-  if (langBtn) {
-    langBtn.onclick = function() {
-      currentLang = currentLang === 'zh' ? 'en' : 'zh';
-      applyUILang();
-    };
-  }
+  // 绑定所有按钮
+  document.getElementById('langBtn').onclick = function() {
+    currentLang = currentLang === 'zh' ? 'en' : 'zh';
+    applyUILang();
+  };
   
-  // 首页按钮
-  const homeBtn = document.getElementById('homeBtn');
-  if (homeBtn) {
-    homeBtn.onclick = function() {
-      if (confirm(currentLang === 'zh' ? '确定要返回首页吗？当前进度将丢失。' : 'Return to home?')) goToHome();
-    };
-  }
+  document.getElementById('homeBtn').onclick = function() {
+    if (confirm(currentLang === 'zh' ? '确定要返回首页吗？当前进度将丢失。' : 'Return to home?')) goToHome();
+  };
   
-  // 教师后台按钮
-  const teacherBtn = document.getElementById('teacherBtn');
-  if (teacherBtn) {
-    teacherBtn.onclick = openTeacherDashboard;
-  }
+  document.getElementById('teacherBtn').onclick = openTeacherDashboard;
   
-  // 从教师后台返回
-  const backFromTeacherBtn = document.getElementById('backFromTeacherBtn');
-  if (backFromTeacherBtn) {
-    backFromTeacherBtn.onclick = function() {
-      document.getElementById('teacherScreen').classList.remove('active');
-      document.getElementById('infoScreen').classList.add('active');
-    };
-  }
+  document.getElementById('backFromTeacherBtn').onclick = function() {
+    document.getElementById('teacherScreen').classList.remove('active');
+    document.getElementById('infoScreen').classList.add('active');
+  };
   
-  // 导出Excel
-  const exportBtn = document.getElementById('exportBtn');
-  if (exportBtn) {
-    exportBtn.onclick = exportToExcel;
-  }
+  document.getElementById('exportBtn').onclick = exportToExcel;
   
-  // 筛选输入
-  const filterSchool = document.getElementById('filterSchool');
-  const filterClass = document.getElementById('filterClass');
-  if (filterSchool) {
-    filterSchool.oninput = function() {
-      clearTimeout(filterTimeout);
-      filterTimeout = setTimeout(loadTeacherData, 500);
-    };
-  }
-  if (filterClass) {
-    filterClass.oninput = function() {
-      clearTimeout(filterTimeout);
-      filterTimeout = setTimeout(loadTeacherData, 500);
-    };
-  }
+  document.getElementById('filterSchool').oninput = function() {
+    clearTimeout(filterTimeout);
+    filterTimeout = setTimeout(loadTeacherData, 500);
+  };
   
-  // 返回填写资料
-  const backToInfoBtn = document.getElementById('backToInfoBtn');
-  if (backToInfoBtn) {
-    backToInfoBtn.onclick = goToInfo;
-  }
+  document.getElementById('filterClass').oninput = function() {
+    clearTimeout(filterTimeout);
+    filterTimeout = setTimeout(loadTeacherData, 500);
+  };
   
-  // 返回选等级（答题页面）
-  const backToLevelBtn = document.getElementById('backToLevelBtn');
-  if (backToLevelBtn) {
-    backToLevelBtn.onclick = function() {
-      if (confirm(currentLang === 'zh' ? '返回选等级？当前测试进度将丢失。' : 'Return to level select?')) goToLevelSelect();
-    };
-  }
+  document.getElementById('backToInfoBtn').onclick = goToInfo;
   
-  // 返回选等级（报告页面）
-  const backToLevelFromReportBtn = document.getElementById('backToLevelFromReportBtn');
-  if (backToLevelFromReportBtn) {
-    backToLevelFromReportBtn.onclick = goToLevelSelect;
-  }
+  document.getElementById('backToLevelBtn').onclick = function() {
+    if (confirm(currentLang === 'zh' ? '返回选等级？当前测试进度将丢失。' : 'Return to level select?')) goToLevelSelect();
+  };
   
-  // 开始按钮
-  const startBtn = document.getElementById('startBtn');
-  if (startBtn) {
-    startBtn.onclick = function() {
-      student.school = document.getElementById('school').value.trim();
-      student.className = document.getElementById('className').value.trim();
-      student.name = document.getElementById('studentName').value.trim();
-      if (!student.school || !student.className || !student.name) {
-        alert(currentLang === 'zh' ? '请完整填写宇航员资料 🚀' : 'Please fill in astronaut info 🚀');
-        return;
-      }
-      document.getElementById('infoScreen').classList.remove('active');
-      document.getElementById('levelScreen').classList.add('active');
-    };
-  }
+  document.getElementById('backToLevelFromReportBtn').onclick = goToLevelSelect;
+  
+  document.getElementById('startBtn').onclick = function() {
+    student.school = document.getElementById('school').value.trim();
+    student.className = document.getElementById('className').value.trim();
+    student.name = document.getElementById('studentName').value.trim();
+    if (!student.school || !student.className || !student.name) {
+      alert(currentLang === 'zh' ? '请完整填写宇航员资料 🚀' : 'Please fill in astronaut info 🚀');
+      return;
+    }
+    document.getElementById('infoScreen').classList.remove('active');
+    document.getElementById('levelScreen').classList.add('active');
+  };
   
   // 等级按钮
   const levelBtns = document.querySelectorAll('.level-btn');
-  levelBtns.forEach(btn => {
-    btn.onclick = function() {
+  for (let i = 0; i < levelBtns.length; i++) {
+    levelBtns[i].onclick = function() {
       currentLevel = parseInt(this.getAttribute('data-lvl'));
       questions = generateQuestionsByLevel(currentLevel);
       currentIndex = 0;
@@ -1355,41 +1287,35 @@ window.addEventListener('DOMContentLoaded', function() {
       document.getElementById('quizScreen').classList.add('active');
       showCurrentQuestion();
     };
-  });
-  
-  // 提交按钮
-  const submitBtn = document.getElementById('submitBtn');
-  if (submitBtn) {
-    submitBtn.onclick = function() {
-      if ((currentLevel === 3 || currentLevel === 4) && gameStarted) {
-        const inputVal = parseInt(document.getElementById('answerInput').value);
-        if (isNaN(inputVal)) return;
-        checkAnswer(inputVal);
-      }
-    };
   }
   
-  // 重新测试按钮
-  const restartBtn = document.getElementById('restartBtn');
-  if (restartBtn) {
-    restartBtn.onclick = function() {
-      if (gameStarted && currentLevel) {
-        questions = generateQuestionsByLevel(currentLevel);
-        currentIndex = 0;
-        correctCount = 0;
-        stats = {};
-        document.getElementById('reportScreen').classList.remove('active');
-        document.getElementById('quizScreen').classList.add('active');
-        showCurrentQuestion();
-      }
-    };
-  }
+  document.getElementById('submitBtn').onclick = function() {
+    if ((currentLevel === 3 || currentLevel === 4) && gameStarted) {
+      const inputVal = parseInt(document.getElementById('answerInput').value);
+      if (isNaN(inputVal)) return;
+      checkAnswer(inputVal);
+    }
+  };
+  
+  document.getElementById('restartBtn').onclick = function() {
+    if (gameStarted && currentLevel) {
+      questions = generateQuestionsByLevel(currentLevel);
+      currentIndex = 0;
+      correctCount = 0;
+      stats = {};
+      document.getElementById('reportScreen').classList.remove('active');
+      document.getElementById('quizScreen').classList.add('active');
+      showCurrentQuestion();
+    }
+  };
   
   // 报告语言切换
   const reportBtns = document.querySelectorAll('.report-btn');
-  reportBtns.forEach(btn => {
-    btn.onclick = async function() {
-      reportBtns.forEach(b => b.style.background = 'rgba(255,170,85,0.3)');
+  for (let i = 0; i < reportBtns.length; i++) {
+    reportBtns[i].onclick = async function() {
+      for (let j = 0; j < reportBtns.length; j++) {
+        reportBtns[j].style.background = 'rgba(255,170,85,0.3)';
+      }
       this.style.background = '#ffaa55';
       reportLang = this.getAttribute('data-lang');
       if (document.getElementById('reportScreen').classList.contains('active') && gameStarted && questions.length > 0) {
@@ -1398,13 +1324,13 @@ window.addEventListener('DOMContentLoaded', function() {
         renderReport(history, currentAccuracy);
       }
     };
-  });
+  }
   
   console.log('✅ 所有事件绑定完成');
   
   // 应用语言
   applyUILang();
-});
+};
 
 // 创建星星
 createStars();
