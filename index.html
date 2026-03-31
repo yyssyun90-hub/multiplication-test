@@ -691,7 +691,7 @@ canvas {
 // ==================== Supabase 配置 ====================
 const SUPABASE_URL = 'https://nlvfaurgathcoftyucfw.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdmZhdXJnYXRoY29mdHl1Y2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MzI5NTksImV4cCI6MjA5MDQwODk1OX0.jTODbPq65I9LEz7950Qe1Lf9viT2He5UYxNO-tJfz5w';
-const TEACHER_PASSWORD = 'teacher123';
+const TEACHER_PASSWORD = 'SJKHK';
 
 let supabaseClient = null;
 function initSupabase() {
@@ -871,7 +871,7 @@ function stopTimer() {
 }
 
 function verifyTeacherPassword() {
-  const inputPassword = prompt('🔐 请输入教师密码：\n\n默认密码: teacher123');
+  const inputPassword = prompt('🔐 请输入教师密码： ');
   if (inputPassword === TEACHER_PASSWORD) return true;
   if (inputPassword !== null) alert('❌ 密码错误！');
   return false;
