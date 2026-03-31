@@ -101,7 +101,7 @@ body {
   border: 3px solid rgba(255, 215, 100, 0.6);
   box-shadow: 0 20px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
   width: 100%;
-  max-width: 1300px;
+  max-width: 1400px;
   padding: 40px 35px;
   transition: all 0.3s;
 }
@@ -401,7 +401,7 @@ body {
   padding: 35px;
   width: 100%;
   border: 2px solid #ffcc88;
-  max-height: 600px;
+  max-height: 800px;
   overflow-y: auto;
 }
 
@@ -545,6 +545,50 @@ canvas {
   font-size: 1.2rem;
 }
 
+.multiplication-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 15px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.multiplication-card {
+  background: rgba(255,200,100,0.12);
+  padding: 12px;
+  border-radius: 20px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.multiplication-card:hover {
+  background: rgba(255,200,100,0.25);
+  transform: translateY(-3px);
+}
+
+.multiplication-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.multiplication-stats {
+  font-size: 0.85rem;
+  color: #ddd;
+}
+
+.multiplication-percent {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.multiplication-level {
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
 @media (max-width: 700px) {
   .app-container { padding: 30px 20px; }
   .title { font-size: 2rem; }
@@ -555,6 +599,7 @@ canvas {
   .lang-switch { top: 15px; right: 15px; padding: 6px 15px; font-size: 0.8rem; }
   .nav-buttons { top: 15px; left: 15px; gap: 8px; }
   .nav-btn, .teacher-btn { padding: 6px 12px; font-size: 0.75rem; }
+  .multiplication-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
 }
 </style>
 </head>
@@ -632,7 +677,8 @@ canvas {
     <div class="filter-bar">
       <input type="text" id="filterSchool" placeholder="筛选学校" style="width: 150px;">
       <input type="text" id="filterClass" placeholder="筛选班级" style="width: 150px;">
-      <button class="export-btn" id="exportBtn">📊 导出Excel</button>
+      <button class="export-btn" id="exportBtn">📊 导出测试记录</button>
+      <button class="export-btn" id="exportStudentDetailBtn" style="background: linear-gradient(135deg, #aa66cc, #8844aa);">📋 导出学生乘法表详情</button>
       <button class="back-btn" id="backFromTeacherBtn">◀ 返回首页</button>
     </div>
     <div class="teacher-card" id="teacherCard">
@@ -643,29 +689,19 @@ canvas {
 
 <script>
 // ==================== Supabase 配置 ====================
-// ✅ 已配置您的 Supabase 信息
 const SUPABASE_URL = 'https://nlvfaurgathcoftyucfw.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdmZhdXJnYXRoY29mdHl1Y2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MzI5NTksImV4cCI6MjA5MDQwODk1OX0.jTODbPq65I9LEz7950Qe1Lf9viT2He5UYxNO-tJfz5w';
+const TEACHER_PASSWORD = 'teacher123';
 
-// 教师后台密码（可以修改）
-const TEACHER_PASSWORD = 'SJKHK';
-
-// 初始化 Supabase 客户端（等待CDN加载完成）
 let supabaseClient = null;
-
-// 等待 Supabase 加载完成
 function initSupabase() {
   if (typeof supabase !== 'undefined' && supabase.createClient) {
     supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('✅ Supabase 已连接');
     return true;
-  } else {
-    console.warn('⚠️ Supabase CDN 未加载，将使用本地存储');
-    return false;
   }
+  return false;
 }
-
-// 延迟初始化，确保 CDN 加载完成
 setTimeout(initSupabase, 1000);
 
 // ==================== 全局变量 ====================
@@ -751,19 +787,7 @@ const reportTexts = {
   }
 };
 
-// ==================== 密码验证函数 ====================
-function verifyTeacherPassword() {
-  const inputPassword = prompt('🔐 请输入教师密码：   ');
-  if (inputPassword === TEACHER_PASSWORD) {
-    return true;
-  } else if (inputPassword !== null) {
-    alert('❌ 密码错误！无法进入教师后台。');
-    return false;
-  }
-  return false;
-}
-
-// ==================== 辅助函数 ====================
+// ==================== 核心函数 ====================
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -846,6 +870,13 @@ function stopTimer() {
   }
 }
 
+function verifyTeacherPassword() {
+  const inputPassword = prompt('🔐 请输入教师密码：\n\n默认密码: teacher123');
+  if (inputPassword === TEACHER_PASSWORD) return true;
+  if (inputPassword !== null) alert('❌ 密码错误！');
+  return false;
+}
+
 function goToLevelSelect() {
   stopTimer();
   gameStarted = false;
@@ -913,14 +944,25 @@ function renderOptions(correctAns, countOpt) {
 
 function startTimerForQuestion() {
   stopTimer();
-  const duration = (currentLevel === 1 || currentLevel === 2) ? 15 : 10;
+  
+  let duration;
+  if (currentLevel === 1) {
+    duration = 20;
+  } else if (currentLevel === 2) {
+    duration = 20;
+  } else {
+    duration = 25;
+  }
+  
   const progressDiv = document.getElementById('timerProgress');
   if (!progressDiv) return;
+  
   progressDiv.style.transition = 'none';
   progressDiv.style.width = '100%';
   void progressDiv.offsetWidth;
   progressDiv.style.transition = `width ${duration}s linear`;
   progressDiv.style.width = '0%';
+  
   let timeLeft = duration;
   timerInterval = setInterval(() => {
     timeLeft--;
@@ -975,7 +1017,6 @@ function checkAnswer(userAnswer) {
 
 async function saveToSupabase() {
   if (!supabaseClient) {
-    console.log('Supabase未配置，保存到本地');
     saveToLocalStorage();
     return;
   }
@@ -1032,7 +1073,6 @@ async function getHistoryRecords() {
     if (error) throw error;
     return data || [];
   } catch(e) {
-    console.log('获取云端记录失败，使用本地:', e);
     return getHistoryFromLocal();
   }
 }
@@ -1119,9 +1159,7 @@ async function clearHistory() {
       try {
         await supabaseClient.from('math_records').delete().eq('name', student.name).eq('school', student.school);
         alert('云端历史记录已清除 ✨');
-      } catch(e) {
-        console.log('清除云端失败');
-      }
+      } catch(e) {}
     }
     const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
     const otherRecords = records.filter(r => r.name !== student.name || r.school !== student.school);
@@ -1132,11 +1170,177 @@ async function clearHistory() {
   }
 }
 
-// 教师后台功能
+// ==================== 教师后台功能 ====================
 let loadTimeout = null;
+
+// 计算每个学生每个乘法表的掌握情况
+function calculateStudentMultiplicationStats(records) {
+  const studentMap = new Map();
+  
+  records.forEach(record => {
+    const key = `${record.school}|${record.class}|${record.name}`;
+    if (!studentMap.has(key)) {
+      studentMap.set(key, {
+        school: record.school,
+        class: record.class,
+        name: record.name,
+        latestDate: record.created_at,
+        stats: {}
+      });
+    }
+    
+    const studentData = studentMap.get(key);
+    // 更新最新测试日期
+    if (new Date(record.created_at) > new Date(studentData.latestDate)) {
+      studentData.latestDate = record.created_at;
+    }
+    
+    // 累加乘法表数据
+    if (record.details && typeof record.details === 'object') {
+      Object.keys(record.details).forEach(mult => {
+        const num = parseInt(mult);
+        if (!isNaN(num) && num >= 0 && num <= 12) {
+          if (!studentData.stats[num]) {
+            studentData.stats[num] = { total: 0, correct: 0 };
+          }
+          studentData.stats[num].total += record.details[mult].total || 0;
+          studentData.stats[num].correct += record.details[mult].correct || 0;
+        }
+      });
+    }
+  });
+  
+  return Array.from(studentMap.values());
+}
+
+// 导出学生乘法表详情Excel
+function exportStudentMultiplicationDetails() {
+  if (!supabaseClient) return alert('请先配置 Supabase');
+  
+  const schoolFilter = document.getElementById('filterSchool').value;
+  const classFilter = document.getElementById('filterClass').value;
+  let query = supabaseClient.from('math_records').select('*');
+  if (schoolFilter) query = query.eq('school', schoolFilter);
+  if (classFilter) query = query.eq('class', classFilter);
+  
+  query.then(({ data }) => {
+    if (!data || data.length === 0) return alert('暂无数据');
+    
+    const studentData = calculateStudentMultiplicationStats(data);
+    
+    // 构建CSV - 横向表格：每个学生一行，每个乘法表一列
+    let csv = '学校,班级,姓名,最新测试日期';
+    for (let i = 0; i <= 12; i++) {
+      csv += `,${i}的乘法表`;
+    }
+    csv += ',平均正确率\n';
+    
+    for (const student of studentData) {
+      const date = new Date(student.latestDate).toLocaleDateString();
+      let row = `"${student.school}","${student.class}","${student.name}","${date}"`;
+      let totalPercent = 0;
+      let count = 0;
+      
+      for (let i = 0; i <= 12; i++) {
+        const stat = student.stats[i];
+        let percent = '';
+        if (stat && stat.total > 0) {
+          percent = Math.round((stat.correct / stat.total) * 100) + '%';
+          totalPercent += parseInt(percent);
+          count++;
+        } else {
+          percent = '-';
+        }
+        row += `,"${percent}"`;
+      }
+      
+      const avgPercent = count > 0 ? Math.round(totalPercent / count) + '%' : '-';
+      row += `,${avgPercent}\n`;
+      csv += row;
+    }
+    
+    const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const filename = schoolFilter || classFilter ? 
+      `学生乘法表详情_${schoolFilter}_${classFilter}_${new Date().toLocaleDateString()}.csv` :
+      `学生乘法表详情_全部学生_${new Date().toLocaleDateString()}.csv`;
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(link.href);
+    
+    alert(`✅ 已导出 ${studentData.length} 名学生的乘法表掌握详情`);
+  });
+}
+
+function calculateMultiplicationStats(records) {
+  const stats = {};
+  for (let i = 0; i <= 12; i++) {
+    stats[i] = { total: 0, correct: 0 };
+  }
+  
+  records.forEach(record => {
+    if (record.details && typeof record.details === 'object') {
+      Object.keys(record.details).forEach(mult => {
+        const num = parseInt(mult);
+        if (!isNaN(num) && num >= 0 && num <= 12) {
+          const detail = record.details[mult];
+          stats[num].total += detail.total || 0;
+          stats[num].correct += detail.correct || 0;
+        }
+      });
+    }
+  });
+  
+  return stats;
+}
+
+function renderMultiplicationDetails(stats) {
+  let html = '<div style="margin-top: 25px;"><div style="font-weight:bold; margin-bottom: 15px; font-size: 1.2rem;">📊 各乘法表掌握程度详情（0-12）</div>';
+  html += '<div class="multiplication-grid">';
+  
+  for (let i = 0; i <= 12; i++) {
+    const stat = stats[i];
+    const percent = stat.total > 0 ? Math.round((stat.correct / stat.total) * 100) : 0;
+    let level = '';
+    let levelColor = '';
+    let emoji = '';
+    
+    if (stat.total === 0) {
+      level = '暂无数据';
+      levelColor = '#888';
+      emoji = '❓';
+    } else if (percent >= 85) {
+      level = '已掌握';
+      levelColor = '#90ff90';
+      emoji = '🚀';
+    } else if (percent >= 60) {
+      level = '基本掌握';
+      levelColor = '#ffcc88';
+      emoji = '✨';
+    } else {
+      level = '需加强';
+      levelColor = '#ff9090';
+      emoji = '🌱';
+    }
+    
+    html += `
+      <div class="multiplication-card">
+        <div class="multiplication-title">${emoji} ${i} 的乘法表</div>
+        <div class="multiplication-stats">${stat.correct} / ${stat.total}</div>
+        <div class="multiplication-percent" style="color: ${levelColor};">${percent}%</div>
+        <div class="multiplication-level" style="color: ${levelColor};">${level}</div>
+      </div>
+    `;
+  }
+  
+  html += '</div></div>';
+  return html;
+}
+
 async function loadTeacherData() {
   if (!supabaseClient) {
-    document.getElementById('teacherCard').innerHTML = '<div class="loading">⚠️ Supabase 未连接，请刷新页面重试<br>或检查网络连接</div>';
+    document.getElementById('teacherCard').innerHTML = '<div class="loading">⚠️ Supabase 未连接，请刷新页面重试</div>';
     return;
   }
   document.getElementById('teacherCard').innerHTML = '<div class="loading">加载数据中...</div>';
@@ -1150,7 +1354,7 @@ async function loadTeacherData() {
     if (error) throw error;
     renderTeacherDashboard(data || []);
   } catch(e) {
-    document.getElementById('teacherCard').innerHTML = `<div class="loading">❌ 加载失败: ${e.message}<br>请确保已在Supabase中创建数据表</div>`;
+    document.getElementById('teacherCard').innerHTML = `<div class="loading">❌ 加载失败: ${e.message}</div>`;
   }
 }
 
@@ -1159,10 +1363,14 @@ function renderTeacherDashboard(records) {
     document.getElementById('teacherCard').innerHTML = '<div class="loading">暂无数据，请先让学生完成测试</div>';
     return;
   }
+  
   const totalTests = records.length;
   const avgAccuracy = Math.round(records.reduce((sum, r) => sum + r.accuracy, 0) / totalTests);
   const bestScore = Math.max(...records.map(r => r.accuracy));
   const studentCount = [...new Set(records.map(r => `${r.school}-${r.class}-${r.name}`))].length;
+  
+  const multiplicationStats = calculateMultiplicationStats(records);
+  
   let html = `
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-number">${studentCount}</div><div>总学生数</div></div>
@@ -1171,8 +1379,10 @@ function renderTeacherDashboard(records) {
       <div class="stat-card"><div class="stat-number">${bestScore}%</div><div>最高分</div></div>
     </div>
     <canvas id="trendChart" style="max-height: 300px;"></canvas>
-    <div style="margin-top: 20px;"><strong>📋 最近测试记录</strong></div>
+    ${renderMultiplicationDetails(multiplicationStats)}
+    <div style="margin-top: 25px;"><div style="font-weight:bold; margin-bottom: 15px;">📋 最近测试记录</div></div>
     <div class="class-list">`;
+  
   records.slice(0, 20).forEach(record => {
     const date = new Date(record.created_at).toLocaleString();
     html += `<div class="class-item">
@@ -1181,14 +1391,15 @@ function renderTeacherDashboard(records) {
       <span style="font-size: 0.8rem;">${date}</span>
     </div>`;
   });
+  
   html += `</div>`;
   document.getElementById('teacherCard').innerHTML = html;
+  
   const ctx = document.getElementById('trendChart');
   if (ctx && typeof Chart !== 'undefined') {
-    const chartCtx = ctx.getContext('2d');
     if (chart) chart.destroy();
     const last10 = records.slice(0, 10).reverse();
-    chart = new Chart(chartCtx, {
+    chart = new Chart(ctx.getContext('2d'), {
       type: 'line',
       data: {
         labels: last10.map((_, i) => `测试${i+1}`),
@@ -1221,9 +1432,10 @@ function exportToExcel() {
     const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = `太空数学成绩_${new Date().toLocaleDateString()}.csv`;
+    link.download = `测试记录_${new Date().toLocaleDateString()}.csv`;
     link.click();
     URL.revokeObjectURL(link.href);
+    alert(`✅ 已导出 ${data.length} 条测试记录`);
   });
 }
 
@@ -1235,8 +1447,6 @@ document.getElementById('langBtn').addEventListener('click', () => {
 document.getElementById('homeBtn').addEventListener('click', () => {
   if (confirm(currentLang === 'zh' ? '确定要返回首页吗？当前进度将丢失。' : 'Return to home?')) goToHome();
 });
-
-// 教师后台入口（带密码验证）
 document.getElementById('teacherBtn').addEventListener('click', () => {
   if (verifyTeacherPassword()) {
     document.getElementById('infoScreen').classList.remove('active');
@@ -1247,23 +1457,20 @@ document.getElementById('teacherBtn').addEventListener('click', () => {
     loadTeacherData();
   }
 });
-
 document.getElementById('backFromTeacherBtn').addEventListener('click', () => {
   document.getElementById('teacherScreen').classList.remove('active');
   document.getElementById('infoScreen').classList.add('active');
 });
 document.getElementById('exportBtn').addEventListener('click', exportToExcel);
-
-let filterTimeout;
+document.getElementById('exportStudentDetailBtn').addEventListener('click', exportStudentMultiplicationDetails);
 document.getElementById('filterSchool').addEventListener('input', () => {
-  if (filterTimeout) clearTimeout(filterTimeout);
-  filterTimeout = setTimeout(loadTeacherData, 300);
+  if (loadTimeout) clearTimeout(loadTimeout);
+  loadTimeout = setTimeout(loadTeacherData, 300);
 });
 document.getElementById('filterClass').addEventListener('input', () => {
-  if (filterTimeout) clearTimeout(filterTimeout);
-  filterTimeout = setTimeout(loadTeacherData, 300);
+  if (loadTimeout) clearTimeout(loadTimeout);
+  loadTimeout = setTimeout(loadTeacherData, 300);
 });
-
 document.getElementById('backToInfoBtn').addEventListener('click', goToInfo);
 document.getElementById('backToLevelBtn').addEventListener('click', () => {
   if (confirm(currentLang === 'zh' ? '返回选等级？当前测试进度将丢失。' : 'Return to level select?')) goToLevelSelect();
