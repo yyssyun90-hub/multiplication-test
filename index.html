@@ -925,7 +925,7 @@ function stopTimer() {
 
 function verifyTeacherPassword() {
   const t = texts[currentLang];
-  const inputPassword = prompt(t.enterPassword + '\n\n默认密码: teacher123');
+  const inputPassword = prompt(t.enterPassword);
   if (inputPassword === TEACHER_PASSWORD) return true;
   if (inputPassword !== null) alert(t.wrongPassword);
   return false;
