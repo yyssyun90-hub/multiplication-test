@@ -673,16 +673,16 @@ canvas {
 
   <!-- 教师后台页面 -->
   <div class="screen" id="teacherScreen">
-    <h2 class="title">👩‍🏫 教师后台管理系统</h2>
+    <h2 class="title" id="teacherTitle">👩‍🏫 教师后台管理系统</h2>
     <div class="filter-bar">
-      <input type="text" id="filterSchool" placeholder="筛选学校" style="width: 150px;">
-      <input type="text" id="filterClass" placeholder="筛选班级" style="width: 150px;">
-      <button class="export-btn" id="exportBtn">📊 导出测试记录</button>
-      <button class="export-btn" id="exportStudentDetailBtn" style="background: linear-gradient(135deg, #aa66cc, #8844aa);">📋 导出学生乘法表详情</button>
-      <button class="back-btn" id="backFromTeacherBtn">◀ 返回首页</button>
+      <input type="text" id="filterSchool" placeholder="筛选学校 / Filter School">
+      <input type="text" id="filterClass" placeholder="筛选班级 / Filter Class">
+      <button class="export-btn" id="exportBtn" data-zh="📊 导出测试记录" data-en="📊 Export Records">📊 导出测试记录</button>
+      <button class="export-btn" id="exportStudentDetailBtn" style="background: linear-gradient(135deg, #aa66cc, #8844aa);" data-zh="📋 导出学生乘法表详情" data-en="📋 Export Student Details">📋 导出学生乘法表详情</button>
+      <button class="back-btn" id="backFromTeacherBtn" data-zh="◀ 返回首页" data-en="◀ Back Home">◀ 返回首页</button>
     </div>
     <div class="teacher-card" id="teacherCard">
-      <div class="loading">请输入密码进入教师后台</div>
+      <div class="loading">请输入密码进入教师后台 / Enter password to access</div>
     </div>
   </div>
 </div>
@@ -734,7 +734,26 @@ const texts = {
     homeBtn: '🏠 首页',
     teacherBtn: '👩‍🏫 教师后台',
     backToInfo: '◀ 返回填写资料',
-    backToLevel: '◀ 返回选等级'
+    backToLevel: '◀ 返回选等级',
+    teacherTitle: '👩‍🏫 教师后台管理系统',
+    filterSchool: '筛选学校',
+    filterClass: '筛选班级',
+    exportRecords: '📊 导出测试记录',
+    exportDetails: '📋 导出学生乘法表详情',
+    backHome: '◀ 返回首页',
+    totalStudents: '总学生数',
+    totalTests: '总测试次数',
+    avgAccuracy: '平均正确率',
+    highestScore: '最高分',
+    timesTableMastery: '各乘法表掌握程度详情（0-12）',
+    recentRecords: '📋 最近测试记录',
+    noData: '暂无数据，请先让学生完成测试',
+    loading: '加载数据中...',
+    enterPassword: '请输入密码进入教师后台',
+    wrongPassword: '❌ 密码错误！',
+    exportSuccess: (count) => `✅ 已导出 ${count} 条测试记录`,
+    exportStudentSuccess: (count) => `✅ 已导出 ${count} 名学生的乘法表掌握详情`,
+    noDataToExport: '暂无数据'
   },
   en: {
     mainTitle: '🚀 Space Math Mission 🌟',
@@ -750,7 +769,26 @@ const texts = {
     homeBtn: '🏠 Home',
     teacherBtn: '👩‍🏫 Teacher',
     backToInfo: '◀ Back to Info',
-    backToLevel: '◀ Back to Levels'
+    backToLevel: '◀ Back to Levels',
+    teacherTitle: '👩‍🏫 Teacher Dashboard',
+    filterSchool: 'Filter School',
+    filterClass: 'Filter Class',
+    exportRecords: '📊 Export Records',
+    exportDetails: '📋 Export Student Details',
+    backHome: '◀ Back Home',
+    totalStudents: 'Total Students',
+    totalTests: 'Total Tests',
+    avgAccuracy: 'Avg Accuracy',
+    highestScore: 'Highest Score',
+    timesTableMastery: 'Multiplication Tables Mastery Details (0-12)',
+    recentRecords: '📋 Recent Test Records',
+    noData: 'No data yet. Please ask students to complete tests first.',
+    loading: 'Loading data...',
+    enterPassword: 'Enter password to access teacher dashboard',
+    wrongPassword: '❌ Wrong password!',
+    exportSuccess: (count) => `✅ Exported ${count} test records`,
+    exportStudentSuccess: (count) => `✅ Exported multiplication details for ${count} students`,
+    noDataToExport: 'No data to export'
   }
 };
 
@@ -861,6 +899,21 @@ function applyUILang() {
   if (document.getElementById('backToInfoBtn')) document.getElementById('backToInfoBtn').innerHTML = t.backToInfo;
   if (document.getElementById('backToLevelBtn')) document.getElementById('backToLevelBtn').innerHTML = t.backToLevel;
   if (document.getElementById('backToLevelFromReportBtn')) document.getElementById('backToLevelFromReportBtn').innerHTML = t.backToLevel;
+  if (document.getElementById('teacherTitle')) document.getElementById('teacherTitle').textContent = t.teacherTitle;
+  
+  // 教师后台按钮文字
+  const exportBtn = document.getElementById('exportBtn');
+  const exportDetailBtn = document.getElementById('exportStudentDetailBtn');
+  const backBtn = document.getElementById('backFromTeacherBtn');
+  if (exportBtn) exportBtn.innerHTML = t.exportRecords;
+  if (exportDetailBtn) exportDetailBtn.innerHTML = t.exportDetails;
+  if (backBtn) backBtn.innerHTML = t.backHome;
+  
+  // 筛选框placeholder
+  const filterSchool = document.getElementById('filterSchool');
+  const filterClass = document.getElementById('filterClass');
+  if (filterSchool) filterSchool.placeholder = t.filterSchool;
+  if (filterClass) filterClass.placeholder = t.filterClass;
 }
 
 function stopTimer() {
@@ -871,9 +924,10 @@ function stopTimer() {
 }
 
 function verifyTeacherPassword() {
-  const inputPassword = prompt('🔐 请输入教师密码： ');
+  const t = texts[currentLang];
+  const inputPassword = prompt(t.enterPassword + '\n\n默认密码: teacher123');
   if (inputPassword === TEACHER_PASSWORD) return true;
-  if (inputPassword !== null) alert('❌ 密码错误！');
+  if (inputPassword !== null) alert(t.wrongPassword);
   return false;
 }
 
@@ -1154,11 +1208,12 @@ function renderReport(history = null, currentAccuracy = null, previousAccuracy =
 }
 
 async function clearHistory() {
-  if (confirm(currentLang === 'zh' ? '确定要清除所有历史记录吗？🚀' : 'Clear all history? 🚀')) {
+  const confirmMsg = currentLang === 'zh' ? '确定要清除所有历史记录吗？🚀' : 'Clear all history? 🚀';
+  if (confirm(confirmMsg)) {
     if (supabaseClient) {
       try {
         await supabaseClient.from('math_records').delete().eq('name', student.name).eq('school', student.school);
-        alert('云端历史记录已清除 ✨');
+        alert(currentLang === 'zh' ? '云端历史记录已清除 ✨' : 'Cloud history cleared ✨');
       } catch(e) {}
     }
     const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
@@ -1173,7 +1228,6 @@ async function clearHistory() {
 // ==================== 教师后台功能 ====================
 let loadTimeout = null;
 
-// 计算每个学生每个乘法表的掌握情况
 function calculateStudentMultiplicationStats(records) {
   const studentMap = new Map();
   
@@ -1190,12 +1244,10 @@ function calculateStudentMultiplicationStats(records) {
     }
     
     const studentData = studentMap.get(key);
-    // 更新最新测试日期
     if (new Date(record.created_at) > new Date(studentData.latestDate)) {
       studentData.latestDate = record.created_at;
     }
     
-    // 累加乘法表数据
     if (record.details && typeof record.details === 'object') {
       Object.keys(record.details).forEach(mult => {
         const num = parseInt(mult);
@@ -1213,9 +1265,9 @@ function calculateStudentMultiplicationStats(records) {
   return Array.from(studentMap.values());
 }
 
-// 导出学生乘法表详情Excel
 function exportStudentMultiplicationDetails() {
-  if (!supabaseClient) return alert('请先配置 Supabase');
+  const t = texts[currentLang];
+  if (!supabaseClient) return alert(t.noDataToExport);
   
   const schoolFilter = document.getElementById('filterSchool').value;
   const classFilter = document.getElementById('filterClass').value;
@@ -1224,16 +1276,25 @@ function exportStudentMultiplicationDetails() {
   if (classFilter) query = query.eq('class', classFilter);
   
   query.then(({ data }) => {
-    if (!data || data.length === 0) return alert('暂无数据');
+    if (!data || data.length === 0) return alert(t.noDataToExport);
     
     const studentData = calculateStudentMultiplicationStats(data);
     
-    // 构建CSV - 横向表格：每个学生一行，每个乘法表一列
-    let csv = '学校,班级,姓名,最新测试日期';
-    for (let i = 0; i <= 12; i++) {
-      csv += `,${i}的乘法表`;
+    // 根据语言设置表头
+    let csv = '';
+    if (currentLang === 'zh') {
+      csv = '学校,班级,姓名,最新测试日期';
+      for (let i = 0; i <= 12; i++) {
+        csv += `,${i}的乘法表`;
+      }
+      csv += ',平均正确率\n';
+    } else {
+      csv = 'School,Class,Name,Latest Test Date';
+      for (let i = 0; i <= 12; i++) {
+        csv += `,${i} Times Table`;
+      }
+      csv += ',Average Score\n';
     }
-    csv += ',平均正确率\n';
     
     for (const student of studentData) {
       const date = new Date(student.latestDate).toLocaleDateString();
@@ -1261,15 +1322,16 @@ function exportStudentMultiplicationDetails() {
     
     const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
-    const filename = schoolFilter || classFilter ? 
-      `学生乘法表详情_${schoolFilter}_${classFilter}_${new Date().toLocaleDateString()}.csv` :
-      `学生乘法表详情_全部学生_${new Date().toLocaleDateString()}.csv`;
+    const dateStr = new Date().toLocaleDateString().replace(/\//g, '-');
+    const filename = currentLang === 'zh' ? 
+      `学生乘法表详情_${dateStr}.csv` : 
+      `Student_Multiplication_Details_${dateStr}.csv`;
     link.href = URL.createObjectURL(blob);
     link.download = filename;
     link.click();
     URL.revokeObjectURL(link.href);
     
-    alert(`✅ 已导出 ${studentData.length} 名学生的乘法表掌握详情`);
+    alert(t.exportStudentSuccess(studentData.length));
   });
 }
 
@@ -1296,7 +1358,8 @@ function calculateMultiplicationStats(records) {
 }
 
 function renderMultiplicationDetails(stats) {
-  let html = '<div style="margin-top: 25px;"><div style="font-weight:bold; margin-bottom: 15px; font-size: 1.2rem;">📊 各乘法表掌握程度详情（0-12）</div>';
+  const t = texts[currentLang];
+  let html = `<div style="margin-top: 25px;"><div style="font-weight:bold; margin-bottom: 15px; font-size: 1.2rem;">📊 ${t.timesTableMastery}</div>`;
   html += '<div class="multiplication-grid">';
   
   for (let i = 0; i <= 12; i++) {
@@ -1307,26 +1370,28 @@ function renderMultiplicationDetails(stats) {
     let emoji = '';
     
     if (stat.total === 0) {
-      level = '暂无数据';
+      level = currentLang === 'zh' ? '暂无数据' : 'No data';
       levelColor = '#888';
       emoji = '❓';
     } else if (percent >= 85) {
-      level = '已掌握';
+      level = currentLang === 'zh' ? '已掌握' : 'Mastered';
       levelColor = '#90ff90';
       emoji = '🚀';
     } else if (percent >= 60) {
-      level = '基本掌握';
+      level = currentLang === 'zh' ? '基本掌握' : 'Good';
       levelColor = '#ffcc88';
       emoji = '✨';
     } else {
-      level = '需加强';
+      level = currentLang === 'zh' ? '需加强' : 'Need Practice';
       levelColor = '#ff9090';
       emoji = '🌱';
     }
     
+    const title = currentLang === 'zh' ? `${i} 的乘法表` : `${i} Times Table`;
+    
     html += `
       <div class="multiplication-card">
-        <div class="multiplication-title">${emoji} ${i} 的乘法表</div>
+        <div class="multiplication-title">${emoji} ${title}</div>
         <div class="multiplication-stats">${stat.correct} / ${stat.total}</div>
         <div class="multiplication-percent" style="color: ${levelColor};">${percent}%</div>
         <div class="multiplication-level" style="color: ${levelColor};">${level}</div>
@@ -1339,11 +1404,12 @@ function renderMultiplicationDetails(stats) {
 }
 
 async function loadTeacherData() {
+  const t = texts[currentLang];
   if (!supabaseClient) {
-    document.getElementById('teacherCard').innerHTML = '<div class="loading">⚠️ Supabase 未连接，请刷新页面重试</div>';
+    document.getElementById('teacherCard').innerHTML = `<div class="loading">⚠️ Supabase ${currentLang === 'zh' ? '未连接，请刷新页面重试' : 'not connected. Please refresh.'}</div>`;
     return;
   }
-  document.getElementById('teacherCard').innerHTML = '<div class="loading">加载数据中...</div>';
+  document.getElementById('teacherCard').innerHTML = `<div class="loading">${t.loading}</div>`;
   try {
     const schoolFilter = document.getElementById('filterSchool').value;
     const classFilter = document.getElementById('filterClass').value;
@@ -1354,13 +1420,14 @@ async function loadTeacherData() {
     if (error) throw error;
     renderTeacherDashboard(data || []);
   } catch(e) {
-    document.getElementById('teacherCard').innerHTML = `<div class="loading">❌ 加载失败: ${e.message}</div>`;
+    document.getElementById('teacherCard').innerHTML = `<div class="loading">❌ ${currentLang === 'zh' ? '加载失败' : 'Load failed'}: ${e.message}</div>`;
   }
 }
 
 function renderTeacherDashboard(records) {
+  const t = texts[currentLang];
   if (!records || records.length === 0) {
-    document.getElementById('teacherCard').innerHTML = '<div class="loading">暂无数据，请先让学生完成测试</div>';
+    document.getElementById('teacherCard').innerHTML = `<div class="loading">${t.noData}</div>`;
     return;
   }
   
@@ -1373,14 +1440,14 @@ function renderTeacherDashboard(records) {
   
   let html = `
     <div class="stats-grid">
-      <div class="stat-card"><div class="stat-number">${studentCount}</div><div>总学生数</div></div>
-      <div class="stat-card"><div class="stat-number">${totalTests}</div><div>总测试次数</div></div>
-      <div class="stat-card"><div class="stat-number">${avgAccuracy}%</div><div>平均正确率</div></div>
-      <div class="stat-card"><div class="stat-number">${bestScore}%</div><div>最高分</div></div>
+      <div class="stat-card"><div class="stat-number">${studentCount}</div><div>${t.totalStudents}</div></div>
+      <div class="stat-card"><div class="stat-number">${totalTests}</div><div>${t.totalTests}</div></div>
+      <div class="stat-card"><div class="stat-number">${avgAccuracy}%</div><div>${t.avgAccuracy}</div></div>
+      <div class="stat-card"><div class="stat-number">${bestScore}%</div><div>${t.highestScore}</div></div>
     </div>
     <canvas id="trendChart" style="max-height: 300px;"></canvas>
     ${renderMultiplicationDetails(multiplicationStats)}
-    <div style="margin-top: 25px;"><div style="font-weight:bold; margin-bottom: 15px;">📋 最近测试记录</div></div>
+    <div style="margin-top: 25px;"><div style="font-weight:bold; margin-bottom: 15px;">${t.recentRecords}</div></div>
     <div class="class-list">`;
   
   records.slice(0, 20).forEach(record => {
@@ -1402,9 +1469,9 @@ function renderTeacherDashboard(records) {
     chart = new Chart(ctx.getContext('2d'), {
       type: 'line',
       data: {
-        labels: last10.map((_, i) => `测试${i+1}`),
+        labels: last10.map((_, i) => `${t.totalTests} ${i+1}`),
         datasets: [{
-          label: '正确率 (%)',
+          label: t.avgAccuracy,
           data: last10.map(r => r.accuracy),
           borderColor: '#ffaa66',
           backgroundColor: 'rgba(255,170,102,0.1)',
@@ -1422,20 +1489,32 @@ function renderTeacherDashboard(records) {
 }
 
 function exportToExcel() {
-  if (!supabaseClient) return alert('请先配置 Supabase');
+  const t = texts[currentLang];
+  if (!supabaseClient) return alert(t.noDataToExport);
   supabaseClient.from('math_records').select('*').order('created_at', { ascending: false }).then(({ data }) => {
-    if (!data || data.length === 0) return alert('暂无数据');
-    let csv = '学校,班级,姓名,等级,正确数,总题数,正确率,测试时间\n';
+    if (!data || data.length === 0) return alert(t.noDataToExport);
+    
+    let csv = '';
+    if (currentLang === 'zh') {
+      csv = '学校,班级,姓名,等级,正确数,总题数,正确率,测试时间\n';
+    } else {
+      csv = 'School,Class,Name,Level,Correct,Total,Accuracy,Test Date\n';
+    }
+    
     data.forEach(r => {
       csv += `"${r.school}","${r.class}","${r.name}",${r.level},${r.correct},${r.total},${r.accuracy}%,"${new Date(r.created_at).toLocaleString()}"\n`;
     });
     const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
+    const dateStr = new Date().toLocaleDateString().replace(/\//g, '-');
+    const filename = currentLang === 'zh' ? 
+      `测试记录_${dateStr}.csv` : 
+      `Test_Records_${dateStr}.csv`;
     link.href = URL.createObjectURL(blob);
-    link.download = `测试记录_${new Date().toLocaleDateString()}.csv`;
+    link.download = filename;
     link.click();
     URL.revokeObjectURL(link.href);
-    alert(`✅ 已导出 ${data.length} 条测试记录`);
+    alert(t.exportSuccess(data.length));
   });
 }
 
@@ -1443,9 +1522,14 @@ function exportToExcel() {
 document.getElementById('langBtn').addEventListener('click', () => {
   currentLang = currentLang === 'zh' ? 'en' : 'zh';
   applyUILang();
+  // 刷新教师后台数据以更新语言
+  if (document.getElementById('teacherScreen').classList.contains('active')) {
+    loadTeacherData();
+  }
 });
 document.getElementById('homeBtn').addEventListener('click', () => {
-  if (confirm(currentLang === 'zh' ? '确定要返回首页吗？当前进度将丢失。' : 'Return to home?')) goToHome();
+  const confirmMsg = currentLang === 'zh' ? '确定要返回首页吗？当前进度将丢失。' : 'Return to home? Current progress will be lost.';
+  if (confirm(confirmMsg)) goToHome();
 });
 document.getElementById('teacherBtn').addEventListener('click', () => {
   if (verifyTeacherPassword()) {
@@ -1473,15 +1557,17 @@ document.getElementById('filterClass').addEventListener('input', () => {
 });
 document.getElementById('backToInfoBtn').addEventListener('click', goToInfo);
 document.getElementById('backToLevelBtn').addEventListener('click', () => {
-  if (confirm(currentLang === 'zh' ? '返回选等级？当前测试进度将丢失。' : 'Return to level select?')) goToLevelSelect();
+  const confirmMsg = currentLang === 'zh' ? '返回选等级？当前测试进度将丢失。' : 'Return to level select? Current progress will be lost.';
+  if (confirm(confirmMsg)) goToLevelSelect();
 });
 document.getElementById('backToLevelFromReportBtn').addEventListener('click', goToLevelSelect);
 document.getElementById('startBtn').onclick = () => {
   student.school = document.getElementById('school').value.trim();
   student.className = document.getElementById('className').value.trim();
   student.name = document.getElementById('studentName').value.trim();
+  const alertMsg = currentLang === 'zh' ? '请完整填写宇航员资料 🚀' : 'Please fill in astronaut info 🚀';
   if (!student.school || !student.className || !student.name) {
-    alert(currentLang === 'zh' ? '请完整填写宇航员资料 🚀' : 'Please fill in astronaut info 🚀');
+    alert(alertMsg);
     return;
   }
   document.getElementById('infoScreen').classList.remove('active');
