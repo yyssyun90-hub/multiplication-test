@@ -25,72 +25,15 @@ body {
   padding: 20px;
 }
 
-.stars {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.star {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  animation: twinkle 3s infinite alternate;
-}
-
-@keyframes twinkle {
-  0% { opacity: 0.2; transform: scale(1); }
-  100% { opacity: 1; transform: scale(1.2); }
-}
-
-.planet {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(3px);
-  animation: float 20s infinite ease-in-out;
-  z-index: 0;
-  pointer-events: none;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(5deg); }
-}
-
-.rocket {
-  position: fixed;
-  bottom: 20px;
-  left: -100px;
-  font-size: 60px;
-  animation: fly 15s infinite linear;
-  z-index: 1;
-  filter: drop-shadow(0 0 10px rgba(255,100,0,0.5));
-  pointer-events: none;
-}
-
-@keyframes fly {
-  0% { left: -100px; transform: rotate(-5deg); }
-  100% { left: 120%; transform: rotate(5deg); }
-}
-
-.ufo {
-  position: fixed;
-  top: 15%;
-  right: -80px;
-  font-size: 50px;
-  animation: ufoFly 18s infinite linear;
-  z-index: 1;
-  pointer-events: none;
-}
-
-@keyframes ufoFly {
-  0% { right: -80px; transform: rotate(0deg); }
-  100% { right: 120%; transform: rotate(360deg); }
-}
+.stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.star { position: absolute; background: white; border-radius: 50%; animation: twinkle 3s infinite alternate; }
+@keyframes twinkle { 0% { opacity: 0.2; transform: scale(1); } 100% { opacity: 1; transform: scale(1.2); } }
+.planet { position: fixed; border-radius: 50%; filter: blur(3px); animation: float 20s infinite ease-in-out; z-index: 0; pointer-events: none; }
+@keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-20px) rotate(5deg); } }
+.rocket { position: fixed; bottom: 20px; left: -100px; font-size: 60px; animation: fly 15s infinite linear; z-index: 1; filter: drop-shadow(0 0 10px rgba(255,100,0,0.5)); pointer-events: none; }
+@keyframes fly { 0% { left: -100px; transform: rotate(-5deg); } 100% { left: 120%; transform: rotate(5deg); } }
+.ufo { position: fixed; top: 15%; right: -80px; font-size: 50px; animation: ufoFly 18s infinite linear; z-index: 1; pointer-events: none; }
+@keyframes ufoFly { 0% { right: -80px; transform: rotate(0deg); } 100% { right: 120%; transform: rotate(360deg); } }
 
 .app-container {
   position: relative;
@@ -116,7 +59,7 @@ body {
   flex-wrap: wrap;
 }
 
-.nav-btn, .teacher-btn {
+.nav-btn, .teacher-btn, .tutorial-btn {
   background: rgba(100, 150, 255, 0.3);
   border: 2px solid #88aaff;
   color: white;
@@ -132,7 +75,7 @@ body {
   gap: 5px;
 }
 
-.nav-btn:hover, .teacher-btn:hover {
+.nav-btn:hover, .teacher-btn:hover, .tutorial-btn:hover {
   background: rgba(100, 150, 255, 0.6);
   transform: scale(1.05);
   border-color: #ffdd99;
@@ -158,6 +101,47 @@ body {
 .lang-switch:hover {
   transform: scale(1.05) rotate(2deg);
   background: linear-gradient(135deg, #ffbb55, #ff9955);
+}
+
+/* ========== 反馈按钮样式 ========== */
+.feedback-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 100;
+  background: linear-gradient(135deg, #ffaa44, #ff8844);
+  border: none;
+  border-radius: 60px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #221c0f;
+  cursor: pointer;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+}
+
+.feedback-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #ffbb55, #ff9955);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.feedback-btn:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 700px) {
+  .feedback-btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    bottom: 15px;
+    right: 15px;
+  }
 }
 
 .screen {
@@ -241,7 +225,7 @@ body {
   transform: scale(1.02);
 }
 
-.start-btn, .level-btn, .submit-btn, .restart-btn, .back-btn, .export-btn {
+.start-btn, .level-btn, .submit-btn, .restart-btn, .back-btn, .export-btn, .cert-btn, .practice-wrong-btn {
   background: linear-gradient(135deg, #FFB347, #FF8C33);
   border: none;
   border-radius: 60px;
@@ -254,9 +238,19 @@ body {
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
-.start-btn:hover, .level-btn:hover, .submit-btn:hover, .restart-btn:hover, .back-btn:hover, .export-btn:hover {
+.start-btn:hover, .level-btn:hover, .submit-btn:hover, .restart-btn:hover, .back-btn:hover, .export-btn:hover, .cert-btn:hover, .practice-wrong-btn:hover {
   transform: translateY(-5px) scale(1.02);
   box-shadow: 0 15px 30px rgba(255,140,0,0.5);
+}
+
+.cert-btn {
+  background: linear-gradient(135deg, #aa66cc, #8844aa);
+  color: white;
+}
+
+.practice-wrong-btn {
+  background: linear-gradient(135deg, #ff6644, #cc4422);
+  color: white;
 }
 
 .back-btn {
@@ -394,7 +388,7 @@ body {
   flex-wrap: wrap;
 }
 
-.report-card, .teacher-card {
+.report-card, .teacher-card, .tutorial-card, .wrong-questions-card {
   background: rgba(20, 30, 55, 0.8);
   backdrop-filter: blur(15px);
   border-radius: 60px;
@@ -403,6 +397,72 @@ body {
   border: 2px solid #ffcc88;
   max-height: 800px;
   overflow-y: auto;
+}
+
+.rank-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.rank-item {
+  background: rgba(255,200,100,0.15);
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.3s;
+}
+
+.rank-item:hover {
+  background: rgba(255,200,100,0.3);
+  transform: translateX(5px);
+}
+
+.rank-number {
+  width: 40px;
+  height: 40px;
+  background: #ffaa55;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #221c0f;
+}
+
+.rank-number.gold { background: #ffd700; }
+.rank-number.silver { background: #c0c0c0; }
+.rank-number.bronze { background: #cd7f32; }
+
+.badge {
+  display: inline-block;
+  background: #ffaa55;
+  color: #221c0f;
+  padding: 5px 12px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  margin: 5px;
+}
+
+.suggestion-box {
+  background: rgba(255,200,100,0.2);
+  border-left: 5px solid #ffaa55;
+  padding: 15px;
+  border-radius: 20px;
+  margin: 15px 0;
+}
+
+.wrong-question-item {
+  background: rgba(255,100,80,0.2);
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .report-row {
@@ -589,6 +649,30 @@ canvas {
   margin-top: 5px;
 }
 
+.tutorial-step {
+  background: rgba(255,200,100,0.1);
+  border-radius: 30px;
+  padding: 20px;
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.tutorial-number {
+  width: 50px;
+  height: 50px;
+  background: #ffaa55;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #221c0f;
+}
+
 @media (max-width: 700px) {
   .app-container { padding: 30px 20px; }
   .title { font-size: 2rem; }
@@ -598,7 +682,7 @@ canvas {
   .level-btn { font-size: 1.5rem; padding: 20px; }
   .lang-switch { top: 15px; right: 15px; padding: 6px 15px; font-size: 0.8rem; }
   .nav-buttons { top: 15px; left: 15px; gap: 8px; }
-  .nav-btn, .teacher-btn { padding: 6px 12px; font-size: 0.75rem; }
+  .nav-btn, .teacher-btn, .tutorial-btn { padding: 6px 12px; font-size: 0.75rem; }
   .multiplication-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
 }
 </style>
@@ -611,9 +695,13 @@ canvas {
 <div class="rocket">🚀</div>
 <div class="ufo">🛸</div>
 
+<!-- ========== 全局反馈按钮 ========== -->
+<button class="feedback-btn" id="feedbackBtn">📝 填写问卷</button>
+
 <div class="app-container">
   <div class="nav-buttons">
     <button class="nav-btn" id="homeBtn">🏠 首页</button>
+    <button class="tutorial-btn" id="tutorialBtn">📖 使用教程</button>
     <button class="teacher-btn" id="teacherBtn">👩‍🏫 教师后台</button>
   </div>
   <button class="lang-switch" id="langBtn">🌙 中 / EN</button>
@@ -666,8 +754,29 @@ canvas {
     </div>
     <div class="report-card" id="reportCard"></div>
     <div class="button-group">
+      <button class="cert-btn" id="certBtn">🏆 生成证书 🏆</button>
+      <button class="practice-wrong-btn" id="practiceWrongBtn" style="display:none;">📝 练习错题 📝</button>
       <button class="back-btn" id="backToLevelFromReportBtn">◀ 返回选等级</button>
       <button class="restart-btn" id="restartBtn">🔄 重新测试 🔄</button>
+    </div>
+  </div>
+
+  <!-- 错题本页面 -->
+  <div class="screen" id="wrongQuestionsScreen">
+    <h2 class="title" id="wrongTitle">📝 我的错题本 📝</h2>
+    <div class="wrong-questions-card" id="wrongQuestionsCard"></div>
+    <div class="button-group">
+      <button class="back-btn" id="backToReportBtn">◀ 返回报告</button>
+      <button class="restart-btn" id="clearWrongBtn" style="background: linear-gradient(135deg, #ff6644, #cc4422);">🗑️ 清空错题本</button>
+    </div>
+  </div>
+
+  <!-- 排行榜页面 -->
+  <div class="screen" id="rankScreen">
+    <h2 class="title" id="rankTitle">🏆 星际排行榜 🏆</h2>
+    <div class="teacher-card" id="rankCard"></div>
+    <div class="button-group">
+      <button class="back-btn" id="backToReportFromRankBtn">◀ 返回报告</button>
     </div>
   </div>
 
@@ -678,12 +787,71 @@ canvas {
       <input type="text" id="filterSchool" placeholder="筛选学校 / Filter School">
       <input type="text" id="filterClass" placeholder="筛选班级 / Filter Class">
       <button class="export-btn" id="exportBtn">📊 导出测试记录</button>
-      <button class="export-btn" id="exportStudentDetailBtn" style="background: linear-gradient(135deg, #aa66cc, #8844aa);">📋 导出学生乘法表详情</button>
+      <button class="export-btn" id="exportStudentDetailBtn" style="background: linear-gradient(135deg, #aa66cc, #8844aa);">📋 导出学生详情</button>
       <button class="back-btn" id="backFromTeacherBtn">◀ 返回首页</button>
     </div>
+    
+    <div class="teacher-card" id="classComparisonCard" style="margin-bottom: 20px;">
+      <div style="font-weight:bold; margin-bottom: 15px;" id="classComparisonTitle">📊 班级成绩对比</div>
+      <canvas id="classComparisonChart" style="max-height: 300px;"></canvas>
+    </div>
+    
     <div class="teacher-card" id="teacherCard">
       <div class="loading">请输入密码进入教师后台 / Enter password to access</div>
     </div>
+  </div>
+
+  <!-- 教程页面 -->
+  <div class="screen" id="tutorialScreen">
+    <h2 class="title" id="tutorialTitle">📖 使用教程</h2>
+    <div class="tutorial-card">
+      <div class="tutorial-step">
+        <div class="tutorial-number">1</div>
+        <div>
+          <h3 id="step1Title">📝 填写宇航员资料</h3>
+          <p id="step1Desc">输入学校、班级和姓名，点击"发射启程"开始太空数学之旅！</p>
+        </div>
+      </div>
+      <div class="tutorial-step">
+        <div class="tutorial-number">2</div>
+        <div>
+          <h3 id="step2Title">🎯 选择任务等级</h3>
+          <p id="step2Desc">4个难度等级：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)</p>
+        </div>
+      </div>
+      <div class="tutorial-step">
+        <div class="tutorial-number">3</div>
+        <div>
+          <h3 id="step3Title">⏱️ 限时答题</h3>
+          <p id="step3Desc">低级：20秒选择题；高级：25秒输入答案。时间越短，挑战越大！</p>
+        </div>
+      </div>
+      <div class="tutorial-step">
+        <div class="tutorial-number">4</div>
+        <div>
+          <h3 id="step4Title">📊 查看评估报告</h3>
+          <p id="step4Desc">测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议和排行榜。</p>
+        </div>
+      </div>
+      <div class="tutorial-step">
+        <div class="tutorial-number">5</div>
+        <div>
+          <h3 id="step5Title">📝 错题本功能</h3>
+          <p id="step5Desc">做错的题目自动收集到错题本，可以随时复习和重做！</p>
+        </div>
+      </div>
+      <div class="tutorial-step">
+        <div class="tutorial-number">6</div>
+        <div>
+          <h3 id="step6Title">🏆 排行榜与成就</h3>
+          <p id="step6Desc">查看全班排行榜，收集乘法大师徽章！</p>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 20px;">
+        <p id="tutorialFooter">🚀 太空乘法任务 - 让学习乘法变得有趣！ 🌟</p>
+      </div>
+    </div>
+    <button class="back-btn" id="backFromTutorialBtn" style="margin-top: 20px;">◀ 返回首页</button>
   </div>
 </div>
 
@@ -691,9 +859,8 @@ canvas {
 // ==================== Supabase 配置 ====================
 const SUPABASE_URL = 'https://nlvfaurgathcoftyucfw.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdmZhdXJnYXRoY29mdHl1Y2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MzI5NTksImV4cCI6MjA5MDQwODk1OX0.jTODbPq65I9LEz7950Qe1Lf9viT2He5UYxNO-tJfz5w';
-
-// ✅ 教师密码已修改为 SJKHK
 const TEACHER_PASSWORD = 'SJKHK';
+const FEEDBACK_FORM_URL = 'https://forms.gle/8FXhqXPQsHGjFpvKA'; // 反馈问卷链接
 
 let supabaseClient = null;
 function initSupabase() {
@@ -717,10 +884,17 @@ let correctCount = 0;
 let timerInterval = null;
 let stats = {};
 let chart = null;
+let classChart = null;
+
+// 错题本存储
+let wrongQuestions = [];
+
+// 学生成就
+let studentBadges = [];
 
 const student = { school: '', className: '', name: '' };
 
-// 多语言词库
+// 多语言词库 - 完整三语翻译
 const texts = {
   zh: {
     mainTitle: '🚀 太空乘法任务 🌟',
@@ -735,13 +909,15 @@ const texts = {
     restartBtn: '🔄 重新测试 🔄',
     homeBtn: '🏠 首页',
     teacherBtn: '👩‍🏫 教师后台',
+    tutorialBtn: '📖 使用教程',
     backToInfo: '◀ 返回填写资料',
     backToLevel: '◀ 返回选等级',
     teacherTitle: '👩‍🏫 教师后台管理系统',
+    tutorialTitle: '📖 使用教程',
     filterSchool: '筛选学校',
     filterClass: '筛选班级',
     exportRecords: '📊 导出测试记录',
-    exportDetails: '📋 导出学生乘法表详情',
+    exportDetails: '📋 导出学生详情',
     backHome: '◀ 返回首页',
     totalStudents: '总学生数',
     totalTests: '总测试次数',
@@ -754,9 +930,15 @@ const texts = {
     enterPassword: '请输入密码进入教师后台',
     wrongPassword: '❌ 密码错误！',
     exportSuccess: (count) => `✅ 已导出 ${count} 条测试记录`,
-    exportStudentSuccess: (count) => `✅ 已导出 ${count} 名学生的乘法表掌握详情（最高分记录）`,
+    exportStudentSuccess: (count) => `✅ 已导出 ${count} 名学生的乘法表掌握详情（最好成绩）`,
     noDataToExport: '暂无数据',
     testLabel: '测试',
+    certTitle: '🏆 乘法大师证书 🏆',
+    certAwardTo: '授予',
+    certLevel: '等级',
+    certDate: '日期',
+    certMessage: '你是真正的星际领航员！',
+    classComparison: '📊 班级成绩对比',
     level1Name: '🌟 新手宇航员',
     level1Desc: '2的乘法表',
     level2Name: '🌙 月球探险家',
@@ -764,7 +946,45 @@ const texts = {
     level3Name: '☀️ 太阳勇士',
     level3Desc: '2~9 全面挑战',
     level4Name: '🌀 银河霸主',
-    level4Desc: '0~12 终极挑战'
+    level4Desc: '0~12 终极挑战',
+    // 新增功能翻译
+    wrongTitle: '📝 我的错题本',
+    practiceWrong: '📝 练习错题',
+    clearWrong: '🗑️ 清空错题本',
+    backToReport: '◀ 返回报告',
+    noWrongQuestions: '🎉 太棒了！你没有错题！继续努力保持！',
+    rankTitle: '🏆 星际排行榜',
+    rankName: '姓名',
+    rankScore: '最高分',
+    rankDate: '日期',
+    yourRank: '你的排名',
+    goldMedal: '🥇 金牌',
+    silverMedal: '🥈 银牌',
+    bronzeMedal: '🥉 铜牌',
+    suggestionTitle: '💡 学习建议',
+    suggestionExcellent: '🎉 太优秀了！你是乘法表小专家！继续保持！',
+    suggestionGood: '👍 表现不错！再练习一下薄弱环节，你就能成为乘法大师！',
+    suggestionNeedPractice: '💪 加油！多练习错题，你会进步的！',
+    suggestionWeakTables: '需要加强的乘法表',
+    suggestionStrongTables: '已经掌握的乘法表',
+    rankMyRank: '我的排名',
+    rankNotRanked: '暂未上榜，继续努力！',
+    // 教程步骤
+    step1Title: '📝 填写宇航员资料',
+    step1Desc: '输入学校、班级和姓名，点击"发射启程"开始太空数学之旅！',
+    step2Title: '🎯 选择任务等级',
+    step2Desc: '4个难度等级：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)',
+    step3Title: '⏱️ 限时答题',
+    step3Desc: '低级：20秒选择题；高级：25秒输入答案。时间越短，挑战越大！',
+    step4Title: '📊 查看评估报告',
+    step4Desc: '测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议和排行榜。',
+    step5Title: '📝 错题本功能',
+    step5Desc: '做错的题目自动收集到错题本，可以随时复习和重做！',
+    step6Title: '🏆 排行榜与成就',
+    step6Desc: '查看全班排行榜，收集乘法大师徽章！',
+    tutorialFooter: '🚀 太空乘法任务 - 让学习乘法变得有趣！ 🌟',
+    // 反馈按钮
+    feedback: '📝 填写问卷'
   },
   en: {
     mainTitle: '🚀 Space Math Mission 🌟',
@@ -779,9 +999,11 @@ const texts = {
     restartBtn: '🔄 Retry 🔄',
     homeBtn: '🏠 Home',
     teacherBtn: '👩‍🏫 Teacher',
+    tutorialBtn: '📖 Tutorial',
     backToInfo: '◀ Back to Info',
     backToLevel: '◀ Back to Levels',
     teacherTitle: '👩‍🏫 Teacher Dashboard',
+    tutorialTitle: '📖 Tutorial',
     filterSchool: 'Filter School',
     filterClass: 'Filter Class',
     exportRecords: '📊 Export Records',
@@ -801,6 +1023,12 @@ const texts = {
     exportStudentSuccess: (count) => `✅ Exported multiplication details for ${count} students (best scores)`,
     noDataToExport: 'No data to export',
     testLabel: 'Test',
+    certTitle: '🏆 Multiplication Master Certificate 🏆',
+    certAwardTo: 'Awarded to',
+    certLevel: 'Level',
+    certDate: 'Date',
+    certMessage: 'You are a true Space Navigator!',
+    classComparison: '📊 Class Performance Comparison',
     level1Name: '🌟 Novice Astronaut',
     level1Desc: '2 Times Table',
     level2Name: '🌙 Moon Explorer',
@@ -808,7 +1036,133 @@ const texts = {
     level3Name: '☀️ Solar Warrior',
     level3Desc: '2~9 Challenge',
     level4Name: '🌀 Galaxy Master',
-    level4Desc: '0~12 Ultimate Challenge'
+    level4Desc: '0~12 Ultimate Challenge',
+    // New features translations
+    wrongTitle: '📝 My Wrong Questions',
+    practiceWrong: '📝 Practice Wrong Questions',
+    clearWrong: '🗑️ Clear Wrong Questions',
+    backToReport: '◀ Back to Report',
+    noWrongQuestions: '🎉 Great job! You have no wrong questions! Keep it up!',
+    rankTitle: '🏆 Star Ranking',
+    rankName: 'Name',
+    rankScore: 'Highest Score',
+    rankDate: 'Date',
+    yourRank: 'Your Rank',
+    goldMedal: '🥇 Gold',
+    silverMedal: '🥈 Silver',
+    bronzeMedal: '🥉 Bronze',
+    suggestionTitle: '💡 Learning Suggestions',
+    suggestionExcellent: '🎉 Excellent! You are a multiplication expert! Keep it up!',
+    suggestionGood: '👍 Good job! Practice your weak areas and you will become a master!',
+    suggestionNeedPractice: '💪 Keep going! Practice more and you will improve!',
+    suggestionWeakTables: 'Tables to improve',
+    suggestionStrongTables: 'Tables mastered',
+    rankMyRank: 'My Rank',
+    rankNotRanked: 'Not ranked yet, keep trying!',
+    step1Title: '📝 Fill in Astronaut Info',
+    step1Desc: 'Enter school, class and name, then click "Launch" to start your space math journey!',
+    step2Title: '🎯 Select Mission Level',
+    step2Desc: '4 difficulty levels: Novice (2 times table), Moon Explorer (0-5), Solar Warrior (2-9), Galaxy Master (0-12)',
+    step3Title: '⏱️ Timed Questions',
+    step3Desc: 'Easy levels: 20 seconds multiple choice; Hard levels: 25 seconds input answer.',
+    step4Title: '📊 View Assessment Report',
+    step4Desc: 'After the test, a report shows mastery of each times table, learning suggestions and ranking.',
+    step5Title: '📝 Wrong Questions Book',
+    step5Desc: 'Wrong answers are automatically saved. Review and practice anytime!',
+    step6Title: '🏆 Ranking & Achievements',
+    step6Desc: 'View class ranking and collect multiplication master badges!',
+    tutorialFooter: '🚀 Space Math Mission - Making multiplication fun! 🌟',
+    // Feedback button
+    feedback: '📝 Feedback'
+  },
+  ms: {
+    mainTitle: '🚀 Misi Matematik Angkasa 🌟',
+    infoSubtitle: '✦ Isi Maklumat Angkasawan ✦',
+    schoolLabel: '🏫 Sekolah',
+    classLabel: '📚 Kelas',
+    nameLabel: '👩‍🚀 Nama',
+    startBtn: '⚡ Lancar ⚡',
+    levelTitle: '🪐 Pilih Tahap Misi 🪐',
+    submitBtn: '✨ Hantar Jawapan ✨',
+    reportTitle: '📋 Laporan Penilaian Bintang 🌟',
+    restartBtn: '🔄 Cuba Semula 🔄',
+    homeBtn: '🏠 Laman Utama',
+    teacherBtn: '👩‍🏫 Panel Guru',
+    tutorialBtn: '📖 Tutorial',
+    backToInfo: '◀ Kembali ke Maklumat',
+    backToLevel: '◀ Kembali ke Tahap',
+    teacherTitle: '👩‍🏫 Sistem Pengurusan Panel Guru',
+    tutorialTitle: '📖 Tutorial',
+    filterSchool: 'Tapis Sekolah',
+    filterClass: 'Tapis Kelas',
+    exportRecords: '📊 Eksport Rekod',
+    exportDetails: '📋 Eksport Butiran Murid',
+    backHome: '◀ Kembali ke Laman Utama',
+    totalStudents: 'Jumlah Murid',
+    totalTests: 'Jumlah Ujian',
+    avgAccuracy: 'Purata Ketepatan',
+    highestScore: 'Skor Tertinggi',
+    timesTableMastery: 'Butiran Penguasaan Sifir Darab (0-12)',
+    recentRecords: '📋 Rekod Ujian Terkini',
+    noData: 'Tiada data. Sila minta murid menyelesaikan ujian terlebih dahulu.',
+    loading: 'Memuatkan data...',
+    enterPassword: 'Masukkan kata laluan untuk akses panel guru',
+    wrongPassword: '❌ Kata laluan salah!',
+    exportSuccess: (count) => `✅ Dieksport ${count} rekod ujian`,
+    exportStudentSuccess: (count) => `✅ Dieksport butiran sifir untuk ${count} orang murid (skor terbaik)`,
+    noDataToExport: 'Tiada data untuk dieksport',
+    testLabel: 'Ujian',
+    certTitle: '🏆 Sijil Master Sifir 🏆',
+    certAwardTo: 'Dianugerahkan kepada',
+    certLevel: 'Tahap',
+    certDate: 'Tarikh',
+    certMessage: 'Anda adalah Navigator Angkasa Sejati!',
+    classComparison: '📊 Perbandingan Prestasi Kelas',
+    level1Name: '🌟 Angkasawan Baru',
+    level1Desc: 'Sifir 2',
+    level2Name: '🌙 Penjelajah Bulan',
+    level2Desc: 'Sifir 0-5',
+    level3Name: '☀️ Pahlawan Matahari',
+    level3Desc: 'Sifir 2-9',
+    level4Name: '🌀 Penguasa Galaksi',
+    level4Desc: 'Sifir 0-12',
+    // New features translations
+    wrongTitle: '📝 Soalan Salah Saya',
+    practiceWrong: '📝 Latihan Soalan Salah',
+    clearWrong: '🗑️ Kosongkan Soalan Salah',
+    backToReport: '◀ Kembali ke Laporan',
+    noWrongQuestions: '🎉 Tahniah! Tiada soalan salah! Teruskan usaha!',
+    rankTitle: '🏆 Carta Kedudukan Bintang',
+    rankName: 'Nama',
+    rankScore: 'Skor Tertinggi',
+    rankDate: 'Tarikh',
+    yourRank: 'Kedudukan Anda',
+    goldMedal: '🥇 Emas',
+    silverMedal: '🥈 Perak',
+    bronzeMedal: '🥉 Gangsa',
+    suggestionTitle: '💡 Cadangan Pembelajaran',
+    suggestionExcellent: '🎉 Cemerlang! Anda pakar sifir! Teruskan!',
+    suggestionGood: '👍 Bagus! Latih kelemahan anda untuk jadi master!',
+    suggestionNeedPractice: '💪 Teruskan usaha! Lebih latihan akan lebih baik!',
+    suggestionWeakTables: 'Sifir yang perlu diperkuatkan',
+    suggestionStrongTables: 'Sifir yang telah dikuasai',
+    rankMyRank: 'Kedudukan Saya',
+    rankNotRanked: 'Belum berada dalam carta, teruskan usaha!',
+    step1Title: '📝 Isi Maklumat Angkasawan',
+    step1Desc: 'Masukkan sekolah, kelas dan nama, kemudian klik "Lancar" untuk memulakan misi matematik angkasa!',
+    step2Title: '🎯 Pilih Tahap Misi',
+    step2Desc: '4 tahap kesukaran: Novis (Sifir 2), Penjelajah Bulan (0-5), Pahlawan Matahari (2-9), Penguasa Galaksi (0-12)',
+    step3Title: '⏱️ Soalan Berhad Masa',
+    step3Desc: 'Tahap mudah: 20 saat pilihan; Tahap sukar: 25 saat jawapan input.',
+    step4Title: '📊 Lihat Laporan Penilaian',
+    step4Desc: 'Selepas ujian, laporan menunjukkan penguasaan setiap sifir, cadangan pembelajaran dan carta kedudukan.',
+    step5Title: '📝 Buku Soalan Salah',
+    step5Desc: 'Jawapan salah disimpan secara automatik. Ulang kaji dan latihan bila-bila masa!',
+    step6Title: '🏆 Carta Kedudukan & Pencapaian',
+    step6Desc: 'Lihat carta kedudukan kelas dan kumpul lencana master sifir!',
+    tutorialFooter: '🚀 Misi Matematik Angkasa - Membuat pembelajaran sifir menyeronokkan! 🌟',
+    // Feedback button
+    feedback: '📝 Borang Maklum Balas'
   }
 };
 
@@ -844,6 +1198,228 @@ const reportTexts = {
     clearHistory:"🗑️ Padam Rekod Saya"
   }
 };
+
+// ==================== 错题本功能 ====================
+function loadWrongQuestions() {
+  const saved = localStorage.getItem(`wrongQuestions_${student.school}_${student.className}_${student.name}`);
+  if (saved) {
+    wrongQuestions = JSON.parse(saved);
+  } else {
+    wrongQuestions = [];
+  }
+}
+
+function saveWrongQuestions() {
+  localStorage.setItem(`wrongQuestions_${student.school}_${student.className}_${student.name}`, JSON.stringify(wrongQuestions));
+}
+
+function addWrongQuestion(question, userAnswer) {
+  wrongQuestions.push({
+    question: question,
+    userAnswer: userAnswer,
+    correctAnswer: question.ans,
+    timestamp: new Date().toISOString()
+  });
+  saveWrongQuestions();
+}
+
+function renderWrongQuestions() {
+  const t = texts[currentLang];
+  const container = document.getElementById('wrongQuestionsCard');
+  if (!container) return;
+  
+  if (wrongQuestions.length === 0) {
+    container.innerHTML = `<div class="loading">${t.noWrongQuestions}</div>`;
+    return;
+  }
+  
+  let html = `<div class="class-list">`;
+  wrongQuestions.forEach((item, idx) => {
+    const date = new Date(item.timestamp).toLocaleString();
+    html += `
+      <div class="wrong-question-item">
+        <div>
+          <strong>${item.question.a} × ${item.question.b} = ?</strong><br>
+          <span style="color: #ff9090;">你的答案: ${item.userAnswer}</span><br>
+          <span style="color: #90ff90;">正确答案: ${item.correctAnswer}</span><br>
+          <span style="font-size: 0.8rem;">${date}</span>
+        </div>
+        <button class="practice-single-btn" data-idx="${idx}" style="background: #ffaa55; border: none; padding: 8px 16px; border-radius: 30px; cursor: pointer;">📝 练习此题</button>
+      </div>
+    `;
+  });
+  html += `</div>`;
+  container.innerHTML = html;
+  
+  // 绑定单个练习按钮
+  document.querySelectorAll('.practice-single-btn').forEach(btn => {
+    btn.onclick = () => {
+      const idx = parseInt(btn.dataset.idx);
+      const wrongItem = wrongQuestions[idx];
+      startPracticeQuestion(wrongItem.question);
+    };
+  });
+}
+
+function startPracticeQuestion(question) {
+  // 进入练习模式，只练习这一道题
+  currentLevel = 5; // 特殊标记为练习模式
+  questions = [question];
+  currentIndex = 0;
+  correctCount = 0;
+  gameStarted = true;
+  
+  // 计算这个题目的乘法表统计
+  stats = {};
+  stats[question.a] = { total: 1, correct: 0 };
+  
+  document.getElementById('wrongQuestionsScreen').classList.remove('active');
+  document.getElementById('quizScreen').classList.add('active');
+  showCurrentQuestion();
+}
+
+function clearWrongQuestions() {
+  const t = texts[currentLang];
+  if (confirm(t.clearWrong + '？')) {
+    wrongQuestions = [];
+    saveWrongQuestions();
+    renderWrongQuestions();
+  }
+}
+
+// ==================== 排行榜功能 ====================
+async function loadRanking() {
+  const t = texts[currentLang];
+  if (!supabaseClient) {
+    document.getElementById('rankCard').innerHTML = '<div class="loading">加载中...</div>';
+    return;
+  }
+  
+  try {
+    // 获取所有学生的最高分记录
+    const { data, error } = await supabaseClient
+      .from('math_records')
+      .select('*')
+      .eq('school', student.school)
+      .eq('class', student.className)
+      .order('accuracy', { ascending: false });
+    
+    if (error) throw error;
+    
+    // 去重，每个学生只保留最高分
+    const bestScores = {};
+    data.forEach(record => {
+      const key = record.name;
+      if (!bestScores[key] || record.accuracy > bestScores[key].accuracy) {
+        bestScores[key] = {
+          name: record.name,
+          accuracy: record.accuracy,
+          date: record.created_at,
+          level: record.level
+        };
+      }
+    });
+    
+    const ranking = Object.values(bestScores).sort((a, b) => b.accuracy - a.accuracy);
+    
+    let html = `<div class="rank-list">`;
+    ranking.forEach((item, idx) => {
+      const rankNum = idx + 1;
+      let rankClass = '';
+      let rankEmoji = '';
+      if (rankNum === 1) { rankClass = 'gold'; rankEmoji = '🥇'; }
+      else if (rankNum === 2) { rankClass = 'silver'; rankEmoji = '🥈'; }
+      else if (rankNum === 3) { rankClass = 'bronze'; rankEmoji = '🥉'; }
+      
+      const isCurrentUser = item.name === student.name;
+      const highlight = isCurrentUser ? 'style="background: rgba(255,200,100,0.4); border: 2px solid #ffaa55;"' : '';
+      
+      html += `
+        <div class="rank-item" ${highlight}>
+          <div class="rank-number ${rankClass}">${rankEmoji || rankNum}</div>
+          <div style="flex: 1;">
+            <strong>${item.name}</strong>
+            <div style="font-size: 0.8rem;">Level ${item.level}</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 1.3rem; font-weight: bold; color: #ffcc88;">${item.accuracy}%</div>
+            <div style="font-size: 0.7rem;">${new Date(item.date).toLocaleDateString()}</div>
+          </div>
+        </div>
+      `;
+    });
+    html += `</div>`;
+    
+    // 显示当前用户排名
+    const userRank = ranking.findIndex(r => r.name === student.name) + 1;
+    if (userRank > 0) {
+      html += `<div class="suggestion-box" style="margin-top: 20px; text-align: center;">
+        <strong>${t.yourRank}</strong><br>
+        <span style="font-size: 1.5rem; font-weight: bold; color: #ffcc88;">第 ${userRank} 名</span>
+      </div>`;
+    } else {
+      html += `<div class="suggestion-box" style="margin-top: 20px; text-align: center;">
+        <strong>${t.rankNotRanked}</strong>
+      </div>`;
+    }
+    
+    document.getElementById('rankCard').innerHTML = html;
+  } catch(e) {
+    document.getElementById('rankCard').innerHTML = `<div class="loading">加载失败: ${e.message}</div>`;
+  }
+}
+
+// ==================== 学习建议功能 ====================
+function generateLearningSuggestions() {
+  const t = texts[currentLang];
+  const weakTables = [];
+  const strongTables = [];
+  const masteredTables = [];
+  
+  const sortedKeys = Object.keys(stats).sort((a,b)=> +a - +b);
+  for (let mult of sortedKeys) {
+    const item = stats[mult];
+    const percent = item.total ? Math.round((item.correct / item.total)*100) : 0;
+    if (percent < 60) {
+      weakTables.push(mult);
+    } else if (percent >= 85) {
+      strongTables.push(mult);
+      masteredTables.push(mult);
+    }
+  }
+  
+  let suggestionHtml = `<div class="suggestion-box">`;
+  suggestionHtml += `<div style="font-weight:bold; margin-bottom: 10px;">💡 ${t.suggestionTitle}</div>`;
+  
+  // 总体评价
+  const totalPercent = Math.round((correctCount / questions.length) * 100);
+  if (totalPercent >= 90) {
+    suggestionHtml += `<p>${t.suggestionExcellent}</p>`;
+  } else if (totalPercent >= 70) {
+    suggestionHtml += `<p>${t.suggestionGood}</p>`;
+  } else {
+    suggestionHtml += `<p>${t.suggestionNeedPractice}</p>`;
+  }
+  
+  // 需要加强的乘法表
+  if (weakTables.length > 0) {
+    suggestionHtml += `<p style="margin-top: 10px;">⚠️ ${t.suggestionWeakTables}: ${weakTables.join('、')} 的乘法表</p>`;
+    suggestionHtml += `<p style="font-size: 0.9rem;">💡 建议：使用"错题本"功能重点练习这些乘法表！</p>`;
+  }
+  
+  // 已经掌握的乘法表
+  if (strongTables.length > 0) {
+    suggestionHtml += `<p style="margin-top: 10px;">✅ ${t.suggestionStrongTables}: ${strongTables.join('、')} 的乘法表</p>`;
+  }
+  
+  // 错题本提示
+  if (wrongQuestions.length > 0) {
+    suggestionHtml += `<p style="margin-top: 10px;">📝 你有 ${wrongQuestions.length} 道错题待复习，点击"练习错题"按钮巩固学习！</p>`;
+  }
+  
+  suggestionHtml += `</div>`;
+  return suggestionHtml;
+}
 
 // ==================== 核心函数 ====================
 function shuffleArray(arr) {
@@ -916,10 +1492,38 @@ function applyUILang() {
   if (document.getElementById('restartBtn')) document.getElementById('restartBtn').textContent = t.restartBtn;
   if (document.getElementById('homeBtn')) document.getElementById('homeBtn').innerHTML = t.homeBtn;
   if (document.getElementById('teacherBtn')) document.getElementById('teacherBtn').innerHTML = t.teacherBtn;
+  if (document.getElementById('tutorialBtn')) document.getElementById('tutorialBtn').innerHTML = t.tutorialBtn;
+  if (document.getElementById('tutorialTitle')) document.getElementById('tutorialTitle').textContent = t.tutorialTitle;
   if (document.getElementById('backToInfoBtn')) document.getElementById('backToInfoBtn').innerHTML = t.backToInfo;
   if (document.getElementById('backToLevelBtn')) document.getElementById('backToLevelBtn').innerHTML = t.backToLevel;
   if (document.getElementById('backToLevelFromReportBtn')) document.getElementById('backToLevelFromReportBtn').innerHTML = t.backToLevel;
   if (document.getElementById('teacherTitle')) document.getElementById('teacherTitle').textContent = t.teacherTitle;
+  if (document.getElementById('wrongTitle')) document.getElementById('wrongTitle').textContent = t.wrongTitle;
+  if (document.getElementById('rankTitle')) document.getElementById('rankTitle').textContent = t.rankTitle;
+  if (document.getElementById('practiceWrongBtn')) document.getElementById('practiceWrongBtn').innerHTML = t.practiceWrong;
+  if (document.getElementById('clearWrongBtn')) document.getElementById('clearWrongBtn').innerHTML = t.clearWrong;
+  if (document.getElementById('backToReportBtn')) document.getElementById('backToReportBtn').innerHTML = t.backToReport;
+  if (document.getElementById('backToReportFromRankBtn')) document.getElementById('backToReportFromRankBtn').innerHTML = t.backToReport;
+  if (document.getElementById('classComparisonTitle')) document.getElementById('classComparisonTitle').innerHTML = t.classComparison;
+  
+  // 反馈按钮文字翻译
+  const feedbackBtn = document.getElementById('feedbackBtn');
+  if (feedbackBtn) feedbackBtn.innerHTML = t.feedback;
+  
+  // 教程页面翻译
+  if (document.getElementById('step1Title')) document.getElementById('step1Title').innerHTML = t.step1Title;
+  if (document.getElementById('step1Desc')) document.getElementById('step1Desc').innerHTML = t.step1Desc;
+  if (document.getElementById('step2Title')) document.getElementById('step2Title').innerHTML = t.step2Title;
+  if (document.getElementById('step2Desc')) document.getElementById('step2Desc').innerHTML = t.step2Desc;
+  if (document.getElementById('step3Title')) document.getElementById('step3Title').innerHTML = t.step3Title;
+  if (document.getElementById('step3Desc')) document.getElementById('step3Desc').innerHTML = t.step3Desc;
+  if (document.getElementById('step4Title')) document.getElementById('step4Title').innerHTML = t.step4Title;
+  if (document.getElementById('step4Desc')) document.getElementById('step4Desc').innerHTML = t.step4Desc;
+  if (document.getElementById('step5Title')) document.getElementById('step5Title').innerHTML = t.step5Title;
+  if (document.getElementById('step5Desc')) document.getElementById('step5Desc').innerHTML = t.step5Desc;
+  if (document.getElementById('step6Title')) document.getElementById('step6Title').innerHTML = t.step6Title;
+  if (document.getElementById('step6Desc')) document.getElementById('step6Desc').innerHTML = t.step6Desc;
+  if (document.getElementById('tutorialFooter')) document.getElementById('tutorialFooter').innerHTML = t.tutorialFooter;
   
   const exportBtn = document.getElementById('exportBtn');
   const exportDetailBtn = document.getElementById('exportStudentDetailBtn');
@@ -967,6 +1571,8 @@ function goToLevelSelect() {
   correctCount = 0;
   document.getElementById('quizScreen').classList.remove('active');
   document.getElementById('reportScreen').classList.remove('active');
+  document.getElementById('wrongQuestionsScreen').classList.remove('active');
+  document.getElementById('rankScreen').classList.remove('active');
   document.getElementById('levelScreen').classList.add('active');
 }
 
@@ -981,6 +1587,9 @@ function goToInfo() {
   document.getElementById('levelScreen').classList.remove('active');
   document.getElementById('quizScreen').classList.remove('active');
   document.getElementById('reportScreen').classList.remove('active');
+  document.getElementById('wrongQuestionsScreen').classList.remove('active');
+  document.getElementById('rankScreen').classList.remove('active');
+  document.getElementById('tutorialScreen').classList.remove('active');
   document.getElementById('infoScreen').classList.add('active');
 }
 
@@ -999,7 +1608,21 @@ function goToHome() {
   document.getElementById('levelScreen').classList.remove('active');
   document.getElementById('quizScreen').classList.remove('active');
   document.getElementById('reportScreen').classList.remove('active');
+  document.getElementById('wrongQuestionsScreen').classList.remove('active');
+  document.getElementById('rankScreen').classList.remove('active');
   document.getElementById('teacherScreen').classList.remove('active');
+  document.getElementById('tutorialScreen').classList.remove('active');
+}
+
+function goToTutorial() {
+  document.getElementById('infoScreen').classList.remove('active');
+  document.getElementById('levelScreen').classList.remove('active');
+  document.getElementById('quizScreen').classList.remove('active');
+  document.getElementById('reportScreen').classList.remove('active');
+  document.getElementById('wrongQuestionsScreen').classList.remove('active');
+  document.getElementById('rankScreen').classList.remove('active');
+  document.getElementById('teacherScreen').classList.remove('active');
+  document.getElementById('tutorialScreen').classList.add('active');
 }
 
 function renderOptions(correctAns, countOpt) {
@@ -1030,6 +1653,8 @@ function startTimerForQuestion() {
     duration = 20;
   } else if (currentLevel === 2) {
     duration = 20;
+  } else if (currentLevel === 5) {
+    duration = 30; // 练习模式时间更长
   } else {
     duration = 25;
   }
@@ -1085,7 +1710,16 @@ function checkAnswer(userAnswer) {
   if (currentIndex >= questions.length) return;
   const q = questions[currentIndex];
   const isCorrect = (userAnswer === q.ans);
-  if (isCorrect) correctCount++;
+  
+  if (isCorrect) {
+    correctCount++;
+  } else {
+    // 记录错题（练习模式不重复记录）
+    if (currentLevel !== 5) {
+      addWrongQuestion(q, userAnswer);
+    }
+  }
+  
   if (stats[q.a]) {
     stats[q.a].correct += isCorrect ? 1 : 0;
   }
@@ -1104,7 +1738,7 @@ async function saveToSupabase() {
     school: student.school,
     class: student.className,
     name: student.name,
-    level: currentLevel,
+    level: currentLevel === 5 ? 0 : currentLevel,
     correct: correctCount,
     total: questions.length,
     accuracy: Math.round((correctCount / questions.length) * 100),
@@ -1125,7 +1759,7 @@ function saveToLocalStorage() {
   const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
   records.unshift({
     ...student,
-    level: currentLevel,
+    level: currentLevel === 5 ? 0 : currentLevel,
     correct: correctCount,
     total: questions.length,
     accuracy: Math.round((correctCount / questions.length) * 100),
@@ -1165,7 +1799,7 @@ async function saveAndShowReport() {
   let previousAccuracy = null;
   let previousRecord = null;
   if (history.length > 1) {
-    const previousSameLevel = history.slice(1).find(h => h.level === currentLevel);
+    const previousSameLevel = history.slice(1).find(h => h.level === (currentLevel === 5 ? 0 : currentLevel));
     if (previousSameLevel) {
       previousAccuracy = previousSameLevel.accuracy;
       previousRecord = previousSameLevel;
@@ -1185,10 +1819,11 @@ function renderReport(history = null, currentAccuracy = null, previousAccuracy =
     <div class="report-row"><span>${t.class}</span><span>${student.className || '—'}</span></div>
     <div class="report-row"><span>${t.name}</span><span>${student.name || '—'}</span></div>
     <div class="report-row"><span>${t.date}</span><span>${nowDate}</span></div>
-    <div class="report-row"><span>${t.level}</span><span>Level ${currentLevel}</span></div>
+    <div class="report-row"><span>${t.level}</span><span>Level ${currentLevel === 5 ? '错题练习' : currentLevel}</span></div>
     <div class="report-row"><span>${t.total}</span><span>${questions.length}</span></div>
     <div class="report-row"><span>${t.correct}</span><span>${correctCount}</span></div>
     <div class="report-row"><span>${t.accuracy}</span><span>${accuracy}%</span></div>`;
+  
   if (previousAccuracy !== null && previousRecord) {
     const improvement = accuracy - previousAccuracy;
     const improvementText = improvement >= 0 ? `📈 +${improvement}%` : `📉 ${improvement}%`;
@@ -1200,6 +1835,7 @@ function renderReport(history = null, currentAccuracy = null, previousAccuracy =
       <span><strong style="color: ${improvement >= 0 ? '#90ff90' : '#ff9090'}">${improvementText}</strong></span>
     </div>`;
   }
+  
   html += `<div class="table-results"><div style="font-weight:bold; padding:0 12px;">📊 乘法表掌握情况</div>`;
   const sortedKeys = Object.keys(stats).sort((a,b)=> +a - +b);
   for (let mult of sortedKeys) {
@@ -1208,6 +1844,15 @@ function renderReport(history = null, currentAccuracy = null, previousAccuracy =
     let levelText = percent >= 85 ? t.mastered : (percent >= 60 ? t.basic : t.needs);
     html += `<div class="table-item"><span>${mult} ${t.timesTable}</span><span>${levelText} (${percent}%)</span></div>`;
   }
+  
+  // 添加学习建议
+  html += generateLearningSuggestions();
+  
+  // 排行榜入口
+  html += `<div style="margin-top: 20px; text-align: center;">
+    <button id="viewRankBtn" style="background: #ffaa55; border: none; padding: 12px 24px; border-radius: 40px; cursor: pointer; font-size: 1rem;">🏆 查看排行榜</button>
+  </div>`;
+  
   if (history && history.length > 1) {
     html += `<div style="margin-top: 25px;"><div style="font-weight:bold; margin-bottom: 15px;">📜 ${t.history}</div>`;
     const lastFive = history.slice(0, 5);
@@ -1226,9 +1871,31 @@ function renderReport(history = null, currentAccuracy = null, previousAccuracy =
     </div>`;
     html += `</div>`;
   }
+  
   let msg = accuracy >= 90 ? t.masterMsg : (accuracy >= 70 ? t.goodMsg : t.tryMsg);
   html += `</div><div class="report-conclusion">${msg}</div>`;
   document.getElementById('reportCard').innerHTML = html;
+  
+  // 绑定排行榜按钮
+  const viewRankBtn = document.getElementById('viewRankBtn');
+  if (viewRankBtn) {
+    viewRankBtn.onclick = async () => {
+      document.getElementById('reportScreen').classList.remove('active');
+      document.getElementById('rankScreen').classList.add('active');
+      await loadRanking();
+    };
+  }
+  
+  // 显示/隐藏错题本按钮
+  const practiceWrongBtn = document.getElementById('practiceWrongBtn');
+  if (practiceWrongBtn) {
+    if (wrongQuestions.length > 0) {
+      practiceWrongBtn.style.display = 'inline-block';
+    } else {
+      practiceWrongBtn.style.display = 'none';
+    }
+  }
+  
   const clearBtn = document.getElementById('clearHistoryBtn');
   if (clearBtn) clearBtn.onclick = clearHistory;
 }
@@ -1251,10 +1918,89 @@ async function clearHistory() {
   }
 }
 
+function generateCertificate() {
+  const t = texts[currentLang];
+  const accuracy = Math.round((correctCount / questions.length) * 100);
+  const nowDate = new Date().toLocaleDateString();
+  
+  let levelText = '';
+  if (currentLevel === 1) levelText = 'Level 1 - 新手宇航员 / Novice Astronaut';
+  else if (currentLevel === 2) levelText = 'Level 2 - 月球探险家 / Moon Explorer';
+  else if (currentLevel === 3) levelText = 'Level 3 - 太阳勇士 / Solar Warrior';
+  else if (currentLevel === 4) levelText = 'Level 4 - 银河霸主 / Galaxy Master';
+  else levelText = '错题练习 / Wrong Questions Practice';
+  
+  let starRating = '';
+  if (accuracy >= 90) starRating = '🌟🌟🌟🌟🌟';
+  else if (accuracy >= 75) starRating = '🌟🌟🌟🌟';
+  else if (accuracy >= 60) starRating = '🌟🌟🌟';
+  else starRating = '🌟🌟';
+  
+  const certHtml = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>${t.certTitle} - ${student.name}</title>
+      <style>
+        body {
+          margin: 0;
+          padding: 40px;
+          background: linear-gradient(135deg, #0a0f2a, #0a1a3a);
+          font-family: 'Comic Neue', 'Segoe UI', 'Comic Sans MS', cursive;
+          min-height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .certificate {
+          background: linear-gradient(135deg, #fff8e7, #ffe8c8);
+          border-radius: 30px;
+          padding: 50px;
+          max-width: 800px;
+          width: 100%;
+          text-align: center;
+          box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+          border: 10px solid #ffcc88;
+        }
+        h1 { color: #ff8844; font-size: 2.5rem; margin-bottom: 20px; }
+        .star { font-size: 2rem; margin: 20px 0; }
+        .student-name { font-size: 2rem; color: #ff6644; margin: 20px 0; border-bottom: 2px solid #ffcc88; display: inline-block; }
+        .info { margin: 20px 0; font-size: 1.2rem; color: #555; }
+        .score { font-size: 3rem; font-weight: bold; color: #ff8844; margin: 20px 0; }
+        .message { font-size: 1.3rem; color: #888; margin-top: 30px; font-style: italic; }
+        .footer { margin-top: 40px; font-size: 0.9rem; color: #aaa; }
+        @media print {
+          body { padding: 0; background: white; }
+          .certificate { box-shadow: none; border: 2px solid #ffcc88; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="certificate">
+        <h1>🚀 ${t.certTitle} 🚀</h1>
+        <div class="star">${starRating}</div>
+        <div class="student-name">${student.name}</div>
+        <div class="info">${student.school} - ${student.className}</div>
+        <div class="score">${accuracy}%</div>
+        <div class="info">${t.certLevel}: ${levelText}</div>
+        <div class="info">${t.certDate}: ${nowDate}</div>
+        <div class="message">⭐ ${t.certMessage} ⭐</div>
+        <div class="footer">太空乘法任务 | Space Math Mission</div>
+      </div>
+      <script>window.onload = function() { setTimeout(function() { window.print(); }, 500); }<\/script>
+    </body>
+    </html>
+  `;
+  
+  const win = window.open();
+  win.document.write(certHtml);
+  win.document.close();
+}
+
 // ==================== 教师后台功能 ====================
 let loadTimeout = null;
 
-// 🔥 关键修改：获取每个学生最高正确率的那次测试
 function getStudentBestRecords(records) {
   const studentMap = new Map();
   
@@ -1264,7 +2010,6 @@ function getStudentBestRecords(records) {
       studentMap.set(key, record);
     } else {
       const existing = studentMap.get(key);
-      // 保留正确率更高的那次测试
       if (record.accuracy > existing.accuracy) {
         studentMap.set(key, record);
       }
@@ -1274,7 +2019,57 @@ function getStudentBestRecords(records) {
   return Array.from(studentMap.values());
 }
 
-// 导出学生乘法表详情（只显示每个学生最好成绩的那次测试）
+async function renderClassComparison() {
+  if (!supabaseClient) return;
+  
+  const schoolFilter = document.getElementById('filterSchool').value;
+  let query = supabaseClient.from('math_records').select('*');
+  if (schoolFilter) query = query.eq('school', schoolFilter);
+  
+  const { data } = await query;
+  if (!data || data.length === 0) return;
+  
+  const classStats = {};
+  data.forEach(r => {
+    if (!classStats[r.class]) {
+      classStats[r.class] = { total: 0, count: 0 };
+    }
+    classStats[r.class].total += r.accuracy;
+    classStats[r.class].count++;
+  });
+  
+  const classes = Object.keys(classStats);
+  const avgScores = classes.map(c => Math.round(classStats[c].total / classStats[c].count));
+  
+  const ctx = document.getElementById('classComparisonChart');
+  if (ctx && typeof Chart !== 'undefined') {
+    if (classChart) classChart.destroy();
+    classChart = new Chart(ctx.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: classes,
+        datasets: [{
+          label: texts[currentLang].avgAccuracy + ' (%)',
+          data: avgScores,
+          backgroundColor: '#ffaa66',
+          borderRadius: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { labels: { color: 'white' } }
+        },
+        scales: {
+          y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: 'white' } },
+          x: { ticks: { color: 'white' } }
+        }
+      }
+    });
+  }
+}
+
 function exportStudentMultiplicationDetails() {
   const t = texts[currentLang];
   if (!supabaseClient) return alert(t.noDataToExport);
@@ -1288,10 +2083,8 @@ function exportStudentMultiplicationDetails() {
   query.then(({ data }) => {
     if (!data || data.length === 0) return alert(t.noDataToExport);
     
-    // 获取每个学生最好成绩的记录
     const bestRecords = getStudentBestRecords(data);
     
-    // 根据语言设置表头
     let csv = '';
     if (currentLang === 'zh') {
       csv = '学校,班级,姓名,测试日期,正确率';
@@ -1311,7 +2104,6 @@ function exportStudentMultiplicationDetails() {
       const date = new Date(record.created_at).toLocaleDateString();
       let row = `"${record.school}","${record.class}","${record.name}","${date}",${record.accuracy}%`;
       
-      // 获取该次测试的乘法表详情
       const details = record.details || {};
       for (let i = 0; i <= 12; i++) {
         const detail = details[i];
@@ -1330,8 +2122,8 @@ function exportStudentMultiplicationDetails() {
     const link = document.createElement('a');
     const dateStr = new Date().toLocaleDateString().replace(/\//g, '-');
     const filename = currentLang === 'zh' ? 
-      `学生乘法表详情_最好成绩_${dateStr}.csv` : 
-      `Student_Multiplication_BestScores_${dateStr}.csv`;
+      `学生乘法表详情_${dateStr}.csv` : 
+      `Student_Multiplication_Details_${dateStr}.csv`;
     link.href = URL.createObjectURL(blob);
     link.download = filename;
     link.click();
@@ -1425,6 +2217,7 @@ async function loadTeacherData() {
     const { data, error } = await query;
     if (error) throw error;
     renderTeacherDashboard(data || []);
+    renderClassComparison();
   } catch(e) {
     document.getElementById('teacherCard').innerHTML = `<div class="loading">❌ ${currentLang === 'zh' ? '加载失败' : 'Load failed'}: ${e.message}</div>`;
   }
@@ -1451,7 +2244,6 @@ function renderTeacherDashboard(records) {
       <div class="stat-card"><div class="stat-number">${avgAccuracy}%</div><div>${t.avgAccuracy}</div></div>
       <div class="stat-card"><div class="stat-number">${bestScore}%</div><div>${t.highestScore}</div></div>
     </div>
-    <canvas id="trendChart" style="max-height: 300px;"></canvas>
     ${renderMultiplicationDetails(multiplicationStats)}
     <div style="margin-top: 25px;"><div style="font-weight:bold; margin-bottom: 15px;">${t.recentRecords}</div></div>
     <div class="class-list">`;
@@ -1467,31 +2259,6 @@ function renderTeacherDashboard(records) {
   
   html += `</div>`;
   document.getElementById('teacherCard').innerHTML = html;
-  
-  const ctx = document.getElementById('trendChart');
-  if (ctx && typeof Chart !== 'undefined') {
-    if (chart) chart.destroy();
-    const last10 = records.slice(0, 10).reverse();
-    chart = new Chart(ctx.getContext('2d'), {
-      type: 'line',
-      data: {
-        labels: last10.map((_, i) => `${t.testLabel} ${i+1}`),
-        datasets: [{
-          label: t.avgAccuracy,
-          data: last10.map(r => r.accuracy),
-          borderColor: '#ffaa66',
-          backgroundColor: 'rgba(255,170,102,0.1)',
-          tension: 0.3,
-          fill: true
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: { legend: { labels: { color: 'white' } } }
-      }
-    });
-  }
 }
 
 function exportToExcel() {
@@ -1531,17 +2298,30 @@ document.getElementById('langBtn').addEventListener('click', () => {
   if (document.getElementById('teacherScreen').classList.contains('active')) {
     loadTeacherData();
   }
+  if (document.getElementById('reportScreen').classList.contains('active')) {
+    const history = getHistoryRecords();
+    const currentAccuracy = Math.round((correctCount / questions.length) * 100);
+    renderReport(history, currentAccuracy);
+  }
+  if (document.getElementById('wrongQuestionsScreen').classList.contains('active')) {
+    renderWrongQuestions();
+  }
 });
 document.getElementById('homeBtn').addEventListener('click', () => {
   const confirmMsg = currentLang === 'zh' ? '确定要返回首页吗？当前进度将丢失。' : 'Return to home? Current progress will be lost.';
   if (confirm(confirmMsg)) goToHome();
 });
+document.getElementById('tutorialBtn').addEventListener('click', goToTutorial);
+document.getElementById('backFromTutorialBtn').addEventListener('click', goToHome);
 document.getElementById('teacherBtn').addEventListener('click', () => {
   if (verifyTeacherPassword()) {
     document.getElementById('infoScreen').classList.remove('active');
     document.getElementById('levelScreen').classList.remove('active');
     document.getElementById('quizScreen').classList.remove('active');
     document.getElementById('reportScreen').classList.remove('active');
+    document.getElementById('wrongQuestionsScreen').classList.remove('active');
+    document.getElementById('rankScreen').classList.remove('active');
+    document.getElementById('tutorialScreen').classList.remove('active');
     document.getElementById('teacherScreen').classList.add('active');
     loadTeacherData();
   }
@@ -1552,13 +2332,34 @@ document.getElementById('backFromTeacherBtn').addEventListener('click', () => {
 });
 document.getElementById('exportBtn').addEventListener('click', exportToExcel);
 document.getElementById('exportStudentDetailBtn').addEventListener('click', exportStudentMultiplicationDetails);
+document.getElementById('certBtn').addEventListener('click', generateCertificate);
+document.getElementById('practiceWrongBtn').addEventListener('click', () => {
+  document.getElementById('reportScreen').classList.remove('active');
+  document.getElementById('wrongQuestionsScreen').classList.add('active');
+  renderWrongQuestions();
+});
+document.getElementById('clearWrongBtn').addEventListener('click', clearWrongQuestions);
+document.getElementById('backToReportBtn').addEventListener('click', () => {
+  document.getElementById('wrongQuestionsScreen').classList.remove('active');
+  document.getElementById('reportScreen').classList.add('active');
+});
+document.getElementById('backToReportFromRankBtn').addEventListener('click', () => {
+  document.getElementById('rankScreen').classList.remove('active');
+  document.getElementById('reportScreen').classList.add('active');
+});
 document.getElementById('filterSchool').addEventListener('input', () => {
   if (loadTimeout) clearTimeout(loadTimeout);
-  loadTimeout = setTimeout(loadTeacherData, 300);
+  loadTimeout = setTimeout(() => {
+    loadTeacherData();
+    renderClassComparison();
+  }, 300);
 });
 document.getElementById('filterClass').addEventListener('input', () => {
   if (loadTimeout) clearTimeout(loadTimeout);
-  loadTimeout = setTimeout(loadTeacherData, 300);
+  loadTimeout = setTimeout(() => {
+    loadTeacherData();
+    renderClassComparison();
+  }, 300);
 });
 document.getElementById('backToInfoBtn').addEventListener('click', goToInfo);
 document.getElementById('backToLevelBtn').addEventListener('click', () => {
@@ -1575,6 +2376,7 @@ document.getElementById('startBtn').onclick = () => {
     alert(alertMsg);
     return;
   }
+  loadWrongQuestions();
   document.getElementById('infoScreen').classList.remove('active');
   document.getElementById('levelScreen').classList.add('active');
 };
@@ -1591,7 +2393,7 @@ document.querySelectorAll('.level-btn').forEach(btn => {
   };
 });
 document.getElementById('submitBtn').onclick = () => {
-  if ((currentLevel === 3 || currentLevel === 4) && gameStarted) {
+  if ((currentLevel === 3 || currentLevel === 4 || currentLevel === 5) && gameStarted) {
     const inputVal = parseInt(document.getElementById('answerInput').value);
     if (isNaN(inputVal)) return;
     checkAnswer(inputVal);
@@ -1620,6 +2422,14 @@ document.querySelectorAll('.report-btn').forEach(btn => {
     }
   };
 });
+
+// ========== 反馈问卷链接 ==========
+const feedbackBtn = document.getElementById('feedbackBtn');
+if (feedbackBtn) {
+  feedbackBtn.addEventListener('click', () => {
+    window.open(FEEDBACK_FORM_URL, '_blank');
+  });
+}
 
 function createStars() {
   const starsContainer = document.getElementById('stars');
