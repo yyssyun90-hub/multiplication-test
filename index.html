@@ -1806,7 +1806,7 @@ function generateCertificate() {
 let loadTimeout = null;
 
 document.getElementById('langBtn').onclick = () => { 
-  currentLang = currentLang === 'zh' ? 'en' : (currentLang === 'en' ? 'ms' : 'zh');
+  currentLang = currentLang === 'zh' ? 'en' : 'zh';
   applyUILang(); 
   if (document.getElementById('teacherScreen').classList.contains('active')) loadTeacherData();
   if (document.getElementById('reportScreen').classList.contains('active') && gameStarted) {
