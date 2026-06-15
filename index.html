@@ -370,6 +370,7 @@ body {
 .input-answer:focus { border-color: #ffcc88; box-shadow: 0 0 30px rgba(255,200,100,0.5); transform: scale(1.05); }
 .button-group { display: flex; gap: 20px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
 
+/* 保持原有背景不变，只修改文字颜色 */
 .report-card, .teacher-card, .tutorial-card, .wrong-questions-card {
   background: rgba(20, 30, 55, 0.8);
   backdrop-filter: blur(15px);
@@ -379,7 +380,116 @@ body {
   border: 2px solid #ffcc88;
   max-height: 800px;
   overflow-y: auto;
+  color: #FFE5B4;  /* 添加：文字改为浅米色 */
 }
+
+/* 报告行文字 */
+.report-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 2px solid rgba(255,200,100,0.3);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #FFE5B4;  /* 添加 */
+}
+
+/* 表格项文字 */
+.table-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  padding: 12px 20px;
+  background: rgba(255,200,100,0.15);
+  border-radius: 40px;
+  transition: all 0.3s;
+  color: #FFE5B4;  /* 添加 */
+}
+
+/* 历史记录文字 */
+.history-item {
+  background: rgba(100,150,255,0.2);
+  margin-top: 12px;
+  padding: 15px;
+  border-radius: 30px;
+  transition: all 0.3s;
+  color: #FFE5B4;  /* 添加 */
+}
+
+/* 排行榜项文字 */
+.rank-item {
+  background: rgba(255,200,100,0.15);
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.3s;
+  color: #FFE5B4;  /* 添加 */
+}
+
+.rank-item strong {
+  color: #FFE5B4;  /* 添加 */
+}
+
+/* 班级列表项文字 */
+.class-item {
+  background: rgba(255,200,100,0.15);
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #FFE5B4;  /* 添加 */
+}
+
+.class-item strong {
+  color: #FFE5B4;  /* 添加 */
+}
+
+/* 建议框文字 */
+.suggestion-box {
+  background: rgba(255,200,100,0.2);
+  border-left: 5px solid #ffaa55;
+  padding: 15px;
+  border-radius: 20px;
+  margin: 15px 0;
+  color: #FFE5B4;  /* 添加 */
+}
+
+/* 错题本项文字 */
+.wrong-question-item {
+  background: rgba(255,100,80,0.2);
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  color: #FFE5B4;  /* 添加 */
+}
+
+/* 统计卡片文字 */
+.stat-card {
+  background: rgba(255,200,100,0.2);
+  padding: 20px;
+  border-radius: 40px;
+  text-align: center;
+  color: #FFE5B4;  /* 添加 */
+}
+
+/* 乘法表卡片文字 */
+.multiplication-card {
+  background: rgba(255,200,100,0.12);
+  padding: 12px;
+  border-radius: 20px;
+  text-align: center;
+  transition: all 0.3s;
+  color: #FFE5B4;  /* 添加 */
+}
+
 .rank-list { max-height: 300px; overflow-y: auto; }
 .rank-item { background: rgba(255,200,100,0.15); margin: 10px 0; padding: 15px; border-radius: 30px; display: flex; align-items: center; gap: 15px; transition: all 0.3s; }
 .rank-item:hover { background: rgba(255,200,100,0.3); transform: translateX(5px); }
@@ -1395,12 +1505,11 @@ async function renderClassComparison() {
   const { data } = await query;
   if (!data || data.length === 0) return;
   const classStats = {};
-  data.forEach(r => {
-    if (!classStats[r.class]) {
-      classStats[r.class] = { total: 0, count: 0 };
-    }
-    classStats[r.class].total += r.accuracy;
-    classStats[r.class].count++;
+  data.forEach(r => { 
+    const className = r.class;  // 确保使用 class 字段
+    if (!classStats[className]) { classStats[className] = { total: 0, count: 0 }; }
+    classStats[className].total += r.accuracy;
+    classStats[className].count++;
   });
   const classes = Object.keys(classStats);
   const avgScores = classes.map(c => Math.round(classStats[c].total / classStats[c].count));
@@ -1775,7 +1884,23 @@ function generateCertificate() {
   const t = texts[currentLang];
   const accuracy = Math.round((correctCount / questions.length) * 100);
   const nowDate = new Date().toLocaleDateString();
-  let levelText = (currentLevel === 5 || currentLevel === 6) ? (currentLang === 'zh' ? '自选练习' : (currentLang === 'en' ? 'Custom Practice' : 'Latihan Pilihan')) : `Level ${currentLevel}`;
+  
+  let levelText = '';
+  let customTablesHtml = '';
+  
+  if (currentLevel === 1) levelText = 'Level 1 - 新手宇航员 / Novice Astronaut';
+  else if (currentLevel === 2) levelText = 'Level 2 - 月球探险家 / Moon Explorer';
+  else if (currentLevel === 3) levelText = 'Level 3 - 太阳勇士 / Solar Warrior';
+  else if (currentLevel === 4) levelText = 'Level 4 - 银河霸主 / Galaxy Master';
+  else if (currentLevel === 5) levelText = currentLang === 'zh' ? '错题练习 / Wrong Questions Practice' : 'Wrong Questions Practice';
+  else if (currentLevel === 6) {
+    levelText = currentLang === 'zh' ? '自选练习 / Custom Practice' : 'Custom Practice';
+    customTablesHtml = `<div style="margin: 15px 0; padding: 10px; background: rgba(255,200,100,0.15); border-radius: 20px;">
+      <strong>${currentLang === 'zh' ? '📋 练习的乘法表：' : '📋 Practiced Tables:'}</strong><br>
+      ${selectedTables.map(t => `${t} ${currentLang === 'zh' ? '的乘法表' : 'Times Table'}`).join(' · ')}
+    </div>`;
+  }
+  
   let starRating = accuracy >= 90 ? '🌟🌟🌟🌟🌟' : (accuracy >= 75 ? '🌟🌟🌟🌟' : (accuracy >= 60 ? '🌟🌟🌟' : '🌟🌟'));
   
   const certHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${t.certTitle} - ${student.name}</title><style>
@@ -1788,14 +1913,30 @@ function generateCertificate() {
     .score { font-size:3rem; font-weight:bold; color:#ff8844; margin:20px 0; }
     .message { font-size:1.3rem; color:#888; margin-top:30px; font-style:italic; }
     .footer { margin-top:40px; font-size:0.9rem; color:#aaa; }
-    @media print { body { padding:0; background:white; } .certificate { box-shadow:none; border:2px solid #ffcc88; } }
+    .btn-close { background:#ff8844; color:white; border:none; padding:10px 30px; border-radius:30px; font-size:1rem; cursor:pointer; margin-top:20px; margin-left:10px; }
+    .btn-close:hover { background:#ff6633; }
+    .btn-print { background:#44aa66; color:white; border:none; padding:10px 30px; border-radius:30px; font-size:1rem; cursor:pointer; margin:10px; }
+    .btn-print:hover { background:#228844; }
+    @media print { body { padding:0; background:white; } .certificate { box-shadow:none; border:2px solid #ffcc88; } .no-print { display:none; } }
   </style></head><body>
-  <div class="certificate"><h1>🚀 ${t.certTitle} 🚀</h1><div class="star">${starRating}</div>
-  <div class="student-name">${student.name}</div><div class="info">${student.school} - ${student.className}</div>
-  <div class="score">${accuracy}%</div><div class="info">${t.certLevel}: ${levelText}</div>
-  <div class="info">${t.certDate}: ${nowDate}</div><div class="message">⭐ ${t.certMessage} ⭐</div>
-  <div class="footer">太空乘法任务 | Space Math Mission</div></div>
-  <script>window.onload = function() { setTimeout(function() { window.print(); }, 500); }<\/script></body></html>`;
+  <div class="certificate">
+    <h1>🚀 ${t.certTitle} 🚀</h1>
+    <div class="star">${starRating}</div>
+    <div class="student-name">${student.name}</div>
+    <div class="info">${student.school} - ${student.className}</div>
+    ${customTablesHtml}
+    <div class="score">${accuracy}%</div>
+    <div class="info">${t.certLevel}: ${levelText}</div>
+    <div class="info">${t.certDate}: ${nowDate}</div>
+    <div class="message">⭐ ${t.certMessage} ⭐</div>
+    <div class="footer">太空乘法任务 | Space Math Mission</div>
+    <div class="no-print" style="margin-top:20px;">
+      <button class="btn-print" onclick="window.print();">🖨️ ${currentLang === 'zh' ? '打印证书' : 'Print Certificate'}</button>
+      <button class="btn-close" onclick="window.close();">❌ ${currentLang === 'zh' ? '关闭' : 'Close'}</button>
+    </div>
+  </div>
+  <script>window.onload = function() { setTimeout(function() { window.print(); }, 500); }<\/script>
+  </body></html>`;
   
   const win = window.open();
   win.document.write(certHtml);
