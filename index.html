@@ -1550,6 +1550,7 @@ async function showStudentProgress(name, school, className) {
   const labels = data.map((_, i) => `${t.testLabel} ${i+1}`);
   const accuracies = data.map(r => r.accuracy);
   document.getElementById('progressTitle').innerHTML = `📈 ${name} - ${t.avgAccuracy} ${currentLang === 'zh' ? '趋势' : (currentLang === 'en' ? 'Trend' : 'Aliran')}`;
+  document.getElementById('closeProgressBtn').innerHTML = t.closeBtn;
   document.getElementById('progressModal').classList.add('active');
   const ctx = document.getElementById('progressChart').getContext('2d');
   if (progressChart) progressChart.destroy();
