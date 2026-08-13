@@ -380,7 +380,7 @@ body {
   border: 2px solid #ffcc88;
   max-height: 800px;
   overflow-y: auto;
-  color: #FFE5B4;  /* 添加：文字改为浅米色 */
+  color: #FFE5B4;
 }
 
 /* 报告行文字 */
@@ -391,7 +391,7 @@ body {
   border-bottom: 2px solid rgba(255,200,100,0.3);
   font-size: 1.2rem;
   font-weight: 500;
-  color: #FFE5B4;  /* 添加 */
+  color: #FFE5B4;
 }
 
 /* 表格项文字 */
@@ -403,7 +403,7 @@ body {
   background: rgba(255,200,100,0.15);
   border-radius: 40px;
   transition: all 0.3s;
-  color: #FFE5B4;  /* 添加 */
+  color: #FFE5B4;
 }
 
 /* 历史记录文字 */
@@ -413,7 +413,7 @@ body {
   padding: 15px;
   border-radius: 30px;
   transition: all 0.3s;
-  color: #FFE5B4;  /* 添加 */
+  color: #FFE5B4;
 }
 
 /* 排行榜项文字 */
@@ -426,11 +426,11 @@ body {
   align-items: center;
   gap: 15px;
   transition: all 0.3s;
-  color: #FFE5B4;  /* 添加 */
+  color: #FFE5B4;
 }
 
 .rank-item strong {
-  color: #FFE5B4;  /* 添加 */
+  color: #FFE5B4;
 }
 
 /* 班级列表项文字 */
@@ -441,11 +441,11 @@ body {
   border-radius: 30px;
   cursor: pointer;
   transition: all 0.3s;
-  color: #FFE5B4;  /* 添加 */
+  color: #FFE5B4;
 }
 
 .class-item strong {
-  color: #FFE5B4;  /* 添加 */
+  color: #FFE5B4;
 }
 
 /* 建议框文字 */
@@ -455,7 +455,7 @@ body {
   padding: 15px;
   border-radius: 20px;
   margin: 15px 0;
-  color: #FFE5B4;  /* 添加 */
+  color: #FFE5B4;
 }
 
 /* 错题本项文字 */
@@ -468,7 +468,7 @@ body {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  color: #FFE5B4;  /* 添加 */
+  color: #FFE5B4;
 }
 
 /* 统计卡片文字 */
@@ -477,7 +477,7 @@ body {
   padding: 20px;
   border-radius: 40px;
   text-align: center;
-  color: #FFE5B4;  /* 添加 */
+  color: #FFE5B4;
 }
 
 /* 乘法表卡片文字 */
@@ -487,7 +487,7 @@ body {
   border-radius: 20px;
   text-align: center;
   transition: all 0.3s;
-  color: #FFE5B4;  /* 添加 */
+  color: #FFE5B4;
 }
 
 .rank-list { max-height: 300px; overflow-y: auto; }
@@ -604,7 +604,7 @@ canvas { max-height: 300px; margin: 20px 0; }
       <button class="level-btn" data-lvl="2">🌙 月球探险家<br><span>0~5 乘法表</span></button>
       <button class="level-btn" data-lvl="3">☀️ 太阳勇士<br><span>2~9 全面挑战</span></button>
       <button class="level-btn" data-lvl="4">🌀 银河霸主<br><span>0~12 终极挑战</span></button>
-      <button class="custom-btn" id="customLevelBtn">✨ 自选练习<br><span>自定义乘法表</span></button>
+      <button class="custom-btn" id="customLevelBtn">✨ 自选练习<br><span id="customLevelDesc">自定义乘法表</span></button>
     </div>
     <button class="back-btn" id="backToInfoBtn">◀ 返回填写资料</button>
   </div>
@@ -665,6 +665,8 @@ canvas { max-height: 300px; margin: 20px 0; }
       <input type="text" id="filterClass" placeholder="筛选班级 / Filter Class">
       <button class="export-btn" id="exportBtn">📊 导出测试记录</button>
       <button class="export-btn" id="exportStudentDetailBtn" style="background: linear-gradient(135deg, #aa66cc, #8844aa);">📋 导出学生详情</button>
+      <!-- 🗑️ 新增删除按钮 -->
+      <button class="export-btn" id="deleteDataBtn" style="background: linear-gradient(135deg, #ff4444, #cc2222);">🗑️ 删除数据</button>
       <button class="back-btn" id="backFromTeacherBtn">◀ 返回首页</button>
     </div>
     <div class="teacher-card" id="classComparisonCard" style="margin-bottom: 20px;">
@@ -1650,6 +1652,48 @@ function getStudentBestRecords(records) {
   return Array.from(studentMap.values());
 }
 
+// ==================== 🗑️ 删除数据功能 ====================
+async function deleteTeacherData() {
+  const t = texts[currentLang];
+  const confirmMsg = currentLang === 'zh' ? '确定要删除当前筛选条件下的所有数据吗？此操作不可恢复！' : (currentLang === 'en' ? 'Are you sure you want to delete all data under current filters? This cannot be undone!' : 'Adakah anda pasti mahu memadam semua data di bawah penapis semasa? Tindakan ini tidak boleh dibatalkan!');
+  if (!confirm(confirmMsg)) return;
+  
+  const password = prompt(t.enterPassword);
+  if (password !== TEACHER_PASSWORD) {
+    alert(t.wrongPassword);
+    return;
+  }
+  
+  if (!supabaseClient) return alert('Supabase not connected');
+  
+  try {
+    const schoolFilter = document.getElementById('filterSchool').value;
+    const classFilter = document.getElementById('filterClass').value;
+    
+    let query = supabaseClient.from('math_records').delete();
+    if (schoolFilter) query = query.eq('school', schoolFilter);
+    if (classFilter) query = query.eq('class', classFilter);
+    
+    const { error } = await query;
+    if (error) throw error;
+    
+    // 同时清除localStorage中的相关数据
+    const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
+    const newRecords = records.filter(r => {
+      if (schoolFilter && r.school !== schoolFilter) return true;
+      if (classFilter && r.class !== classFilter) return true;
+      // 如果没有筛选条件，则全部删除（即保留空数组）
+      return false;
+    });
+    localStorage.setItem('mathRecords', JSON.stringify(newRecords));
+    
+    alert(currentLang === 'zh' ? '✅ 数据已删除' : (currentLang === 'en' ? '✅ Data deleted' : '✅ Data dipadam'));
+    loadTeacherData(); // 重新加载
+  } catch(e) {
+    alert(currentLang === 'zh' ? '删除失败: ' + e.message : (currentLang === 'en' ? 'Delete failed: ' + e.message : 'Padam gagal: ' + e.message));
+  }
+}
+
 // ==================== 多语言词库 ====================
 const texts = {
   zh: {
@@ -1679,7 +1723,14 @@ const texts = {
     step5Title: '📝 错题本功能', step5Desc: '做错的题目自动收集到错题本，可以随时复习和重做！"错题终结者"徽章等你来拿！',
     step6Title: '🏆 排行榜与成就', step6Desc: '查看全班排行榜，收集乘法大师徽章！教师还可以点击学生姓名查看其进步曲线图！',
     tutorialFooter: '🚀 太空乘法任务 - 让学习乘法变得有趣！ 🌟',
-    feedback: '📝 填写问卷', customTitle: '✨ 自选乘法表 ✨', customHint: '请至少选择3个乘法表'
+    feedback: '📝 填写问卷', customTitle: '✨ 自选乘法表 ✨', customHint: '请至少选择3个乘法表',
+    // placeholder 翻译
+    schoolPlaceholder: '银河小学',
+    classPlaceholder: '星际5班',
+    namePlaceholder: '小宇航员',
+    customLevelDesc: '自定义乘法表',
+    // 删除按钮
+    deleteData: '🗑️ 删除数据'
   },
   en: {
     mainTitle: '🚀 Space Math Mission 🌟', infoSubtitle: '✦ Fill in Astronaut Info ✦', schoolLabel: '🏫 School', classLabel: '📚 Class', nameLabel: '👨‍🚀 Name',
@@ -1707,7 +1758,12 @@ const texts = {
     step5Title: '📝 Wrong Questions Book', step5Desc: 'Wrong answers saved automatically. Review anytime!',
     step6Title: '🏆 Ranking & Achievements', step6Desc: 'View class ranking and collect badges! Teachers can view student progress charts!',
     tutorialFooter: '🚀 Space Math Mission - Making multiplication fun! 🌟',
-    feedback: '📝 Feedback', customTitle: '✨ Custom Selection ✨', customHint: 'Please select at least 3 tables'
+    feedback: '📝 Feedback', customTitle: '✨ Custom Selection ✨', customHint: 'Please select at least 3 tables',
+    schoolPlaceholder: 'Galaxy Primary School',
+    classPlaceholder: 'Star Class 5A',
+    namePlaceholder: 'Little Astronaut',
+    customLevelDesc: 'Custom Tables',
+    deleteData: '🗑️ Delete Data'
   },
   ms: {
     mainTitle: '🚀 Misi Matematik Angkasa 🌟', infoSubtitle: '✦ Isi Maklumat Angkasawan ✦', schoolLabel: '🏫 Sekolah', classLabel: '📚 Kelas', nameLabel: '👩‍🚀 Nama',
@@ -1735,7 +1791,12 @@ const texts = {
     step5Title: '📝 Buku Soalan Salah', step5Desc: 'Jawapan salah disimpan. Ulang kaji bila-bila!',
     step6Title: '🏆 Carta & Pencapaian', step6Desc: 'Lihat carta kelas dan kumpul lencana! Guru boleh lihat carta kemajuan murid!',
     tutorialFooter: '🚀 Misi Matematik Angkasa - Pembelajaran sifir menyeronokkan! 🌟',
-    feedback: '📝 Borang Maklum Balas', customTitle: '✨ Pilihan Sendiri ✨', customHint: 'Sila pilih sekurang-kurangnya 3 sifir'
+    feedback: '📝 Borang Maklum Balas', customTitle: '✨ Pilihan Sendiri ✨', customHint: 'Sila pilih sekurang-kurangnya 3 sifir',
+    schoolPlaceholder: 'Galaxy Primary School',
+    classPlaceholder: 'Star Class 5A',
+    namePlaceholder: 'Little Astronaut',
+    customLevelDesc: 'Custom Tables',
+    deleteData: '🗑️ Padam Data'
   }
 };
 
@@ -1775,6 +1836,19 @@ function applyUILang() {
   document.getElementById('feedbackBtn') && (document.getElementById('feedbackBtn').innerHTML = t.feedback);
   document.getElementById('modalTitle') && (document.getElementById('modalTitle').innerHTML = t.customTitle);
   document.getElementById('modalHint') && (document.getElementById('modalHint').innerHTML = t.customHint);
+  
+  // 更新输入框 placeholder
+  document.getElementById('school') && (document.getElementById('school').placeholder = t.schoolPlaceholder);
+  document.getElementById('className') && (document.getElementById('className').placeholder = t.classPlaceholder);
+  document.getElementById('studentName') && (document.getElementById('studentName').placeholder = t.namePlaceholder);
+  
+  // 更新"自选练习"按钮的自定义乘法表文字
+  const customDesc = document.getElementById('customLevelDesc');
+  if (customDesc) customDesc.textContent = t.customLevelDesc;
+  
+  // 更新删除按钮文字
+  const deleteBtn = document.getElementById('deleteDataBtn');
+  if (deleteBtn) deleteBtn.innerHTML = t.deleteData;
   
   // 教程页面翻译
   document.getElementById('step1Title') && (document.getElementById('step1Title').innerHTML = t.step1Title);
@@ -1980,6 +2054,10 @@ document.getElementById('teacherBtn').onclick = () => {
 };
 
 document.getElementById('backFromTeacherBtn').onclick = goToHome;
+
+// 删除按钮事件
+document.getElementById('deleteDataBtn').onclick = deleteTeacherData;
+
 document.getElementById('exportBtn').onclick = exportToExcel;
 document.getElementById('exportStudentDetailBtn').onclick = exportStudentMultiplicationDetails;
 document.getElementById('certBtn').onclick = generateCertificate;
@@ -2042,6 +2120,18 @@ document.getElementById('submitBtn').onclick = () => {
     checkAnswer(val); 
   } 
 };
+
+// ★★★ 按 Enter 键提交答案 ★★★
+document.getElementById('answerInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && gameStarted) {
+    e.preventDefault();
+    const val = parseInt(this.value);
+    if (isNaN(val)) return;
+    if ((currentLevel === 3 || currentLevel === 4 || currentLevel === 5 || currentLevel === 6)) {
+      checkAnswer(val);
+    }
+  }
+});
 
 document.getElementById('restartBtn').onclick = () => { 
   if (gameStarted && currentLevel) { 
