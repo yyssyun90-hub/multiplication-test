@@ -157,7 +157,7 @@ body {
   max-height: 80vh;
   overflow-y: auto;
   border: 2px solid #ffcc88;
-  color: #FFE5B4; /* 文字颜色改为浅色 */
+  color: #FFE5B4;
 }
 .table-checkbox-grid {
   display: grid;
@@ -173,7 +173,7 @@ body {
   padding: 10px;
   border-radius: 40px;
   cursor: pointer;
-  color: #FFE5B4; /* 文字颜色 */
+  color: #FFE5B4;
 }
 .table-checkbox-item.selected {
   background: #ffaa55;
@@ -183,7 +183,7 @@ body {
   width: 20px;
   height: 20px;
   cursor: pointer;
-  accent-color: #ffaa55; /* 复选框颜色 */
+  accent-color: #ffaa55;
 }
 .modal-buttons {
   display: flex;
@@ -585,7 +585,7 @@ canvas { max-height: 300px; margin: 20px 0; }
     <button class="tutorial-btn" id="tutorialBtn">📖 使用教程</button>
     <button class="teacher-btn" id="teacherBtn">👩‍🏫 教师后台</button>
   </div>
-  <button class="lang-switch" id="langBtn">🌙 中 / EN</button>
+  <button class="lang-switch" id="langBtn">🌙 EN</button>
 
   <!-- 学生信息页面 -->
   <div class="screen active" id="infoScreen">
@@ -671,7 +671,6 @@ canvas { max-height: 300px; margin: 20px 0; }
       <input type="text" id="filterClass" placeholder="筛选班级 / Filter Class">
       <button class="export-btn" id="exportBtn">📊 导出测试记录</button>
       <button class="export-btn" id="exportStudentDetailBtn" style="background: linear-gradient(135deg, #aa66cc, #8844aa);">📋 导出学生详情</button>
-      <!-- 🗑️ 新增删除按钮 -->
       <button class="export-btn" id="deleteDataBtn" style="background: linear-gradient(135deg, #ff4444, #cc2222);">🗑️ 删除数据</button>
       <button class="back-btn" id="backFromTeacherBtn">◀ 返回首页</button>
     </div>
@@ -783,7 +782,6 @@ function updateBadges(accuracy, currentStats) {
   studentAchievements.bestAccuracy = Math.max(studentAchievements.bestAccuracy, accuracy);
   studentAchievements.totalTests++;
   
-  // 检查所有乘法表是否都掌握
   let allMastered = true;
   for (let table in currentStats) {
     const item = currentStats[table];
@@ -797,7 +795,6 @@ function updateBadges(accuracy, currentStats) {
     studentAchievements.allTablesMastered = true;
   }
   
-  // 更新徽章状态
   for (const [key, badge] of Object.entries(BADGES)) {
     if (!studentAchievements.badges[key] && badge.condition(studentAchievements)) {
       studentAchievements.badges[key] = true;
@@ -831,7 +828,8 @@ function renderBadges() {
   html += '</div>';
   return html;
 }
-  // ==================== 自选乘法表功能 ====================
+
+// ==================== 自选乘法表功能 ====================
 function generateCustomQuestions(selectedTables) {
   let qList = [];
   stats = {};
@@ -843,7 +841,6 @@ function generateCustomQuestions(selectedTables) {
   for (const table of selectedTables) {
     stats[table] = { total: 8, correct: 0 };
     
-    // 简单层抽2题
     let easySelected = [...easyNumbers];
     for (let i = easySelected.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -853,7 +850,6 @@ function generateCustomQuestions(selectedTables) {
       qList.push({ a: table, b: easySelected[i], ans: table * easySelected[i] });
     }
     
-    // 中等层抽3题
     let mediumSelected = [...mediumNumbers];
     for (let i = mediumSelected.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -863,7 +859,6 @@ function generateCustomQuestions(selectedTables) {
       qList.push({ a: table, b: mediumSelected[i], ans: table * mediumSelected[i] });
     }
     
-    // 困难层抽3题
     let hardSelected = [...hardNumbers];
     for (let i = hardSelected.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -874,7 +869,6 @@ function generateCustomQuestions(selectedTables) {
     }
   }
   
-  // 随机打乱顺序
   for (let i = qList.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [qList[i], qList[j]] = [qList[j], qList[i]];
@@ -937,7 +931,7 @@ function renderWrongQuestions() {
           <span style="color: #90ff90;">${currentLang === 'zh' ? '正确答案' : 'Correct answer'}: ${item.correctAnswer}</span><br>
           <span style="font-size: 0.8rem;">${date}</span>
         </div>
-        <button class="practice-single-btn" data-idx="${idx}" style="background: #ffaa55; border: none; padding: 8px 16px; border-radius: 30px; cursor: pointer;">📝 ${currentLang === 'zh' ? '练习此题' : 'Practice'}</button>
+        <button class="practice-single-btn" data-idx="${idx}" style="background: #ffaa55; border: none; padding: 8px 16px; border-radius: 30px; cursor: pointer;">${t.practiceThis}</button>
       </div>
     `;
   });
@@ -969,7 +963,7 @@ function startPracticeQuestion(question) {
 async function loadRanking() {
   const t = texts[currentLang];
   if (!supabaseClient) {
-    document.getElementById('rankCard').innerHTML = '<div class="loading">加载中...</div>';
+    document.getElementById('rankCard').innerHTML = `<div class="loading">${t.loadingRanking}</div>`;
     return;
   }
   
@@ -1044,7 +1038,7 @@ async function loadRanking() {
     
     document.getElementById('rankCard').innerHTML = html;
   } catch(e) {
-    document.getElementById('rankCard').innerHTML = `<div class="loading">加载失败: ${e.message}</div>`;
+    document.getElementById('rankCard').innerHTML = `<div class="loading">${t.loadFailed}: ${e.message}</div>`;
   }
 }
 
@@ -1386,11 +1380,12 @@ async function clearHistory() {
     renderReport(history, Math.round((correctCount / questions.length) * 100));
   }
 }
-  // ==================== 教师后台功能 ====================
+
+// ==================== 教师后台功能 ====================
 async function loadTeacherData() {
   const t = texts[currentLang];
   if (!supabaseClient) {
-    document.getElementById('teacherCard').innerHTML = `<div class="loading">⚠️ Supabase ${currentLang === 'zh' ? '未连接' : 'not connected'}</div>`;
+    document.getElementById('teacherCard').innerHTML = `<div class="loading">${t.supabaseNotConnected}</div>`;
     return;
   }
   document.getElementById('teacherCard').innerHTML = `<div class="loading">${t.loading}</div>`;
@@ -1406,7 +1401,7 @@ async function loadTeacherData() {
     renderTeacherDashboard(classRecords);
     renderClassComparison();
   } catch(e) {
-    document.getElementById('teacherCard').innerHTML = `<div class="loading">❌ ${currentLang === 'zh' ? '加载失败' : 'Load failed'}: ${e.message}</div>`;
+    document.getElementById('teacherCard').innerHTML = `<div class="loading">❌ ${t.loadFailed}: ${e.message}</div>`;
   }
 }
 
@@ -1514,7 +1509,7 @@ async function renderClassComparison() {
   if (!data || data.length === 0) return;
   const classStats = {};
   data.forEach(r => { 
-    const className = r.class;  // 确保使用 class 字段
+    const className = r.class;
     if (!classStats[className]) { classStats[className] = { total: 0, count: 0 }; }
     classStats[className].total += r.accuracy;
     classStats[className].count++;
@@ -1683,18 +1678,16 @@ async function deleteTeacherData() {
     const { error } = await query;
     if (error) throw error;
     
-    // 同时清除localStorage中的相关数据
     const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
     const newRecords = records.filter(r => {
       if (schoolFilter && r.school !== schoolFilter) return true;
       if (classFilter && r.class !== classFilter) return true;
-      // 如果没有筛选条件，则全部删除（即保留空数组）
       return false;
     });
     localStorage.setItem('mathRecords', JSON.stringify(newRecords));
     
     alert(currentLang === 'zh' ? '✅ 数据已删除' : (currentLang === 'en' ? '✅ Data deleted' : '✅ Data dipadam'));
-    loadTeacherData(); // 重新加载
+    loadTeacherData();
   } catch(e) {
     alert(currentLang === 'zh' ? '删除失败: ' + e.message : (currentLang === 'en' ? 'Delete failed: ' + e.message : 'Padam gagal: ' + e.message));
   }
@@ -1735,7 +1728,19 @@ const texts = {
     namePlaceholder: '小宇航员',
     customLevelDesc: '自定义乘法表',
     customLevelLabel: '✨ 自选练习',
-    deleteData: '🗑️ 删除数据'
+    deleteData: '🗑️ 删除数据',
+    cancelBtn: '◀ 取消',
+    confirmCustomBtn: '✅ 开始练习',
+    langSwitchText: '🌙 EN',
+    progressTitle: '📈 学生进步曲线',
+    closeBtn: '◀ 关闭',
+    loadingRanking: '加载中...',
+    loadFailed: '加载失败',
+    supabaseNotConnected: '⚠️ Supabase 未连接',
+    certFooter: '太空乘法任务 | Space Math Mission',
+    printCert: '🖨️ 打印证书',
+    closeCert: '❌ 关闭',
+    practiceThis: '📝 练习此题'
   },
   en: {
     mainTitle: '🚀 Space Math Mission 🌟', infoSubtitle: '✦ Fill in Astronaut Info ✦', schoolLabel: '🏫 School', classLabel: '📚 Class', nameLabel: '👨‍🚀 Name',
@@ -1769,7 +1774,19 @@ const texts = {
     namePlaceholder: 'Little Astronaut',
     customLevelDesc: 'Custom Tables',
     customLevelLabel: '✨ Custom Practice',
-    deleteData: '🗑️ Delete Data'
+    deleteData: '🗑️ Delete Data',
+    cancelBtn: '◀ Cancel',
+    confirmCustomBtn: '✅ Start Practice',
+    langSwitchText: '🌙 中文',
+    progressTitle: '📈 Student Progress',
+    closeBtn: '◀ Close',
+    loadingRanking: 'Loading...',
+    loadFailed: 'Load failed',
+    supabaseNotConnected: '⚠️ Supabase not connected',
+    certFooter: 'Space Math Mission',
+    printCert: '🖨️ Print Certificate',
+    closeCert: '❌ Close',
+    practiceThis: '📝 Practice'
   },
   ms: {
     mainTitle: '🚀 Misi Matematik Angkasa 🌟', infoSubtitle: '✦ Isi Maklumat Angkasawan ✦', schoolLabel: '🏫 Sekolah', classLabel: '📚 Kelas', nameLabel: '👩‍🚀 Nama',
@@ -1803,7 +1820,19 @@ const texts = {
     namePlaceholder: 'Little Astronaut',
     customLevelDesc: 'Custom Tables',
     customLevelLabel: '✨ Latihan Pilihan Sendiri',
-    deleteData: '🗑️ Padam Data'
+    deleteData: '🗑️ Padam Data',
+    cancelBtn: '◀ Batal',
+    confirmCustomBtn: '✅ Mula Latihan',
+    langSwitchText: '🌙 EN',
+    progressTitle: '📈 Kemajuan Murid',
+    closeBtn: '◀ Tutup',
+    loadingRanking: 'Memuatkan...',
+    loadFailed: 'Gagal memuat',
+    supabaseNotConnected: '⚠️ Supabase tidak disambungkan',
+    certFooter: 'Misi Matematik Angkasa',
+    printCert: '🖨️ Cetak Sijil',
+    closeCert: '❌ Tutup',
+    practiceThis: '📝 Latihan'
   }
 };
 
@@ -1844,22 +1873,18 @@ function applyUILang() {
   document.getElementById('modalTitle') && (document.getElementById('modalTitle').innerHTML = t.customTitle);
   document.getElementById('modalHint') && (document.getElementById('modalHint').innerHTML = t.customHint);
   
-  // 更新输入框 placeholder
   document.getElementById('school') && (document.getElementById('school').placeholder = t.schoolPlaceholder);
   document.getElementById('className') && (document.getElementById('className').placeholder = t.classPlaceholder);
   document.getElementById('studentName') && (document.getElementById('studentName').placeholder = t.namePlaceholder);
   
-  // 更新"自选练习"按钮的自定义乘法表文字
   const customDesc = document.getElementById('customLevelDesc');
   if (customDesc) customDesc.textContent = t.customLevelDesc;
   const customLabel = document.getElementById('customLevelLabel');
   if (customLabel) customLabel.textContent = t.customLevelLabel;
   
-  // 更新删除按钮文字
   const deleteBtn = document.getElementById('deleteDataBtn');
   if (deleteBtn) deleteBtn.innerHTML = t.deleteData;
   
-  // 教程页面翻译
   document.getElementById('step1Title') && (document.getElementById('step1Title').innerHTML = t.step1Title);
   document.getElementById('step1Desc') && (document.getElementById('step1Desc').innerHTML = t.step1Desc);
   document.getElementById('step2Title') && (document.getElementById('step2Title').innerHTML = t.step2Title);
@@ -1890,6 +1915,13 @@ function applyUILang() {
     levelBtns[2].innerHTML = `${t.level3Name}<br><span>${t.level3Desc}</span>`;
     levelBtns[3].innerHTML = `${t.level4Name}<br><span>${t.level4Desc}</span>`;
   }
+  
+  // 新增的翻译元素
+  document.getElementById('cancelCustomBtn') && (document.getElementById('cancelCustomBtn').innerHTML = t.cancelBtn);
+  document.getElementById('confirmCustomBtn') && (document.getElementById('confirmCustomBtn').innerHTML = t.confirmCustomBtn);
+  document.getElementById('langBtn') && (document.getElementById('langBtn').innerHTML = t.langSwitchText);
+  document.getElementById('progressTitle') && (document.getElementById('progressTitle').innerHTML = t.progressTitle);
+  document.getElementById('closeProgressBtn') && (document.getElementById('closeProgressBtn').innerHTML = t.closeBtn);
 }
 
 function goToHome() {
@@ -2012,10 +2044,10 @@ function generateCertificate() {
     <div class="info">${t.certLevel}: ${levelText}</div>
     <div class="info">${t.certDate}: ${nowDate}</div>
     <div class="message">⭐ ${t.certMessage} ⭐</div>
-    <div class="footer">太空乘法任务 | Space Math Mission</div>
+    <div class="footer">${t.certFooter}</div>
     <div class="no-print" style="margin-top:20px;">
-      <button class="btn-print" onclick="window.print();">🖨️ ${currentLang === 'zh' ? '打印证书' : 'Print Certificate'}</button>
-      <button class="btn-close" onclick="window.close();">❌ ${currentLang === 'zh' ? '关闭' : 'Close'}</button>
+      <button class="btn-print" onclick="window.print();">${t.printCert}</button>
+      <button class="btn-close" onclick="window.close();">${t.closeCert}</button>
     </div>
   </div>
   <script>window.onload = function() { setTimeout(function() { window.print(); }, 500); }<\/script>
@@ -2064,7 +2096,6 @@ document.getElementById('teacherBtn').onclick = () => {
 
 document.getElementById('backFromTeacherBtn').onclick = goToHome;
 
-// 删除按钮事件
 document.getElementById('deleteDataBtn').onclick = deleteTeacherData;
 
 document.getElementById('exportBtn').onclick = exportToExcel;
@@ -2130,7 +2161,6 @@ document.getElementById('submitBtn').onclick = () => {
   } 
 };
 
-// ★★★ 按 Enter 键提交答案 ★★★
 document.getElementById('answerInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && gameStarted) {
     e.preventDefault();
