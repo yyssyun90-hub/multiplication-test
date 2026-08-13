@@ -148,7 +148,7 @@ body {
   display: flex;
 }
 .modal-content {
-  background: rgba(20, 30, 55, 0.95);
+  background: rgba(35, 50, 90, 0.95);
   backdrop-filter: blur(15px);
   border-radius: 60px;
   padding: 30px;
@@ -157,6 +157,7 @@ body {
   max-height: 80vh;
   overflow-y: auto;
   border: 2px solid #ffcc88;
+  color: #FFE5B4; /* 文字颜色改为浅色 */
 }
 .table-checkbox-grid {
   display: grid;
@@ -168,10 +169,11 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255,200,100,0.15);
+  background: rgba(255,200,100,0.25);
   padding: 10px;
   border-radius: 40px;
   cursor: pointer;
+  color: #FFE5B4; /* 文字颜色 */
 }
 .table-checkbox-item.selected {
   background: #ffaa55;
@@ -181,6 +183,7 @@ body {
   width: 20px;
   height: 20px;
   cursor: pointer;
+  accent-color: #ffaa55; /* 复选框颜色 */
 }
 .modal-buttons {
   display: flex;
@@ -604,7 +607,10 @@ canvas { max-height: 300px; margin: 20px 0; }
       <button class="level-btn" data-lvl="2">🌙 月球探险家<br><span>0~5 乘法表</span></button>
       <button class="level-btn" data-lvl="3">☀️ 太阳勇士<br><span>2~9 全面挑战</span></button>
       <button class="level-btn" data-lvl="4">🌀 银河霸主<br><span>0~12 终极挑战</span></button>
-      <button class="custom-btn" id="customLevelBtn">✨ 自选练习<br><span id="customLevelDesc">自定义乘法表</span></button>
+      <button class="custom-btn" id="customLevelBtn">
+        <span id="customLevelLabel">✨ 自选练习</span><br>
+        <span id="customLevelDesc">自定义乘法表</span>
+      </button>
     </div>
     <button class="back-btn" id="backToInfoBtn">◀ 返回填写资料</button>
   </div>
@@ -1724,12 +1730,11 @@ const texts = {
     step6Title: '🏆 排行榜与成就', step6Desc: '查看全班排行榜，收集乘法大师徽章！教师还可以点击学生姓名查看其进步曲线图！',
     tutorialFooter: '🚀 太空乘法任务 - 让学习乘法变得有趣！ 🌟',
     feedback: '📝 填写问卷', customTitle: '✨ 自选乘法表 ✨', customHint: '请至少选择3个乘法表',
-    // placeholder 翻译
     schoolPlaceholder: '银河小学',
     classPlaceholder: '星际5班',
     namePlaceholder: '小宇航员',
     customLevelDesc: '自定义乘法表',
-    // 删除按钮
+    customLevelLabel: '✨ 自选练习',
     deleteData: '🗑️ 删除数据'
   },
   en: {
@@ -1763,6 +1768,7 @@ const texts = {
     classPlaceholder: 'Star Class 5A',
     namePlaceholder: 'Little Astronaut',
     customLevelDesc: 'Custom Tables',
+    customLevelLabel: '✨ Custom Practice',
     deleteData: '🗑️ Delete Data'
   },
   ms: {
@@ -1796,6 +1802,7 @@ const texts = {
     classPlaceholder: 'Star Class 5A',
     namePlaceholder: 'Little Astronaut',
     customLevelDesc: 'Custom Tables',
+    customLevelLabel: '✨ Latihan Pilihan Sendiri',
     deleteData: '🗑️ Padam Data'
   }
 };
@@ -1845,6 +1852,8 @@ function applyUILang() {
   // 更新"自选练习"按钮的自定义乘法表文字
   const customDesc = document.getElementById('customLevelDesc');
   if (customDesc) customDesc.textContent = t.customLevelDesc;
+  const customLabel = document.getElementById('customLevelLabel');
+  if (customLabel) customLabel.textContent = t.customLevelLabel;
   
   // 更新删除按钮文字
   const deleteBtn = document.getElementById('deleteDataBtn');
