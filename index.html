@@ -103,7 +103,6 @@ body {
   background: linear-gradient(135deg, #ffbb55, #ff9955);
 }
 
-/* ========== 反馈按钮样式 ========== */
 .feedback-btn {
   position: fixed;
   bottom: 25px;
@@ -131,7 +130,6 @@ body {
   box-shadow: 0 8px 25px rgba(0,0,0,0.4);
 }
 
-/* ========== 自选乘法表模态框样式 ========== */
 .modal {
   display: none;
   position: fixed;
@@ -192,7 +190,6 @@ body {
   margin-top: 20px;
 }
 
-/* ========== 成就徽章样式 ========== */
 .badges-container {
   display: flex;
   flex-wrap: wrap;
@@ -220,7 +217,6 @@ body {
   color: #221c0f;
 }
 
-/* ========== 进步曲线模态框 ========== */
 .progress-modal {
   display: none;
   position: fixed;
@@ -316,7 +312,7 @@ body {
   transform: scale(1.02);
 }
 
-.start-btn, .level-btn, .submit-btn, .restart-btn, .back-btn, .export-btn, .cert-btn, .practice-wrong-btn, .custom-btn {
+.start-btn, .level-btn, .submit-btn, .restart-btn, .back-btn, .export-btn, .cert-btn, .practice-wrong-btn, .custom-btn, .smart-review-btn {
   background: linear-gradient(135deg, #FFB347, #FF8C33);
   border: none;
   border-radius: 60px;
@@ -328,12 +324,16 @@ body {
   transition: all 0.3s;
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
-.start-btn:hover, .level-btn:hover, .submit-btn:hover, .restart-btn:hover, .back-btn:hover, .export-btn:hover, .cert-btn:hover, .practice-wrong-btn:hover, .custom-btn:hover {
+.start-btn:hover, .level-btn:hover, .submit-btn:hover, .restart-btn:hover, .back-btn:hover, .export-btn:hover, .cert-btn:hover, .practice-wrong-btn:hover, .custom-btn:hover, .smart-review-btn:hover {
   transform: translateY(-5px) scale(1.02);
   box-shadow: 0 15px 30px rgba(255,140,0,0.5);
 }
 .custom-btn {
   background: linear-gradient(135deg, #aa66cc, #8844aa);
+}
+.smart-review-btn {
+  background: linear-gradient(135deg, #00b894, #00695c);
+  color: white;
 }
 .cert-btn { background: linear-gradient(135deg, #aa66cc, #8844aa); color: white; }
 .practice-wrong-btn { background: linear-gradient(135deg, #ff6644, #cc4422); color: white; }
@@ -373,7 +373,6 @@ body {
 .input-answer:focus { border-color: #ffcc88; box-shadow: 0 0 30px rgba(255,200,100,0.5); transform: scale(1.05); }
 .button-group { display: flex; gap: 20px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
 
-/* 保持原有背景不变，只修改文字颜色 */
 .report-card, .teacher-card, .tutorial-card, .wrong-questions-card {
   background: rgba(20, 30, 55, 0.8);
   backdrop-filter: blur(15px);
@@ -386,7 +385,6 @@ body {
   color: #FFE5B4;
 }
 
-/* 报告行文字 */
 .report-row {
   display: flex;
   justify-content: space-between;
@@ -397,7 +395,6 @@ body {
   color: #FFE5B4;
 }
 
-/* 表格项文字 */
 .table-item {
   display: flex;
   justify-content: space-between;
@@ -409,7 +406,6 @@ body {
   color: #FFE5B4;
 }
 
-/* 历史记录文字 */
 .history-item {
   background: rgba(100,150,255,0.2);
   margin-top: 12px;
@@ -419,7 +415,6 @@ body {
   color: #FFE5B4;
 }
 
-/* 排行榜项文字 */
 .rank-item {
   background: rgba(255,200,100,0.15);
   margin: 10px 0;
@@ -436,7 +431,6 @@ body {
   color: #FFE5B4;
 }
 
-/* 班级列表项文字 */
 .class-item {
   background: rgba(255,200,100,0.15);
   margin: 10px 0;
@@ -451,7 +445,6 @@ body {
   color: #FFE5B4;
 }
 
-/* 建议框文字 */
 .suggestion-box {
   background: rgba(255,200,100,0.2);
   border-left: 5px solid #ffaa55;
@@ -461,7 +454,6 @@ body {
   color: #FFE5B4;
 }
 
-/* 错题本项文字 */
 .wrong-question-item {
   background: rgba(255,100,80,0.2);
   margin: 10px 0;
@@ -474,7 +466,6 @@ body {
   color: #FFE5B4;
 }
 
-/* 统计卡片文字 */
 .stat-card {
   background: rgba(255,200,100,0.2);
   padding: 20px;
@@ -483,7 +474,6 @@ body {
   color: #FFE5B4;
 }
 
-/* 乘法表卡片文字 */
 .multiplication-card {
   background: rgba(255,200,100,0.12);
   padding: 12px;
@@ -530,6 +520,11 @@ canvas { max-height: 300px; margin: 20px 0; }
 .tutorial-step { background: rgba(255,200,100,0.1); border-radius: 30px; padding: 20px; margin: 15px 0; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .tutorial-number { width: 50px; height: 50px; background: #ffaa55; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; color: #221c0f; }
 
+.heatmap-table { overflow-x: auto; margin-top: 10px; }
+.heatmap-table table { border-collapse: collapse; width: 100%; color: white; }
+.heatmap-table th, .heatmap-table td { padding: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.2); }
+.heatmap-table th { background: rgba(255,200,100,0.2); }
+
 @media (max-width: 700px) {
   .app-container { padding: 30px 20px; }
   .title { font-size: 2rem; }
@@ -555,7 +550,6 @@ canvas { max-height: 300px; margin: 20px 0; }
 
 <button class="feedback-btn" id="feedbackBtn">📝 填写问卷</button>
 
-<!-- 自选乘法表模态框 -->
 <div class="modal" id="customModal">
   <div class="modal-content">
     <h3 id="modalTitle" style="text-align:center; margin-bottom:20px;">✨ 自选乘法表 ✨</h3>
@@ -568,7 +562,6 @@ canvas { max-height: 300px; margin: 20px 0; }
   </div>
 </div>
 
-<!-- 进步曲线模态框 -->
 <div class="progress-modal" id="progressModal">
   <div class="progress-content">
     <h3 id="progressTitle" style="text-align:center; margin-bottom:20px;">📈 学生进步曲线</h3>
@@ -587,7 +580,6 @@ canvas { max-height: 300px; margin: 20px 0; }
   </div>
   <button class="lang-switch" id="langBtn">🌙 EN</button>
 
-  <!-- 学生信息页面 -->
   <div class="screen active" id="infoScreen">
     <h1 class="title" id="mainTitle">🚀 太空乘法任务 🌟</h1>
     <p class="subtitle" id="infoSubtitle">✦ 填写宇航员资料 ✦</p>
@@ -599,7 +591,6 @@ canvas { max-height: 300px; margin: 20px 0; }
     </div>
   </div>
 
-  <!-- 等级页面 -->
   <div class="screen" id="levelScreen">
     <h1 class="title" id="levelTitle">🪐 选择任务等级 🪐</h1>
     <div class="level-buttons" id="levelButtons">
@@ -611,11 +602,11 @@ canvas { max-height: 300px; margin: 20px 0; }
         <span id="customLevelLabel">✨ 自选练习</span><br>
         <span id="customLevelDesc">自定义乘法表</span>
       </button>
+      <button class="smart-review-btn" id="smartReviewBtn" style="display:none;">🧠 智能复习</button>
     </div>
     <button class="back-btn" id="backToInfoBtn">◀ 返回填写资料</button>
   </div>
 
-  <!-- 答题页面 -->
   <div class="screen" id="quizScreen">
     <div class="timer-container"><div class="timer-bar"><div class="timer-progress" id="timerProgress"></div></div></div>
     <div class="question" id="questionDisplay">3 × 4 = ?</div>
@@ -627,7 +618,6 @@ canvas { max-height: 300px; margin: 20px 0; }
     </div>
   </div>
 
-  <!-- 报告页面 -->
   <div class="screen" id="reportScreen">
     <h2 class="title" id="reportTitle">📋 星际评估报告 🌟</h2>
     <div class="report-lang" style="display: flex; gap: 15px; justify-content: center; margin-bottom: 15px;">
@@ -644,7 +634,6 @@ canvas { max-height: 300px; margin: 20px 0; }
     </div>
   </div>
 
-  <!-- 错题本页面 -->
   <div class="screen" id="wrongQuestionsScreen">
     <h2 class="title" id="wrongTitle">📝 我的错题本 📝</h2>
     <div class="wrong-questions-card" id="wrongQuestionsCard"></div>
@@ -654,7 +643,6 @@ canvas { max-height: 300px; margin: 20px 0; }
     </div>
   </div>
 
-  <!-- 排行榜页面 -->
   <div class="screen" id="rankScreen">
     <h2 class="title" id="rankTitle">🏆 星际排行榜 🏆</h2>
     <div class="teacher-card" id="rankCard"></div>
@@ -663,7 +651,6 @@ canvas { max-height: 300px; margin: 20px 0; }
     </div>
   </div>
 
-  <!-- 教师后台页面 -->
   <div class="screen" id="teacherScreen">
     <h2 class="title" id="teacherTitle">👩‍🏫 教师后台管理系统</h2>
     <div class="filter-bar">
@@ -683,7 +670,6 @@ canvas { max-height: 300px; margin: 20px 0; }
     </div>
   </div>
 
-  <!-- 教程页面 -->
   <div class="screen" id="tutorialScreen">
     <h2 class="title" id="tutorialTitle">📖 使用教程</h2>
     <div class="tutorial-card">
@@ -711,6 +697,8 @@ function initSupabase() {
   if (typeof supabase !== 'undefined' && supabase.createClient) {
     supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('✅ Supabase 已连接');
+  } else {
+    console.warn('⚠️ Supabase SDK 未加载，将使用本地存储');
   }
 }
 setTimeout(initSupabase, 1000);
@@ -728,12 +716,13 @@ let stats = {};
 let chart = null;
 let classChart = null;
 let progressChart = null;
+let radarChart = null;
 let wrongQuestions = [];
 let selectedTables = [];
+let classRecords = [];
 
 const student = { school: '', className: '', name: '' };
 
-// 学生成就数据（存储在localStorage）
 let studentAchievements = {
   totalTests: 0,
   bestAccuracy: 0,
@@ -752,7 +741,6 @@ let studentAchievements = {
   }
 };
 
-// 徽章定义
 const BADGES = {
   first_test: { name: '🚀 新手宇航员', nameEn: '🚀 Novice Astronaut', nameMs: '🚀 Angkasawan Baru', condition: (s) => s.totalTests >= 1 },
   one_star: { name: '⭐ 一星学者', nameEn: '⭐ One Star Scholar', nameMs: '⭐ Sarjana Satu Bintang', condition: (s) => s.bestAccuracy >= 60 },
@@ -764,7 +752,6 @@ const BADGES = {
   multiplication_master: { name: '🌟 乘法大师', nameEn: '🌟 Multiplication Master', nameMs: '🌟 Master Sifir', condition: (s) => s.allTablesMastered }
 };
 
-// 加载成就数据
 function loadAchievements() {
   const saved = localStorage.getItem(`achievements_${student.school}_${student.className}_${student.name}`);
   if (saved) {
@@ -772,12 +759,10 @@ function loadAchievements() {
   }
 }
 
-// 保存成就数据
 function saveAchievements() {
   localStorage.setItem(`achievements_${student.school}_${student.className}_${student.name}`, JSON.stringify(studentAchievements));
 }
 
-// 更新徽章
 function updateBadges(accuracy, currentStats) {
   studentAchievements.bestAccuracy = Math.max(studentAchievements.bestAccuracy, accuracy);
   studentAchievements.totalTests++;
@@ -803,7 +788,6 @@ function updateBadges(accuracy, currentStats) {
   saveAchievements();
 }
 
-// 获取已获得的徽章列表
 function getEarnedBadges() {
   const badges = [];
   for (const [key, badge] of Object.entries(BADGES)) {
@@ -817,7 +801,6 @@ function getEarnedBadges() {
   return badges;
 }
 
-// 渲染徽章
 function renderBadges() {
   const badges = getEarnedBadges();
   if (badges.length === 0) return '';
@@ -827,54 +810,6 @@ function renderBadges() {
   });
   html += '</div>';
   return html;
-}
-
-// ==================== 自选乘法表功能 ====================
-function generateCustomQuestions(selectedTables) {
-  let qList = [];
-  stats = {};
-  
-  const easyNumbers = [0, 1, 2, 10];
-  const mediumNumbers = [3, 4, 5, 9, 11];
-  const hardNumbers = [6, 7, 8, 12];
-  
-  for (const table of selectedTables) {
-    stats[table] = { total: 8, correct: 0 };
-    
-    let easySelected = [...easyNumbers];
-    for (let i = easySelected.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [easySelected[i], easySelected[j]] = [easySelected[j], easySelected[i]];
-    }
-    for (let i = 0; i < 2; i++) {
-      qList.push({ a: table, b: easySelected[i], ans: table * easySelected[i] });
-    }
-    
-    let mediumSelected = [...mediumNumbers];
-    for (let i = mediumSelected.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [mediumSelected[i], mediumSelected[j]] = [mediumSelected[j], mediumSelected[i]];
-    }
-    for (let i = 0; i < 3; i++) {
-      qList.push({ a: table, b: mediumSelected[i], ans: table * mediumSelected[i] });
-    }
-    
-    let hardSelected = [...hardNumbers];
-    for (let i = hardSelected.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [hardSelected[i], hardSelected[j]] = [hardSelected[j], hardSelected[i]];
-    }
-    for (let i = 0; i < 3; i++) {
-      qList.push({ a: table, b: hardSelected[i], ans: table * hardSelected[i] });
-    }
-  }
-  
-  for (let i = qList.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [qList[i], qList[j]] = [qList[j], qList[i]];
-  }
-  
-  return qList;
 }
 
 // ==================== 错题本功能 ====================
@@ -916,7 +851,7 @@ function renderWrongQuestions() {
   if (!container) return;
   
   if (wrongQuestions.length === 0) {
-    container.innerHTML = `<div class="loading">${t.noWrongQuestions}</div>`;
+    container.innerHTML = `<div class="loading">🎉 ${t.noWrongQuestions}</div>`;
     return;
   }
   
@@ -953,141 +888,217 @@ function startPracticeQuestion(question) {
   correctCount = 0;
   gameStarted = true;
   stats = {};
-  stats[question.a] = { total: 1, correct: 0 };
+  stats[question.a] = { total: 1, correct: 0, wrongQuestions: [] };
   document.getElementById('wrongQuestionsScreen').classList.remove('active');
   document.getElementById('quizScreen').classList.add('active');
   showCurrentQuestion();
 }
 
-// ==================== 排行榜功能 ====================
-async function loadRanking() {
-  const t = texts[currentLang];
-  if (!supabaseClient) {
-    document.getElementById('rankCard').innerHTML = `<div class="loading">${t.loadingRanking}</div>`;
-    return;
+// ==================== 多语言词库 ====================
+const texts = {
+  zh: {
+    mainTitle: '🚀 太空乘法任务 🌟', infoSubtitle: '✦ 填写宇航员资料 ✦', schoolLabel: '🏫 学校', classLabel: '📚 班级', nameLabel: '👩‍🚀 姓名',
+    startBtn: '⚡ 发射启程 ⚡', levelTitle: '🪐 选择任务等级 🪐', submitBtn: '✨ 确认答案 ✨', reportTitle: '📋 星际评估报告 🌟',
+    restartBtn: '🔄 重新测试 🔄', homeBtn: '🏠 首页', teacherBtn: '👩‍🏫 教师后台', tutorialBtn: '📖 使用教程',
+    backToInfo: '◀ 返回填写资料', backToLevel: '◀ 返回选等级', teacherTitle: '👩‍🏫 教师后台管理系统', tutorialTitle: '📖 使用教程',
+    filterSchool: '筛选学校', filterClass: '筛选班级', exportRecords: '📊 导出测试记录', exportDetails: '📋 导出学生详情',
+    backHome: '◀ 返回首页', totalStudents: '总学生数', totalTests: '总测试次数', avgAccuracy: '平均正确率', highestScore: '最高分',
+    timesTableMastery: '各乘法表掌握程度详情（0-12）', recentRecords: '📋 最近测试记录', noData: '暂无数据，请先让学生完成测试',
+    loading: '加载数据中...', enterPassword: '请输入密码进入教师后台', wrongPassword: '❌ 密码错误！',
+    exportSuccess: (c) => `✅ 已导出 ${c} 条测试记录`, exportStudentSuccess: (c) => `✅ 已导出 ${c} 名学生的乘法表掌握详情`,
+    noDataToExport: '暂无数据', testLabel: '测试', certTitle: '🏆 乘法大师证书 🏆', certAwardTo: '授予', certLevel: '等级',
+    certDate: '日期', certMessage: '你是真正的星际领航员！', classComparison: '📊 班级成绩对比',
+    level1Name: '🌟 新手宇航员', level1Desc: '2的乘法表', level2Name: '🌙 月球探险家', level2Desc: '0~5 乘法表',
+    level3Name: '☀️ 太阳勇士', level3Desc: '2~9 全面挑战', level4Name: '🌀 银河霸主', level4Desc: '0~12 终极挑战',
+    wrongTitle: '📝 我的错题本', practiceWrong: '📝 练习错题', clearWrong: '🗑️ 清空错题本', backToReport: '◀ 返回报告',
+    noWrongQuestions: '🎉 太棒了！你没有错题！继续努力保持！', rankTitle: '🏆 星际排行榜', yourRank: '你的排名', rankNotRanked: '暂未上榜，继续努力！',
+    suggestionTitle: '💡 学习建议', suggestionExcellent: '🎉 太优秀了！你是乘法表小专家！继续保持！',
+    suggestionGood: '👍 表现不错！再练习一下薄弱环节，你就能成为乘法大师！',
+    suggestionNeedPractice: '💪 加油！多练习错题，你会进步的！',
+    suggestionWeakTables: '需要加强的乘法表', suggestionStrongTables: '已经掌握的乘法表',
+    step1Title: '📝 填写宇航员资料', step1Desc: '输入学校、班级和姓名，点击"发射启程"开始太空数学之旅！',
+    step2Title: '🎯 选择任务等级', step2Desc: '5种模式：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)，以及✨自选练习✨ - 可自由勾选需要练习的乘法表（至少选3个）！',
+    step3Title: '⏱️ 限时答题', step3Desc: '低级：20秒选择题；高级：25秒输入答案。自选模式：每个乘法表按难度出8题（简单2题+中等3题+困难3题），全面考察掌握程度！',
+    step4Title: '📊 查看评估报告', step4Desc: '测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议、排行榜，还有🏅成就徽章系统（完成测试、获得高分、错题清零等都可解锁徽章）！',
+    step5Title: '📝 错题本功能', step5Desc: '做错的题目自动收集到错题本，可以随时复习和重做！"错题终结者"徽章等你来拿！',
+    step6Title: '🏆 排行榜与成就', step6Desc: '查看全班排行榜，收集乘法大师徽章！教师还可以点击学生姓名查看其进步曲线图！',
+    tutorialFooter: '🚀 太空乘法任务 - 让学习乘法变得有趣！ 🌟',
+    feedback: '📝 填写问卷', customTitle: '✨ 自选乘法表 ✨', customHint: '请至少选择3个乘法表',
+    schoolPlaceholder: '银河小学',
+    classPlaceholder: '星际5班',
+    namePlaceholder: '小宇航员',
+    customLevelDesc: '自定义乘法表',
+    customLevelLabel: '✨ 自选练习',
+    deleteData: '🗑️ 删除数据',
+    cancelBtn: '◀ 取消',
+    confirmCustomBtn: '✅ 开始练习',
+    langSwitchText: '🌙 EN',
+    progressTitle: '📈 学生进步曲线',
+    closeBtn: '◀ 关闭',
+    loadingRanking: '加载中...',
+    loadFailed: '加载失败',
+    supabaseNotConnected: '⚠️ Supabase 未连接',
+    certFooter: '太空乘法任务 | Space Math Mission',
+    printCert: '🖨️ 打印证书',
+    closeCert: '❌ 关闭',
+    practiceThis: '📝 练习此题',
+    errorAnalysisTitle: '📊 错误分析',
+    noErrors: '🎉 没有错误！太棒了！',
+    errorTypeTimeout: '超时未答',
+    errorTypeConfusion: '口诀混淆',
+    errorTypeCalc: '计算错误',
+    errorTypeDigit: '数字倒置',
+    commonErrors: '错误类型',
+    correctAnswerLabel: '正确答案',
+    radarChartTitle: '📊 能力雷达图',
+    radarLabel: '掌握度 (%)',
+    predictedScore: '📈 预计下次成绩',
+    smartReviewBtn: '🧠 智能复习',
+    smartReviewNoData: '暂无错题，无需复习！',
+    classHeatmapTitle: '🔥 班级乘法表热力图',
+    studentColumn: '学生',
+    diagnosisTitle: '🏥 班级诊断',
+    weakTablesAdvice: '⚠️ 班级整体在以下乘法表表现较弱：',
+    noWeakTablesAdvice: '🎉 班级整体乘法表掌握良好，继续保持！',
+    tableLabel: (n) => `${n} 的乘法表`,
+  },
+  en: {
+    mainTitle: '🚀 Space Math Mission 🌟', infoSubtitle: '✦ Fill in Astronaut Info ✦', schoolLabel: '🏫 School', classLabel: '📚 Class', nameLabel: '👨‍🚀 Name',
+    startBtn: '⚡ Launch ⚡', levelTitle: '🪐 Select Mission Level 🪐', submitBtn: '✨ Submit ✨', reportTitle: '📋 Star Assessment Report 🌟',
+    restartBtn: '🔄 Retry 🔄', homeBtn: '🏠 Home', teacherBtn: '👩‍🏫 Teacher', tutorialBtn: '📖 Tutorial',
+    backToInfo: '◀ Back to Info', backToLevel: '◀ Back to Levels', teacherTitle: '👩‍🏫 Teacher Dashboard', tutorialTitle: '📖 Tutorial',
+    filterSchool: 'Filter School', filterClass: 'Filter Class', exportRecords: '📊 Export Records', exportDetails: '📋 Export Student Details',
+    backHome: '◀ Back Home', totalStudents: 'Total Students', totalTests: 'Total Tests', avgAccuracy: 'Avg Accuracy', highestScore: 'Highest Score',
+    timesTableMastery: 'Multiplication Tables Mastery Details (0-12)', recentRecords: '📋 Recent Test Records', noData: 'No data yet.',
+    loading: 'Loading data...', enterPassword: 'Enter password to access', wrongPassword: '❌ Wrong password!',
+    exportSuccess: (c) => `✅ Exported ${c} test records`, exportStudentSuccess: (c) => `✅ Exported ${c} student details`,
+    noDataToExport: 'No data to export', testLabel: 'Test', certTitle: '🏆 Multiplication Master Certificate 🏆', certAwardTo: 'Awarded to',
+    certLevel: 'Level', certDate: 'Date', certMessage: 'You are a true Space Navigator!', classComparison: '📊 Class Performance Comparison',
+    level1Name: '🌟 Novice Astronaut', level1Desc: '2 Times Table', level2Name: '🌙 Moon Explorer', level2Desc: '0~5 Times Table',
+    level3Name: '☀️ Solar Warrior', level3Desc: '2~9 Challenge', level4Name: '🌀 Galaxy Master', level4Desc: '0~12 Ultimate Challenge',
+    wrongTitle: '📝 My Wrong Questions', practiceWrong: '📝 Practice Wrong', clearWrong: '🗑️ Clear Wrong', backToReport: '◀ Back to Report',
+    noWrongQuestions: '🎉 Great job! No wrong questions!', rankTitle: '🏆 Star Ranking', yourRank: 'Your Rank', rankNotRanked: 'Not ranked yet, keep trying!',
+    suggestionTitle: '💡 Learning Suggestions', suggestionExcellent: '🎉 Excellent! You are a multiplication expert!',
+    suggestionGood: '👍 Good job! Practice your weak areas!', suggestionNeedPractice: '💪 Keep going! Practice more!',
+    suggestionWeakTables: 'Tables to improve', suggestionStrongTables: 'Tables mastered',
+    step1Title: '📝 Fill in Astronaut Info', step1Desc: 'Enter school, class and name, then click "Launch" to start!',
+    step2Title: '🎯 Select Mission Level', step2Desc: '5 modes: Novice, Moon Explorer, Solar Warrior, Galaxy Master, plus ✨Custom Practice✨ - select at least 3 tables!',
+    step3Title: '⏱️ Timed Questions', step3Desc: 'Easy: 20s multiple choice; Hard: 25s input. Custom mode: 8 questions per table (2 easy + 3 medium + 3 hard)',
+    step4Title: '📊 View Assessment Report', step4Desc: 'Shows mastery, suggestions, ranking, and 🏅achievement badges!',
+    step5Title: '📝 Wrong Questions Book', step5Desc: 'Wrong answers saved automatically. Review anytime!',
+    step6Title: '🏆 Ranking & Achievements', step6Desc: 'View class ranking and collect badges! Teachers can view student progress charts!',
+    tutorialFooter: '🚀 Space Math Mission - Making multiplication fun! 🌟',
+    feedback: '📝 Feedback', customTitle: '✨ Custom Selection ✨', customHint: 'Please select at least 3 tables',
+    schoolPlaceholder: 'Galaxy Primary School',
+    classPlaceholder: 'Star Class 5A',
+    namePlaceholder: 'Little Astronaut',
+    customLevelDesc: 'Custom Tables',
+    customLevelLabel: '✨ Custom Practice',
+    deleteData: '🗑️ Delete Data',
+    cancelBtn: '◀ Cancel',
+    confirmCustomBtn: '✅ Start Practice',
+    langSwitchText: '🌙 中文',
+    progressTitle: '📈 Student Progress',
+    closeBtn: '◀ Close',
+    loadingRanking: 'Loading...',
+    loadFailed: 'Load failed',
+    supabaseNotConnected: '⚠️ Supabase not connected',
+    certFooter: 'Space Math Mission',
+    printCert: '🖨️ Print Certificate',
+    closeCert: '❌ Close',
+    practiceThis: '📝 Practice',
+    errorAnalysisTitle: '📊 Error Analysis',
+    noErrors: '🎉 No errors! Great job!',
+    errorTypeTimeout: 'Timeout',
+    errorTypeConfusion: 'Table Confusion',
+    errorTypeCalc: 'Calculation Error',
+    errorTypeDigit: 'Digit Reversal',
+    commonErrors: 'Error Type',
+    correctAnswerLabel: 'Correct Answer',
+    radarChartTitle: '📊 Ability Radar Chart',
+    radarLabel: 'Mastery (%)',
+    predictedScore: '📈 Predicted Next Score',
+    smartReviewBtn: '🧠 Smart Review',
+    smartReviewNoData: 'No wrong questions to review!',
+    classHeatmapTitle: '🔥 Class Multiplication Heatmap',
+    studentColumn: 'Student',
+    diagnosisTitle: '🏥 Class Diagnosis',
+    weakTablesAdvice: '⚠️ Class overall weak in these tables: ',
+    noWeakTablesAdvice: '🎉 Class overall mastery is good, keep it up!',
+    tableLabel: (n) => `${n} Times Table`,
+  },
+  ms: {
+    mainTitle: '🚀 Misi Matematik Angkasa 🌟', infoSubtitle: '✦ Isi Maklumat Angkasawan ✦', schoolLabel: '🏫 Sekolah', classLabel: '📚 Kelas', nameLabel: '👩‍🚀 Nama',
+    startBtn: '⚡ Lancar ⚡', levelTitle: '🪐 Pilih Tahap Misi 🪐', submitBtn: '✨ Hantar ✨', reportTitle: '📋 Laporan Penilaian Bintang 🌟',
+    restartBtn: '🔄 Cuba Semula 🔄', homeBtn: '🏠 Laman Utama', teacherBtn: '👩‍🏫 Panel Guru', tutorialBtn: '📖 Tutorial',
+    backToInfo: '◀ Kembali ke Maklumat', backToLevel: '◀ Kembali ke Tahap', teacherTitle: '👩‍🏫 Sistem Pengurusan Panel Guru', tutorialTitle: '📖 Tutorial',
+    filterSchool: 'Tapis Sekolah', filterClass: 'Tapis Kelas', exportRecords: '📊 Eksport Rekod', exportDetails: '📋 Eksport Butiran',
+    backHome: '◀ Kembali ke Laman Utama', totalStudents: 'Jumlah Murid', totalTests: 'Jumlah Ujian', avgAccuracy: 'Purata Ketepatan', highestScore: 'Skor Tertinggi',
+    timesTableMastery: 'Butiran Penguasaan Sifir (0-12)', recentRecords: '📋 Rekod Terkini', noData: 'Tiada data.',
+    loading: 'Memuatkan...', enterPassword: 'Masukkan kata laluan', wrongPassword: '❌ Kata laluan salah!',
+    exportSuccess: (c) => `✅ Dieksport ${c} rekod`, exportStudentSuccess: (c) => `✅ Dieksport butiran ${c} murid`,
+    noDataToExport: 'Tiada data', testLabel: 'Ujian', certTitle: '🏆 Sijil Master Sifir 🏆', certAwardTo: 'Dianugerahkan kepada',
+    certLevel: 'Tahap', certDate: 'Tarikh', certMessage: 'Anda adalah Navigator Angkasa Sejati!', classComparison: '📊 Perbandingan Prestasi Kelas',
+    level1Name: '🌟 Angkasawan Baru', level1Desc: 'Sifir 2', level2Name: '🌙 Penjelajah Bulan', level2Desc: 'Sifir 0-5',
+    level3Name: '☀️ Pahlawan Matahari', level3Desc: 'Sifir 2-9', level4Name: '🌀 Penguasa Galaksi', level4Desc: 'Sifir 0-12',
+    wrongTitle: '📝 Soalan Salah Saya', practiceWrong: '📝 Latihan Soalan Salah', clearWrong: '🗑️ Kosongkan', backToReport: '◀ Kembali ke Laporan',
+    noWrongQuestions: '🎉 Tahniah! Tiada soalan salah!', rankTitle: '🏆 Carta Kedudukan Bintang', yourRank: 'Kedudukan Anda', rankNotRanked: 'Belum dalam carta, teruskan usaha!',
+    suggestionTitle: '💡 Cadangan Pembelajaran', suggestionExcellent: '🎉 Cemerlang! Anda pakar sifir!',
+    suggestionGood: '👍 Bagus! Latih kelemahan anda!', suggestionNeedPractice: '💪 Teruskan usaha! Lebih latihan!',
+    suggestionWeakTables: 'Sifir perlu diperkuatkan', suggestionStrongTables: 'Sifir telah dikuasai',
+    step1Title: '📝 Isi Maklumat Angkasawan', step1Desc: 'Masukkan sekolah, kelas dan nama, klik "Lancar" untuk mulakan!',
+    step2Title: '🎯 Pilih Tahap Misi', step2Desc: '5 mod: Novis, Penjelajah Bulan, Pahlawan Matahari, Penguasa Galaksi, dan ✨Pilihan Sendiri✨ - pilih sekurang-kurangnya 3 sifir!',
+    step3Title: '⏱️ Soalan Berhad Masa', step3Desc: 'Mudah: 20 saat; Sukar: 25 saat. Mod pilihan sendiri: 8 soalan setiap sifir (2 mudah + 3 sederhana + 3 sukar)',
+    step4Title: '📊 Lihat Laporan Penilaian', step4Desc: 'Tunjukkan penguasaan, cadangan, carta, dan 🏅lencana pencapaian!',
+    step5Title: '📝 Buku Soalan Salah', step5Desc: 'Jawapan salah disimpan. Ulang kaji bila-bila!',
+    step6Title: '🏆 Carta & Pencapaian', step6Desc: 'Lihat carta kelas dan kumpul lencana! Guru boleh lihat carta kemajuan murid!',
+    tutorialFooter: '🚀 Misi Matematik Angkasa - Pembelajaran sifir menyeronokkan! 🌟',
+    feedback: '📝 Borang Maklum Balas', customTitle: '✨ Pilihan Sendiri ✨', customHint: 'Sila pilih sekurang-kurangnya 3 sifir',
+    schoolPlaceholder: 'Galaxy Primary School',
+    classPlaceholder: 'Star Class 5A',
+    namePlaceholder: 'Little Astronaut',
+    customLevelDesc: 'Custom Tables',
+    customLevelLabel: '✨ Latihan Pilihan Sendiri',
+    deleteData: '🗑️ Padam Data',
+    cancelBtn: '◀ Batal',
+    confirmCustomBtn: '✅ Mula Latihan',
+    langSwitchText: '🌙 EN',
+    progressTitle: '📈 Kemajuan Murid',
+    closeBtn: '◀ Tutup',
+    loadingRanking: 'Memuatkan...',
+    loadFailed: 'Gagal memuat',
+    supabaseNotConnected: '⚠️ Supabase tidak disambungkan',
+    certFooter: 'Misi Matematik Angkasa',
+    printCert: '🖨️ Cetak Sijil',
+    closeCert: '❌ Tutup',
+    practiceThis: '📝 Latihan',
+    errorAnalysisTitle: '📊 Analisis Kesilapan',
+    noErrors: '🎉 Tiada kesilapan! Syabas!',
+    errorTypeTimeout: 'Tamat Masa',
+    errorTypeConfusion: 'Kekeliruan Sifir',
+    errorTypeCalc: 'Ralat Pengiraan',
+    errorTypeDigit: 'Terbalik Digit',
+    commonErrors: 'Jenis Kesilapan',
+    correctAnswerLabel: 'Jawapan Betul',
+    radarChartTitle: '📊 Carta Radar Keupayaan',
+    radarLabel: 'Penguasaan (%)',
+    predictedScore: '📈 Ramalan Skor Seterusnya',
+    smartReviewBtn: '🧠 Ulang Kaji Pintar',
+    smartReviewNoData: 'Tiada soalan salah untuk ulang kaji!',
+    classHeatmapTitle: '🔥 Peta Haba Sifir Kelas',
+    studentColumn: 'Murid',
+    diagnosisTitle: '🏥 Diagnosis Kelas',
+    weakTablesAdvice: '⚠️ Kelas lemah dalam sifir berikut: ',
+    noWeakTablesAdvice: '🎉 Penguasaan sifir kelas secara keseluruhan baik, teruskan!',
+    tableLabel: (n) => `Sifir ${n}`,
   }
-  
-  try {
-    const { data, error } = await supabaseClient
-      .from('math_records')
-      .select('*')
-      .eq('school', student.school)
-      .eq('class', student.className)
-      .order('accuracy', { ascending: false });
-    
-    if (error) throw error;
-    
-    const bestScores = {};
-    data.forEach(record => {
-      const key = record.name;
-      if (!bestScores[key] || record.accuracy > bestScores[key].accuracy) {
-        bestScores[key] = {
-          name: record.name,
-          accuracy: record.accuracy,
-          date: record.created_at,
-          level: record.level
-        };
-        if (record.name === student.name && record.accuracy >= 90) {
-          studentAchievements.rankFirst = 1;
-          saveAchievements();
-        }
-      }
-    });
-    
-    const ranking = Object.values(bestScores).sort((a, b) => b.accuracy - a.accuracy);
-    
-    let html = `<div class="rank-list">`;
-    ranking.forEach((item, idx) => {
-      const rankNum = idx + 1;
-      let rankClass = '';
-      let rankEmoji = '';
-      if (rankNum === 1) { rankClass = 'gold'; rankEmoji = '🥇'; }
-      else if (rankNum === 2) { rankClass = 'silver'; rankEmoji = '🥈'; }
-      else if (rankNum === 3) { rankClass = 'bronze'; rankEmoji = '🥉'; }
-      
-      const isCurrentUser = item.name === student.name;
-      const highlight = isCurrentUser ? 'style="background: rgba(255,200,100,0.4); border: 2px solid #ffaa55;"' : '';
-      
-      html += `
-        <div class="rank-item" ${highlight}>
-          <div class="rank-number ${rankClass}">${rankEmoji || rankNum}</div>
-          <div style="flex: 1;">
-            <strong>${item.name}</strong>
-            <div style="font-size: 0.8rem;">Level ${item.level}</div>
-          </div>
-          <div style="text-align: right;">
-            <div style="font-size: 1.3rem; font-weight: bold; color: #ffcc88;">${item.accuracy}%</div>
-            <div style="font-size: 0.7rem;">${new Date(item.date).toLocaleDateString()}</div>
-          </div>
-        </div>
-      `;
-    });
-    html += `</div>`;
-    
-    const userRank = ranking.findIndex(r => r.name === student.name) + 1;
-    if (userRank > 0) {
-      html += `<div class="suggestion-box" style="margin-top: 20px; text-align: center;">
-        <strong>${t.yourRank}</strong><br>
-        <span style="font-size: 1.5rem; font-weight: bold; color: #ffcc88;">${currentLang === 'zh' ? '第 ' + userRank + ' 名' : 'Rank ' + userRank}</span>
-      </div>`;
-    } else {
-      html += `<div class="suggestion-box" style="margin-top: 20px; text-align: center;">
-        <strong>${t.rankNotRanked}</strong>
-      </div>`;
-    }
-    
-    document.getElementById('rankCard').innerHTML = html;
-  } catch(e) {
-    document.getElementById('rankCard').innerHTML = `<div class="loading">${t.loadFailed}: ${e.message}</div>`;
-  }
-}
+};
 
-// ==================== 学习建议功能 ====================
-function generateLearningSuggestions() {
-  const t = texts[currentLang];
-  const weakTables = [];
-  const strongTables = [];
-  
-  const sortedKeys = Object.keys(stats).sort((a,b)=> +a - +b);
-  for (let mult of sortedKeys) {
-    const item = stats[mult];
-    const percent = item.total ? Math.round((item.correct / item.total)*100) : 0;
-    if (percent < 60) {
-      weakTables.push(mult);
-    } else if (percent >= 85) {
-      strongTables.push(mult);
-    }
-  }
-  
-  let html = `<div class="suggestion-box">`;
-  html += `<div style="font-weight:bold; margin-bottom: 10px;">💡 ${t.suggestionTitle}</div>`;
-  
-  const totalPercent = Math.round((correctCount / questions.length) * 100);
-  if (totalPercent >= 90) {
-    html += `<p>${t.suggestionExcellent}</p>`;
-  } else if (totalPercent >= 70) {
-    html += `<p>${t.suggestionGood}</p>`;
-  } else {
-    html += `<p>${t.suggestionNeedPractice}</p>`;
-  }
-  
-  if (weakTables.length > 0) {
-    html += `<p style="margin-top: 10px;">⚠️ ${t.suggestionWeakTables}: ${weakTables.join('、')} ${currentLang === 'zh' ? '的乘法表' : (currentLang === 'en' ? 'tables' : 'sifir')}</p>`;
-    html += `<p style="font-size: 0.9rem;">💡 ${currentLang === 'zh' ? '建议：使用"错题本"功能重点练习这些乘法表！' : (currentLang === 'en' ? 'Suggestion: Use "Wrong Questions" to practice these tables!' : 'Cadangan: Guna fungsi "Soalan Salah" untuk latih sifir ini!')}</p>`;
-  }
-  
-  if (strongTables.length > 0) {
-    html += `<p style="margin-top: 10px;">✅ ${t.suggestionStrongTables}: ${strongTables.join('、')} ${currentLang === 'zh' ? '的乘法表' : (currentLang === 'en' ? 'tables' : 'sifir')}</p>`;
-  }
-  
-  if (wrongQuestions.length > 0) {
-    html += `<p style="margin-top: 10px;">📝 ${currentLang === 'zh' ? `你有 ${wrongQuestions.length} 道错题待复习` : (currentLang === 'en' ? `You have ${wrongQuestions.length} wrong questions to review` : `Anda ada ${wrongQuestions.length} soalan salah untuk ulang kaji`)}</p>`;
-  }
-  
-  html += `</div>`;
-  html += renderBadges();
-  return html;
-}
+const reportTexts = {
+  zh: { school:"🏫 学校", class:"📚 班级", name:"👩‍🚀 姓名", date:"📅 测试日期", level:"🎯 等级", total:"📊 总题数", correct:"✅ 答对", accuracy:"⭐ 正确率", timesTable:"的乘法表", mastered:"🚀 已掌握", basic:"✨ 基本掌握", needs:"🌱 需加强", masterMsg:"🎉 太棒了！你是真正的星际领航员！🚀✨", goodMsg:"⭐️ 表现优秀！继续向宇宙深处探索！🌌", tryMsg:"💪 再练习几次，下次一定能征服银河系！🌟", history:"📜 历史成绩记录", previous:"📈 上次成绩", improvement:"🚀 进步幅度", clearHistory:"🗑️ 清除我的历史记录" },
+  en: { school:"🏫 School", class:"📚 Class", name:"👨‍🚀 Name", date:"📅 Date", level:"🎯 Level", total:"📊 Total", correct:"✅ Correct", accuracy:"⭐ Accuracy", timesTable:" Times Table", mastered:"🚀 Mastered", basic:"✨ Good", needs:"🌱 Need Practice", masterMsg:"🎉 Amazing! You're a true Space Navigator! 🚀✨", goodMsg:"⭐️ Great job! Keep exploring! 🌌", tryMsg:"💪 More practice and you'll conquer the galaxy! 🌟", history:"📜 History Records", previous:"📈 Previous Score", improvement:"🚀 Improvement", clearHistory:"🗑️ Clear My History" },
+  ms: { school:"🏫 Sekolah", class:"📚 Kelas", name:"👩‍🚀 Nama", date:"📅 Tarikh", level:"🎯 Tahap", total:"📊 Jumlah", correct:"✅ Betul", accuracy:"⭐ Ketepatan", timesTable:" Sifir", mastered:"🚀 Dikuasai", basic:"✨ Baik", needs:"🌱 Perlu Latihan", masterMsg:"🎉 Hebat! Anda Navigator Angkasa Sejati! 🚀✨", goodMsg:"⭐️ Bagus! Terus terokai! 🌌", tryMsg:"💪 Lebih latihan, pasti takluk galaksi! 🌟", history:"📜 Rekod Sejarah", previous:"📈 Keputusan Lepas", improvement:"🚀 Peningkatan", clearHistory:"🗑️ Padam Rekod Saya" }
+};
 
 // ==================== 核心游戏函数 ====================
 function shuffleArray(arr) {
@@ -1105,43 +1116,90 @@ function generateQuestionsByLevel(level) {
     for (let i = 0; i <= 12; i++) qList.push({ a: 2, b: i, ans: 2 * i });
     let copy = shuffleArray([...qList]);
     qList = [...qList, ...copy];
-    stats[2] = { total: qList.length, correct: 0 };
+    stats[2] = { total: qList.length, correct: 0, wrongQuestions: [] };
   } 
   else if (level === 2) {
     for (let m = 0; m <= 5; m++) {
-      stats[m] = { total: 13, correct: 0 };
+      stats[m] = { total: 13, correct: 0, wrongQuestions: [] };
       for (let i = 0; i <= 12; i++) qList.push({ a: m, b: i, ans: m * i });
     }
     qList = shuffleArray(qList);
   }
   else if (level === 3) {
     let pool = [];
-    stats[0] = { total: 2, correct: 0 }; pool.push({ a: 0, b: 4, ans: 0 }, { a: 0, b: 9, ans: 0 });
-    stats[1] = { total: 2, correct: 0 }; pool.push({ a: 1, b: 5, ans: 5 }, { a: 1, b: 12, ans: 12 });
+    stats[0] = { total: 2, correct: 0, wrongQuestions: [] }; pool.push({ a: 0, b: 4, ans: 0 }, { a: 0, b: 9, ans: 0 });
+    stats[1] = { total: 2, correct: 0, wrongQuestions: [] }; pool.push({ a: 1, b: 5, ans: 5 }, { a: 1, b: 12, ans: 12 });
     for (let n = 2; n <= 9; n++) {
-      stats[n] = { total: 13, correct: 0 };
+      stats[n] = { total: 13, correct: 0, wrongQuestions: [] };
       for (let i = 0; i <= 12; i++) pool.push({ a: n, b: i, ans: n * i });
     }
     qList = shuffleArray(pool);
   }
   else if (level === 4) {
     let pool = [];
-    stats[0] = { total: 2, correct: 0 }; pool.push({ a: 0, b: 3, ans: 0 }, { a: 0, b: 8, ans: 0 });
-    stats[1] = { total: 2, correct: 0 }; pool.push({ a: 1, b: 6, ans: 6 }, { a: 1, b: 11, ans: 11 });
+    stats[0] = { total: 2, correct: 0, wrongQuestions: [] }; pool.push({ a: 0, b: 3, ans: 0 }, { a: 0, b: 8, ans: 0 });
+    stats[1] = { total: 2, correct: 0, wrongQuestions: [] }; pool.push({ a: 1, b: 6, ans: 6 }, { a: 1, b: 11, ans: 11 });
     for (let n = 2; n <= 9; n++) {
-      stats[n] = { total: 11, correct: 0 };
+      stats[n] = { total: 11, correct: 0, wrongQuestions: [] };
       for (let i = 2; i <= 12; i++) pool.push({ a: n, b: i, ans: n * i });
     }
-    stats[10] = { total: 4, correct: 0 };
+    stats[10] = { total: 4, correct: 0, wrongQuestions: [] };
     let tenChoices = shuffleArray([...Array(13).keys()]).slice(0, 4);
     tenChoices.forEach(b => pool.push({ a: 10, b: b, ans: 10 * b }));
-    stats[11] = { total: 4, correct: 0 };
+    stats[11] = { total: 4, correct: 0, wrongQuestions: [] };
     let elevenChoices = shuffleArray([...Array(13).keys()]).slice(0, 4);
     elevenChoices.forEach(b => pool.push({ a: 11, b: b, ans: 11 * b }));
-    stats[12] = { total: 11, correct: 0 };
+    stats[12] = { total: 11, correct: 0, wrongQuestions: [] };
     for (let i = 2; i <= 12; i++) pool.push({ a: 12, b: i, ans: 12 * i });
     qList = shuffleArray(pool);
   }
+  return qList;
+}
+
+function generateCustomQuestions(selectedTables) {
+  let qList = [];
+  stats = {};
+  
+  const easyNumbers = [0, 1, 2, 10];
+  const mediumNumbers = [3, 4, 5, 9, 11];
+  const hardNumbers = [6, 7, 8, 12];
+  
+  for (const table of selectedTables) {
+    stats[table] = { total: 8, correct: 0, wrongQuestions: [] };
+    
+    let easySelected = [...easyNumbers];
+    for (let i = easySelected.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [easySelected[i], easySelected[j]] = [easySelected[j], easySelected[i]];
+    }
+    for (let i = 0; i < 2; i++) {
+      qList.push({ a: table, b: easySelected[i], ans: table * easySelected[i] });
+    }
+    
+    let mediumSelected = [...mediumNumbers];
+    for (let i = mediumSelected.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [mediumSelected[i], mediumSelected[j]] = [mediumSelected[j], mediumSelected[i]];
+    }
+    for (let i = 0; i < 3; i++) {
+      qList.push({ a: table, b: mediumSelected[i], ans: table * mediumSelected[i] });
+    }
+    
+    let hardSelected = [...hardNumbers];
+    for (let i = hardSelected.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [hardSelected[i], hardSelected[j]] = [hardSelected[j], hardSelected[i]];
+    }
+    for (let i = 0; i < 3; i++) {
+      qList.push({ a: table, b: hardSelected[i], ans: table * hardSelected[i] });
+    }
+  }
+  
+  for (let i = qList.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [qList[i], qList[j]] = [qList[j], qList[i]];
+  }
+  
   return qList;
 }
 
@@ -1225,8 +1283,19 @@ function checkAnswer(userAnswer) {
   const isCorrect = (userAnswer === q.ans);
   if (isCorrect) {
     correctCount++;
-  } else if (currentLevel !== 5) {
-    addWrongQuestion(q, userAnswer);
+  } else {
+    if (currentLevel !== 5) {
+      addWrongQuestion(q, userAnswer);
+    }
+    if (stats[q.a]) {
+      if (!stats[q.a].wrongQuestions) stats[q.a].wrongQuestions = [];
+      stats[q.a].wrongQuestions.push({
+        a: q.a,
+        b: q.b,
+        correct: q.ans,
+        user: userAnswer
+      });
+    }
   }
   if (stats[q.a]) {
     stats[q.a].correct += isCorrect ? 1 : 0;
@@ -1237,6 +1306,132 @@ function checkAnswer(userAnswer) {
   }, 280);
 }
 
+function classifyError(correct, user, lang) {
+  const t = texts[lang];
+  if (user === null || user === undefined) return t.errorTypeTimeout;
+  const diff = Math.abs(correct - user);
+  if (diff === 0) return '';
+  if (diff <= 5 && diff % 10 !== 0) return t.errorTypeConfusion;
+  if (String(user).split('').sort().join('') === String(correct).split('').sort().join('')) return t.errorTypeDigit;
+  return t.errorTypeCalc;
+}
+
+function analyzeErrors(lang) {
+  const errors = [];
+  for (let table in stats) {
+    const wrongList = stats[table].wrongQuestions || [];
+    wrongList.forEach(item => {
+      errors.push({
+        table: table,
+        question: `${item.a} × ${item.b}`,
+        correct: item.correct,
+        user: item.user,
+        type: classifyError(item.correct, item.user, lang)
+      });
+    });
+  }
+  return errors;
+}
+
+function renderRadarChart() {
+  const rt = texts[reportLang];
+  const canvas = document.getElementById('radarChart');
+  if (!canvas || typeof Chart === 'undefined') return;
+  if (radarChart) {
+    radarChart.destroy();
+    radarChart = null;
+  }
+  const labels = [];
+  const data = [];
+  for (let i = 0; i <= 12; i++) {
+    if (stats[i]) {
+      labels.push(rt.tableLabel(i));
+      const percent = stats[i].total ? Math.round((stats[i].correct / stats[i].total) * 100) : 0;
+      data.push(percent);
+    }
+  }
+  if (labels.length === 0) return;
+  radarChart = new Chart(canvas.getContext('2d'), {
+    type: 'radar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: rt.radarLabel,
+        data: data,
+        backgroundColor: 'rgba(255,170,102,0.2)',
+        borderColor: '#ffaa66',
+        pointBackgroundColor: '#ffaa66',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: '#ffaa66'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        r: {
+          beginAtZero: true,
+          max: 100,
+          ticks: { stepSize: 20, color: '#fff' },
+          grid: { color: 'rgba(255,255,255,0.2)' },
+          angleLines: { color: 'rgba(255,255,255,0.2)' },
+          pointLabels: { color: '#fff', font: { size: 10 } }
+        }
+      },
+      plugins: { legend: { labels: { color: 'white' } } }
+    }
+  });
+}
+
+function predictNextScore(history) {
+  if (!history || history.length < 2) return null;
+  const sorted = [...history].sort((a,b) => new Date(a.created_at || a.date) - new Date(b.created_at || b.date));
+  const x = sorted.map((_, i) => i + 1);
+  const y = sorted.map(r => r.accuracy);
+  const n = x.length;
+  const sumX = x.reduce((s,v)=>s+v,0);
+  const sumY = y.reduce((s,v)=>s+v,0);
+  const sumXY = x.reduce((s,v,i)=>s+v*y[i],0);
+  const sumXX = x.reduce((s,v)=>s+v*v,0);
+  const slope = (n*sumXY - sumX*sumY) / (n*sumXX - sumX*sumX);
+  const intercept = (sumY - slope*sumX) / n;
+  const nextX = n + 1;
+  const predicted = Math.round(intercept + slope*nextX);
+  return Math.min(100, Math.max(0, predicted));
+}
+
+function startSmartReview() {
+  const t = texts[currentLang];
+  if (wrongQuestions.length === 0) {
+    alert(t.smartReviewNoData);
+    return;
+  }
+  const uniqueQuestions = [];
+  const seen = new Set();
+  wrongQuestions.forEach(item => {
+    const key = `${item.question.a}x${item.question.b}`;
+    if (!seen.has(key)) {
+      seen.add(key);
+      uniqueQuestions.push(item.question);
+    }
+  });
+  currentLevel = 6;
+  questions = uniqueQuestions;
+  currentIndex = 0;
+  correctCount = 0;
+  gameStarted = true;
+  stats = {};
+  uniqueQuestions.forEach(q => {
+    if (!stats[q.a]) stats[q.a] = { total: 0, correct: 0, wrongQuestions: [] };
+    stats[q.a].total += 1;
+  });
+  document.getElementById('levelScreen').classList.remove('active');
+  document.getElementById('quizScreen').classList.add('active');
+  showCurrentQuestion();
+}
+
+// ==================== 保存与报告 ====================
 async function saveToSupabase() {
   if (!supabaseClient) {
     saveToLocalStorage();
@@ -1309,31 +1504,58 @@ async function saveAndShowReport() {
 }
 
 function renderReport(history, accuracy) {
-  const t = reportTexts[reportLang];
+  const rt = texts[reportLang];
+  const t = texts[currentLang];
   const nowDate = new Date().toLocaleString();
   let html = `
-    <div class="report-row"><span>${t.school}</span><span>${student.school || '—'}</span></div>
-    <div class="report-row"><span>${t.class}</span><span>${student.className || '—'}</span></div>
-    <div class="report-row"><span>${t.name}</span><span>${student.name || '—'}</span></div>
-    <div class="report-row"><span>${t.date}</span><span>${nowDate}</span></div>
-    <div class="report-row"><span>${t.level}</span><span>${currentLevel === 5 ? (currentLang === 'zh' ? '错题练习' : 'Practice') : (currentLevel === 6 ? (currentLang === 'zh' ? '自选练习' : 'Custom Practice') : 'Level ' + currentLevel)}</span></div>
-    <div class="report-row"><span>${t.total}</span><span>${questions.length}</span></div>
-    <div class="report-row"><span>${t.correct}</span><span>${correctCount}</span></div>
-    <div class="report-row"><span>${t.accuracy}</span><span>${accuracy}%</span></div>`;
+    <div class="report-row"><span>${rt.school}</span><span>${student.school || '—'}</span></div>
+    <div class="report-row"><span>${rt.class}</span><span>${student.className || '—'}</span></div>
+    <div class="report-row"><span>${rt.name}</span><span>${student.name || '—'}</span></div>
+    <div class="report-row"><span>${rt.date}</span><span>${nowDate}</span></div>
+    <div class="report-row"><span>${rt.level}</span><span>${currentLevel === 5 ? (t.wrongTitle || '错题练习') : (currentLevel === 6 ? (t.customLevelLabel || '自选练习') : 'Level ' + currentLevel)}</span></div>
+    <div class="report-row"><span>${rt.total}</span><span>${questions.length}</span></div>
+    <div class="report-row"><span>${rt.correct}</span><span>${correctCount}</span></div>
+    <div class="report-row"><span>${rt.accuracy}</span><span>${accuracy}%</span></div>`;
   
-  html += `<div class="table-results"><div style="font-weight:bold; padding:0 12px;">📊 ${currentLang === 'zh' ? '乘法表掌握情况' : (currentLang === 'en' ? 'Multiplication Tables Mastery' : 'Penguasaan Sifir Darab')}</div>`;
+  const predicted = predictNextScore(history);
+  if (predicted !== null) {
+    html += `<div class="report-row"><span>${rt.predictedScore}</span><span>${predicted}%</span></div>`;
+  }
+  
+  html += `<div class="table-results"><div style="font-weight:bold; padding:0 12px;">📊 ${t.timesTableMastery || '乘法表掌握情况'}</div>`;
   const sortedKeys = Object.keys(stats).sort((a,b)=> +a - +b);
   for (let mult of sortedKeys) {
     const item = stats[mult];
     const percent = item.total ? Math.round((item.correct / item.total)*100) : 0;
-    let levelText = percent >= 85 ? t.mastered : (percent >= 60 ? t.basic : t.needs);
-    html += `<div class="table-item"><span>${mult} ${t.timesTable}</span><span>${levelText} (${percent}%)</span></div>`;
+    let levelText = percent >= 85 ? rt.mastered : (percent >= 60 ? rt.basic : rt.needs);
+    html += `<div class="table-item"><span>${mult} ${rt.timesTable}</span><span>${levelText} (${percent}%)</span></div>`;
   }
+  
+  const errors = analyzeErrors(reportLang);
+  if (errors.length === 0) {
+    html += `<div class="suggestion-box">${rt.noErrors}</div>`;
+  } else {
+    html += `<div style="margin-top:20px;"><div style="font-weight:bold; margin-bottom:10px;">${rt.errorAnalysisTitle}</div>`;
+    html += `<div class="class-list">`;
+    errors.forEach(e => {
+      html += `<div class="wrong-question-item">
+        <div>
+          <strong>${e.question} = ?</strong><br>
+          <span style="color:#ff9090;">${rt.commonErrors}: ${e.type}</span><br>
+          <span style="color:#90ff90;">${rt.correctAnswerLabel}: ${e.correct}</span>
+        </div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  }
+  
+  html += `<div style="margin-top:20px;"><div style="font-weight:bold; margin-bottom:10px;">${rt.radarChartTitle}</div><canvas id="radarChart" style="max-height:300px;"></canvas></div>`;
+  
   html += generateLearningSuggestions();
-  html += `<div style="margin-top:20px; text-align:center;"><button id="viewRankBtn" style="background:#ffaa55; border:none; padding:12px 24px; border-radius:40px; cursor:pointer; font-size:1rem;">🏆 ${currentLang === 'zh' ? '查看排行榜' : (currentLang === 'en' ? 'View Ranking' : 'Lihat Carta')}</button></div>`;
+  html += `<div style="margin-top:20px; text-align:center;"><button id="viewRankBtn" style="background:#ffaa55; border:none; padding:12px 24px; border-radius:40px; cursor:pointer; font-size:1rem;">🏆 ${t.rankTitle || '查看排行榜'}</button></div>`;
   
   if (history && history.length > 1) {
-    html += `<div style="margin-top:25px;"><div style="font-weight:bold; margin-bottom:15px;">📜 ${t.history}</div>`;
+    html += `<div style="margin-top:25px;"><div style="font-weight:bold; margin-bottom:15px;">📜 ${rt.history}</div>`;
     const lastFive = history.slice(0, 5);
     lastFive.forEach((record, idx) => {
       const date = new Date(record.created_at || record.date).toLocaleString();
@@ -1341,22 +1563,27 @@ function renderReport(history, accuracy) {
       html += `<div class="history-item" ${isCurrent ? 'style="background:rgba(255,200,100,0.3); border-left:4px solid #ffb359;"' : ''}>
         ${date}<br>
         Level ${record.level}: ${record.correct}/${record.total} (${record.accuracy}%)
-        ${isCurrent ? ' ✨ ' + (currentLang === 'zh' ? '本次测试' : (currentLang === 'en' ? 'Current Test' : 'Ujian Ini')) + ' ✨' : ''}
+        ${isCurrent ? ' ✨ ' + (t.loading ? '本次测试' : '') + ' ✨' : ''}
       </div>`;
     });
-    html += `<div style="text-align:center; margin-top:15px;"><button class="clear-history-btn" id="clearHistoryBtn">🗑️ ${t.clearHistory}</button></div>`;
+    html += `<div style="text-align:center; margin-top:15px;"><button class="clear-history-btn" id="clearHistoryBtn">🗑️ ${rt.clearHistory}</button></div>`;
     html += `</div>`;
   }
   
-  let msg = accuracy >= 90 ? t.masterMsg : (accuracy >= 70 ? t.goodMsg : t.tryMsg);
+  let msg = accuracy >= 90 ? rt.masterMsg : (accuracy >= 70 ? rt.goodMsg : rt.tryMsg);
   html += `</div><div class="report-conclusion">${msg}</div>`;
   document.getElementById('reportCard').innerHTML = html;
   
-  document.getElementById('viewRankBtn').onclick = async () => {
-    document.getElementById('reportScreen').classList.remove('active');
-    document.getElementById('rankScreen').classList.add('active');
-    await loadRanking();
-  };
+  setTimeout(() => renderRadarChart(), 200);
+  
+  const rankBtn = document.getElementById('viewRankBtn');
+  if (rankBtn) {
+    rankBtn.onclick = async () => {
+      document.getElementById('reportScreen').classList.remove('active');
+      document.getElementById('rankScreen').classList.add('active');
+      await loadRanking();
+    };
+  }
   
   const practiceBtn = document.getElementById('practiceWrongBtn');
   if (practiceBtn) {
@@ -1368,10 +1595,13 @@ function renderReport(history, accuracy) {
 }
 
 async function clearHistory() {
-  const confirmMsg = currentLang === 'zh' ? '确定要清除所有历史记录吗？🚀' : (currentLang === 'en' ? 'Clear all history? 🚀' : 'Padam semua rekod? 🚀');
+  const t = texts[currentLang];
+  const confirmMsg = t.clearHistory || '确定要清除所有历史记录吗？🚀';
   if (confirm(confirmMsg)) {
     if (supabaseClient) {
-      await supabaseClient.from('math_records').delete().eq('name', student.name).eq('school', student.school);
+      try {
+        await supabaseClient.from('math_records').delete().eq('name', student.name).eq('school', student.school);
+      } catch(e) { console.log('删除云端记录失败', e); }
     }
     const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
     const otherRecords = records.filter(r => r.name !== student.name || r.school !== student.school);
@@ -1381,14 +1611,151 @@ async function clearHistory() {
   }
 }
 
+// ==================== 排行榜功能 ====================
+async function loadRanking() {
+  const t = texts[currentLang];
+  const card = document.getElementById('rankCard');
+  if (!card) return;
+  if (!supabaseClient) {
+    card.innerHTML = `<div class="loading">${t.supabaseNotConnected}</div>`;
+    return;
+  }
+  
+  try {
+    const { data, error } = await supabaseClient
+      .from('math_records')
+      .select('*')
+      .eq('school', student.school)
+      .eq('class', student.className)
+      .order('accuracy', { ascending: false });
+    
+    if (error) throw error;
+    
+    const bestScores = {};
+    data.forEach(record => {
+      const key = record.name;
+      if (!bestScores[key] || record.accuracy > bestScores[key].accuracy) {
+        bestScores[key] = {
+          name: record.name,
+          accuracy: record.accuracy,
+          date: record.created_at,
+          level: record.level
+        };
+        if (record.name === student.name && record.accuracy >= 90) {
+          studentAchievements.rankFirst = 1;
+          saveAchievements();
+        }
+      }
+    });
+    
+    const ranking = Object.values(bestScores).sort((a, b) => b.accuracy - a.accuracy);
+    
+    if (ranking.length === 0) {
+      card.innerHTML = `<div class="loading">${t.noData}</div>`;
+      return;
+    }
+    
+    let html = `<div class="rank-list">`;
+    ranking.forEach((item, idx) => {
+      const rankNum = idx + 1;
+      let rankClass = '';
+      let rankEmoji = '';
+      if (rankNum === 1) { rankClass = 'gold'; rankEmoji = '🥇'; }
+      else if (rankNum === 2) { rankClass = 'silver'; rankEmoji = '🥈'; }
+      else if (rankNum === 3) { rankClass = 'bronze'; rankEmoji = '🥉'; }
+      
+      const isCurrentUser = item.name === student.name;
+      const highlight = isCurrentUser ? 'style="background: rgba(255,200,100,0.4); border: 2px solid #ffaa55;"' : '';
+      
+      html += `
+        <div class="rank-item" ${highlight}>
+          <div class="rank-number ${rankClass}">${rankEmoji || rankNum}</div>
+          <div style="flex: 1;">
+            <strong>${item.name}</strong>
+            <div style="font-size: 0.8rem;">Level ${item.level}</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 1.3rem; font-weight: bold; color: #ffcc88;">${item.accuracy}%</div>
+            <div style="font-size: 0.7rem;">${new Date(item.date).toLocaleDateString()}</div>
+          </div>
+        </div>
+      `;
+    });
+    html += `</div>`;
+    
+    const userRank = ranking.findIndex(r => r.name === student.name) + 1;
+    if (userRank > 0) {
+      html += `<div class="suggestion-box" style="margin-top: 20px; text-align: center;">
+        <strong>${t.yourRank}</strong><br>
+        <span style="font-size: 1.5rem; font-weight: bold; color: #ffcc88;">${currentLang === 'zh' ? '第 ' + userRank + ' 名' : 'Rank ' + userRank}</span>
+      </div>`;
+    } else {
+      html += `<div class="suggestion-box" style="margin-top: 20px; text-align: center;">
+        <strong>${t.rankNotRanked}</strong>
+      </div>`;
+    }
+    
+    card.innerHTML = html;
+  } catch(e) {
+    card.innerHTML = `<div class="loading">${t.loadFailed}: ${e.message}</div>`;
+  }
+}
+
+// ==================== 学习建议功能 ====================
+function generateLearningSuggestions() {
+  const t = texts[currentLang];
+  const weakTables = [];
+  const strongTables = [];
+  
+  const sortedKeys = Object.keys(stats).sort((a,b)=> +a - +b);
+  for (let mult of sortedKeys) {
+    const item = stats[mult];
+    const percent = item.total ? Math.round((item.correct / item.total)*100) : 0;
+    if (percent < 60) {
+      weakTables.push(mult);
+    } else if (percent >= 85) {
+      strongTables.push(mult);
+    }
+  }
+  
+  let html = `<div class="suggestion-box">`;
+  html += `<div style="font-weight:bold; margin-bottom: 10px;">💡 ${t.suggestionTitle}</div>`;
+  
+  const totalPercent = Math.round((correctCount / questions.length) * 100);
+  if (totalPercent >= 90) {
+    html += `<p>${t.suggestionExcellent}</p>`;
+  } else if (totalPercent >= 70) {
+    html += `<p>${t.suggestionGood}</p>`;
+  } else {
+    html += `<p>${t.suggestionNeedPractice}</p>`;
+  }
+  
+  if (weakTables.length > 0) {
+    html += `<p style="margin-top: 10px;">⚠️ ${t.suggestionWeakTables}: ${weakTables.join('、')} ${currentLang === 'zh' ? '的乘法表' : (currentLang === 'en' ? 'tables' : 'sifir')}</p>`;
+  }
+  
+  if (strongTables.length > 0) {
+    html += `<p style="margin-top: 10px;">✅ ${t.suggestionStrongTables}: ${strongTables.join('、')} ${currentLang === 'zh' ? '的乘法表' : (currentLang === 'en' ? 'tables' : 'sifir')}</p>`;
+  }
+  
+  if (wrongQuestions.length > 0) {
+    html += `<p style="margin-top: 10px;">📝 ${currentLang === 'zh' ? `你有 ${wrongQuestions.length} 道错题待复习` : (currentLang === 'en' ? `You have ${wrongQuestions.length} wrong questions to review` : `Anda ada ${wrongQuestions.length} soalan salah untuk ulang kaji`)}</p>`;
+  }
+  
+  html += `</div>`;
+  html += renderBadges();
+  return html;
+}
+
 // ==================== 教师后台功能 ====================
 async function loadTeacherData() {
   const t = texts[currentLang];
+  const card = document.getElementById('teacherCard');
   if (!supabaseClient) {
-    document.getElementById('teacherCard').innerHTML = `<div class="loading">${t.supabaseNotConnected}</div>`;
+    if (card) card.innerHTML = `<div class="loading">${t.supabaseNotConnected}</div>`;
     return;
   }
-  document.getElementById('teacherCard').innerHTML = `<div class="loading">${t.loading}</div>`;
+  if (card) card.innerHTML = `<div class="loading">${t.loading}</div>`;
   try {
     const schoolFilter = document.getElementById('filterSchool').value;
     const classFilter = document.getElementById('filterClass').value;
@@ -1401,14 +1768,16 @@ async function loadTeacherData() {
     renderTeacherDashboard(classRecords);
     renderClassComparison();
   } catch(e) {
-    document.getElementById('teacherCard').innerHTML = `<div class="loading">❌ ${t.loadFailed}: ${e.message}</div>`;
+    if (card) card.innerHTML = `<div class="loading">❌ ${t.loadFailed}: ${e.message}</div>`;
   }
 }
 
 function renderTeacherDashboard(records) {
   const t = texts[currentLang];
+  const card = document.getElementById('teacherCard');
+  if (!card) return;
   if (!records || records.length === 0) {
-    document.getElementById('teacherCard').innerHTML = `<div class="loading">${t.noData}</div>`;
+    card.innerHTML = `<div class="loading">${t.noData}</div>`;
     return;
   }
   
@@ -1426,6 +1795,8 @@ function renderTeacherDashboard(records) {
       <div class="stat-card"><div class="stat-number">${bestScore}%</div><div>${t.highestScore}</div></div>
     </div>
     ${renderMultiplicationDetails(multiplicationStats)}
+    <div style="margin-top:25px;"><div style="font-weight:bold; margin-bottom:15px;">${t.classHeatmapTitle}</div>${renderClassHeatmap(records, t)}</div>
+    <div style="margin-top:25px;"><div style="font-weight:bold; margin-bottom:15px;">${t.diagnosisTitle}</div><div class="suggestion-box">${generateClassDiagnosis(records, t)}</div></div>
     <div style="margin-top:25px;"><div style="font-weight:bold; margin-bottom:15px;">${t.recentRecords}</div>
     <div class="class-list">`;
   
@@ -1438,7 +1809,7 @@ function renderTeacherDashboard(records) {
     </div>`;
   });
   html += `</div></div>`;
-  document.getElementById('teacherCard').innerHTML = html;
+  card.innerHTML = html;
   
   document.querySelectorAll('.class-item').forEach(item => {
     item.addEventListener('click', () => {
@@ -1500,6 +1871,57 @@ function renderMultiplicationDetails(stats) {
   return html;
 }
 
+function renderClassHeatmap(records, t) {
+  const students = [...new Set(records.map(r => `${r.school}|${r.class}|${r.name}`))];
+  const tableStats = {};
+  students.forEach(key => {
+    const [school, className, name] = key.split('|');
+    const studentRecords = records.filter(r => r.school === school && r.class === className && r.name === name);
+    const bestRecord = studentRecords.sort((a,b) => b.accuracy - a.accuracy)[0];
+    tableStats[key] = bestRecord?.details || {};
+  });
+  let html = '<div class="heatmap-table"><table>';
+  html += `<tr><th>${t.studentColumn}</th>`;
+  for (let i = 0; i <= 12; i++) html += `<th>${i}</th>`;
+  html += '</tr>';
+  students.slice(0, 20).forEach(key => {
+    const [school, className, name] = key.split('|');
+    html += `<tr><td>${name}</td>`;
+    for (let i = 0; i <= 12; i++) {
+      const detail = tableStats[key][i];
+      const percent = detail && detail.total ? Math.round((detail.correct / detail.total) * 100) : null;
+      const bgColor = percent === null ? '#333' : getHeatColor(percent);
+      html += `<td style="background:${bgColor};">${percent ?? '-'}</td>`;
+    }
+    html += '</tr>';
+  });
+  html += '</table></div>';
+  return html;
+}
+
+function getHeatColor(percent) {
+  if (percent >= 85) return '#2ecc71';
+  if (percent >= 60) return '#f1c40f';
+  return '#e74c3c';
+}
+
+function generateClassDiagnosis(records, t) {
+  const multiplicationStats = calculateMultiplicationStats(records);
+  const weakTables = [];
+  for (let i = 0; i <= 12; i++) {
+    const stat = multiplicationStats[i];
+    if (stat.total > 0) {
+      const percent = Math.round((stat.correct / stat.total) * 100);
+      if (percent < 70) weakTables.push(`${i} (${percent}%)`);
+    }
+  }
+  if (weakTables.length > 0) {
+    return t.weakTablesAdvice + weakTables.join('、');
+  } else {
+    return t.noWeakTablesAdvice;
+  }
+}
+
 async function renderClassComparison() {
   if (!supabaseClient) return;
   const schoolFilter = document.getElementById('filterSchool').value;
@@ -1519,12 +1941,13 @@ async function renderClassComparison() {
   const ctx = document.getElementById('classComparisonChart');
   if (ctx && typeof Chart !== 'undefined') {
     if (classChart) classChart.destroy();
+    const t = texts[currentLang];
     classChart = new Chart(ctx.getContext('2d'), {
       type: 'bar',
       data: {
         labels: classes,
         datasets: [{
-          label: texts[currentLang].avgAccuracy + ' (%)',
+          label: t.avgAccuracy + ' (%)',
           data: avgScores,
           backgroundColor: '#ffaa66',
           borderRadius: 10
@@ -1545,6 +1968,7 @@ async function renderClassComparison() {
 
 async function showStudentProgress(name, school, className) {
   const t = texts[currentLang];
+  if (!supabaseClient) return;
   const { data } = await supabaseClient.from('math_records').select('*').eq('name', name).eq('school', school).eq('class', className).order('created_at', { ascending: true });
   if (!data || data.length === 0) return;
   const labels = data.map((_, i) => `${t.testLabel} ${i+1}`);
@@ -1578,8 +2002,8 @@ async function showStudentProgress(name, school, className) {
     }
   });
 }
-document.getElementById('closeProgressBtn')?.addEventListener('click', () => document.getElementById('progressModal').classList.remove('active'));
 
+// ==================== 导出与删除 ====================
 function exportToExcel() {
   const t = texts[currentLang];
   if (!supabaseClient) return alert(t.noDataToExport);
@@ -1654,7 +2078,6 @@ function getStudentBestRecords(records) {
   return Array.from(studentMap.values());
 }
 
-// ==================== 🗑️ 删除数据功能 ====================
 async function deleteTeacherData() {
   const t = texts[currentLang];
   const confirmMsg = currentLang === 'zh' ? '确定要删除当前筛选条件下的所有数据吗？此操作不可恢复！' : (currentLang === 'en' ? 'Are you sure you want to delete all data under current filters? This cannot be undone!' : 'Adakah anda pasti mahu memadam semua data di bawah penapis semasa? Tindakan ini tidak boleh dibatalkan!');
@@ -1694,308 +2117,7 @@ async function deleteTeacherData() {
   }
 }
 
-// ==================== 多语言词库 ====================
-const texts = {
-  zh: {
-    mainTitle: '🚀 太空乘法任务 🌟', infoSubtitle: '✦ 填写宇航员资料 ✦', schoolLabel: '🏫 学校', classLabel: '📚 班级', nameLabel: '👩‍🚀 姓名',
-    startBtn: '⚡ 发射启程 ⚡', levelTitle: '🪐 选择任务等级 🪐', submitBtn: '✨ 确认答案 ✨', reportTitle: '📋 星际评估报告 🌟',
-    restartBtn: '🔄 重新测试 🔄', homeBtn: '🏠 首页', teacherBtn: '👩‍🏫 教师后台', tutorialBtn: '📖 使用教程',
-    backToInfo: '◀ 返回填写资料', backToLevel: '◀ 返回选等级', teacherTitle: '👩‍🏫 教师后台管理系统', tutorialTitle: '📖 使用教程',
-    filterSchool: '筛选学校', filterClass: '筛选班级', exportRecords: '📊 导出测试记录', exportDetails: '📋 导出学生详情',
-    backHome: '◀ 返回首页', totalStudents: '总学生数', totalTests: '总测试次数', avgAccuracy: '平均正确率', highestScore: '最高分',
-    timesTableMastery: '各乘法表掌握程度详情（0-12）', recentRecords: '📋 最近测试记录', noData: '暂无数据，请先让学生完成测试',
-    loading: '加载数据中...', enterPassword: '请输入密码进入教师后台', wrongPassword: '❌ 密码错误！',
-    exportSuccess: (c) => `✅ 已导出 ${c} 条测试记录`, exportStudentSuccess: (c) => `✅ 已导出 ${c} 名学生的乘法表掌握详情`,
-    noDataToExport: '暂无数据', testLabel: '测试', certTitle: '🏆 乘法大师证书 🏆', certAwardTo: '授予', certLevel: '等级',
-    certDate: '日期', certMessage: '你是真正的星际领航员！', classComparison: '📊 班级成绩对比',
-    level1Name: '🌟 新手宇航员', level1Desc: '2的乘法表', level2Name: '🌙 月球探险家', level2Desc: '0~5 乘法表',
-    level3Name: '☀️ 太阳勇士', level3Desc: '2~9 全面挑战', level4Name: '🌀 银河霸主', level4Desc: '0~12 终极挑战',
-    wrongTitle: '📝 我的错题本', practiceWrong: '📝 练习错题', clearWrong: '🗑️ 清空错题本', backToReport: '◀ 返回报告',
-    noWrongQuestions: '🎉 太棒了！你没有错题！继续努力保持！', rankTitle: '🏆 星际排行榜', yourRank: '你的排名', rankNotRanked: '暂未上榜，继续努力！',
-    suggestionTitle: '💡 学习建议', suggestionExcellent: '🎉 太优秀了！你是乘法表小专家！继续保持！',
-    suggestionGood: '👍 表现不错！再练习一下薄弱环节，你就能成为乘法大师！',
-    suggestionNeedPractice: '💪 加油！多练习错题，你会进步的！',
-    suggestionWeakTables: '需要加强的乘法表', suggestionStrongTables: '已经掌握的乘法表',
-    step1Title: '📝 填写宇航员资料', step1Desc: '输入学校、班级和姓名，点击"发射启程"开始太空数学之旅！',
-    step2Title: '🎯 选择任务等级', step2Desc: '5种模式：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)，以及✨自选练习✨ - 可自由勾选需要练习的乘法表（至少选3个）！',
-    step3Title: '⏱️ 限时答题', step3Desc: '低级：20秒选择题；高级：25秒输入答案。自选模式：每个乘法表按难度出8题（简单2题+中等3题+困难3题），全面考察掌握程度！',
-    step4Title: '📊 查看评估报告', step4Desc: '测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议、排行榜，还有🏅成就徽章系统（完成测试、获得高分、错题清零等都可解锁徽章）！',
-    step5Title: '📝 错题本功能', step5Desc: '做错的题目自动收集到错题本，可以随时复习和重做！"错题终结者"徽章等你来拿！',
-    step6Title: '🏆 排行榜与成就', step6Desc: '查看全班排行榜，收集乘法大师徽章！教师还可以点击学生姓名查看其进步曲线图！',
-    tutorialFooter: '🚀 太空乘法任务 - 让学习乘法变得有趣！ 🌟',
-    feedback: '📝 填写问卷', customTitle: '✨ 自选乘法表 ✨', customHint: '请至少选择3个乘法表',
-    schoolPlaceholder: '银河小学',
-    classPlaceholder: '星际5班',
-    namePlaceholder: '小宇航员',
-    customLevelDesc: '自定义乘法表',
-    customLevelLabel: '✨ 自选练习',
-    deleteData: '🗑️ 删除数据',
-    cancelBtn: '◀ 取消',
-    confirmCustomBtn: '✅ 开始练习',
-    langSwitchText: '🌙 EN',
-    progressTitle: '📈 学生进步曲线',
-    closeBtn: '◀ 关闭',
-    loadingRanking: '加载中...',
-    loadFailed: '加载失败',
-    supabaseNotConnected: '⚠️ Supabase 未连接',
-    certFooter: '太空乘法任务 | Space Math Mission',
-    printCert: '🖨️ 打印证书',
-    closeCert: '❌ 关闭',
-    practiceThis: '📝 练习此题'
-  },
-  en: {
-    mainTitle: '🚀 Space Math Mission 🌟', infoSubtitle: '✦ Fill in Astronaut Info ✦', schoolLabel: '🏫 School', classLabel: '📚 Class', nameLabel: '👨‍🚀 Name',
-    startBtn: '⚡ Launch ⚡', levelTitle: '🪐 Select Mission Level 🪐', submitBtn: '✨ Submit ✨', reportTitle: '📋 Star Assessment Report 🌟',
-    restartBtn: '🔄 Retry 🔄', homeBtn: '🏠 Home', teacherBtn: '👩‍🏫 Teacher', tutorialBtn: '📖 Tutorial',
-    backToInfo: '◀ Back to Info', backToLevel: '◀ Back to Levels', teacherTitle: '👩‍🏫 Teacher Dashboard', tutorialTitle: '📖 Tutorial',
-    filterSchool: 'Filter School', filterClass: 'Filter Class', exportRecords: '📊 Export Records', exportDetails: '📋 Export Student Details',
-    backHome: '◀ Back Home', totalStudents: 'Total Students', totalTests: 'Total Tests', avgAccuracy: 'Avg Accuracy', highestScore: 'Highest Score',
-    timesTableMastery: 'Multiplication Tables Mastery Details (0-12)', recentRecords: '📋 Recent Test Records', noData: 'No data yet.',
-    loading: 'Loading data...', enterPassword: 'Enter password to access', wrongPassword: '❌ Wrong password!',
-    exportSuccess: (c) => `✅ Exported ${c} test records`, exportStudentSuccess: (c) => `✅ Exported ${c} student details`,
-    noDataToExport: 'No data to export', testLabel: 'Test', certTitle: '🏆 Multiplication Master Certificate 🏆', certAwardTo: 'Awarded to',
-    certLevel: 'Level', certDate: 'Date', certMessage: 'You are a true Space Navigator!', classComparison: '📊 Class Performance Comparison',
-    level1Name: '🌟 Novice Astronaut', level1Desc: '2 Times Table', level2Name: '🌙 Moon Explorer', level2Desc: '0~5 Times Table',
-    level3Name: '☀️ Solar Warrior', level3Desc: '2~9 Challenge', level4Name: '🌀 Galaxy Master', level4Desc: '0~12 Ultimate Challenge',
-    wrongTitle: '📝 My Wrong Questions', practiceWrong: '📝 Practice Wrong', clearWrong: '🗑️ Clear Wrong', backToReport: '◀ Back to Report',
-    noWrongQuestions: '🎉 Great job! No wrong questions!', rankTitle: '🏆 Star Ranking', yourRank: 'Your Rank', rankNotRanked: 'Not ranked yet, keep trying!',
-    suggestionTitle: '💡 Learning Suggestions', suggestionExcellent: '🎉 Excellent! You are a multiplication expert!',
-    suggestionGood: '👍 Good job! Practice your weak areas!', suggestionNeedPractice: '💪 Keep going! Practice more!',
-    suggestionWeakTables: 'Tables to improve', suggestionStrongTables: 'Tables mastered',
-    step1Title: '📝 Fill in Astronaut Info', step1Desc: 'Enter school, class and name, then click "Launch" to start!',
-    step2Title: '🎯 Select Mission Level', step2Desc: '5 modes: Novice, Moon Explorer, Solar Warrior, Galaxy Master, plus ✨Custom Practice✨ - select at least 3 tables!',
-    step3Title: '⏱️ Timed Questions', step3Desc: 'Easy: 20s multiple choice; Hard: 25s input. Custom mode: 8 questions per table (2 easy + 3 medium + 3 hard)',
-    step4Title: '📊 View Assessment Report', step4Desc: 'Shows mastery, suggestions, ranking, and 🏅achievement badges!',
-    step5Title: '📝 Wrong Questions Book', step5Desc: 'Wrong answers saved automatically. Review anytime!',
-    step6Title: '🏆 Ranking & Achievements', step6Desc: 'View class ranking and collect badges! Teachers can view student progress charts!',
-    tutorialFooter: '🚀 Space Math Mission - Making multiplication fun! 🌟',
-    feedback: '📝 Feedback', customTitle: '✨ Custom Selection ✨', customHint: 'Please select at least 3 tables',
-    schoolPlaceholder: 'Galaxy Primary School',
-    classPlaceholder: 'Star Class 5A',
-    namePlaceholder: 'Little Astronaut',
-    customLevelDesc: 'Custom Tables',
-    customLevelLabel: '✨ Custom Practice',
-    deleteData: '🗑️ Delete Data',
-    cancelBtn: '◀ Cancel',
-    confirmCustomBtn: '✅ Start Practice',
-    langSwitchText: '🌙 中文',
-    progressTitle: '📈 Student Progress',
-    closeBtn: '◀ Close',
-    loadingRanking: 'Loading...',
-    loadFailed: 'Load failed',
-    supabaseNotConnected: '⚠️ Supabase not connected',
-    certFooter: 'Space Math Mission',
-    printCert: '🖨️ Print Certificate',
-    closeCert: '❌ Close',
-    practiceThis: '📝 Practice'
-  },
-  ms: {
-    mainTitle: '🚀 Misi Matematik Angkasa 🌟', infoSubtitle: '✦ Isi Maklumat Angkasawan ✦', schoolLabel: '🏫 Sekolah', classLabel: '📚 Kelas', nameLabel: '👩‍🚀 Nama',
-    startBtn: '⚡ Lancar ⚡', levelTitle: '🪐 Pilih Tahap Misi 🪐', submitBtn: '✨ Hantar ✨', reportTitle: '📋 Laporan Penilaian Bintang 🌟',
-    restartBtn: '🔄 Cuba Semula 🔄', homeBtn: '🏠 Laman Utama', teacherBtn: '👩‍🏫 Panel Guru', tutorialBtn: '📖 Tutorial',
-    backToInfo: '◀ Kembali ke Maklumat', backToLevel: '◀ Kembali ke Tahap', teacherTitle: '👩‍🏫 Sistem Pengurusan Panel Guru', tutorialTitle: '📖 Tutorial',
-    filterSchool: 'Tapis Sekolah', filterClass: 'Tapis Kelas', exportRecords: '📊 Eksport Rekod', exportDetails: '📋 Eksport Butiran',
-    backHome: '◀ Kembali ke Laman Utama', totalStudents: 'Jumlah Murid', totalTests: 'Jumlah Ujian', avgAccuracy: 'Purata Ketepatan', highestScore: 'Skor Tertinggi',
-    timesTableMastery: 'Butiran Penguasaan Sifir (0-12)', recentRecords: '📋 Rekod Terkini', noData: 'Tiada data.',
-    loading: 'Memuatkan...', enterPassword: 'Masukkan kata laluan', wrongPassword: '❌ Kata laluan salah!',
-    exportSuccess: (c) => `✅ Dieksport ${c} rekod`, exportStudentSuccess: (c) => `✅ Dieksport butiran ${c} murid`,
-    noDataToExport: 'Tiada data', testLabel: 'Ujian', certTitle: '🏆 Sijil Master Sifir 🏆', certAwardTo: 'Dianugerahkan kepada',
-    certLevel: 'Tahap', certDate: 'Tarikh', certMessage: 'Anda adalah Navigator Angkasa Sejati!', classComparison: '📊 Perbandingan Prestasi Kelas',
-    level1Name: '🌟 Angkasawan Baru', level1Desc: 'Sifir 2', level2Name: '🌙 Penjelajah Bulan', level2Desc: 'Sifir 0-5',
-    level3Name: '☀️ Pahlawan Matahari', level3Desc: 'Sifir 2-9', level4Name: '🌀 Penguasa Galaksi', level4Desc: 'Sifir 0-12',
-    wrongTitle: '📝 Soalan Salah Saya', practiceWrong: '📝 Latihan Soalan Salah', clearWrong: '🗑️ Kosongkan', backToReport: '◀ Kembali ke Laporan',
-    noWrongQuestions: '🎉 Tahniah! Tiada soalan salah!', rankTitle: '🏆 Carta Kedudukan Bintang', yourRank: 'Kedudukan Anda', rankNotRanked: 'Belum dalam carta, teruskan usaha!',
-    suggestionTitle: '💡 Cadangan Pembelajaran', suggestionExcellent: '🎉 Cemerlang! Anda pakar sifir!',
-    suggestionGood: '👍 Bagus! Latih kelemahan anda!', suggestionNeedPractice: '💪 Teruskan usaha! Lebih latihan!',
-    suggestionWeakTables: 'Sifir perlu diperkuatkan', suggestionStrongTables: 'Sifir telah dikuasai',
-    step1Title: '📝 Isi Maklumat Angkasawan', step1Desc: 'Masukkan sekolah, kelas dan nama, klik "Lancar" untuk mulakan!',
-    step2Title: '🎯 Pilih Tahap Misi', step2Desc: '5 mod: Novis, Penjelajah Bulan, Pahlawan Matahari, Penguasa Galaksi, dan ✨Pilihan Sendiri✨ - pilih sekurang-kurangnya 3 sifir!',
-    step3Title: '⏱️ Soalan Berhad Masa', step3Desc: 'Mudah: 20 saat; Sukar: 25 saat. Mod pilihan sendiri: 8 soalan setiap sifir (2 mudah + 3 sederhana + 3 sukar)',
-    step4Title: '📊 Lihat Laporan Penilaian', step4Desc: 'Tunjukkan penguasaan, cadangan, carta, dan 🏅lencana pencapaian!',
-    step5Title: '📝 Buku Soalan Salah', step5Desc: 'Jawapan salah disimpan. Ulang kaji bila-bila!',
-    step6Title: '🏆 Carta & Pencapaian', step6Desc: 'Lihat carta kelas dan kumpul lencana! Guru boleh lihat carta kemajuan murid!',
-    tutorialFooter: '🚀 Misi Matematik Angkasa - Pembelajaran sifir menyeronokkan! 🌟',
-    feedback: '📝 Borang Maklum Balas', customTitle: '✨ Pilihan Sendiri ✨', customHint: 'Sila pilih sekurang-kurangnya 3 sifir',
-    schoolPlaceholder: 'Galaxy Primary School',
-    classPlaceholder: 'Star Class 5A',
-    namePlaceholder: 'Little Astronaut',
-    customLevelDesc: 'Custom Tables',
-    customLevelLabel: '✨ Latihan Pilihan Sendiri',
-    deleteData: '🗑️ Padam Data',
-    cancelBtn: '◀ Batal',
-    confirmCustomBtn: '✅ Mula Latihan',
-    langSwitchText: '🌙 EN',
-    progressTitle: '📈 Kemajuan Murid',
-    closeBtn: '◀ Tutup',
-    loadingRanking: 'Memuatkan...',
-    loadFailed: 'Gagal memuat',
-    supabaseNotConnected: '⚠️ Supabase tidak disambungkan',
-    certFooter: 'Misi Matematik Angkasa',
-    printCert: '🖨️ Cetak Sijil',
-    closeCert: '❌ Tutup',
-    practiceThis: '📝 Latihan'
-  }
-};
-
-const reportTexts = {
-  zh: { school:"🏫 学校", class:"📚 班级", name:"👩‍🚀 姓名", date:"📅 测试日期", level:"🎯 等级", total:"📊 总题数", correct:"✅ 答对", accuracy:"⭐ 正确率", timesTable:"的乘法表", mastered:"🚀 已掌握", basic:"✨ 基本掌握", needs:"🌱 需加强", masterMsg:"🎉 太棒了！你是真正的星际领航员！🚀✨", goodMsg:"⭐️ 表现优秀！继续向宇宙深处探索！🌌", tryMsg:"💪 再练习几次，下次一定能征服银河系！🌟", history:"📜 历史成绩记录", previous:"📈 上次成绩", improvement:"🚀 进步幅度", clearHistory:"🗑️ 清除我的历史记录" },
-  en: { school:"🏫 School", class:"📚 Class", name:"👨‍🚀 Name", date:"📅 Date", level:"🎯 Level", total:"📊 Total", correct:"✅ Correct", accuracy:"⭐ Accuracy", timesTable:" Times Table", mastered:"🚀 Mastered", basic:"✨ Good", needs:"🌱 Need Practice", masterMsg:"🎉 Amazing! You're a true Space Navigator! 🚀✨", goodMsg:"⭐️ Great job! Keep exploring! 🌌", tryMsg:"💪 More practice and you'll conquer the galaxy! 🌟", history:"📜 History Records", previous:"📈 Previous Score", improvement:"🚀 Improvement", clearHistory:"🗑️ Clear My History" },
-  ms: { school:"🏫 Sekolah", class:"📚 Kelas", name:"👩‍🚀 Nama", date:"📅 Tarikh", level:"🎯 Tahap", total:"📊 Jumlah", correct:"✅ Betul", accuracy:"⭐ Ketepatan", timesTable:" Sifir", mastered:"🚀 Dikuasai", basic:"✨ Baik", needs:"🌱 Perlu Latihan", masterMsg:"🎉 Hebat! Anda Navigator Angkasa Sejati! 🚀✨", goodMsg:"⭐️ Bagus! Terus terokai! 🌌", tryMsg:"💪 Lebih latihan, pasti takluk galaksi! 🌟", history:"📜 Rekod Sejarah", previous:"📈 Keputusan Lepas", improvement:"🚀 Peningkatan", clearHistory:"🗑️ Padam Rekod Saya" }
-};
-
-function applyUILang() {
-  const t = texts[currentLang];
-  document.getElementById('mainTitle') && (document.getElementById('mainTitle').textContent = t.mainTitle);
-  document.getElementById('infoSubtitle') && (document.getElementById('infoSubtitle').textContent = t.infoSubtitle);
-  document.getElementById('schoolLabel') && (document.getElementById('schoolLabel').textContent = t.schoolLabel);
-  document.getElementById('classLabel') && (document.getElementById('classLabel').textContent = t.classLabel);
-  document.getElementById('nameLabel') && (document.getElementById('nameLabel').textContent = t.nameLabel);
-  document.getElementById('startBtn') && (document.getElementById('startBtn').textContent = t.startBtn);
-  document.getElementById('levelTitle') && (document.getElementById('levelTitle').textContent = t.levelTitle);
-  document.getElementById('submitBtn') && (document.getElementById('submitBtn').textContent = t.submitBtn);
-  document.getElementById('reportTitle') && (document.getElementById('reportTitle').textContent = t.reportTitle);
-  document.getElementById('restartBtn') && (document.getElementById('restartBtn').textContent = t.restartBtn);
-  document.getElementById('homeBtn') && (document.getElementById('homeBtn').innerHTML = t.homeBtn);
-  document.getElementById('teacherBtn') && (document.getElementById('teacherBtn').innerHTML = t.teacherBtn);
-  document.getElementById('tutorialBtn') && (document.getElementById('tutorialBtn').innerHTML = t.tutorialBtn);
-  document.getElementById('tutorialTitle') && (document.getElementById('tutorialTitle').textContent = t.tutorialTitle);
-  document.getElementById('backToInfoBtn') && (document.getElementById('backToInfoBtn').innerHTML = t.backToInfo);
-  document.getElementById('backToLevelBtn') && (document.getElementById('backToLevelBtn').innerHTML = t.backToLevel);
-  document.getElementById('backToLevelFromReportBtn') && (document.getElementById('backToLevelFromReportBtn').innerHTML = t.backToLevel);
-  document.getElementById('teacherTitle') && (document.getElementById('teacherTitle').textContent = t.teacherTitle);
-  document.getElementById('wrongTitle') && (document.getElementById('wrongTitle').textContent = t.wrongTitle);
-  document.getElementById('rankTitle') && (document.getElementById('rankTitle').textContent = t.rankTitle);
-  document.getElementById('practiceWrongBtn') && (document.getElementById('practiceWrongBtn').innerHTML = t.practiceWrong);
-  document.getElementById('clearWrongBtn') && (document.getElementById('clearWrongBtn').innerHTML = t.clearWrong);
-  document.getElementById('backToReportBtn') && (document.getElementById('backToReportBtn').innerHTML = t.backToReport);
-  document.getElementById('backToReportFromRankBtn') && (document.getElementById('backToReportFromRankBtn').innerHTML = t.backToReport);
-  document.getElementById('classComparisonTitle') && (document.getElementById('classComparisonTitle').innerHTML = t.classComparison);
-  document.getElementById('feedbackBtn') && (document.getElementById('feedbackBtn').innerHTML = t.feedback);
-  document.getElementById('modalTitle') && (document.getElementById('modalTitle').innerHTML = t.customTitle);
-  document.getElementById('modalHint') && (document.getElementById('modalHint').innerHTML = t.customHint);
-  
-  document.getElementById('school') && (document.getElementById('school').placeholder = t.schoolPlaceholder);
-  document.getElementById('className') && (document.getElementById('className').placeholder = t.classPlaceholder);
-  document.getElementById('studentName') && (document.getElementById('studentName').placeholder = t.namePlaceholder);
-  
-  const customDesc = document.getElementById('customLevelDesc');
-  if (customDesc) customDesc.textContent = t.customLevelDesc;
-  const customLabel = document.getElementById('customLevelLabel');
-  if (customLabel) customLabel.textContent = t.customLevelLabel;
-  
-  const deleteBtn = document.getElementById('deleteDataBtn');
-  if (deleteBtn) deleteBtn.innerHTML = t.deleteData;
-  
-  document.getElementById('step1Title') && (document.getElementById('step1Title').innerHTML = t.step1Title);
-  document.getElementById('step1Desc') && (document.getElementById('step1Desc').innerHTML = t.step1Desc);
-  document.getElementById('step2Title') && (document.getElementById('step2Title').innerHTML = t.step2Title);
-  document.getElementById('step2Desc') && (document.getElementById('step2Desc').innerHTML = t.step2Desc);
-  document.getElementById('step3Title') && (document.getElementById('step3Title').innerHTML = t.step3Title);
-  document.getElementById('step3Desc') && (document.getElementById('step3Desc').innerHTML = t.step3Desc);
-  document.getElementById('step4Title') && (document.getElementById('step4Title').innerHTML = t.step4Title);
-  document.getElementById('step4Desc') && (document.getElementById('step4Desc').innerHTML = t.step4Desc);
-  document.getElementById('step5Title') && (document.getElementById('step5Title').innerHTML = t.step5Title);
-  document.getElementById('step5Desc') && (document.getElementById('step5Desc').innerHTML = t.step5Desc);
-  document.getElementById('step6Title') && (document.getElementById('step6Title').innerHTML = t.step6Title);
-  document.getElementById('step6Desc') && (document.getElementById('step6Desc').innerHTML = t.step6Desc);
-  document.getElementById('tutorialFooter') && (document.getElementById('tutorialFooter').innerHTML = t.tutorialFooter);
-  
-  const exportBtn = document.getElementById('exportBtn'), detailBtn = document.getElementById('exportStudentDetailBtn'), backBtn = document.getElementById('backFromTeacherBtn');
-  exportBtn && (exportBtn.innerHTML = t.exportRecords);
-  detailBtn && (detailBtn.innerHTML = t.exportDetails);
-  backBtn && (backBtn.innerHTML = t.backHome);
-  
-  const filterSchool = document.getElementById('filterSchool'), filterClass = document.getElementById('filterClass');
-  filterSchool && (filterSchool.placeholder = t.filterSchool + ' / Filter School');
-  filterClass && (filterClass.placeholder = t.filterClass + ' / Filter Class');
-  
-  const levelBtns = document.querySelectorAll('.level-btn');
-  if (levelBtns.length >= 4) {
-    levelBtns[0].innerHTML = `${t.level1Name}<br><span>${t.level1Desc}</span>`;
-    levelBtns[1].innerHTML = `${t.level2Name}<br><span>${t.level2Desc}</span>`;
-    levelBtns[2].innerHTML = `${t.level3Name}<br><span>${t.level3Desc}</span>`;
-    levelBtns[3].innerHTML = `${t.level4Name}<br><span>${t.level4Desc}</span>`;
-  }
-  
-  // 新增的翻译元素
-  document.getElementById('cancelCustomBtn') && (document.getElementById('cancelCustomBtn').innerHTML = t.cancelBtn);
-  document.getElementById('confirmCustomBtn') && (document.getElementById('confirmCustomBtn').innerHTML = t.confirmCustomBtn);
-  document.getElementById('langBtn') && (document.getElementById('langBtn').innerHTML = t.langSwitchText);
-  document.getElementById('progressTitle') && (document.getElementById('progressTitle').innerHTML = t.progressTitle);
-  document.getElementById('closeProgressBtn') && (document.getElementById('closeProgressBtn').innerHTML = t.closeBtn);
-}
-
-function goToHome() {
-  stopTimer(); gameStarted = false; currentLevel = null; questions = []; currentIndex = 0; correctCount = 0; stats = {};
-  document.getElementById('school') && (document.getElementById('school').value = '');
-  document.getElementById('className') && (document.getElementById('className').value = '');
-  document.getElementById('studentName') && (document.getElementById('studentName').value = '');
-  document.getElementById('infoScreen').classList.add('active');
-  document.getElementById('levelScreen').classList.remove('active');
-  document.getElementById('quizScreen').classList.remove('active');
-  document.getElementById('reportScreen').classList.remove('active');
-  document.getElementById('wrongQuestionsScreen').classList.remove('active');
-  document.getElementById('rankScreen').classList.remove('active');
-  document.getElementById('teacherScreen').classList.remove('active');
-  document.getElementById('tutorialScreen').classList.remove('active');
-}
-function goToInfo() { goToHome(); }
-function goToTutorial() {
-  document.getElementById('infoScreen').classList.remove('active');
-  document.getElementById('levelScreen').classList.remove('active');
-  document.getElementById('quizScreen').classList.remove('active');
-  document.getElementById('reportScreen').classList.remove('active');
-  document.getElementById('wrongQuestionsScreen').classList.remove('active');
-  document.getElementById('rankScreen').classList.remove('active');
-  document.getElementById('teacherScreen').classList.remove('active');
-  document.getElementById('tutorialScreen').classList.add('active');
-}
-function goToLevelSelect() {
-  stopTimer(); gameStarted = false; stats = {}; currentLevel = null; questions = []; currentIndex = 0; correctCount = 0;
-  document.getElementById('quizScreen').classList.remove('active');
-  document.getElementById('reportScreen').classList.remove('active');
-  document.getElementById('wrongQuestionsScreen').classList.remove('active');
-  document.getElementById('rankScreen').classList.remove('active');
-  document.getElementById('levelScreen').classList.add('active');
-}
-
-function showCustomModal() {
-  const grid = document.getElementById('tableCheckboxGrid');
-  let html = '';
-  for (let i = 0; i <= 12; i++) {
-    const label = currentLang === 'zh' ? `${i} 的乘法表` : (currentLang === 'en' ? `${i} Times Table` : `Sifir ${i}`);
-    html += `<label class="table-checkbox-item"><input type="checkbox" value="${i}" class="table-cb"> ${label}</label>`;
-  }
-  grid.innerHTML = html;
-  document.getElementById('customModal').classList.add('active');
-}
-document.getElementById('customLevelBtn')?.addEventListener('click', showCustomModal);
-document.getElementById('cancelCustomBtn')?.addEventListener('click', () => document.getElementById('customModal').classList.remove('active'));
-document.getElementById('confirmCustomBtn')?.addEventListener('click', () => {
-  const checkboxes = document.querySelectorAll('.table-cb:checked');
-  const selected = Array.from(checkboxes).map(cb => parseInt(cb.value));
-  if (selected.length < 3) {
-    alert(texts[currentLang].customHint);
-    return;
-  }
-  selectedTables = selected;
-  currentLevel = 6;
-  questions = generateCustomQuestions(selectedTables);
-  currentIndex = 0;
-  correctCount = 0;
-  gameStarted = true;
-  document.getElementById('customModal').classList.remove('active');
-  document.getElementById('levelScreen').classList.remove('active');
-  document.getElementById('quizScreen').classList.add('active');
-  showCurrentQuestion();
-});
-
-function verifyTeacherPassword() {
-  const pwd = prompt(texts[currentLang].enterPassword);
-  return pwd === TEACHER_PASSWORD;
-}
-
-// ==================== 生成证书 ====================
+// ==================== 证书生成 ====================
 function generateCertificate() {
   const t = texts[currentLang];
   const accuracy = Math.round((correctCount / questions.length) * 100);
@@ -2055,9 +2177,191 @@ function generateCertificate() {
   </body></html>`;
   
   const win = window.open();
-  win.document.write(certHtml);
-  win.document.close();
+  if (win) {
+    win.document.write(certHtml);
+    win.document.close();
+  } else {
+    const newWin = window.open('', '_blank');
+    if (newWin) {
+      newWin.document.write(certHtml);
+      newWin.document.close();
+    } else {
+      alert('请允许弹出窗口以生成证书');
+    }
+  }
 }
+
+// ==================== UI 语言应用 ====================
+function applyUILang() {
+  const t = texts[currentLang];
+  const elements = {
+    'mainTitle': t.mainTitle,
+    'infoSubtitle': t.infoSubtitle,
+    'schoolLabel': t.schoolLabel,
+    'classLabel': t.classLabel,
+    'nameLabel': t.nameLabel,
+    'startBtn': t.startBtn,
+    'levelTitle': t.levelTitle,
+    'submitBtn': t.submitBtn,
+    'reportTitle': t.reportTitle,
+    'restartBtn': t.restartBtn,
+    'homeBtn': t.homeBtn,
+    'teacherBtn': t.teacherBtn,
+    'tutorialBtn': t.tutorialBtn,
+    'tutorialTitle': t.tutorialTitle,
+    'backToInfoBtn': t.backToInfo,
+    'backToLevelBtn': t.backToLevel,
+    'backToLevelFromReportBtn': t.backToLevel,
+    'backFromTutorialBtn': t.backHome,
+    'backFromTeacherBtn': t.backHome,
+    'teacherTitle': t.teacherTitle,
+    'wrongTitle': t.wrongTitle,
+    'practiceWrongBtn': t.practiceWrong,
+    'clearWrongBtn': t.clearWrong,
+    'backToReportBtn': t.backToReport,
+    'backToReportFromRankBtn': t.backToReport,
+    'rankTitle': t.rankTitle,
+    'classComparisonTitle': t.classComparison,
+    'feedbackBtn': t.feedback,
+    'modalTitle': t.customTitle,
+    'modalHint': t.customHint,
+    'cancelCustomBtn': t.cancelBtn,
+    'confirmCustomBtn': t.confirmCustomBtn,
+    'progressTitle': t.progressTitle,
+    'closeProgressBtn': t.closeBtn,
+    'smartReviewBtn': t.smartReviewBtn,
+    'customLevelDesc': t.customLevelDesc,
+    'customLevelLabel': t.customLevelLabel,
+    'deleteDataBtn': t.deleteData,
+    'exportBtn': t.exportRecords,
+    'exportStudentDetailBtn': t.exportDetails,
+    'step1Title': t.step1Title,
+    'step1Desc': t.step1Desc,
+    'step2Title': t.step2Title,
+    'step2Desc': t.step2Desc,
+    'step3Title': t.step3Title,
+    'step3Desc': t.step3Desc,
+    'step4Title': t.step4Title,
+    'step4Desc': t.step4Desc,
+    'step5Title': t.step5Title,
+    'step5Desc': t.step5Desc,
+    'step6Title': t.step6Title,
+    'step6Desc': t.step6Desc,
+    'tutorialFooter': t.tutorialFooter,
+  };
+  
+  for (const [id, text] of Object.entries(elements)) {
+    const el = document.getElementById(id);
+    if (el) {
+      const innerHTMLIds = [
+        'homeBtn', 'teacherBtn', 'tutorialBtn',
+        'backToInfoBtn', 'backToLevelBtn', 'backToLevelFromReportBtn',
+        'backToReportBtn', 'backToReportFromRankBtn', 'backFromTeacherBtn',
+        'backFromTutorialBtn',
+        'cancelCustomBtn', 'confirmCustomBtn', 'closeProgressBtn',
+        'practiceWrongBtn', 'clearWrongBtn', 'deleteDataBtn',
+        'exportBtn', 'exportStudentDetailBtn'
+      ];
+      if (innerHTMLIds.includes(id)) {
+        el.innerHTML = text;
+      } else {
+        el.textContent = text;
+      }
+    }
+  }
+  
+  const levelBtns = document.querySelectorAll('.level-btn[data-lvl]');
+  const levelNames = [t.level1Name, t.level2Name, t.level3Name, t.level4Name];
+  const levelDescs = [t.level1Desc, t.level2Desc, t.level3Desc, t.level4Desc];
+  levelBtns.forEach((btn, idx) => {
+    if (idx < levelNames.length) {
+      btn.innerHTML = `${levelNames[idx]}<br><span>${levelDescs[idx]}</span>`;
+    }
+  });
+  
+  const schoolInput = document.getElementById('school');
+  const classInput = document.getElementById('className');
+  const nameInput = document.getElementById('studentName');
+  if (schoolInput) schoolInput.placeholder = t.schoolPlaceholder;
+  if (classInput) classInput.placeholder = t.classPlaceholder;
+  if (nameInput) nameInput.placeholder = t.namePlaceholder;
+  
+  const filterSchool = document.getElementById('filterSchool');
+  const filterClass = document.getElementById('filterClass');
+  if (filterSchool) filterSchool.placeholder = t.filterSchool + ' / Filter School';
+  if (filterClass) filterClass.placeholder = t.filterClass + ' / Filter Class';
+  
+  const langBtn = document.getElementById('langBtn');
+  if (langBtn) langBtn.textContent = t.langSwitchText;
+}
+
+// ==================== 页面导航 ====================
+function goToHome() {
+  stopTimer(); gameStarted = false; currentLevel = null; questions = []; currentIndex = 0; correctCount = 0; stats = {};
+  document.getElementById('school') && (document.getElementById('school').value = '');
+  document.getElementById('className') && (document.getElementById('className').value = '');
+  document.getElementById('studentName') && (document.getElementById('studentName').value = '');
+  document.getElementById('infoScreen').classList.add('active');
+  document.getElementById('levelScreen').classList.remove('active');
+  document.getElementById('quizScreen').classList.remove('active');
+  document.getElementById('reportScreen').classList.remove('active');
+  document.getElementById('wrongQuestionsScreen').classList.remove('active');
+  document.getElementById('rankScreen').classList.remove('active');
+  document.getElementById('teacherScreen').classList.remove('active');
+  document.getElementById('tutorialScreen').classList.remove('active');
+}
+
+function goToTutorial() {
+  document.getElementById('infoScreen').classList.remove('active');
+  document.getElementById('levelScreen').classList.remove('active');
+  document.getElementById('quizScreen').classList.remove('active');
+  document.getElementById('reportScreen').classList.remove('active');
+  document.getElementById('wrongQuestionsScreen').classList.remove('active');
+  document.getElementById('rankScreen').classList.remove('active');
+  document.getElementById('teacherScreen').classList.remove('active');
+  document.getElementById('tutorialScreen').classList.add('active');
+}
+
+function goToLevelSelect() {
+  stopTimer(); gameStarted = false; stats = {}; currentLevel = null; questions = []; currentIndex = 0; correctCount = 0;
+  document.getElementById('quizScreen').classList.remove('active');
+  document.getElementById('reportScreen').classList.remove('active');
+  document.getElementById('wrongQuestionsScreen').classList.remove('active');
+  document.getElementById('rankScreen').classList.remove('active');
+  document.getElementById('levelScreen').classList.add('active');
+  const smartBtn = document.getElementById('smartReviewBtn');
+  if (smartBtn) smartBtn.style.display = wrongQuestions.length > 0 ? 'inline-block' : 'none';
+}
+
+function showCustomModal() {
+  const grid = document.getElementById('tableCheckboxGrid');
+  let html = '';
+  for (let i = 0; i <= 12; i++) {
+    const label = currentLang === 'zh' ? `${i} 的乘法表` : (currentLang === 'en' ? `${i} Times Table` : `Sifir ${i}`);
+    html += `<label class="table-checkbox-item"><input type="checkbox" value="${i}" class="table-cb"> ${label}</label>`;
+  }
+  grid.innerHTML = html;
+  document.getElementById('customModal').classList.add('active');
+}
+
+function verifyTeacherPassword() {
+  const pwd = prompt(texts[currentLang].enterPassword);
+  return pwd === TEACHER_PASSWORD;
+}
+
+// ==================== 创建星星动画 ====================
+function createStars() {
+  const container = document.getElementById('stars');
+  if (!container) return;
+  for (let i = 0; i < 200; i++) {
+    let star = document.createElement('div');
+    star.classList.add('star');
+    let size = Math.random() * 3 + 1;
+    star.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*4}s`;
+    container.appendChild(star);
+  }
+}
+createStars();
 
 // ==================== 事件绑定 ====================
 let loadTimeout = null;
@@ -2067,7 +2371,9 @@ document.getElementById('langBtn').onclick = () => {
   applyUILang(); 
   if (document.getElementById('teacherScreen').classList.contains('active')) loadTeacherData();
   if (document.getElementById('reportScreen').classList.contains('active') && gameStarted) {
-    renderReport(null, Math.round((correctCount / questions.length) * 100));
+    getHistoryRecords().then(history => {
+      renderReport(history, Math.round((correctCount / questions.length) * 100));
+    });
   }
   if (document.getElementById('wrongQuestionsScreen').classList.contains('active')) {
     renderWrongQuestions();
@@ -2075,7 +2381,8 @@ document.getElementById('langBtn').onclick = () => {
 };
 
 document.getElementById('homeBtn').onclick = () => { 
-  if (confirm(currentLang === 'zh' ? '返回首页？进度将丢失。' : (currentLang === 'en' ? 'Return home? Progress lost.' : 'Kembali ke laman utama? Kemajuan akan hilang.'))) goToHome(); 
+  const t = texts[currentLang];
+  if (confirm(t.homeBtn + '？' + (currentLang === 'zh' ? '进度将丢失。' : (currentLang === 'en' ? ' Progress lost.' : ' Kemajuan akan hilang.')))) goToHome(); 
 };
 
 document.getElementById('tutorialBtn').onclick = goToTutorial;
@@ -2096,9 +2403,7 @@ document.getElementById('teacherBtn').onclick = () => {
 };
 
 document.getElementById('backFromTeacherBtn').onclick = goToHome;
-
 document.getElementById('deleteDataBtn').onclick = deleteTeacherData;
-
 document.getElementById('exportBtn').onclick = exportToExcel;
 document.getElementById('exportStudentDetailBtn').onclick = exportStudentMultiplicationDetails;
 document.getElementById('certBtn').onclick = generateCertificate;
@@ -2121,9 +2426,10 @@ document.getElementById('backToReportFromRankBtn').onclick = () => {
   document.getElementById('reportScreen').classList.add('active');
 };
 
-document.getElementById('backToInfoBtn').onclick = goToInfo;
+document.getElementById('backToInfoBtn').onclick = goToHome;
 document.getElementById('backToLevelBtn').onclick = () => { 
-  if (confirm(currentLang === 'zh' ? '返回选等级？进度将丢失。' : (currentLang === 'en' ? 'Back to levels? Progress lost.' : 'Kembali ke tahap? Kemajuan akan hilang.'))) goToLevelSelect(); 
+  const t = texts[currentLang];
+  if (confirm(t.backToLevel + '？' + (currentLang === 'zh' ? '进度将丢失。' : (currentLang === 'en' ? ' Progress lost.' : ' Kemajuan akan hilang.')))) goToLevelSelect(); 
 };
 document.getElementById('backToLevelFromReportBtn').onclick = goToLevelSelect;
 
@@ -2131,17 +2437,20 @@ document.getElementById('startBtn').onclick = () => {
   student.school = document.getElementById('school').value.trim();
   student.className = document.getElementById('className').value.trim();
   student.name = document.getElementById('studentName').value.trim();
+  const t = texts[currentLang];
   if (!student.school || !student.className || !student.name) { 
-    alert(currentLang === 'zh' ? '请填写完整资料 🚀' : (currentLang === 'en' ? 'Please fill in all info 🚀' : 'Sila isi semua maklumat 🚀')); 
+    alert(t.startBtn + ' ' + (currentLang === 'zh' ? '请填写完整资料 🚀' : (currentLang === 'en' ? 'Please fill in all info 🚀' : 'Sila isi semua maklumat 🚀'))); 
     return; 
   }
   loadWrongQuestions();
   loadAchievements();
   document.getElementById('infoScreen').classList.remove('active');
   document.getElementById('levelScreen').classList.add('active');
+  const smartBtn = document.getElementById('smartReviewBtn');
+  if (smartBtn) smartBtn.style.display = wrongQuestions.length > 0 ? 'inline-block' : 'none';
 };
 
-document.querySelectorAll('.level-btn').forEach(btn => {
+document.querySelectorAll('.level-btn[data-lvl]').forEach(btn => {
   btn.onclick = () => {
     currentLevel = parseInt(btn.dataset.lvl);
     questions = generateQuestionsByLevel(currentLevel);
@@ -2153,6 +2462,30 @@ document.querySelectorAll('.level-btn').forEach(btn => {
     showCurrentQuestion();
   };
 });
+
+document.getElementById('customLevelBtn').onclick = showCustomModal;
+document.getElementById('cancelCustomBtn').onclick = () => document.getElementById('customModal').classList.remove('active');
+document.getElementById('confirmCustomBtn').onclick = () => {
+  const checkboxes = document.querySelectorAll('.table-cb:checked');
+  const selected = Array.from(checkboxes).map(cb => parseInt(cb.value));
+  const t = texts[currentLang];
+  if (selected.length < 3) {
+    alert(t.customHint);
+    return;
+  }
+  selectedTables = selected;
+  currentLevel = 6;
+  questions = generateCustomQuestions(selectedTables);
+  currentIndex = 0;
+  correctCount = 0;
+  gameStarted = true;
+  document.getElementById('customModal').classList.remove('active');
+  document.getElementById('levelScreen').classList.remove('active');
+  document.getElementById('quizScreen').classList.add('active');
+  showCurrentQuestion();
+};
+
+document.getElementById('smartReviewBtn').onclick = startSmartReview;
 
 document.getElementById('submitBtn').onclick = () => { 
   if ((currentLevel === 3 || currentLevel === 4 || currentLevel === 5 || currentLevel === 6) && gameStarted) { 
@@ -2209,18 +2542,7 @@ document.getElementById('filterClass').addEventListener('input', () => {
   loadTimeout = setTimeout(() => { loadTeacherData(); renderClassComparison(); }, 300); 
 });
 
-// ==================== 创建星星动画 ====================
-function createStars() {
-  const container = document.getElementById('stars');
-  for (let i = 0; i < 200; i++) {
-    let star = document.createElement('div');
-    star.classList.add('star');
-    let size = Math.random() * 3 + 1;
-    star.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*4}s`;
-    container.appendChild(star);
-  }
-}
-createStars();
+document.getElementById('closeProgressBtn')?.addEventListener('click', () => document.getElementById('progressModal').classList.remove('active'));
 
 // ==================== 初始化语言 ====================
 applyUILang();
@@ -2231,6 +2553,7 @@ window.addEventListener('load', () => {
     loadAchievements();
     loadWrongQuestions();
   }
+  setTimeout(initSupabase, 500);
 });
 </script>
 </body>
