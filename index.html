@@ -656,6 +656,7 @@ canvas { max-height: 300px; margin: 20px 0; }
     <div class="filter-bar">
       <input type="text" id="filterSchool" placeholder="筛选学校 / Filter School">
       <input type="text" id="filterClass" placeholder="筛选班级 / Filter Class">
+      <input type="text" id="filterStudentName" placeholder="筛选姓名 / Filter Name">
       <button class="export-btn" id="exportBtn">📊 导出测试记录</button>
       <button class="export-btn" id="exportStudentDetailBtn" style="background: linear-gradient(135deg, #aa66cc, #8844aa);">📋 导出学生详情</button>
       <button class="export-btn" id="deleteDataBtn" style="background: linear-gradient(135deg, #ff4444, #cc2222);">🗑️ 删除数据</button>
@@ -894,36 +895,90 @@ function startPracticeQuestion(question) {
   showCurrentQuestion();
 }
 
-// ==================== 多语言词库 ====================
+// ==================== 多语言词库（完整翻译） ====================
 const texts = {
   zh: {
-    mainTitle: '🚀 太空乘法任务 🌟', infoSubtitle: '✦ 填写宇航员资料 ✦', schoolLabel: '🏫 学校', classLabel: '📚 班级', nameLabel: '👩‍🚀 姓名',
-    startBtn: '⚡ 发射启程 ⚡', levelTitle: '🪐 选择任务等级 🪐', submitBtn: '✨ 确认答案 ✨', reportTitle: '📋 星际评估报告 🌟',
-    restartBtn: '🔄 重新测试 🔄', homeBtn: '🏠 首页', teacherBtn: '👩‍🏫 教师后台', tutorialBtn: '📖 使用教程',
-    backToInfo: '◀ 返回填写资料', backToLevel: '◀ 返回选等级', teacherTitle: '👩‍🏫 教师后台管理系统', tutorialTitle: '📖 使用教程',
-    filterSchool: '筛选学校', filterClass: '筛选班级', exportRecords: '📊 导出测试记录', exportDetails: '📋 导出学生详情',
-    backHome: '◀ 返回首页', totalStudents: '总学生数', totalTests: '总测试次数', avgAccuracy: '平均正确率', highestScore: '最高分',
-    timesTableMastery: '各乘法表掌握程度详情（0-12）', recentRecords: '📋 最近测试记录', noData: '暂无数据，请先让学生完成测试',
-    loading: '加载数据中...', enterPassword: '请输入密码进入教师后台', wrongPassword: '❌ 密码错误！',
-    exportSuccess: (c) => `✅ 已导出 ${c} 条测试记录`, exportStudentSuccess: (c) => `✅ 已导出 ${c} 名学生的乘法表掌握详情`,
-    noDataToExport: '暂无数据', testLabel: '测试', certTitle: '🏆 乘法大师证书 🏆', certAwardTo: '授予', certLevel: '等级',
-    certDate: '日期', certMessage: '你是真正的星际领航员！', classComparison: '📊 班级成绩对比',
-    level1Name: '🌟 新手宇航员', level1Desc: '2的乘法表', level2Name: '🌙 月球探险家', level2Desc: '0~5 乘法表',
-    level3Name: '☀️ 太阳勇士', level3Desc: '2~9 全面挑战', level4Name: '🌀 银河霸主', level4Desc: '0~12 终极挑战',
-    wrongTitle: '📝 我的错题本', practiceWrong: '📝 练习错题', clearWrong: '🗑️ 清空错题本', backToReport: '◀ 返回报告',
-    noWrongQuestions: '🎉 太棒了！你没有错题！继续努力保持！', rankTitle: '🏆 星际排行榜', yourRank: '你的排名', rankNotRanked: '暂未上榜，继续努力！',
-    suggestionTitle: '💡 学习建议', suggestionExcellent: '🎉 太优秀了！你是乘法表小专家！继续保持！',
+    mainTitle: '🚀 太空乘法任务 🌟',
+    infoSubtitle: '✦ 填写宇航员资料 ✦',
+    schoolLabel: '🏫 学校',
+    classLabel: '📚 班级',
+    nameLabel: '👩‍🚀 姓名',
+    startBtn: '⚡ 发射启程 ⚡',
+    levelTitle: '🪐 选择任务等级 🪐',
+    submitBtn: '✨ 确认答案 ✨',
+    reportTitle: '📋 星际评估报告 🌟',
+    restartBtn: '🔄 重新测试 🔄',
+    homeBtn: '🏠 首页',
+    teacherBtn: '👩‍🏫 教师后台',
+    tutorialBtn: '📖 使用教程',
+    backToInfo: '◀ 返回填写资料',
+    backToLevel: '◀ 返回选等级',
+    teacherTitle: '👩‍🏫 教师后台管理系统',
+    tutorialTitle: '📖 使用教程',
+    filterSchool: '筛选学校',
+    filterClass: '筛选班级',
+    filterStudentName: '筛选姓名',
+    exportRecords: '📊 导出测试记录',
+    exportDetails: '📋 导出学生详情',
+    backHome: '◀ 返回首页',
+    totalStudents: '总学生数',
+    totalTests: '总测试次数',
+    avgAccuracy: '平均正确率',
+    highestScore: '最高分',
+    timesTableMastery: '各乘法表掌握程度详情（0-12）',
+    recentRecords: '📋 最近测试记录',
+    noData: '暂无数据，请先让学生完成测试',
+    loading: '加载数据中...',
+    enterPassword: '请输入密码进入教师后台',
+    wrongPassword: '❌ 密码错误！',
+    exportSuccess: (c) => `✅ 已导出 ${c} 条测试记录`,
+    exportStudentSuccess: (c) => `✅ 已导出 ${c} 名学生的乘法表掌握详情`,
+    noDataToExport: '暂无数据',
+    testLabel: '测试',
+    certTitle: '🏆 乘法大师证书 🏆',
+    certAwardTo: '授予',
+    certLevel: '等级',
+    certDate: '日期',
+    certMessage: '你是真正的星际领航员！',
+    classComparison: '📊 班级成绩对比',
+    level1Name: '🌟 新手宇航员',
+    level1Desc: '2的乘法表',
+    level2Name: '🌙 月球探险家',
+    level2Desc: '0~5 乘法表',
+    level3Name: '☀️ 太阳勇士',
+    level3Desc: '2~9 全面挑战',
+    level4Name: '🌀 银河霸主',
+    level4Desc: '0~12 终极挑战',
+    wrongTitle: '📝 我的错题本',
+    practiceWrong: '📝 练习错题',
+    clearWrong: '🗑️ 清空错题本',
+    backToReport: '◀ 返回报告',
+    noWrongQuestions: '🎉 太棒了！你没有错题！继续努力保持！',
+    rankTitle: '🏆 星际排行榜',
+    yourRank: '你的排名',
+    rankNotRanked: '暂未上榜，继续努力！',
+    suggestionTitle: '💡 学习建议',
+    suggestionExcellent: '🎉 太优秀了！你是乘法表小专家！继续保持！',
     suggestionGood: '👍 表现不错！再练习一下薄弱环节，你就能成为乘法大师！',
     suggestionNeedPractice: '💪 加油！多练习错题，你会进步的！',
-    suggestionWeakTables: '需要加强的乘法表', suggestionStrongTables: '已经掌握的乘法表',
-    step1Title: '📝 填写宇航员资料', step1Desc: '输入学校、班级和姓名，点击"发射启程"开始太空数学之旅！',
-    step2Title: '🎯 选择任务等级', step2Desc: '5种模式：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)，以及✨自选练习✨ - 可自由勾选需要练习的乘法表（至少选3个）！',
-    step3Title: '⏱️ 限时答题', step3Desc: '低级：20秒选择题；高级：25秒输入答案。自选模式：每个乘法表按难度出8题（简单2题+中等3题+困难3题），全面考察掌握程度！',
-    step4Title: '📊 查看评估报告', step4Desc: '测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议、排行榜，还有🏅成就徽章系统（完成测试、获得高分、错题清零等都可解锁徽章）！',
-    step5Title: '📝 错题本功能', step5Desc: '做错的题目自动收集到错题本，可以随时复习和重做！"错题终结者"徽章等你来拿！',
-    step6Title: '🏆 排行榜与成就', step6Desc: '查看全班排行榜，收集乘法大师徽章！教师还可以点击学生姓名查看其进步曲线图！',
+    suggestionWeakTables: '需要加强的乘法表',
+    suggestionStrongTables: '已经掌握的乘法表',
+    step1Title: '📝 填写宇航员资料',
+    step1Desc: '输入学校、班级和姓名，点击"发射启程"开始太空数学之旅！',
+    step2Title: '🎯 选择任务等级',
+    step2Desc: '5种模式：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)，以及✨自选练习✨ - 可自由勾选需要练习的乘法表（至少选3个）！',
+    step3Title: '⏱️ 限时答题',
+    step3Desc: '低级：20秒选择题；高级：25秒输入答案。自选模式：每个乘法表按难度出8题（简单2题+中等3题+困难3题），全面考察掌握程度！',
+    step4Title: '📊 查看评估报告',
+    step4Desc: '测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议、排行榜，还有🏅成就徽章系统（完成测试、获得高分、错题清零等都可解锁徽章）！',
+    step5Title: '📝 错题本功能',
+    step5Desc: '做错的题目自动收集到错题本，可以随时复习和重做！"错题终结者"徽章等你来拿！',
+    step6Title: '🏆 排行榜与成就',
+    step6Desc: '查看全班排行榜，收集乘法大师徽章！教师还可以点击学生姓名查看其进步曲线图！',
     tutorialFooter: '🚀 太空乘法任务 - 让学习乘法变得有趣！ 🌟',
-    feedback: '📝 填写问卷', customTitle: '✨ 自选乘法表 ✨', customHint: '请至少选择3个乘法表',
+    feedback: '📝 填写问卷',
+    customTitle: '✨ 自选乘法表 ✨',
+    customHint: '请至少选择3个乘法表',
     schoolPlaceholder: '银河小学',
     classPlaceholder: '星际5班',
     namePlaceholder: '小宇航员',
@@ -961,34 +1016,98 @@ const texts = {
     weakTablesAdvice: '⚠️ 班级整体在以下乘法表表现较弱：',
     noWeakTablesAdvice: '🎉 班级整体乘法表掌握良好，继续保持！',
     tableLabel: (n) => `${n} 的乘法表`,
+    // ✅ 新增翻译
+    levelPrefix: '等级',
+    currentTest: '本次测试',
+    certLevel1: '新手宇航员',
+    certLevel2: '月球探险家',
+    certLevel3: '太阳勇士',
+    certLevel4: '银河霸主',
+    certLevel5: '错题练习',
+    certLevel6: '自选练习',
   },
   en: {
-    mainTitle: '🚀 Space Math Mission 🌟', infoSubtitle: '✦ Fill in Astronaut Info ✦', schoolLabel: '🏫 School', classLabel: '📚 Class', nameLabel: '👨‍🚀 Name',
-    startBtn: '⚡ Launch ⚡', levelTitle: '🪐 Select Mission Level 🪐', submitBtn: '✨ Submit ✨', reportTitle: '📋 Star Assessment Report 🌟',
-    restartBtn: '🔄 Retry 🔄', homeBtn: '🏠 Home', teacherBtn: '👩‍🏫 Teacher', tutorialBtn: '📖 Tutorial',
-    backToInfo: '◀ Back to Info', backToLevel: '◀ Back to Levels', teacherTitle: '👩‍🏫 Teacher Dashboard', tutorialTitle: '📖 Tutorial',
-    filterSchool: 'Filter School', filterClass: 'Filter Class', exportRecords: '📊 Export Records', exportDetails: '📋 Export Student Details',
-    backHome: '◀ Back Home', totalStudents: 'Total Students', totalTests: 'Total Tests', avgAccuracy: 'Avg Accuracy', highestScore: 'Highest Score',
-    timesTableMastery: 'Multiplication Tables Mastery Details (0-12)', recentRecords: '📋 Recent Test Records', noData: 'No data yet.',
-    loading: 'Loading data...', enterPassword: 'Enter password to access', wrongPassword: '❌ Wrong password!',
-    exportSuccess: (c) => `✅ Exported ${c} test records`, exportStudentSuccess: (c) => `✅ Exported ${c} student details`,
-    noDataToExport: 'No data to export', testLabel: 'Test', certTitle: '🏆 Multiplication Master Certificate 🏆', certAwardTo: 'Awarded to',
-    certLevel: 'Level', certDate: 'Date', certMessage: 'You are a true Space Navigator!', classComparison: '📊 Class Performance Comparison',
-    level1Name: '🌟 Novice Astronaut', level1Desc: '2 Times Table', level2Name: '🌙 Moon Explorer', level2Desc: '0~5 Times Table',
-    level3Name: '☀️ Solar Warrior', level3Desc: '2~9 Challenge', level4Name: '🌀 Galaxy Master', level4Desc: '0~12 Ultimate Challenge',
-    wrongTitle: '📝 My Wrong Questions', practiceWrong: '📝 Practice Wrong', clearWrong: '🗑️ Clear Wrong', backToReport: '◀ Back to Report',
-    noWrongQuestions: '🎉 Great job! No wrong questions!', rankTitle: '🏆 Star Ranking', yourRank: 'Your Rank', rankNotRanked: 'Not ranked yet, keep trying!',
-    suggestionTitle: '💡 Learning Suggestions', suggestionExcellent: '🎉 Excellent! You are a multiplication expert!',
-    suggestionGood: '👍 Good job! Practice your weak areas!', suggestionNeedPractice: '💪 Keep going! Practice more!',
-    suggestionWeakTables: 'Tables to improve', suggestionStrongTables: 'Tables mastered',
-    step1Title: '📝 Fill in Astronaut Info', step1Desc: 'Enter school, class and name, then click "Launch" to start!',
-    step2Title: '🎯 Select Mission Level', step2Desc: '5 modes: Novice, Moon Explorer, Solar Warrior, Galaxy Master, plus ✨Custom Practice✨ - select at least 3 tables!',
-    step3Title: '⏱️ Timed Questions', step3Desc: 'Easy: 20s multiple choice; Hard: 25s input. Custom mode: 8 questions per table (2 easy + 3 medium + 3 hard)',
-    step4Title: '📊 View Assessment Report', step4Desc: 'Shows mastery, suggestions, ranking, and 🏅achievement badges!',
-    step5Title: '📝 Wrong Questions Book', step5Desc: 'Wrong answers saved automatically. Review anytime!',
-    step6Title: '🏆 Ranking & Achievements', step6Desc: 'View class ranking and collect badges! Teachers can view student progress charts!',
+    mainTitle: '🚀 Space Math Mission 🌟',
+    infoSubtitle: '✦ Fill in Astronaut Info ✦',
+    schoolLabel: '🏫 School',
+    classLabel: '📚 Class',
+    nameLabel: '👨‍🚀 Name',
+    startBtn: '⚡ Launch ⚡',
+    levelTitle: '🪐 Select Mission Level 🪐',
+    submitBtn: '✨ Submit ✨',
+    reportTitle: '📋 Star Assessment Report 🌟',
+    restartBtn: '🔄 Retry 🔄',
+    homeBtn: '🏠 Home',
+    teacherBtn: '👩‍🏫 Teacher',
+    tutorialBtn: '📖 Tutorial',
+    backToInfo: '◀ Back to Info',
+    backToLevel: '◀ Back to Levels',
+    teacherTitle: '👩‍🏫 Teacher Dashboard',
+    tutorialTitle: '📖 Tutorial',
+    filterSchool: 'Filter School',
+    filterClass: 'Filter Class',
+    filterStudentName: 'Filter Name',
+    exportRecords: '📊 Export Records',
+    exportDetails: '📋 Export Student Details',
+    backHome: '◀ Back Home',
+    totalStudents: 'Total Students',
+    totalTests: 'Total Tests',
+    avgAccuracy: 'Avg Accuracy',
+    highestScore: 'Highest Score',
+    timesTableMastery: 'Multiplication Tables Mastery Details (0-12)',
+    recentRecords: '📋 Recent Test Records',
+    noData: 'No data yet.',
+    loading: 'Loading data...',
+    enterPassword: 'Enter password to access',
+    wrongPassword: '❌ Wrong password!',
+    exportSuccess: (c) => `✅ Exported ${c} test records`,
+    exportStudentSuccess: (c) => `✅ Exported ${c} student details`,
+    noDataToExport: 'No data to export',
+    testLabel: 'Test',
+    certTitle: '🏆 Multiplication Master Certificate 🏆',
+    certAwardTo: 'Awarded to',
+    certLevel: 'Level',
+    certDate: 'Date',
+    certMessage: 'You are a true Space Navigator!',
+    classComparison: '📊 Class Performance Comparison',
+    level1Name: '🌟 Novice Astronaut',
+    level1Desc: '2 Times Table',
+    level2Name: '🌙 Moon Explorer',
+    level2Desc: '0~5 Times Table',
+    level3Name: '☀️ Solar Warrior',
+    level3Desc: '2~9 Challenge',
+    level4Name: '🌀 Galaxy Master',
+    level4Desc: '0~12 Ultimate Challenge',
+    wrongTitle: '📝 My Wrong Questions',
+    practiceWrong: '📝 Practice Wrong',
+    clearWrong: '🗑️ Clear Wrong',
+    backToReport: '◀ Back to Report',
+    noWrongQuestions: '🎉 Great job! No wrong questions!',
+    rankTitle: '🏆 Star Ranking',
+    yourRank: 'Your Rank',
+    rankNotRanked: 'Not ranked yet, keep trying!',
+    suggestionTitle: '💡 Learning Suggestions',
+    suggestionExcellent: '🎉 Excellent! You are a multiplication expert!',
+    suggestionGood: '👍 Good job! Practice your weak areas!',
+    suggestionNeedPractice: '💪 Keep going! Practice more!',
+    suggestionWeakTables: 'Tables to improve',
+    suggestionStrongTables: 'Tables mastered',
+    step1Title: '📝 Fill in Astronaut Info',
+    step1Desc: 'Enter school, class and name, then click "Launch" to start!',
+    step2Title: '🎯 Select Mission Level',
+    step2Desc: '5 modes: Novice, Moon Explorer, Solar Warrior, Galaxy Master, plus ✨Custom Practice✨ - select at least 3 tables!',
+    step3Title: '⏱️ Timed Questions',
+    step3Desc: 'Easy: 20s multiple choice; Hard: 25s input. Custom mode: 8 questions per table (2 easy + 3 medium + 3 hard)',
+    step4Title: '📊 View Assessment Report',
+    step4Desc: 'Shows mastery, suggestions, ranking, and 🏅achievement badges!',
+    step5Title: '📝 Wrong Questions Book',
+    step5Desc: 'Wrong answers saved automatically. Review anytime!',
+    step6Title: '🏆 Ranking & Achievements',
+    step6Desc: 'View class ranking and collect badges! Teachers can view student progress charts!',
     tutorialFooter: '🚀 Space Math Mission - Making multiplication fun! 🌟',
-    feedback: '📝 Feedback', customTitle: '✨ Custom Selection ✨', customHint: 'Please select at least 3 tables',
+    feedback: '📝 Feedback',
+    customTitle: '✨ Custom Selection ✨',
+    customHint: 'Please select at least 3 tables',
     schoolPlaceholder: 'Galaxy Primary School',
     classPlaceholder: 'Star Class 5A',
     namePlaceholder: 'Little Astronaut',
@@ -1026,34 +1145,98 @@ const texts = {
     weakTablesAdvice: '⚠️ Class overall weak in these tables: ',
     noWeakTablesAdvice: '🎉 Class overall mastery is good, keep it up!',
     tableLabel: (n) => `${n} Times Table`,
+    // ✅ 新增翻译
+    levelPrefix: 'Level',
+    currentTest: 'Current Test',
+    certLevel1: 'Novice Astronaut',
+    certLevel2: 'Moon Explorer',
+    certLevel3: 'Solar Warrior',
+    certLevel4: 'Galaxy Master',
+    certLevel5: 'Wrong Questions Practice',
+    certLevel6: 'Custom Practice',
   },
   ms: {
-    mainTitle: '🚀 Misi Matematik Angkasa 🌟', infoSubtitle: '✦ Isi Maklumat Angkasawan ✦', schoolLabel: '🏫 Sekolah', classLabel: '📚 Kelas', nameLabel: '👩‍🚀 Nama',
-    startBtn: '⚡ Lancar ⚡', levelTitle: '🪐 Pilih Tahap Misi 🪐', submitBtn: '✨ Hantar ✨', reportTitle: '📋 Laporan Penilaian Bintang 🌟',
-    restartBtn: '🔄 Cuba Semula 🔄', homeBtn: '🏠 Laman Utama', teacherBtn: '👩‍🏫 Panel Guru', tutorialBtn: '📖 Tutorial',
-    backToInfo: '◀ Kembali ke Maklumat', backToLevel: '◀ Kembali ke Tahap', teacherTitle: '👩‍🏫 Sistem Pengurusan Panel Guru', tutorialTitle: '📖 Tutorial',
-    filterSchool: 'Tapis Sekolah', filterClass: 'Tapis Kelas', exportRecords: '📊 Eksport Rekod', exportDetails: '📋 Eksport Butiran',
-    backHome: '◀ Kembali ke Laman Utama', totalStudents: 'Jumlah Murid', totalTests: 'Jumlah Ujian', avgAccuracy: 'Purata Ketepatan', highestScore: 'Skor Tertinggi',
-    timesTableMastery: 'Butiran Penguasaan Sifir (0-12)', recentRecords: '📋 Rekod Terkini', noData: 'Tiada data.',
-    loading: 'Memuatkan...', enterPassword: 'Masukkan kata laluan', wrongPassword: '❌ Kata laluan salah!',
-    exportSuccess: (c) => `✅ Dieksport ${c} rekod`, exportStudentSuccess: (c) => `✅ Dieksport butiran ${c} murid`,
-    noDataToExport: 'Tiada data', testLabel: 'Ujian', certTitle: '🏆 Sijil Master Sifir 🏆', certAwardTo: 'Dianugerahkan kepada',
-    certLevel: 'Tahap', certDate: 'Tarikh', certMessage: 'Anda adalah Navigator Angkasa Sejati!', classComparison: '📊 Perbandingan Prestasi Kelas',
-    level1Name: '🌟 Angkasawan Baru', level1Desc: 'Sifir 2', level2Name: '🌙 Penjelajah Bulan', level2Desc: 'Sifir 0-5',
-    level3Name: '☀️ Pahlawan Matahari', level3Desc: 'Sifir 2-9', level4Name: '🌀 Penguasa Galaksi', level4Desc: 'Sifir 0-12',
-    wrongTitle: '📝 Soalan Salah Saya', practiceWrong: '📝 Latihan Soalan Salah', clearWrong: '🗑️ Kosongkan', backToReport: '◀ Kembali ke Laporan',
-    noWrongQuestions: '🎉 Tahniah! Tiada soalan salah!', rankTitle: '🏆 Carta Kedudukan Bintang', yourRank: 'Kedudukan Anda', rankNotRanked: 'Belum dalam carta, teruskan usaha!',
-    suggestionTitle: '💡 Cadangan Pembelajaran', suggestionExcellent: '🎉 Cemerlang! Anda pakar sifir!',
-    suggestionGood: '👍 Bagus! Latih kelemahan anda!', suggestionNeedPractice: '💪 Teruskan usaha! Lebih latihan!',
-    suggestionWeakTables: 'Sifir perlu diperkuatkan', suggestionStrongTables: 'Sifir telah dikuasai',
-    step1Title: '📝 Isi Maklumat Angkasawan', step1Desc: 'Masukkan sekolah, kelas dan nama, klik "Lancar" untuk mulakan!',
-    step2Title: '🎯 Pilih Tahap Misi', step2Desc: '5 mod: Novis, Penjelajah Bulan, Pahlawan Matahari, Penguasa Galaksi, dan ✨Pilihan Sendiri✨ - pilih sekurang-kurangnya 3 sifir!',
-    step3Title: '⏱️ Soalan Berhad Masa', step3Desc: 'Mudah: 20 saat; Sukar: 25 saat. Mod pilihan sendiri: 8 soalan setiap sifir (2 mudah + 3 sederhana + 3 sukar)',
-    step4Title: '📊 Lihat Laporan Penilaian', step4Desc: 'Tunjukkan penguasaan, cadangan, carta, dan 🏅lencana pencapaian!',
-    step5Title: '📝 Buku Soalan Salah', step5Desc: 'Jawapan salah disimpan. Ulang kaji bila-bila!',
-    step6Title: '🏆 Carta & Pencapaian', step6Desc: 'Lihat carta kelas dan kumpul lencana! Guru boleh lihat carta kemajuan murid!',
+    mainTitle: '🚀 Misi Matematik Angkasa 🌟',
+    infoSubtitle: '✦ Isi Maklumat Angkasawan ✦',
+    schoolLabel: '🏫 Sekolah',
+    classLabel: '📚 Kelas',
+    nameLabel: '👩‍🚀 Nama',
+    startBtn: '⚡ Lancar ⚡',
+    levelTitle: '🪐 Pilih Tahap Misi 🪐',
+    submitBtn: '✨ Hantar ✨',
+    reportTitle: '📋 Laporan Penilaian Bintang 🌟',
+    restartBtn: '🔄 Cuba Semula 🔄',
+    homeBtn: '🏠 Laman Utama',
+    teacherBtn: '👩‍🏫 Panel Guru',
+    tutorialBtn: '📖 Tutorial',
+    backToInfo: '◀ Kembali ke Maklumat',
+    backToLevel: '◀ Kembali ke Tahap',
+    teacherTitle: '👩‍🏫 Sistem Pengurusan Panel Guru',
+    tutorialTitle: '📖 Tutorial',
+    filterSchool: 'Tapis Sekolah',
+    filterClass: 'Tapis Kelas',
+    filterStudentName: 'Tapis Nama',
+    exportRecords: '📊 Eksport Rekod',
+    exportDetails: '📋 Eksport Butiran',
+    backHome: '◀ Kembali ke Laman Utama',
+    totalStudents: 'Jumlah Murid',
+    totalTests: 'Jumlah Ujian',
+    avgAccuracy: 'Purata Ketepatan',
+    highestScore: 'Skor Tertinggi',
+    timesTableMastery: 'Butiran Penguasaan Sifir (0-12)',
+    recentRecords: '📋 Rekod Terkini',
+    noData: 'Tiada data.',
+    loading: 'Memuatkan...',
+    enterPassword: 'Masukkan kata laluan',
+    wrongPassword: '❌ Kata laluan salah!',
+    exportSuccess: (c) => `✅ Dieksport ${c} rekod`,
+    exportStudentSuccess: (c) => `✅ Dieksport butiran ${c} murid`,
+    noDataToExport: 'Tiada data',
+    testLabel: 'Ujian',
+    certTitle: '🏆 Sijil Master Sifir 🏆',
+    certAwardTo: 'Dianugerahkan kepada',
+    certLevel: 'Tahap',
+    certDate: 'Tarikh',
+    certMessage: 'Anda adalah Navigator Angkasa Sejati!',
+    classComparison: '📊 Perbandingan Prestasi Kelas',
+    level1Name: '🌟 Angkasawan Baru',
+    level1Desc: 'Sifir 2',
+    level2Name: '🌙 Penjelajah Bulan',
+    level2Desc: 'Sifir 0-5',
+    level3Name: '☀️ Pahlawan Matahari',
+    level3Desc: 'Sifir 2-9',
+    level4Name: '🌀 Penguasa Galaksi',
+    level4Desc: 'Sifir 0-12',
+    wrongTitle: '📝 Soalan Salah Saya',
+    practiceWrong: '📝 Latihan Soalan Salah',
+    clearWrong: '🗑️ Kosongkan',
+    backToReport: '◀ Kembali ke Laporan',
+    noWrongQuestions: '🎉 Tahniah! Tiada soalan salah!',
+    rankTitle: '🏆 Carta Kedudukan Bintang',
+    yourRank: 'Kedudukan Anda',
+    rankNotRanked: 'Belum dalam carta, teruskan usaha!',
+    suggestionTitle: '💡 Cadangan Pembelajaran',
+    suggestionExcellent: '🎉 Cemerlang! Anda pakar sifir!',
+    suggestionGood: '👍 Bagus! Latih kelemahan anda!',
+    suggestionNeedPractice: '💪 Teruskan usaha! Lebih latihan!',
+    suggestionWeakTables: 'Sifir perlu diperkuatkan',
+    suggestionStrongTables: 'Sifir telah dikuasai',
+    step1Title: '📝 Isi Maklumat Angkasawan',
+    step1Desc: 'Masukkan sekolah, kelas dan nama, klik "Lancar" untuk mulakan!',
+    step2Title: '🎯 Pilih Tahap Misi',
+    step2Desc: '5 mod: Novis, Penjelajah Bulan, Pahlawan Matahari, Penguasa Galaksi, dan ✨Pilihan Sendiri✨ - pilih sekurang-kurangnya 3 sifir!',
+    step3Title: '⏱️ Soalan Berhad Masa',
+    step3Desc: 'Mudah: 20 saat; Sukar: 25 saat. Mod pilihan sendiri: 8 soalan setiap sifir (2 mudah + 3 sederhana + 3 sukar)',
+    step4Title: '📊 Lihat Laporan Penilaian',
+    step4Desc: 'Tunjukkan penguasaan, cadangan, carta, dan 🏅lencana pencapaian!',
+    step5Title: '📝 Buku Soalan Salah',
+    step5Desc: 'Jawapan salah disimpan. Ulang kaji bila-bila!',
+    step6Title: '🏆 Carta & Pencapaian',
+    step6Desc: 'Lihat carta kelas dan kumpul lencana! Guru boleh lihat carta kemajuan murid!',
     tutorialFooter: '🚀 Misi Matematik Angkasa - Pembelajaran sifir menyeronokkan! 🌟',
-    feedback: '📝 Borang Maklum Balas', customTitle: '✨ Pilihan Sendiri ✨', customHint: 'Sila pilih sekurang-kurangnya 3 sifir',
+    feedback: '📝 Borang Maklum Balas',
+    customTitle: '✨ Pilihan Sendiri ✨',
+    customHint: 'Sila pilih sekurang-kurangnya 3 sifir',
     schoolPlaceholder: 'Galaxy Primary School',
     classPlaceholder: 'Star Class 5A',
     namePlaceholder: 'Little Astronaut',
@@ -1091,13 +1274,107 @@ const texts = {
     weakTablesAdvice: '⚠️ Kelas lemah dalam sifir berikut: ',
     noWeakTablesAdvice: '🎉 Penguasaan sifir kelas secara keseluruhan baik, teruskan!',
     tableLabel: (n) => `Sifir ${n}`,
+    // ✅ 新增翻译
+    levelPrefix: 'Tahap',
+    currentTest: 'Ujian Ini',
+    certLevel1: 'Angkasawan Baru',
+    certLevel2: 'Penjelajah Bulan',
+    certLevel3: 'Pahlawan Matahari',
+    certLevel4: 'Penguasa Galaksi',
+    certLevel5: 'Latihan Soalan Salah',
+    certLevel6: 'Latihan Pilihan Sendiri',
   }
 };
 
+// ==================== reportTexts ====================
 const reportTexts = {
-  zh: { school:"🏫 学校", class:"📚 班级", name:"👩‍🚀 姓名", date:"📅 测试日期", level:"🎯 等级", total:"📊 总题数", correct:"✅ 答对", accuracy:"⭐ 正确率", timesTable:"的乘法表", mastered:"🚀 已掌握", basic:"✨ 基本掌握", needs:"🌱 需加强", masterMsg:"🎉 太棒了！你是真正的星际领航员！🚀✨", goodMsg:"⭐️ 表现优秀！继续向宇宙深处探索！🌌", tryMsg:"💪 再练习几次，下次一定能征服银河系！🌟", history:"📜 历史成绩记录", previous:"📈 上次成绩", improvement:"🚀 进步幅度", clearHistory:"🗑️ 清除我的历史记录" },
-  en: { school:"🏫 School", class:"📚 Class", name:"👨‍🚀 Name", date:"📅 Date", level:"🎯 Level", total:"📊 Total", correct:"✅ Correct", accuracy:"⭐ Accuracy", timesTable:" Times Table", mastered:"🚀 Mastered", basic:"✨ Good", needs:"🌱 Need Practice", masterMsg:"🎉 Amazing! You're a true Space Navigator! 🚀✨", goodMsg:"⭐️ Great job! Keep exploring! 🌌", tryMsg:"💪 More practice and you'll conquer the galaxy! 🌟", history:"📜 History Records", previous:"📈 Previous Score", improvement:"🚀 Improvement", clearHistory:"🗑️ Clear My History" },
-  ms: { school:"🏫 Sekolah", class:"📚 Kelas", name:"👩‍🚀 Nama", date:"📅 Tarikh", level:"🎯 Tahap", total:"📊 Jumlah", correct:"✅ Betul", accuracy:"⭐ Ketepatan", timesTable:" Sifir", mastered:"🚀 Dikuasai", basic:"✨ Baik", needs:"🌱 Perlu Latihan", masterMsg:"🎉 Hebat! Anda Navigator Angkasa Sejati! 🚀✨", goodMsg:"⭐️ Bagus! Terus terokai! 🌌", tryMsg:"💪 Lebih latihan, pasti takluk galaksi! 🌟", history:"📜 Rekod Sejarah", previous:"📈 Keputusan Lepas", improvement:"🚀 Peningkatan", clearHistory:"🗑️ Padam Rekod Saya" }
+  zh: { 
+    school: "🏫 学校", 
+    class: "📚 班级", 
+    name: "👩‍🚀 姓名", 
+    date: "📅 测试日期", 
+    level: "🎯 等级", 
+    total: "📊 总题数", 
+    correct: "✅ 答对", 
+    accuracy: "⭐ 正确率", 
+    timesTable: "的乘法表", 
+    mastered: "🚀 已掌握", 
+    basic: "✨ 基本掌握", 
+    needs: "🌱 需加强", 
+    masterMsg: "🎉 太棒了！你是真正的星际领航员！🚀✨", 
+    goodMsg: "⭐️ 表现优秀！继续向宇宙深处探索！🌌", 
+    tryMsg: "💪 再练习几次，下次一定能征服银河系！🌟", 
+    history: "📜 历史成绩记录", 
+    previous: "📈 上次成绩", 
+    improvement: "🚀 进步幅度", 
+    clearHistory: "🗑️ 清除我的历史记录",
+    predictedScore: "📈 预计下次成绩",
+    errorAnalysisTitle: "📊 错误分析",
+    noErrors: "🎉 没有错误！太棒了！",
+    radarChartTitle: "📊 能力雷达图",
+    commonErrors: "错误类型",
+    correctAnswerLabel: "正确答案",
+    // ✅ 新增
+    levelPrefix: "等级",
+  },
+  en: { 
+    school: "🏫 School", 
+    class: "📚 Class", 
+    name: "👨‍🚀 Name", 
+    date: "📅 Date", 
+    level: "🎯 Level", 
+    total: "📊 Total", 
+    correct: "✅ Correct", 
+    accuracy: "⭐ Accuracy", 
+    timesTable: " Times Table", 
+    mastered: "🚀 Mastered", 
+    basic: "✨ Good", 
+    needs: "🌱 Need Practice", 
+    masterMsg: "🎉 Amazing! You're a true Space Navigator! 🚀✨", 
+    goodMsg: "⭐️ Great job! Keep exploring! 🌌", 
+    tryMsg: "💪 More practice and you'll conquer the galaxy! 🌟", 
+    history: "📜 History Records", 
+    previous: "📈 Previous Score", 
+    improvement: "🚀 Improvement", 
+    clearHistory: "🗑️ Clear My History",
+    predictedScore: "📈 Predicted Next Score",
+    errorAnalysisTitle: "📊 Error Analysis",
+    noErrors: "🎉 No errors! Great job!",
+    radarChartTitle: "📊 Ability Radar Chart",
+    commonErrors: "Error Type",
+    correctAnswerLabel: "Correct Answer",
+    // ✅ 新增
+    levelPrefix: "Level",
+  },
+  ms: { 
+    school: "🏫 Sekolah", 
+    class: "📚 Kelas", 
+    name: "👩‍🚀 Nama", 
+    date: "📅 Tarikh", 
+    level: "🎯 Tahap", 
+    total: "📊 Jumlah", 
+    correct: "✅ Betul", 
+    accuracy: "⭐ Ketepatan", 
+    timesTable: " Sifir", 
+    mastered: "🚀 Dikuasai", 
+    basic: "✨ Baik", 
+    needs: "🌱 Perlu Latihan", 
+    masterMsg: "🎉 Hebat! Anda Navigator Angkasa Sejati! 🚀✨", 
+    goodMsg: "⭐️ Bagus! Terus terokai! 🌌", 
+    tryMsg: "💪 Lebih latihan, pasti takluk galaksi! 🌟", 
+    history: "📜 Rekod Sejarah", 
+    previous: "📈 Keputusan Lepas", 
+    improvement: "🚀 Peningkatan", 
+    clearHistory: "🗑️ Padam Rekod Saya",
+    predictedScore: "📈 Ramalan Skor Seterusnya",
+    errorAnalysisTitle: "📊 Analisis Kesilapan",
+    noErrors: "🎉 Tiada kesilapan! Syabas!",
+    radarChartTitle: "📊 Carta Radar Keupayaan",
+    commonErrors: "Jenis Kesilapan",
+    correctAnswerLabel: "Jawapan Betul",
+    // ✅ 新增
+    levelPrefix: "Tahap",
+  }
 };
 
 // ==================== 核心游戏函数 ====================
@@ -1503,8 +1780,9 @@ async function saveAndShowReport() {
   renderReport(history, accuracy);
 }
 
+// ==================== 修复：使用 reportTexts 而不是 texts ====================
 function renderReport(history, accuracy) {
-  const rt = texts[reportLang];
+  const rt = reportTexts[reportLang];
   const t = texts[currentLang];
   const nowDate = new Date().toLocaleString();
   let html = `
@@ -1512,7 +1790,7 @@ function renderReport(history, accuracy) {
     <div class="report-row"><span>${rt.class}</span><span>${student.className || '—'}</span></div>
     <div class="report-row"><span>${rt.name}</span><span>${student.name || '—'}</span></div>
     <div class="report-row"><span>${rt.date}</span><span>${nowDate}</span></div>
-    <div class="report-row"><span>${rt.level}</span><span>${currentLevel === 5 ? (t.wrongTitle || '错题练习') : (currentLevel === 6 ? (t.customLevelLabel || '自选练习') : 'Level ' + currentLevel)}</span></div>
+    <div class="report-row"><span>${rt.level}</span><span>${currentLevel === 5 ? (t.wrongTitle || '错题练习') : (currentLevel === 6 ? (t.customLevelLabel || '自选练习') : (rt.levelPrefix || 'Level') + ' ' + currentLevel)}</span></div>
     <div class="report-row"><span>${rt.total}</span><span>${questions.length}</span></div>
     <div class="report-row"><span>${rt.correct}</span><span>${correctCount}</span></div>
     <div class="report-row"><span>${rt.accuracy}</span><span>${accuracy}%</span></div>`;
@@ -1562,8 +1840,8 @@ function renderReport(history, accuracy) {
       const isCurrent = idx === 0;
       html += `<div class="history-item" ${isCurrent ? 'style="background:rgba(255,200,100,0.3); border-left:4px solid #ffb359;"' : ''}>
         ${date}<br>
-        Level ${record.level}: ${record.correct}/${record.total} (${record.accuracy}%)
-        ${isCurrent ? ' ✨ ' + (t.loading ? '本次测试' : '') + ' ✨' : ''}
+        ${rt.levelPrefix || 'Level'} ${record.level}: ${record.correct}/${record.total} (${record.accuracy}%)
+        ${isCurrent ? ' ✨ ' + (t.currentTest || '本次测试') + ' ✨' : ''}
       </div>`;
     });
     html += `<div style="text-align:center; margin-top:15px;"><button class="clear-history-btn" id="clearHistoryBtn">🗑️ ${rt.clearHistory}</button></div>`;
@@ -1757,11 +2035,15 @@ async function loadTeacherData() {
   }
   if (card) card.innerHTML = `<div class="loading">${t.loading}</div>`;
   try {
-    const schoolFilter = document.getElementById('filterSchool').value;
-    const classFilter = document.getElementById('filterClass').value;
+    const schoolFilter = document.getElementById('filterSchool').value.trim();
+    const classFilter = document.getElementById('filterClass').value.trim();
+    const nameFilter = document.getElementById('filterStudentName').value.trim();
+    
     let query = supabaseClient.from('math_records').select('*').order('created_at', { ascending: false });
     if (schoolFilter) query = query.eq('school', schoolFilter);
     if (classFilter) query = query.eq('class', classFilter);
+    if (nameFilter) query = query.eq('name', nameFilter);
+    
     const { data, error } = await query;
     if (error) throw error;
     classRecords = data || [];
@@ -1924,7 +2206,7 @@ function generateClassDiagnosis(records, t) {
 
 async function renderClassComparison() {
   if (!supabaseClient) return;
-  const schoolFilter = document.getElementById('filterSchool').value;
+  const schoolFilter = document.getElementById('filterSchool').value.trim();
   let query = supabaseClient.from('math_records').select('*');
   if (schoolFilter) query = query.eq('school', schoolFilter);
   const { data } = await query;
@@ -2003,20 +2285,38 @@ async function showStudentProgress(name, school, className) {
   });
 }
 
-// ==================== 导出与删除 ====================
+// ==================== 导出功能（支持学校、班级、姓名筛选） ====================
 function exportToExcel() {
   const t = texts[currentLang];
   if (!supabaseClient) return alert(t.noDataToExport);
-  supabaseClient.from('math_records').select('*').order('created_at', { ascending: false }).then(({ data }) => {
+  
+  const schoolFilter = document.getElementById('filterSchool').value.trim();
+  const classFilter = document.getElementById('filterClass').value.trim();
+  const nameFilter = document.getElementById('filterStudentName').value.trim();
+  
+  let query = supabaseClient.from('math_records').select('*').order('created_at', { ascending: false });
+  if (schoolFilter) query = query.eq('school', schoolFilter);
+  if (classFilter) query = query.eq('class', classFilter);
+  if (nameFilter) query = query.eq('name', nameFilter);
+  
+  query.then(({ data }) => {
     if (!data || data.length === 0) return alert(t.noDataToExport);
-    let csv = currentLang === 'zh' ? '学校,班级,姓名,等级,正确数,总题数,正确率,测试时间\n' : (currentLang === 'en' ? 'School,Class,Name,Level,Correct,Total,Accuracy,Test Date\n' : 'Sekolah,Kelas,Nama,Tahap,Betul,Jumlah,Ketepatan,Tarikh Ujian\n');
+    
+    let csv = currentLang === 'zh' ? '学校,班级,姓名,等级,正确数,总题数,正确率,测试时间\n' : 
+               (currentLang === 'en' ? 'School,Class,Name,Level,Correct,Total,Accuracy,Test Date\n' : 
+               'Sekolah,Kelas,Nama,Tahap,Betul,Jumlah,Ketepatan,Tarikh Ujian\n');
     data.forEach(r => {
       csv += `"${r.school}","${r.class}","${r.name}",${r.level},${r.correct},${r.total},${r.accuracy}%,"${new Date(r.created_at).toLocaleString()}"\n`;
     });
     const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = `${currentLang === 'zh' ? '测试记录' : (currentLang === 'en' ? 'Test_Records' : 'Rekod_Ujian')}_${new Date().toLocaleDateString()}.csv`;
+    let fileName = `${currentLang === 'zh' ? '测试记录' : (currentLang === 'en' ? 'Test_Records' : 'Rekod_Ujian')}`;
+    if (nameFilter) fileName += `_${nameFilter}`;
+    if (classFilter) fileName += `_${classFilter}`;
+    if (schoolFilter) fileName += `_${schoolFilter}`;
+    fileName += `_${new Date().toLocaleDateString()}.csv`;
+    link.download = fileName;
     link.click();
     URL.revokeObjectURL(link.href);
     alert(t.exportSuccess(data.length));
@@ -2026,11 +2326,16 @@ function exportToExcel() {
 function exportStudentMultiplicationDetails() {
   const t = texts[currentLang];
   if (!supabaseClient) return alert(t.noDataToExport);
-  const schoolFilter = document.getElementById('filterSchool').value;
-  const classFilter = document.getElementById('filterClass').value;
+  
+  const schoolFilter = document.getElementById('filterSchool').value.trim();
+  const classFilter = document.getElementById('filterClass').value.trim();
+  const nameFilter = document.getElementById('filterStudentName').value.trim();
+  
   let query = supabaseClient.from('math_records').select('*');
   if (schoolFilter) query = query.eq('school', schoolFilter);
   if (classFilter) query = query.eq('class', classFilter);
+  if (nameFilter) query = query.eq('name', nameFilter);
+  
   query.then(({ data }) => {
     if (!data || data.length === 0) return alert(t.noDataToExport);
     const bestRecords = getStudentBestRecords(data);
@@ -2062,7 +2367,12 @@ function exportStudentMultiplicationDetails() {
     const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = `${currentLang === 'zh' ? '学生乘法表详情' : (currentLang === 'en' ? 'Student_Multiplication_Details' : 'Butiran_Sifir_Murid')}_${new Date().toLocaleDateString()}.csv`;
+    let fileName = `${currentLang === 'zh' ? '学生乘法表详情' : (currentLang === 'en' ? 'Student_Multiplication_Details' : 'Butiran_Sifir_Murid')}`;
+    if (nameFilter) fileName += `_${nameFilter}`;
+    if (classFilter) fileName += `_${classFilter}`;
+    if (schoolFilter) fileName += `_${schoolFilter}`;
+    fileName += `_${new Date().toLocaleDateString()}.csv`;
+    link.download = fileName;
     link.click();
     URL.revokeObjectURL(link.href);
     alert(t.exportStudentSuccess(bestRecords.length));
@@ -2080,7 +2390,9 @@ function getStudentBestRecords(records) {
 
 async function deleteTeacherData() {
   const t = texts[currentLang];
-  const confirmMsg = currentLang === 'zh' ? '确定要删除当前筛选条件下的所有数据吗？此操作不可恢复！' : (currentLang === 'en' ? 'Are you sure you want to delete all data under current filters? This cannot be undone!' : 'Adakah anda pasti mahu memadam semua data di bawah penapis semasa? Tindakan ini tidak boleh dibatalkan!');
+  const confirmMsg = currentLang === 'zh' ? '确定要删除当前筛选条件下的所有数据吗？此操作不可恢复！' : 
+                     (currentLang === 'en' ? 'Are you sure you want to delete all data under current filters? This cannot be undone!' : 
+                     'Adakah anda pasti mahu memadam semua data di bawah penapis semasa? Tindakan ini tidak boleh dibatalkan!');
   if (!confirm(confirmMsg)) return;
   
   const password = prompt(t.enterPassword);
@@ -2092,12 +2404,14 @@ async function deleteTeacherData() {
   if (!supabaseClient) return alert('Supabase not connected');
   
   try {
-    const schoolFilter = document.getElementById('filterSchool').value;
-    const classFilter = document.getElementById('filterClass').value;
+    const schoolFilter = document.getElementById('filterSchool').value.trim();
+    const classFilter = document.getElementById('filterClass').value.trim();
+    const nameFilter = document.getElementById('filterStudentName').value.trim();
     
     let query = supabaseClient.from('math_records').delete();
     if (schoolFilter) query = query.eq('school', schoolFilter);
     if (classFilter) query = query.eq('class', classFilter);
+    if (nameFilter) query = query.eq('name', nameFilter);
     
     const { error } = await query;
     if (error) throw error;
@@ -2106,6 +2420,7 @@ async function deleteTeacherData() {
     const newRecords = records.filter(r => {
       if (schoolFilter && r.school !== schoolFilter) return true;
       if (classFilter && r.class !== classFilter) return true;
+      if (nameFilter && r.name !== nameFilter) return true;
       return false;
     });
     localStorage.setItem('mathRecords', JSON.stringify(newRecords));
@@ -2117,7 +2432,7 @@ async function deleteTeacherData() {
   }
 }
 
-// ==================== 证书生成 ====================
+// ==================== 证书生成（完全翻译） ====================
 function generateCertificate() {
   const t = texts[currentLang];
   const accuracy = Math.round((correctCount / questions.length) * 100);
@@ -2126,16 +2441,20 @@ function generateCertificate() {
   let levelText = '';
   let customTablesHtml = '';
   
-  if (currentLevel === 1) levelText = 'Level 1 - 新手宇航员 / Novice Astronaut';
-  else if (currentLevel === 2) levelText = 'Level 2 - 月球探险家 / Moon Explorer';
-  else if (currentLevel === 3) levelText = 'Level 3 - 太阳勇士 / Solar Warrior';
-  else if (currentLevel === 4) levelText = 'Level 4 - 银河霸主 / Galaxy Master';
-  else if (currentLevel === 5) levelText = currentLang === 'zh' ? '错题练习 / Wrong Questions Practice' : 'Wrong Questions Practice';
+  // ✅ 使用多语言
+  if (currentLevel === 1) levelText = t.certLevel1;
+  else if (currentLevel === 2) levelText = t.certLevel2;
+  else if (currentLevel === 3) levelText = t.certLevel3;
+  else if (currentLevel === 4) levelText = t.certLevel4;
+  else if (currentLevel === 5) levelText = t.certLevel5;
   else if (currentLevel === 6) {
-    levelText = currentLang === 'zh' ? '自选练习 / Custom Practice' : 'Custom Practice';
+    levelText = t.certLevel6;
+    const tableLabelText = currentLang === 'zh' ? '📋 练习的乘法表：' : (currentLang === 'en' ? '📋 Practiced Tables:' : '📋 Sifir yang Dilatih:');
     customTablesHtml = `<div style="margin: 15px 0; padding: 10px; background: rgba(255,200,100,0.15); border-radius: 20px;">
-      <strong>${currentLang === 'zh' ? '📋 练习的乘法表：' : '📋 Practiced Tables:'}</strong><br>
-      ${selectedTables.map(t => `${t} ${currentLang === 'zh' ? '的乘法表' : 'Times Table'}`).join(' · ')}
+      <strong>${tableLabelText}</strong><br>
+      ${selectedTables.map(table => {
+        return currentLang === 'zh' ? `${table} 的乘法表` : (currentLang === 'en' ? `${table} Times Table` : `Sifir ${table}`);
+      }).join(' · ')}
     </div>`;
   }
   
@@ -2288,8 +2607,10 @@ function applyUILang() {
   
   const filterSchool = document.getElementById('filterSchool');
   const filterClass = document.getElementById('filterClass');
+  const filterStudentName = document.getElementById('filterStudentName');
   if (filterSchool) filterSchool.placeholder = t.filterSchool + ' / Filter School';
   if (filterClass) filterClass.placeholder = t.filterClass + ' / Filter Class';
+  if (filterStudentName) filterStudentName.placeholder = t.filterStudentName + ' / Filter Name';
   
   const langBtn = document.getElementById('langBtn');
   if (langBtn) langBtn.textContent = t.langSwitchText;
@@ -2538,6 +2859,11 @@ document.getElementById('filterSchool').addEventListener('input', () => {
 });
 
 document.getElementById('filterClass').addEventListener('input', () => { 
+  if (loadTimeout) clearTimeout(loadTimeout); 
+  loadTimeout = setTimeout(() => { loadTeacherData(); renderClassComparison(); }, 300); 
+});
+
+document.getElementById('filterStudentName').addEventListener('input', () => { 
   if (loadTimeout) clearTimeout(loadTimeout); 
   loadTimeout = setTimeout(() => { loadTeacherData(); renderClassComparison(); }, 300); 
 });
