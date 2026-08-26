@@ -7,651 +7,180 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0a0f2a 0%, #0a1a3a 50%, #0a0f2a 100%);
-  overflow-x: hidden;
-  font-family: 'Comic Neue', 'Segoe UI', 'Comic Neue', 'Chalkboard SE', 'Comic Sans MS', cursive, sans-serif;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-.stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-.star { position: absolute; background: white; border-radius: 50%; animation: twinkle 3s infinite alternate; }
-@keyframes twinkle { 0% { opacity: 0.2; transform: scale(1); } 100% { opacity: 1; transform: scale(1.2); } }
-.planet { position: fixed; border-radius: 50%; filter: blur(3px); animation: float 20s infinite ease-in-out; z-index: 0; pointer-events: none; }
-@keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-20px) rotate(5deg); } }
-.rocket { position: fixed; bottom: 20px; left: -100px; font-size: 60px; animation: fly 15s infinite linear; z-index: 1; filter: drop-shadow(0 0 10px rgba(255,100,0,0.5)); pointer-events: none; }
-@keyframes fly { 0% { left: -100px; transform: rotate(-5deg); } 100% { left: 120%; transform: rotate(5deg); } }
-.ufo { position: fixed; top: 15%; right: -80px; font-size: 50px; animation: ufoFly 18s infinite linear; z-index: 1; pointer-events: none; }
-@keyframes ufoFly { 0% { right: -80px; transform: rotate(0deg); } 100% { right: 120%; transform: rotate(360deg); } }
-
-.app-container {
-  position: relative;
-  z-index: 10;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  border-radius: 80px;
-  border: 3px solid rgba(255, 215, 100, 0.6);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
-  width: 100%;
-  max-width: 1400px;
-  padding: 40px 35px;
-  transition: all 0.3s;
-}
-.nav-buttons {
-  position: absolute;
-  top: 25px;
-  left: 30px;
-  display: flex;
-  gap: 12px;
-  z-index: 20;
-  flex-wrap: wrap;
-}
-.nav-btn, .teacher-btn, .tutorial-btn {
-  background: rgba(100, 150, 255, 0.3);
-  border: 2px solid #88aaff;
-  color: white;
-  padding: 8px 20px;
-  border-radius: 60px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: bold;
-  backdrop-filter: blur(5px);
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.nav-btn:hover, .teacher-btn:hover, .tutorial-btn:hover {
-  background: rgba(100, 150, 255, 0.6);
-  transform: scale(1.05);
-  border-color: #ffdd99;
-}
-.lang-switch {
-  position: absolute;
-  top: 25px;
-  right: 30px;
-  background: linear-gradient(135deg, #ffaa44, #ff8844);
-  border: 2px solid #ffdd99;
-  color: white;
-  padding: 8px 20px;
-  border-radius: 60px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: bold;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  transition: all 0.3s;
-  z-index: 20;
-}
-.lang-switch:hover {
-  transform: scale(1.05) rotate(2deg);
-  background: linear-gradient(135deg, #ffbb55, #ff9955);
-}
-.feedback-btn {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  z-index: 100;
-  background: linear-gradient(135deg, #ffaa44, #ff8844);
-  border: none;
-  border-radius: 60px;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #221c0f;
-  cursor: pointer;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: inherit;
-}
-.feedback-btn:hover {
-  transform: scale(1.05);
-  background: linear-gradient(135deg, #ffbb55, #ff9955);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-}
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.8);
-  z-index: 200;
-  justify-content: center;
-  align-items: center;
-}
-.modal.active { display: flex; }
-.modal-content {
-  background: rgba(35, 50, 90, 0.95);
-  backdrop-filter: blur(15px);
-  border-radius: 60px;
-  padding: 30px;
-  max-width: 600px;
-  width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  border: 2px solid #ffcc88;
-  color: #FFE5B4;
-}
-.table-checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin: 20px 0;
-}
-.table-checkbox-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,200,100,0.25);
-  padding: 10px;
-  border-radius: 40px;
-  cursor: pointer;
-  color: #FFE5B4;
-}
-.table-checkbox-item.selected { background: #ffaa55; color: #221c0f; }
-.table-checkbox-item input { width: 20px; height: 20px; cursor: pointer; accent-color: #ffaa55; }
-.modal-buttons { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
-
-.badges-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 15px 0;
-  padding: 15px;
-  background: rgba(255,200,100,0.1);
-  border-radius: 40px;
-}
-.badge-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(255,200,100,0.2);
-  padding: 5px 12px;
-  border-radius: 30px;
-  font-size: 0.85rem;
-}
-.badge-item.locked { opacity: 0.4; filter: grayscale(0.5); }
-.badge-item.unlocked { background: #ffaa55; color: #221c0f; }
-
-.progress-modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.8);
-  z-index: 200;
-  justify-content: center;
-  align-items: center;
-}
-.progress-modal.active { display: flex; }
-.progress-content {
-  background: rgba(20, 30, 55, 0.95);
-  backdrop-filter: blur(15px);
-  border-radius: 60px;
-  padding: 30px;
-  max-width: 700px;
-  width: 90%;
-  border: 2px solid #ffcc88;
-}
-
-.screen {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 35px;
-  animation: bounceIn 0.5s ease-out;
-}
-.screen.active { display: flex; }
-@keyframes bounceIn {
-  0% { opacity: 0; transform: scale(0.9) translateY(-30px); }
-  70% { transform: scale(1.02); }
-  100% { opacity: 1; transform: scale(1) translateY(0); }
-}
-.title {
-  font-size: 52px;
-  font-weight: 900;
-  text-align: center;
-  background: linear-gradient(135deg, #FFD966, #FFA559, #FF6B6B);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 30px rgba(255,200,100,0.5);
-  letter-spacing: 2px;
-}
-.subtitle {
-  font-size: 1.5rem;
-  color: #FFE5B4;
-  text-align: center;
-  background: rgba(0,0,0,0.3);
-  padding: 10px 25px;
-  border-radius: 60px;
-  display: inline-block;
-}
-.form-group { width: 100%; max-width: 550px; display: flex; flex-direction: column; gap: 25px; }
-.form-item {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background: rgba(255,255,200,0.1);
-  padding: 15px 25px;
-  border-radius: 60px;
-  backdrop-filter: blur(5px);
-}
-.form-item label { font-size: 1.2rem; font-weight: bold; color: #FFE5B4; }
-.form-item input {
-  padding: 14px 24px;
-  border-radius: 60px;
-  border: 2px solid #ffaa66;
-  background: rgba(30, 40, 70, 0.8);
-  color: white;
-  font-size: 1.1rem;
-  outline: none;
-}
-.form-item input:focus {
-  border-color: #ffcc88;
-  box-shadow: 0 0 20px rgba(255,200,100,0.5);
-  transform: scale(1.02);
-}
-
-.start-btn, .level-btn, .submit-btn, .restart-btn, .back-btn, .export-btn, .cert-btn,
-.practice-wrong-btn, .custom-btn, .smart-review-btn, .concept-start-btn, .concept-next-btn,
-.concept-skip-btn {
-  background: linear-gradient(135deg, #FFB347, #FF8C33);
-  border: none;
-  border-radius: 60px;
-  padding: 16px 32px;
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #221c0f;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-}
-.start-btn:hover, .level-btn:hover, .submit-btn:hover, .restart-btn:hover, .back-btn:hover,
-.export-btn:hover, .cert-btn:hover, .practice-wrong-btn:hover, .custom-btn:hover,
-.smart-review-btn:hover, .concept-start-btn:hover, .concept-next-btn:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 15px 30px rgba(255,140,0,0.5);
-}
-.custom-btn { background: linear-gradient(135deg, #aa66cc, #8844aa); }
-.smart-review-btn { background: linear-gradient(135deg, #00b894, #00695c); color: white; }
-.cert-btn { background: linear-gradient(135deg, #aa66cc, #8844aa); color: white; }
-.practice-wrong-btn { background: linear-gradient(135deg, #ff6644, #cc4422); color: white; }
-.back-btn { background: linear-gradient(135deg, #6688ff, #4466cc); color: white; }
-.export-btn { background: linear-gradient(135deg, #44aa66, #228844); color: white; padding: 12px 24px; font-size: 1rem; }
-.concept-start-btn { background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white; font-size: 1.6rem; padding: 20px 48px; }
-.concept-next-btn { background: linear-gradient(135deg, #00b894, #00695c); color: white; padding: 14px 32px; font-size: 1.2rem; }
-.concept-skip-btn { background: rgba(255,255,255,0.15); color: #aaa; border: 2px solid #555; padding: 14px 32px; font-size: 1.2rem; box-shadow: none; }
-.concept-skip-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.02); box-shadow: none; }
-.concept-skip-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
-
-.level-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 25px;
-  width: 100%;
-  margin-top: 20px;
-}
-.level-btn {
-  padding: 35px 20px;
-  font-size: 2rem;
-  background: linear-gradient(135deg, rgba(100,80,200,0.6), rgba(80,60,180,0.8));
-  border: 3px solid #ffcc66;
-  backdrop-filter: blur(5px);
-}
-.level-btn span { font-size: 0.9rem; display: block; margin-top: 10px; color: #FFE5B4; }
-
-/* 概念学习样式 */
-.concept-welcome { text-align: center; max-width: 700px; width: 100%; }
-.concept-welcome h2 { font-size: 2.8rem; color: #FFE5B4; margin-bottom: 10px; }
-.concept-welcome p { font-size: 1.2rem; color: #ddd; margin-bottom: 20px; }
-.concept-welcome .highlight-box {
-  background: rgba(255,200,100,0.15);
-  border-radius: 30px;
-  padding: 25px 30px;
-  margin: 20px 0;
-  text-align: left;
-}
-.concept-welcome .highlight-box li {
-  font-size: 1.1rem;
-  color: #FFE5B4;
-  padding: 8px 0;
-  list-style: none;
-}
-.concept-welcome .highlight-box li::before { content: "⭐ "; }
-.concept-welcome .btn-group { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
-.concept-welcome .already-done { color: #4CAF50; font-size: 1.2rem; margin-top: 15px; }
-
-.concept-lesson { max-width: 800px; width: 100%; padding: 10px; }
-.concept-lesson .lesson-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.concept-lesson .lesson-header .lesson-title { font-size: 1.8rem; color: #FFE5B4; }
-.concept-lesson .lesson-header .lesson-progress { color: #aaa; font-size: 1rem; }
-.concept-lesson .progress-dots { display: flex; gap: 10px; margin: 10px 0 20px 0; width: 100%; justify-content: center; }
-.concept-lesson .progress-dots .dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.2);
-  transition: all 0.3s;
-}
-.concept-lesson .progress-dots .dot.active { background: #ffaa55; transform: scale(1.2); }
-.concept-lesson .progress-dots .dot.completed { background: #4CAF50; }
-.concept-lesson .step-content {
-  background: rgba(255,255,255,0.08);
-  border-radius: 30px;
-  padding: 30px;
-  min-height: 300px;
-  width: 100%;
-}
-.concept-lesson .step-content .step-title { font-size: 1.6rem; color: #FFE5B4; margin-bottom: 15px; }
-.concept-lesson .step-content .step-text { font-size: 1.2rem; color: #ddd; line-height: 1.8; }
-.concept-lesson .step-content .step-example {
-  font-size: 2rem;
-  color: #ffcc88;
-  text-align: center;
-  padding: 20px;
-  margin: 15px 0;
-  background: rgba(255,200,100,0.1);
-  border-radius: 20px;
-}
-.concept-lesson .step-content .step-visual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  padding: 20px 0;
-}
-.concept-lesson .step-content .step-visual .grid-container {
-  display: grid;
-  gap: 6px;
-  padding: 15px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 16px;
-}
-.concept-lesson .step-content .step-visual .grid-cell {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  background: rgba(255,200,100,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  transition: all 0.3s;
-}
-.concept-lesson .step-content .step-visual .grid-cell.filled {
-  background: rgba(255,200,100,0.4);
-  animation: popIn 0.3s ease-out;
-}
-@keyframes popIn {
-  0% { transform: scale(0.5); opacity: 0; }
-  70% { transform: scale(1.15); }
-  100% { transform: scale(1); opacity: 1; }
-}
-.concept-lesson .step-content .step-visual .grid-cell.highlight {
-  background: rgba(255,170,68,0.6);
-  box-shadow: 0 0 20px rgba(255,170,68,0.3);
-}
-.concept-lesson .step-content .step-visual .formula-display {
-  font-size: 2.2rem;
-  color: #ffcc88;
-  font-weight: bold;
-  padding: 15px 25px;
-  background: rgba(255,200,100,0.1);
-  border-radius: 20px;
-  min-width: 120px;
-  text-align: center;
-}
-.concept-lesson .step-content .check-question { margin-top: 20px; padding-top: 20px; border-top: 2px solid rgba(255,255,255,0.1); }
-.concept-lesson .step-content .check-question .q-text { font-size: 1.3rem; color: #FFE5B4; margin-bottom: 15px; }
-.concept-lesson .step-content .check-question .q-options { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-.concept-lesson .step-content .check-question .q-options button {
-  padding: 14px 28px;
-  border-radius: 40px;
-  border: 3px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.05);
-  color: #FFE5B4;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-family: inherit;
-}
-.concept-lesson .step-content .check-question .q-options button:hover {
-  background: rgba(255,200,100,0.2);
-  transform: scale(1.05);
-}
-.concept-lesson .step-content .check-question .q-options button.correct {
-  background: rgba(76, 175, 80, 0.4);
-  border-color: #4CAF50;
-}
-.concept-lesson .step-content .check-question .q-options button.wrong {
-  background: rgba(244, 67, 54, 0.4);
-  border-color: #f44336;
-  animation: shake 0.4s ease-in-out;
-}
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-15px); }
-  75% { transform: translateX(15px); }
-}
-.concept-lesson .step-content .check-question .feedback-text { margin-top: 12px; font-size: 1.1rem; text-align: center; }
-.concept-lesson .step-content .check-question .feedback-text.success { color: #4CAF50; }
-.concept-lesson .step-content .check-question .feedback-text.error { color: #ff6b6b; }
-.concept-lesson .lesson-nav { display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
-.concept-lesson .lesson-nav button { padding: 12px 28px; font-size: 1.1rem; }
-
-.concept-complete-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.85);
-  z-index: 300;
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-.concept-complete-overlay.active { display: flex; }
-.concept-complete-overlay .complete-box {
-  background: linear-gradient(135deg, #1a2a4a, #2a1a3a);
-  border-radius: 60px;
-  padding: 50px 60px;
-  max-width: 500px;
-  width: 90%;
-  text-align: center;
-  border: 3px solid #ffcc88;
-  animation: popIn 0.5s ease-out;
-}
-.concept-complete-overlay .complete-box h2 { font-size: 2.5rem; color: #FFE5B4; margin-bottom: 10px; }
-.concept-complete-overlay .complete-box .big-icon { font-size: 5rem; margin: 15px 0; }
-.concept-complete-overlay .complete-box p { font-size: 1.2rem; color: #ddd; margin: 10px 0; }
-.concept-complete-overlay .complete-box .badge-unlock { font-size: 1.3rem; color: #ffcc88; margin: 15px 0; }
-.concept-complete-overlay .complete-box .btn-group { margin-top: 20px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-
-/* 已有样式 */
-.timer-container { width: 100%; position: relative; margin-bottom: 10px; }
-.timer-bar { width: 100%; height: 20px; background: rgba(0,0,0,0.4); border-radius: 20px; overflow: hidden; border: 1px solid #ffaa66; }
-.timer-progress { height: 100%; background: linear-gradient(90deg, #ffaa44, #ff6644); width: 100%; border-radius: 20px; box-shadow: 0 0 10px #ff8844; }
-.question { font-size: 6rem; font-weight: 900; background: linear-gradient(135deg, #FFE5B4, #FFB347); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 30px rgba(255,200,100,0.5); letter-spacing: 10px; padding: 20px; animation: pulse 1s infinite; }
-@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
-.options { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; width: 100%; }
-.option-btn {
-  background: radial-gradient(circle at 30% 30%, #ffaa66, #ff8844);
-  border: 4px solid #FFE5B4;
-  border-radius: 60px;
-  width: 140px;
-  height: 140px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3.5rem;
-  font-weight: 800;
-  color: white;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-}
-.option-btn:hover {
-  transform: scale(1.1) rotate(5deg);
-  background: radial-gradient(circle at 30% 30%, #ffbb77, #ff9955);
-  box-shadow: 0 15px 30px rgba(255,140,0,0.6);
-}
-.input-answer {
-  background: rgba(30, 40, 70, 0.9);
-  border: 3px solid #ffaa66;
-  border-radius: 60px;
-  width: 300px;
-  height: 130px;
-  font-size: 4rem;
-  text-align: center;
-  color: #FFE5B4;
-  outline: none;
-  font-weight: bold;
-  transition: all 0.3s;
-}
-.input-answer:focus {
-  border-color: #ffcc88;
-  box-shadow: 0 0 30px rgba(255,200,100,0.5);
-  transform: scale(1.05);
-}
-.button-group { display: flex; gap: 20px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
-
-.report-card, .teacher-card, .tutorial-card, .wrong-questions-card {
-  background: rgba(20, 30, 55, 0.8);
-  backdrop-filter: blur(15px);
-  border-radius: 60px;
-  padding: 35px;
-  width: 100%;
-  border: 2px solid #ffcc88;
-  max-height: 800px;
-  overflow-y: auto;
-  color: #FFE5B4;
-}
-.report-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 2px solid rgba(255,200,100,0.3); font-size: 1.2rem; font-weight: 500; color: #FFE5B4; }
-.table-item { display: flex; justify-content: space-between; font-size: 1.1rem; padding: 12px 20px; background: rgba(255,200,100,0.15); border-radius: 40px; transition: all 0.3s; color: #FFE5B4; }
-.history-item { background: rgba(100,150,255,0.2); margin-top: 12px; padding: 15px; border-radius: 30px; transition: all 0.3s; color: #FFE5B4; }
-.rank-item { background: rgba(255,200,100,0.15); margin: 10px 0; padding: 15px; border-radius: 30px; display: flex; align-items: center; gap: 15px; transition: all 0.3s; color: #FFE5B4; }
-.rank-item strong { color: #FFE5B4; }
-.class-item { background: rgba(255,200,100,0.15); margin: 10px 0; padding: 15px; border-radius: 30px; cursor: pointer; transition: all 0.3s; color: #FFE5B4; }
-.class-item strong { color: #FFE5B4; }
-.suggestion-box { background: rgba(255,200,100,0.2); border-left: 5px solid #ffaa55; padding: 15px; border-radius: 20px; margin: 15px 0; color: #FFE5B4; }
-.wrong-question-item { background: rgba(255,100,80,0.2); margin: 10px 0; padding: 15px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; color: #FFE5B4; }
-.stat-card { background: rgba(255,200,100,0.2); padding: 20px; border-radius: 40px; text-align: center; color: #FFE5B4; }
-.multiplication-card { background: rgba(255,200,100,0.12); padding: 12px; border-radius: 20px; text-align: center; transition: all 0.3s; color: #FFE5B4; }
-.rank-list { max-height: 300px; overflow-y: auto; }
-.rank-item { background: rgba(255,200,100,0.15); margin: 10px 0; padding: 15px; border-radius: 30px; display: flex; align-items: center; gap: 15px; transition: all 0.3s; }
-.rank-item:hover { background: rgba(255,200,100,0.3); transform: translateX(5px); }
-.rank-number { width: 40px; height: 40px; background: #ffaa55; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #221c0f; }
-.rank-number.gold { background: #ffd700; }
-.rank-number.silver { background: #c0c0c0; }
-.rank-number.bronze { background: #cd7f32; }
-.suggestion-box { background: rgba(255,200,100,0.2); border-left: 5px solid #ffaa55; padding: 15px; border-radius: 20px; margin: 15px 0; }
-.wrong-question-item { background: rgba(255,100,80,0.2); margin: 10px 0; padding: 15px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-.report-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 2px solid rgba(255,200,100,0.3); font-size: 1.2rem; font-weight: 500; }
-.table-results { margin-top: 25px; display: flex; flex-direction: column; gap: 12px; max-height: 280px; overflow-y: auto; }
-.table-item { display: flex; justify-content: space-between; font-size: 1.1rem; padding: 12px 20px; background: rgba(255,200,100,0.15); border-radius: 40px; transition: all 0.3s; }
-.table-item:hover { background: rgba(255,200,100,0.3); transform: translateX(5px); }
-.report-conclusion { font-size: 1.8rem; font-weight: 800; text-align: center; margin-top: 30px; color: #ffcc88; text-shadow: 0 0 15px #ffaa66; }
-.history-item { background: rgba(100,150,255,0.2); margin-top: 12px; padding: 15px; border-radius: 30px; transition: all 0.3s; }
-.history-item:hover { background: rgba(100,150,255,0.4); transform: translateX(8px); }
-.clear-history-btn { background: rgba(255,100,80,0.4); border: 1px solid #ff8866; padding: 10px 25px; border-radius: 40px; margin-top: 15px; cursor: pointer; font-size: 0.9rem; }
-.filter-bar { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
-.filter-bar select, .filter-bar input { padding: 10px 20px; border-radius: 40px; border: 2px solid #ffaa66; background: rgba(30, 40, 70, 0.8); color: white; font-size: 1rem; outline: none; }
-.class-list { max-height: 400px; overflow-y: auto; }
-.class-item { background: rgba(255,200,100,0.15); margin: 10px 0; padding: 15px; border-radius: 30px; cursor: pointer; transition: all 0.3s; }
-.class-item:hover { background: rgba(255,200,100,0.3); transform: translateX(5px); }
-.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
-.stat-card { background: rgba(255,200,100,0.2); padding: 20px; border-radius: 40px; text-align: center; }
-.stat-number { font-size: 2rem; font-weight: bold; color: #ffcc88; }
-canvas { max-height: 300px; margin: 20px 0; }
-.loading { text-align: center; padding: 40px; color: #ffcc88; font-size: 1.2rem; }
-.multiplication-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 15px; max-height: 400px; overflow-y: auto; }
-.multiplication-card { background: rgba(255,200,100,0.12); padding: 12px; border-radius: 20px; text-align: center; transition: all 0.3s; }
-.multiplication-card:hover { background: rgba(255,200,100,0.25); transform: translateY(-3px); }
-.multiplication-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 8px; }
-.multiplication-stats { font-size: 0.85rem; color: #ddd; }
-.multiplication-percent { font-size: 1.3rem; font-weight: bold; margin-top: 5px; }
-.multiplication-level { font-size: 0.85rem; margin-top: 5px; }
-.tutorial-step { background: rgba(255,200,100,0.1); border-radius: 30px; padding: 20px; margin: 15px 0; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-.tutorial-number { width: 50px; height: 50px; background: #ffaa55; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; color: #221c0f; }
-.heatmap-table { overflow-x: auto; margin-top: 10px; }
-.heatmap-table table { border-collapse: collapse; width: 100%; color: white; }
-.heatmap-table th, .heatmap-table td { padding: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.2); }
-.heatmap-table th { background: rgba(255,200,100,0.2); }
-
-@media (max-width: 700px) {
-  .app-container { padding: 30px 20px; }
-  .title { font-size: 2rem; }
-  .question { font-size: 3rem; letter-spacing: 5px; }
-  .option-btn { width: 90px; height: 90px; font-size: 2rem; }
-  .input-answer { width: 220px; height: 100px; font-size: 2.5rem; }
-  .level-btn { font-size: 1.5rem; padding: 20px; }
-  .lang-switch { top: 15px; right: 15px; padding: 6px 15px; font-size: 0.8rem; }
-  .nav-buttons { top: 15px; left: 15px; gap: 8px; }
-  .nav-btn, .teacher-btn, .tutorial-btn { padding: 6px 12px; font-size: 0.75rem; }
-  .multiplication-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
-  .table-checkbox-grid { grid-template-columns: repeat(3, 1fr); }
-  .concept-lesson .step-content { padding: 20px; min-height: 200px; }
-  .concept-lesson .step-content .step-visual .grid-cell { width: 34px; height: 34px; font-size: 1.1rem; }
-  .concept-lesson .step-content .step-visual .formula-display { font-size: 1.6rem; padding: 10px 18px; }
-  .concept-welcome h2 { font-size: 2rem; }
-  .concept-start-btn { font-size: 1.2rem; padding: 16px 32px; }
-  .concept-complete-overlay .complete-box { padding: 30px 25px; }
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;background:linear-gradient(135deg,#0a0f2a,#0a1a3a,#0a0f2a);font-family:'Segoe UI','Comic Neue',cursive,sans-serif;display:flex;justify-content:center;align-items:center;padding:20px;overflow-x:hidden;position:relative}
+.stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle 3s infinite alternate}
+@keyframes twinkle{0%{opacity:0.2;transform:scale(1)}100%{opacity:1;transform:scale(1.2)}}
+.planet{position:fixed;border-radius:50%;filter:blur(3px);animation:float 20s infinite ease-in-out;z-index:0;pointer-events:none}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+.rocket{position:fixed;bottom:20px;left:-100px;font-size:60px;animation:fly 15s infinite linear;z-index:1;pointer-events:none}
+@keyframes fly{0%{left:-100px}100%{left:120%}}
+.ufo{position:fixed;top:15%;right:-80px;font-size:50px;animation:ufoFly 18s infinite linear;z-index:1;pointer-events:none}
+@keyframes ufoFly{0%{right:-80px}100%{right:120%}}
+.app-container{position:relative;z-index:10;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border-radius:80px;border:3px solid rgba(255,215,100,0.6);box-shadow:0 20px 60px rgba(0,0,0,0.4);width:100%;max-width:1400px;padding:40px 35px;transition:all .3s}
+.nav-buttons{position:absolute;top:25px;left:30px;display:flex;gap:12px;z-index:20;flex-wrap:wrap}
+.nav-btn,.teacher-btn,.tutorial-btn{background:rgba(100,150,255,0.3);border:2px solid #88aaff;color:#fff;padding:8px 20px;border-radius:60px;cursor:pointer;font-size:.9rem;font-weight:bold;backdrop-filter:blur(5px);transition:all .3s;display:flex;align-items:center;gap:5px}
+.nav-btn:hover,.teacher-btn:hover,.tutorial-btn:hover{background:rgba(100,150,255,0.6);transform:scale(1.05);border-color:#ffdd99}
+.lang-switch{position:absolute;top:25px;right:30px;background:linear-gradient(135deg,#ffaa44,#ff8844);border:2px solid #ffdd99;color:#fff;padding:8px 20px;border-radius:60px;cursor:pointer;font-size:.9rem;font-weight:bold;box-shadow:0 5px 15px rgba(0,0,0,0.2);transition:all .3s;z-index:20}
+.lang-switch:hover{transform:scale(1.05) rotate(2deg)}
+.feedback-btn{position:fixed;bottom:25px;right:25px;z-index:100;background:linear-gradient(135deg,#ffaa44,#ff8844);border:none;border-radius:60px;padding:12px 24px;font-size:1rem;font-weight:bold;color:#221c0f;cursor:pointer;box-shadow:0 5px 20px rgba(0,0,0,0.3);transition:all .3s;display:flex;align-items:center;gap:8px;font-family:inherit}
+.feedback-btn:hover{transform:scale(1.05);background:linear-gradient(135deg,#ffbb55,#ff9955)}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:200;justify-content:center;align-items:center}
+.modal.active{display:flex}
+.modal-content{background:rgba(35,50,90,0.95);backdrop-filter:blur(15px);border-radius:60px;padding:30px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;border:2px solid #ffcc88;color:#FFE5B4}
+.table-checkbox-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
+.table-checkbox-item{display:flex;align-items:center;gap:8px;background:rgba(255,200,100,0.25);padding:10px;border-radius:40px;cursor:pointer;color:#FFE5B4}
+.table-checkbox-item.selected{background:#ffaa55;color:#221c0f}
+.table-checkbox-item input{width:20px;height:20px;cursor:pointer;accent-color:#ffaa55}
+.modal-buttons{display:flex;gap:15px;justify-content:center;margin-top:20px}
+.badges-container{display:flex;flex-wrap:wrap;gap:10px;margin:15px 0;padding:15px;background:rgba(255,200,100,0.1);border-radius:40px}
+.badge-item{display:inline-flex;align-items:center;gap:5px;background:rgba(255,200,100,0.2);padding:5px 12px;border-radius:30px;font-size:.85rem}
+.badge-item.locked{opacity:0.4;filter:grayscale(0.5)}
+.badge-item.unlocked{background:#ffaa55;color:#221c0f}
+.progress-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:200;justify-content:center;align-items:center}
+.progress-modal.active{display:flex}
+.progress-content{background:rgba(20,30,55,0.95);backdrop-filter:blur(15px);border-radius:60px;padding:30px;max-width:700px;width:90%;border:2px solid #ffcc88}
+.screen{display:none;flex-direction:column;align-items:center;gap:35px;animation:bounceIn .5s ease-out}
+.screen.active{display:flex}
+@keyframes bounceIn{0%{opacity:0;transform:scale(0.9) translateY(-30px)}70%{transform:scale(1.02)}100%{opacity:1;transform:scale(1) translateY(0)}}
+.title{font-size:52px;font-weight:900;text-align:center;background:linear-gradient(135deg,#FFD966,#FFA559,#FF6B6B);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(255,200,100,0.5);letter-spacing:2px}
+.subtitle{font-size:1.5rem;color:#FFE5B4;text-align:center;background:rgba(0,0,0,0.3);padding:10px 25px;border-radius:60px;display:inline-block}
+.form-group{width:100%;max-width:550px;display:flex;flex-direction:column;gap:25px}
+.form-item{display:flex;flex-direction:column;gap:10px;background:rgba(255,255,200,0.1);padding:15px 25px;border-radius:60px;backdrop-filter:blur(5px)}
+.form-item label{font-size:1.2rem;font-weight:bold;color:#FFE5B4}
+.form-item input{padding:14px 24px;border-radius:60px;border:2px solid #ffaa66;background:rgba(30,40,70,0.8);color:#fff;font-size:1.1rem;outline:none}
+.form-item input:focus{border-color:#ffcc88;box-shadow:0 0 20px rgba(255,200,100,0.5);transform:scale(1.02)}
+.start-btn,.level-btn,.submit-btn,.restart-btn,.back-btn,.export-btn,.cert-btn,.practice-wrong-btn,.custom-btn,.smart-review-btn,.concept-start-btn,.concept-next-btn,.concept-skip-btn{background:linear-gradient(135deg,#FFB347,#FF8C33);border:none;border-radius:60px;padding:16px 32px;font-size:1.4rem;font-weight:bold;color:#221c0f;cursor:pointer;transition:all .3s;box-shadow:0 8px 20px rgba(0,0,0,0.3)}
+.start-btn:hover,.level-btn:hover,.submit-btn:hover,.restart-btn:hover,.back-btn:hover,.export-btn:hover,.cert-btn:hover,.practice-wrong-btn:hover,.custom-btn:hover,.smart-review-btn:hover,.concept-start-btn:hover,.concept-next-btn:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 15px 30px rgba(255,140,0,0.5)}
+.custom-btn{background:linear-gradient(135deg,#aa66cc,#8844aa)}
+.smart-review-btn{background:linear-gradient(135deg,#00b894,#00695c);color:#fff}
+.cert-btn{background:linear-gradient(135deg,#aa66cc,#8844aa);color:#fff}
+.practice-wrong-btn{background:linear-gradient(135deg,#ff6644,#cc4422);color:#fff}
+.back-btn{background:linear-gradient(135deg,#6688ff,#4466cc);color:#fff}
+.export-btn{background:linear-gradient(135deg,#44aa66,#228844);color:#fff;padding:12px 24px;font-size:1rem}
+.concept-start-btn{background:linear-gradient(135deg,#ff6b6b,#ee5a24);color:#fff;font-size:1.6rem;padding:20px 48px}
+.concept-next-btn{background:linear-gradient(135deg,#00b894,#00695c);color:#fff;padding:14px 32px;font-size:1.2rem}
+.concept-skip-btn{background:rgba(255,255,255,0.15);color:#aaa;border:2px solid #555;padding:14px 32px;font-size:1.2rem;box-shadow:none}
+.concept-skip-btn:hover{background:rgba(255,255,255,0.25);transform:scale(1.02);box-shadow:none}
+.concept-skip-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none!important}
+.level-buttons{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:25px;width:100%;margin-top:20px}
+.level-btn{padding:35px 20px;font-size:2rem;background:linear-gradient(135deg,rgba(100,80,200,0.6),rgba(80,60,180,0.8));border:3px solid #ffcc66;backdrop-filter:blur(5px)}
+.level-btn span{font-size:.9rem;display:block;margin-top:10px;color:#FFE5B4}
+.concept-welcome{text-align:center;max-width:700px;width:100%}
+.concept-welcome h2{font-size:2.8rem;color:#FFE5B4;margin-bottom:10px}
+.concept-welcome p{font-size:1.2rem;color:#ddd;margin-bottom:20px}
+.concept-welcome .highlight-box{background:rgba(255,200,100,0.15);border-radius:30px;padding:25px 30px;margin:20px 0;text-align:left}
+.concept-welcome .highlight-box li{font-size:1.1rem;color:#FFE5B4;padding:8px 0;list-style:none}
+.concept-welcome .highlight-box li::before{content:"⭐ "}
+.concept-welcome .btn-group{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.concept-welcome .already-done{color:#4CAF50;font-size:1.2rem;margin-top:15px}
+.concept-lesson{max-width:800px;width:100%;padding:10px}
+.concept-lesson .lesson-header{display:flex;justify-content:space-between;align-items:center;width:100%;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.concept-lesson .lesson-header .lesson-title{font-size:1.8rem;color:#FFE5B4}
+.concept-lesson .lesson-header .lesson-progress{color:#aaa;font-size:1rem}
+.concept-lesson .progress-dots{display:flex;gap:10px;margin:10px 0 20px 0;width:100%;justify-content:center}
+.concept-lesson .progress-dots .dot{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all .3s}
+.concept-lesson .progress-dots .dot.active{background:#ffaa55;transform:scale(1.2)}
+.concept-lesson .progress-dots .dot.completed{background:#4CAF50}
+.concept-lesson .step-content{background:rgba(255,255,255,0.08);border-radius:30px;padding:30px;min-height:300px;width:100%}
+.concept-lesson .step-content .step-title{font-size:1.6rem;color:#FFE5B4;margin-bottom:15px}
+.concept-lesson .step-content .step-text{font-size:1.2rem;color:#ddd;line-height:1.8}
+.concept-lesson .step-content .step-example{font-size:2rem;color:#ffcc88;text-align:center;padding:20px;margin:15px 0;background:rgba(255,200,100,0.1);border-radius:20px}
+.concept-lesson .step-content .step-visual{display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;padding:20px 0}
+.concept-lesson .step-content .step-visual .grid-container{display:grid;gap:6px;padding:15px;background:rgba(255,255,255,0.05);border-radius:16px}
+.concept-lesson .step-content .step-visual .grid-cell{width:44px;height:44px;border-radius:8px;background:rgba(255,200,100,0.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:all .3s}
+.concept-lesson .step-content .step-visual .grid-cell.filled{background:rgba(255,200,100,0.4);animation:popIn .3s ease-out}
+@keyframes popIn{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+.concept-lesson .step-content .step-visual .formula-display{font-size:2.2rem;color:#ffcc88;font-weight:bold;padding:15px 25px;background:rgba(255,200,100,0.1);border-radius:20px;min-width:120px;text-align:center}
+.concept-lesson .step-content .check-question{margin-top:20px;padding-top:20px;border-top:2px solid rgba(255,255,255,0.1)}
+.concept-lesson .step-content .check-question .q-text{font-size:1.3rem;color:#FFE5B4;margin-bottom:15px}
+.concept-lesson .step-content .check-question .q-options{display:flex;gap:15px;flex-wrap:wrap;justify-content:center}
+.concept-lesson .step-content .check-question .q-options button{padding:14px 28px;border-radius:40px;border:3px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.05);color:#FFE5B4;font-size:1.1rem;cursor:pointer;transition:all .3s;font-family:inherit}
+.concept-lesson .step-content .check-question .q-options button:hover{background:rgba(255,200,100,0.2);transform:scale(1.05)}
+.concept-lesson .step-content .check-question .q-options button.correct{background:rgba(76,175,80,0.4);border-color:#4CAF50}
+.concept-lesson .step-content .check-question .q-options button.wrong{background:rgba(244,67,54,0.4);border-color:#f44336;animation:shake .4s ease-in-out}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-15px)}75%{transform:translateX(15px)}}
+.concept-lesson .step-content .check-question .feedback-text{margin-top:12px;font-size:1.1rem;text-align:center}
+.concept-lesson .step-content .check-question .feedback-text.success{color:#4CAF50}
+.concept-lesson .step-content .check-question .feedback-text.error{color:#ff6b6b}
+.concept-lesson .lesson-nav{display:flex;gap:15px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.concept-lesson .lesson-nav button{padding:12px 28px;font-size:1.1rem}
+.concept-complete-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:300;display:none;justify-content:center;align-items:center}
+.concept-complete-overlay.active{display:flex}
+.concept-complete-overlay .complete-box{background:linear-gradient(135deg,#1a2a4a,#2a1a3a);border-radius:60px;padding:50px 60px;max-width:500px;width:90%;text-align:center;border:3px solid #ffcc88;animation:popIn .5s ease-out}
+.concept-complete-overlay .complete-box h2{font-size:2.5rem;color:#FFE5B4;margin-bottom:10px}
+.concept-complete-overlay .complete-box .big-icon{font-size:5rem;margin:15px 0}
+.concept-complete-overlay .complete-box p{font-size:1.2rem;color:#ddd;margin:10px 0}
+.concept-complete-overlay .complete-box .badge-unlock{font-size:1.3rem;color:#ffcc88;margin:15px 0}
+.concept-complete-overlay .complete-box .btn-group{margin-top:20px;display:flex;gap:15px;justify-content:center;flex-wrap:wrap}
+.timer-container{width:100%;position:relative;margin-bottom:10px}
+.timer-bar{width:100%;height:20px;background:rgba(0,0,0,0.4);border-radius:20px;overflow:hidden;border:1px solid #ffaa66}
+.timer-progress{height:100%;background:linear-gradient(90deg,#ffaa44,#ff6644);width:100%;border-radius:20px;box-shadow:0 0 10px #ff8844}
+.question{font-size:6rem;font-weight:900;background:linear-gradient(135deg,#FFE5B4,#FFB347);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(255,200,100,0.5);letter-spacing:10px;padding:20px;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+.options{display:flex;gap:30px;flex-wrap:wrap;justify-content:center;width:100%}
+.option-btn{background:radial-gradient(circle at 30% 30%,#ffaa66,#ff8844);border:4px solid #FFE5B4;border-radius:60px;width:140px;height:140px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;font-weight:800;color:#fff;cursor:pointer;transition:all .2s;box-shadow:0 10px 20px rgba(0,0,0,0.3)}
+.option-btn:hover{transform:scale(1.1) rotate(5deg);background:radial-gradient(circle at 30% 30%,#ffbb77,#ff9955);box-shadow:0 15px 30px rgba(255,140,0,0.6)}
+.input-answer{background:rgba(30,40,70,0.9);border:3px solid #ffaa66;border-radius:60px;width:300px;height:130px;font-size:4rem;text-align:center;color:#FFE5B4;outline:none;font-weight:bold;transition:all .3s}
+.input-answer:focus{border-color:#ffcc88;box-shadow:0 0 30px rgba(255,200,100,0.5);transform:scale(1.05)}
+.button-group{display:flex;gap:20px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.report-card,.teacher-card,.tutorial-card,.wrong-questions-card{background:rgba(20,30,55,0.8);backdrop-filter:blur(15px);border-radius:60px;padding:35px;width:100%;border:2px solid #ffcc88;max-height:800px;overflow-y:auto;color:#FFE5B4}
+.report-row{display:flex;justify-content:space-between;padding:15px 0;border-bottom:2px solid rgba(255,200,100,0.3);font-size:1.2rem;font-weight:500;color:#FFE5B4}
+.table-item{display:flex;justify-content:space-between;font-size:1.1rem;padding:12px 20px;background:rgba(255,200,100,0.15);border-radius:40px;transition:all .3s;color:#FFE5B4}
+.table-item:hover{background:rgba(255,200,100,0.3);transform:translateX(5px)}
+.history-item{background:rgba(100,150,255,0.2);margin-top:12px;padding:15px;border-radius:30px;transition:all .3s;color:#FFE5B4}
+.history-item:hover{background:rgba(100,150,255,0.4);transform:translateX(8px)}
+.rank-item{background:rgba(255,200,100,0.15);margin:10px 0;padding:15px;border-radius:30px;display:flex;align-items:center;gap:15px;transition:all .3s;color:#FFE5B4}
+.rank-item:hover{background:rgba(255,200,100,0.3);transform:translateX(5px)}
+.rank-item strong{color:#FFE5B4}
+.class-item{background:rgba(255,200,100,0.15);margin:10px 0;padding:15px;border-radius:30px;cursor:pointer;transition:all .3s;color:#FFE5B4}
+.class-item:hover{background:rgba(255,200,100,0.3);transform:translateX(5px)}
+.class-item strong{color:#FFE5B4}
+.suggestion-box{background:rgba(255,200,100,0.2);border-left:5px solid #ffaa55;padding:15px;border-radius:20px;margin:15px 0;color:#FFE5B4}
+.wrong-question-item{background:rgba(255,100,80,0.2);margin:10px 0;padding:15px;border-radius:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;color:#FFE5B4}
+.stat-card{background:rgba(255,200,100,0.2);padding:20px;border-radius:40px;text-align:center;color:#FFE5B4}
+.multiplication-card{background:rgba(255,200,100,0.12);padding:12px;border-radius:20px;text-align:center;transition:all .3s;color:#FFE5B4}
+.rank-list{max-height:300px;overflow-y:auto}
+.rank-number{width:40px;height:40px;background:#ffaa55;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#221c0f}
+.rank-number.gold{background:#ffd700}
+.rank-number.silver{background:#c0c0c0}
+.rank-number.bronze{background:#cd7f32}
+.clear-history-btn{background:rgba(255,100,80,0.4);border:1px solid #ff8866;padding:10px 25px;border-radius:40px;margin-top:15px;cursor:pointer;font-size:.9rem}
+.filter-bar{display:flex;gap:15px;margin-bottom:20px;flex-wrap:wrap;justify-content:center}
+.filter-bar input{padding:10px 20px;border-radius:40px;border:2px solid #ffaa66;background:rgba(30,40,70,0.8);color:#fff;font-size:1rem;outline:none}
+.class-list{max-height:400px;overflow-y:auto}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin:20px 0}
+.stat-number{font-size:2rem;font-weight:bold;color:#ffcc88}
+canvas{max-height:300px;margin:20px 0}
+.loading{text-align:center;padding:40px;color:#ffcc88;font-size:1.2rem}
+.multiplication-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:15px;max-height:400px;overflow-y:auto}
+.multiplication-card{background:rgba(255,200,100,0.12);padding:12px;border-radius:20px;text-align:center;transition:all .3s}
+.multiplication-card:hover{background:rgba(255,200,100,0.25);transform:translateY(-3px)}
+.multiplication-title{font-size:1.2rem;font-weight:bold;margin-bottom:8px}
+.multiplication-stats{font-size:.85rem;color:#ddd}
+.multiplication-percent{font-size:1.3rem;font-weight:bold;margin-top:5px}
+.multiplication-level{font-size:.85rem;margin-top:5px}
+.tutorial-step{background:rgba(255,200,100,0.1);border-radius:30px;padding:20px;margin:15px 0;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.tutorial-number{width:50px;height:50px;background:#ffaa55;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:bold;color:#221c0f}
+.heatmap-table{overflow-x:auto;margin-top:10px}
+.heatmap-table table{border-collapse:collapse;width:100%;color:#fff}
+.heatmap-table th,.heatmap-table td{padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.2)}
+.heatmap-table th{background:rgba(255,200,100,0.2)}
+@media(max-width:700px){.app-container{padding:30px 20px}.title{font-size:2rem}.question{font-size:3rem;letter-spacing:5px}.option-btn{width:90px;height:90px;font-size:2rem}.input-answer{width:220px;height:100px;font-size:2.5rem}.level-btn{font-size:1.5rem;padding:20px}.lang-switch{top:15px;right:15px;padding:6px 15px;font-size:.8rem}.nav-buttons{top:15px;left:15px;gap:8px}.nav-btn,.teacher-btn,.tutorial-btn{padding:6px 12px;font-size:.75rem}.multiplication-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}.table-checkbox-grid{grid-template-columns:repeat(3,1fr)}.concept-lesson .step-content{padding:20px;min-height:200px}.concept-lesson .step-content .step-visual .grid-cell{width:34px;height:34px;font-size:1.1rem}.concept-lesson .step-content .step-visual .formula-display{font-size:1.6rem;padding:10px 18px}.concept-welcome h2{font-size:2rem}.concept-start-btn{font-size:1.2rem;padding:16px 32px}.concept-complete-overlay .complete-box{padding:30px 25px}}
 </style>
 </head>
 <body>
-
 <div class="stars" id="stars"></div>
 <div class="planet" style="width:150px;height:150px;background:radial-gradient(circle,#ffaa66,#aa6644);top:10%;right:5%;opacity:0.3;"></div>
 <div class="planet" style="width:80px;height:80px;background:radial-gradient(circle,#66aaff,#3366aa);bottom:15%;left:3%;opacity:0.4;"></div>
 <div class="rocket">🚀</div>
 <div class="ufo">🛸</div>
-
 <button class="feedback-btn" id="feedbackBtn">📝 填写问卷</button>
 
-<div class="modal" id="customModal">
-  <div class="modal-content">
-    <h3 id="modalTitle" style="text-align:center;margin-bottom:20px;">✨ 自选乘法表 ✨</h3>
-    <p id="modalHint" style="text-align:center;margin-bottom:10px;">请至少选择3个乘法表</p>
-    <div class="table-checkbox-grid" id="tableCheckboxGrid"></div>
-    <div class="modal-buttons">
-      <button class="back-btn" id="cancelCustomBtn">◀ 取消</button>
-      <button class="start-btn" id="confirmCustomBtn">✅ 开始练习</button>
-    </div>
-  </div>
-</div>
+<div class="modal" id="customModal"><div class="modal-content"><h3 id="modalTitle" style="text-align:center;margin-bottom:20px;">✨ 自选乘法表 ✨</h3><p id="modalHint" style="text-align:center;margin-bottom:10px;">请至少选择3个乘法表</p><div class="table-checkbox-grid" id="tableCheckboxGrid"></div><div class="modal-buttons"><button class="back-btn" id="cancelCustomBtn">◀ 取消</button><button class="start-btn" id="confirmCustomBtn">✅ 开始练习</button></div></div></div>
 
-<div class="progress-modal" id="progressModal">
-  <div class="progress-content">
-    <h3 id="progressTitle" style="text-align:center;margin-bottom:20px;">📈 学生进步曲线</h3>
-    <canvas id="progressChart" style="max-height:300px;"></canvas>
-    <div class="modal-buttons" style="margin-top:20px;">
-      <button class="back-btn" id="closeProgressBtn">◀ 关闭</button>
-    </div>
-  </div>
-</div>
+<div class="progress-modal" id="progressModal"><div class="progress-content"><h3 id="progressTitle" style="text-align:center;margin-bottom:20px;">📈 学生进步曲线</h3><canvas id="progressChart" style="max-height:300px;"></canvas><div class="modal-buttons" style="margin-top:20px;"><button class="back-btn" id="closeProgressBtn">◀ 关闭</button></div></div></div>
 
 <div class="app-container">
   <div class="nav-buttons">
@@ -680,12 +209,7 @@ canvas { max-height: 300px; margin: 20px 0; }
       <p id="conceptWelcomeDesc">先理解概念，再开始练习和挑战！</p>
       <div class="highlight-box">
         <div style="font-weight:bold;color:#ffcc88;margin-bottom:12px;font-size:1.2rem;" id="conceptWelcomeLearnTitle">🎯 你将学到：</div>
-        <ul id="conceptWelcomeLearnList">
-          <li>什么是乘法（重复相加）</li>
-          <li>乘法表的规律（×0, ×1, ×2, ×5, ×9）</li>
-          <li>交换律（4×3 = 3×4）</li>
-          <li>乘法表的宝藏（已知推未知）</li>
-        </ul>
+        <ul id="conceptWelcomeLearnList"><li>什么是乘法（重复相加）</li><li>乘法表的规律（×0, ×1, ×2, ×5, ×9）</li><li>交换律（4×3 = 3×4）</li><li>乘法表的宝藏（已知推未知）</li></ul>
         <div style="margin-top:12px;color:#aaa;font-size:1rem;" id="conceptWelcomeTime">⏱️ 约 10 分钟</div>
       </div>
       <div id="conceptWelcomeStatus" style="display:none;" class="already-done">✅ 已完成概念学习！可以随时重新学习。</div>
@@ -699,16 +223,9 @@ canvas { max-height: 300px; margin: 20px 0; }
   <!-- 概念学习课程页面 -->
   <div class="screen" id="conceptScreen">
     <div class="concept-lesson">
-      <div class="lesson-header">
-        <span class="lesson-title" id="conceptLessonTitle">第一课：什么是乘法？</span>
-        <span class="lesson-progress" id="conceptLessonProgress">1 / 4</span>
-      </div>
-      <div class="progress-dots" id="conceptDots">
-        <span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      </div>
-      <div class="step-content" id="conceptStepContent">
-        <!-- 由 JavaScript 动态渲染 -->
-      </div>
+      <div class="lesson-header"><span class="lesson-title" id="conceptLessonTitle">第一课：什么是乘法？</span><span class="lesson-progress" id="conceptLessonProgress">1 / 4</span></div>
+      <div class="progress-dots" id="conceptDots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+      <div class="step-content" id="conceptStepContent"></div>
       <div class="lesson-nav">
         <button class="back-btn" id="conceptBackBtn" style="display:none;">◀ 上一步</button>
         <button class="concept-next-btn" id="conceptNextBtn">下一步 ➤</button>
@@ -725,10 +242,7 @@ canvas { max-height: 300px; margin: 20px 0; }
       <button class="level-btn" data-lvl="2">🌙 月球探险家<br><span>0~5 乘法表</span></button>
       <button class="level-btn" data-lvl="3">☀️ 太阳勇士<br><span>2~9 全面挑战</span></button>
       <button class="level-btn" data-lvl="4">🌀 银河霸主<br><span>0~12 终极挑战</span></button>
-      <button class="custom-btn" id="customLevelBtn">
-        <span id="customLevelLabel">✨ 自选练习</span><br>
-        <span id="customLevelDesc">自定义乘法表</span>
-      </button>
+      <button class="custom-btn" id="customLevelBtn"><span id="customLevelLabel">✨ 自选练习</span><br><span id="customLevelDesc">自定义乘法表</span></button>
       <button class="smart-review-btn" id="smartReviewBtn" style="display:none;">🧠 智能复习</button>
     </div>
     <button class="back-btn" id="backToWelcomeBtn">◀ 返回概念学习</button>
@@ -740,10 +254,7 @@ canvas { max-height: 300px; margin: 20px 0; }
     <div class="question" id="questionDisplay">3 × 4 = ?</div>
     <div class="options" id="optionsContainer"></div>
     <input type="number" class="input-answer" id="answerInput" style="display:none" placeholder="?" inputmode="numeric">
-    <div class="button-group">
-      <button class="back-btn" id="backToLevelBtn">◀ 返回选等级</button>
-      <button class="submit-btn" id="submitBtn">✨ 确认答案 ✨</button>
-    </div>
+    <div class="button-group"><button class="back-btn" id="backToLevelBtn">◀ 返回选等级</button><button class="submit-btn" id="submitBtn">✨ 确认答案 ✨</button></div>
   </div>
 
   <!-- 报告页面 -->
@@ -766,19 +277,14 @@ canvas { max-height: 300px; margin: 20px 0; }
   <div class="screen" id="wrongQuestionsScreen">
     <h2 class="title" id="wrongTitle">📝 我的错题本 📝</h2>
     <div class="wrong-questions-card" id="wrongQuestionsCard"></div>
-    <div class="button-group">
-      <button class="back-btn" id="backToReportBtn">◀ 返回报告</button>
-      <button class="restart-btn" id="clearWrongBtn" style="background:linear-gradient(135deg,#ff6644,#cc4422);">🗑️ 清空错题本</button>
-    </div>
+    <div class="button-group"><button class="back-btn" id="backToReportBtn">◀ 返回报告</button><button class="restart-btn" id="clearWrongBtn" style="background:linear-gradient(135deg,#ff6644,#cc4422);">🗑️ 清空错题本</button></div>
   </div>
 
   <!-- 排行榜页面 -->
   <div class="screen" id="rankScreen">
     <h2 class="title" id="rankTitle">🏆 星际排行榜 🏆</h2>
     <div class="teacher-card" id="rankCard"></div>
-    <div class="button-group">
-      <button class="back-btn" id="backToReportFromRankBtn">◀ 返回报告</button>
-    </div>
+    <div class="button-group"><button class="back-btn" id="backToReportFromRankBtn">◀ 返回报告</button></div>
   </div>
 
   <!-- 教师后台页面 -->
@@ -797,9 +303,7 @@ canvas { max-height: 300px; margin: 20px 0; }
       <div style="font-weight:bold;margin-bottom:15px;" id="classComparisonTitle">📊 班级成绩对比</div>
       <canvas id="classComparisonChart" style="max-height:300px;"></canvas>
     </div>
-    <div class="teacher-card" id="teacherCard">
-      <div class="loading">请输入密码进入教师后台 / Enter password to access</div>
-    </div>
+    <div class="teacher-card" id="teacherCard"><div class="loading">请输入密码进入教师后台 / Enter password to access</div></div>
   </div>
 
   <!-- 教程页面 -->
@@ -826,22 +330,14 @@ canvas { max-height: 300px; margin: 20px 0; }
     <h2 id="completeTitle">恭喜完成概念学习！</h2>
     <p id="completeDesc">你已经掌握了乘法的核心概念，可以开始练习了！</p>
     <div class="badge-unlock" id="completeBadge">🏅 获得徽章：📚 概念小达人</div>
-    <div class="btn-group">
-      <button class="start-btn" id="completeGoBtn">🚀 开始练习</button>
-      <button class="back-btn" id="completeReviewBtn">🔄 重新学习</button>
-    </div>
+    <div class="btn-group"><button class="start-btn" id="completeGoBtn">🚀 开始练习</button><button class="back-btn" id="completeReviewBtn">🔄 重新学习</button></div>
   </div>
 </div>
 
 <script>
 // ============================================================
-// 第 2 部分：完整的 JavaScript 将在此处继续
 // ============================================================
-</script>
-</body>
-</html>
-// ============================================================
-// 第 2 部分：完整的 JavaScript
+// 第 2 部分：完整的 JavaScript（功能完整，无简化）
 // ============================================================
 
 // ==================== Supabase 配置 ====================
@@ -856,7 +352,7 @@ function initSupabase() {
     supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('✅ Supabase 已连接');
   } else {
-    console.warn('⚠️ Supabase SDK 未加载');
+    console.warn('⚠️ Supabase SDK 未加载，使用本地存储');
   }
 }
 setTimeout(initSupabase, 1000);
@@ -878,7 +374,9 @@ let radarChart = null;
 let wrongQuestions = [];
 let selectedTables = [];
 let classRecords = [];
+let currentStudentData = { school: '', className: '', name: '' };
 
+// 概念学习状态
 let conceptState = {
   currentLesson: 0,
   currentStep: 0,
@@ -892,8 +390,6 @@ let conceptState = {
 };
 let skipTimer = null;
 let skipCountdown = 5;
-
-const student = { school: '', className: '', name: '' };
 
 // ==================== 学生成就数据 ====================
 let studentAchievements = {
@@ -1394,13 +890,13 @@ function shuffleArray(arr) {
 // ==================== 成就系统 ====================
 function loadAchievements() {
   try {
-    const saved = localStorage.getItem(`achievements_${student.school}_${student.className}_${student.name}`);
+    const saved = localStorage.getItem(`achievements_${currentStudentData.school}_${currentStudentData.className}_${currentStudentData.name}`);
     if (saved) studentAchievements = JSON.parse(saved);
   } catch(e) { /* ignore */ }
 }
 function saveAchievements() {
   try {
-    localStorage.setItem(`achievements_${student.school}_${student.className}_${student.name}`, JSON.stringify(studentAchievements));
+    localStorage.setItem(`achievements_${currentStudentData.school}_${currentStudentData.className}_${currentStudentData.name}`, JSON.stringify(studentAchievements));
   } catch(e) { /* ignore */ }
 }
 
@@ -1448,13 +944,13 @@ function renderBadges() {
 // ==================== 错题本功能 ====================
 function loadWrongQuestions() {
   try {
-    const saved = localStorage.getItem(`wrongQuestions_${student.school}_${student.className}_${student.name}`);
+    const saved = localStorage.getItem(`wrongQuestions_${currentStudentData.school}_${currentStudentData.className}_${currentStudentData.name}`);
     wrongQuestions = saved ? JSON.parse(saved) : [];
   } catch(e) { wrongQuestions = []; }
 }
 function saveWrongQuestions() {
   try {
-    localStorage.setItem(`wrongQuestions_${student.school}_${student.className}_${student.name}`, JSON.stringify(wrongQuestions));
+    localStorage.setItem(`wrongQuestions_${currentStudentData.school}_${currentStudentData.className}_${currentStudentData.name}`, JSON.stringify(wrongQuestions));
   } catch(e) { /* ignore */ }
 }
 
@@ -1527,7 +1023,7 @@ function startPracticeQuestion(question) {
   showCurrentQuestion();
 }
 
-// ==================== 错误类型分析 ====================
+// ==================== 错误类型分析（完整版） ====================
 function classifyError(correct, user, lang) {
   const t = texts[lang];
   if (user === null || user === undefined || user === '') return t.errorTypeTimeout;
@@ -1557,17 +1053,17 @@ function analyzeErrors(lang) {
   return errors;
 }
 
-// ==================== 概念学习功能 ====================
+// ==================== 概念学习功能（完整版） ====================
 function loadConceptProgress() {
   try {
-    const key = `concept_${student.school}_${student.className}_${student.name}`;
+    const key = `concept_${currentStudentData.school}_${currentStudentData.className}_${currentStudentData.name}`;
     const saved = localStorage.getItem(key);
     if (saved) conceptState = { ...conceptState, ...JSON.parse(saved) };
   } catch(e) { /* ignore */ }
 }
 function saveConceptProgress() {
   try {
-    const key = `concept_${student.school}_${student.className}_${student.name}`;
+    const key = `concept_${currentStudentData.school}_${currentStudentData.className}_${currentStudentData.name}`;
     localStorage.setItem(key, JSON.stringify(conceptState));
   } catch(e) { /* ignore */ }
 }
@@ -2042,9 +1538,9 @@ function startSmartReview() {
 async function saveToSupabase() {
   if (!supabaseClient) { saveToLocalStorage(); return; }
   const newRecord = {
-    school: student.school,
-    class: student.className,
-    name: student.name,
+    school: currentStudentData.school,
+    class: currentStudentData.className,
+    name: currentStudentData.name,
     level: currentLevel === 5 ? 0 : currentLevel,
     correct: correctCount,
     total: questions.length,
@@ -2061,7 +1557,7 @@ async function saveToSupabase() {
 function saveToLocalStorage() {
   const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
   records.unshift({
-    ...student,
+    ...currentStudentData,
     level: currentLevel === 5 ? 0 : currentLevel,
     correct: correctCount,
     total: questions.length,
@@ -2076,14 +1572,14 @@ function saveToLocalStorage() {
 async function getHistoryRecords() {
   if (!supabaseClient) {
     const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
-    return records.filter(r => r.name === student.name && r.school === student.school);
+    return records.filter(r => r.name === currentStudentData.name && r.school === currentStudentData.school);
   }
   try {
     const { data, error } = await supabaseClient
       .from('math_records')
       .select('*')
-      .eq('name', student.name)
-      .eq('school', student.school)
+      .eq('name', currentStudentData.name)
+      .eq('school', currentStudentData.school)
       .order('created_at', { ascending: false });
     if (error) return [];
     return data || [];
@@ -2106,9 +1602,9 @@ function renderReport(history, accuracy) {
   const t = texts[currentLang];
   const nowDate = new Date().toLocaleString();
   let html = `
-    <div class="report-row"><span>${rt.school}</span><span>${student.school || '—'}</span></div>
-    <div class="report-row"><span>${rt.class}</span><span>${student.className || '—'}</span></div>
-    <div class="report-row"><span>${rt.name}</span><span>${student.name || '—'}</span></div>
+    <div class="report-row"><span>${rt.school}</span><span>${currentStudentData.school || '—'}</span></div>
+    <div class="report-row"><span>${rt.class}</span><span>${currentStudentData.className || '—'}</span></div>
+    <div class="report-row"><span>${rt.name}</span><span>${currentStudentData.name || '—'}</span></div>
     <div class="report-row"><span>${rt.date}</span><span>${nowDate}</span></div>
     <div class="report-row"><span>${rt.level}</span><span>${currentLevel === 5 ? (t.wrongTitle || '错题练习') : (currentLevel === 6 ? (t.customLevelLabel || '自选练习') : (rt.levelPrefix || 'Level') + ' ' + currentLevel)}</span></div>
     <div class="report-row"><span>${rt.total}</span><span>${questions.length}</span></div>
@@ -2126,7 +1622,7 @@ function renderReport(history, accuracy) {
     html += `<div class="table-item"><span>${mult} ${rt.timesTable}</span><span>${percent >= 85 ? rt.mastered : (percent >= 60 ? rt.basic : rt.needs)} (${percent}%)</span></div>`;
   }
   
-  // 错误分析
+  // 错误分析（完整版）
   const errors = analyzeErrors(reportLang);
   if (errors.length === 0) {
     html += `<div class="suggestion-box">${rt.noErrors}</div>`;
@@ -2185,10 +1681,10 @@ async function clearHistory() {
   const t = texts[currentLang];
   if (confirm(t.clearHistory || '确定要清除所有历史记录吗？🚀')) {
     if (supabaseClient) {
-      try { await supabaseClient.from('math_records').delete().eq('name', student.name).eq('school', student.school); } catch(e) {}
+      try { await supabaseClient.from('math_records').delete().eq('name', currentStudentData.name).eq('school', currentStudentData.school); } catch(e) {}
     }
     const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
-    localStorage.setItem('mathRecords', JSON.stringify(records.filter(r => r.name !== student.name || r.school !== student.school)));
+    localStorage.setItem('mathRecords', JSON.stringify(records.filter(r => r.name !== currentStudentData.name || r.school !== currentStudentData.school)));
     const history = await getHistoryRecords();
     renderReport(history, Math.round((correctCount/questions.length)*100));
   }
@@ -2226,8 +1722,8 @@ async function loadRanking() {
     const { data, error } = await supabaseClient
       .from('math_records')
       .select('*')
-      .eq('school', student.school)
-      .eq('class', student.className)
+      .eq('school', currentStudentData.school)
+      .eq('class', currentStudentData.className)
       .order('accuracy', { ascending: false });
     if (error) throw error;
     const bestScores = {};
@@ -2235,7 +1731,7 @@ async function loadRanking() {
       const key = record.name;
       if (!bestScores[key] || record.accuracy > bestScores[key].accuracy) {
         bestScores[key] = { name: record.name, accuracy: record.accuracy, date: record.created_at, level: record.level };
-        if (record.name === student.name && record.accuracy >= 90) { studentAchievements.rankFirst = 1; saveAchievements(); }
+        if (record.name === currentStudentData.name && record.accuracy >= 90) { studentAchievements.rankFirst = 1; saveAchievements(); }
       }
     });
     const ranking = Object.values(bestScores).sort((a,b) => b.accuracy - a.accuracy);
@@ -2247,7 +1743,7 @@ async function loadRanking() {
       if (rankNum === 1) { rankClass = 'gold'; rankEmoji = '🥇'; }
       else if (rankNum === 2) { rankClass = 'silver'; rankEmoji = '🥈'; }
       else if (rankNum === 3) { rankClass = 'bronze'; rankEmoji = '🥉'; }
-      const isCurrentUser = item.name === student.name;
+      const isCurrentUser = item.name === currentStudentData.name;
       const highlight = isCurrentUser ? 'style="background:rgba(255,200,100,0.4);border:2px solid #ffaa55;"' : '';
       html += `<div class="rank-item" ${highlight}>
         <div class="rank-number ${rankClass}">${rankEmoji || rankNum}</div>
@@ -2257,7 +1753,7 @@ async function loadRanking() {
       </div>`;
     });
     html += `</div>`;
-    const userRank = ranking.findIndex(r => r.name === student.name) + 1;
+    const userRank = ranking.findIndex(r => r.name === currentStudentData.name) + 1;
     if (userRank > 0) html += `<div class="suggestion-box" style="margin-top:20px;text-align:center;">
       <strong>${t.yourRank}</strong><br><span style="font-size:1.5rem;font-weight:bold;color:#ffcc88;">${currentLang === 'zh' ? '第 ' + userRank + ' 名' : 'Rank ' + userRank}</span></div>`;
     else html += `<div class="suggestion-box" style="margin-top:20px;text-align:center;"><strong>${t.rankNotRanked}</strong></div>`;
@@ -2364,7 +1860,6 @@ function renderMultiplicationDetails(stats) {
   return html;
 }
 
-// ✅ 修复：renderClassHeatmap 中正确解构变量
 function renderClassHeatmap(records, t) {
   const students = [...new Set(records.map(r => `${r.school}|${r.class}|${r.name}`))];
   const tableStats = {};
@@ -2388,7 +1883,7 @@ function renderClassHeatmap(records, t) {
       const detail = tableStats[key][i];
       const percent = detail && detail.total ? Math.round((detail.correct/detail.total)*100) : null;
       const bgColor = percent === null ? '#333' : getHeatColor(percent);
-      html += `<td style="background:${bgColor};">${percent ?? '-'}</td>';
+      html += `<td style="background:${bgColor};">${percent ?? '-'}</td>`;
     }
     html += '</tr>';
   });
@@ -2582,7 +2077,7 @@ function generateCertificate() {
     customTablesHtml = `<div style="margin:15px 0;padding:10px;background:rgba(255,200,100,0.15);border-radius:20px;"><strong>${tableLabelText}</strong><br>${selectedTables.map(table => currentLang === 'zh' ? `${table} 的乘法表` : `${table} Times Table`).join(' · ')}</div>`;
   }
   let starRating = accuracy >= 90 ? '🌟🌟🌟🌟🌟' : (accuracy >= 75 ? '🌟🌟🌟🌟' : (accuracy >= 60 ? '🌟🌟🌟' : '🌟🌟'));
-  const certHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${t.certTitle} - ${student.name}</title><style>
+  const certHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${t.certTitle} - ${currentStudentData.name}</title><style>
     body{margin:0;padding:40px;background:linear-gradient(135deg,#0a0f2a,#0a1a3a);font-family:'Comic Neue','Segoe UI','Comic Sans MS',cursive;min-height:100vh;display:flex;justify-content:center;align-items:center;}
     .certificate{background:linear-gradient(135deg,#fff8e7,#ffe8c8);border-radius:30px;padding:50px;max-width:800px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.3);border:10px solid #ffcc88;}
     h1{color:#ff8844;font-size:2.5rem;margin-bottom:20px;}.star{font-size:2rem;margin:20px 0;}.student-name{font-size:2rem;color:#ff6644;margin:20px 0;border-bottom:2px solid #ffcc88;display:inline-block;}
@@ -2591,8 +2086,8 @@ function generateCertificate() {
     .btn-close:hover{background:#ff6633;}.btn-print{background:#44aa66;color:white;border:none;padding:10px 30px;border-radius:30px;font-size:1rem;cursor:pointer;margin:10px;}
     .btn-print:hover{background:#228844;}@media print{body{padding:0;background:white;}.certificate{box-shadow:none;border:2px solid #ffcc88;}.no-print{display:none;}}
   </style></head><body>
-  <div class="certificate"><h1>🚀 ${t.certTitle} 🚀</h1><div class="star">${starRating}</div><div class="student-name">${student.name}</div>
-  <div class="info">${student.school} - ${student.className}</div>${customTablesHtml}<div class="score">${accuracy}%</div>
+  <div class="certificate"><h1>🚀 ${t.certTitle} 🚀</h1><div class="star">${starRating}</div><div class="student-name">${currentStudentData.name}</div>
+  <div class="info">${currentStudentData.school} - ${currentStudentData.className}</div>${customTablesHtml}<div class="score">${accuracy}%</div>
   <div class="info">${t.certLevel}: ${levelText}</div><div class="info">${t.certDate}: ${nowDate}</div>
   <div class="message">⭐ ${t.certMessage} ⭐</div><div class="footer">${t.certFooter}</div>
   <div class="no-print" style="margin-top:20px;"><button class="btn-print" onclick="window.print();">${t.printCert}</button><button class="btn-close" onclick="window.close();">${t.closeCert}</button></div></div>
@@ -2639,7 +2134,12 @@ function applyUILang() {
     'conceptSkipBtn': t.conceptSkipBtn,
     'conceptBackBtn': t.conceptBackBtn,
     'conceptNextBtn': t.conceptNextBtn,
-    'conceptExitBtn': t.conceptExitBtn
+    'conceptExitBtn': t.conceptExitBtn,
+    'completeTitle': t.conceptCompleteTitle,
+    'completeDesc': t.conceptCompleteDesc,
+    'completeBadge': t.conceptCompleteBadge,
+    'completeGoBtn': t.conceptCompleteGo,
+    'completeReviewBtn': t.conceptCompleteReview
   };
   for (const [id, text] of Object.entries(elements)) {
     const el = document.getElementById(id);
@@ -2648,7 +2148,7 @@ function applyUILang() {
         'backToLevelFromReportBtn', 'backToReportBtn', 'backToReportFromRankBtn', 'backFromTeacherBtn',
         'backFromTutorialBtn', 'cancelCustomBtn', 'confirmCustomBtn', 'closeProgressBtn',
         'practiceWrongBtn', 'clearWrongBtn', 'deleteDataBtn', 'exportBtn', 'exportStudentDetailBtn',
-        'backToWelcomeBtn'];
+        'backToWelcomeBtn', 'completeGoBtn', 'completeReviewBtn'];
       if (innerHTMLIds.includes(id)) el.innerHTML = text;
       else el.textContent = text;
     }
@@ -2834,11 +2334,11 @@ document.getElementById('backToLevelBtn').onclick = () => {
 document.getElementById('backToLevelFromReportBtn').onclick = goToLevelSelect;
 
 document.getElementById('startBtn').onclick = () => {
-  student.school = document.getElementById('school').value.trim();
-  student.className = document.getElementById('className').value.trim();
-  student.name = document.getElementById('studentName').value.trim();
+  currentStudentData.school = document.getElementById('school').value.trim();
+  currentStudentData.className = document.getElementById('className').value.trim();
+  currentStudentData.name = document.getElementById('studentName').value.trim();
   const t = texts[currentLang];
-  if (!student.school || !student.className || !student.name) {
+  if (!currentStudentData.school || !currentStudentData.className || !currentStudentData.name) {
     alert(t.startBtn + ' ' + (currentLang === 'zh' ? '请填写完整资料 🚀' : 'Please fill in all info 🚀'));
     return;
   }
@@ -3017,10 +2517,15 @@ document.getElementById('closeProgressBtn')?.addEventListener('click', () => doc
 // ==================== 初始化 ====================
 applyUILang();
 window.addEventListener('load', () => {
-  if (student.school && student.className && student.name) {
+  if (currentStudentData.school && currentStudentData.className && currentStudentData.name) {
     loadAchievements();
     loadWrongQuestions();
     loadConceptProgress();
   }
   setTimeout(initSupabase, 500);
 });
+// ============================================================
+</script>
+</body>
+</html>
+
