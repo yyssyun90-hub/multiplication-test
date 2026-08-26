@@ -7,12 +7,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   min-height: 100vh;
   background: linear-gradient(135deg, #0a0f2a 0%, #0a1a3a 50%, #0a0f2a 100%);
@@ -24,7 +19,6 @@ body {
   align-items: center;
   padding: 20px;
 }
-
 .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 .star { position: absolute; background: white; border-radius: 50%; animation: twinkle 3s infinite alternate; }
 @keyframes twinkle { 0% { opacity: 0.2; transform: scale(1); } 100% { opacity: 1; transform: scale(1.2); } }
@@ -48,7 +42,6 @@ body {
   padding: 40px 35px;
   transition: all 0.3s;
 }
-
 .nav-buttons {
   position: absolute;
   top: 25px;
@@ -58,7 +51,6 @@ body {
   z-index: 20;
   flex-wrap: wrap;
 }
-
 .nav-btn, .teacher-btn, .tutorial-btn {
   background: rgba(100, 150, 255, 0.3);
   border: 2px solid #88aaff;
@@ -74,13 +66,11 @@ body {
   align-items: center;
   gap: 5px;
 }
-
 .nav-btn:hover, .teacher-btn:hover, .tutorial-btn:hover {
   background: rgba(100, 150, 255, 0.6);
   transform: scale(1.05);
   border-color: #ffdd99;
 }
-
 .lang-switch {
   position: absolute;
   top: 25px;
@@ -97,12 +87,10 @@ body {
   transition: all 0.3s;
   z-index: 20;
 }
-
 .lang-switch:hover {
   transform: scale(1.05) rotate(2deg);
   background: linear-gradient(135deg, #ffbb55, #ff9955);
 }
-
 .feedback-btn {
   position: fixed;
   bottom: 25px;
@@ -123,13 +111,11 @@ body {
   gap: 8px;
   font-family: inherit;
 }
-
 .feedback-btn:hover {
   transform: scale(1.05);
   background: linear-gradient(135deg, #ffbb55, #ff9955);
   box-shadow: 0 8px 25px rgba(0,0,0,0.4);
 }
-
 .modal {
   display: none;
   position: fixed;
@@ -142,9 +128,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-.modal.active {
-  display: flex;
-}
+.modal.active { display: flex; }
 .modal-content {
   background: rgba(35, 50, 90, 0.95);
   backdrop-filter: blur(15px);
@@ -173,22 +157,9 @@ body {
   cursor: pointer;
   color: #FFE5B4;
 }
-.table-checkbox-item.selected {
-  background: #ffaa55;
-  color: #221c0f;
-}
-.table-checkbox-item input {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  accent-color: #ffaa55;
-}
-.modal-buttons {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  margin-top: 20px;
-}
+.table-checkbox-item.selected { background: #ffaa55; color: #221c0f; }
+.table-checkbox-item input { width: 20px; height: 20px; cursor: pointer; accent-color: #ffaa55; }
+.modal-buttons { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
 
 .badges-container {
   display: flex;
@@ -208,14 +179,8 @@ body {
   border-radius: 30px;
   font-size: 0.85rem;
 }
-.badge-item.locked {
-  opacity: 0.4;
-  filter: grayscale(0.5);
-}
-.badge-item.unlocked {
-  background: #ffaa55;
-  color: #221c0f;
-}
+.badge-item.locked { opacity: 0.4; filter: grayscale(0.5); }
+.badge-item.unlocked { background: #ffaa55; color: #221c0f; }
 
 .progress-modal {
   display: none;
@@ -229,9 +194,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-.progress-modal.active {
-  display: flex;
-}
+.progress-modal.active { display: flex; }
 .progress-content {
   background: rgba(20, 30, 55, 0.95);
   backdrop-filter: blur(15px);
@@ -255,7 +218,6 @@ body {
   70% { transform: scale(1.02); }
   100% { opacity: 1; transform: scale(1) translateY(0); }
 }
-
 .title {
   font-size: 52px;
   font-weight: 900;
@@ -276,13 +238,7 @@ body {
   border-radius: 60px;
   display: inline-block;
 }
-.form-group {
-  width: 100%;
-  max-width: 550px;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
+.form-group { width: 100%; max-width: 550px; display: flex; flex-direction: column; gap: 25px; }
 .form-item {
   display: flex;
   flex-direction: column;
@@ -292,11 +248,7 @@ body {
   border-radius: 60px;
   backdrop-filter: blur(5px);
 }
-.form-item label {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #FFE5B4;
-}
+.form-item label { font-size: 1.2rem; font-weight: bold; color: #FFE5B4; }
 .form-item input {
   padding: 14px 24px;
   border-radius: 60px;
@@ -312,7 +264,9 @@ body {
   transform: scale(1.02);
 }
 
-.start-btn, .level-btn, .submit-btn, .restart-btn, .back-btn, .export-btn, .cert-btn, .practice-wrong-btn, .custom-btn, .smart-review-btn {
+.start-btn, .level-btn, .submit-btn, .restart-btn, .back-btn, .export-btn, .cert-btn,
+.practice-wrong-btn, .custom-btn, .smart-review-btn, .concept-start-btn, .concept-next-btn,
+.concept-skip-btn {
   background: linear-gradient(135deg, #FFB347, #FF8C33);
   border: none;
   border-radius: 60px;
@@ -324,21 +278,23 @@ body {
   transition: all 0.3s;
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
-.start-btn:hover, .level-btn:hover, .submit-btn:hover, .restart-btn:hover, .back-btn:hover, .export-btn:hover, .cert-btn:hover, .practice-wrong-btn:hover, .custom-btn:hover, .smart-review-btn:hover {
+.start-btn:hover, .level-btn:hover, .submit-btn:hover, .restart-btn:hover, .back-btn:hover,
+.export-btn:hover, .cert-btn:hover, .practice-wrong-btn:hover, .custom-btn:hover,
+.smart-review-btn:hover, .concept-start-btn:hover, .concept-next-btn:hover {
   transform: translateY(-5px) scale(1.02);
   box-shadow: 0 15px 30px rgba(255,140,0,0.5);
 }
-.custom-btn {
-  background: linear-gradient(135deg, #aa66cc, #8844aa);
-}
-.smart-review-btn {
-  background: linear-gradient(135deg, #00b894, #00695c);
-  color: white;
-}
+.custom-btn { background: linear-gradient(135deg, #aa66cc, #8844aa); }
+.smart-review-btn { background: linear-gradient(135deg, #00b894, #00695c); color: white; }
 .cert-btn { background: linear-gradient(135deg, #aa66cc, #8844aa); color: white; }
 .practice-wrong-btn { background: linear-gradient(135deg, #ff6644, #cc4422); color: white; }
 .back-btn { background: linear-gradient(135deg, #6688ff, #4466cc); color: white; }
 .export-btn { background: linear-gradient(135deg, #44aa66, #228844); color: white; padding: 12px 24px; font-size: 1rem; }
+.concept-start-btn { background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white; font-size: 1.6rem; padding: 20px 48px; }
+.concept-next-btn { background: linear-gradient(135deg, #00b894, #00695c); color: white; padding: 14px 32px; font-size: 1.2rem; }
+.concept-skip-btn { background: rgba(255,255,255,0.15); color: #aaa; border: 2px solid #555; padding: 14px 32px; font-size: 1.2rem; box-shadow: none; }
+.concept-skip-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.02); box-shadow: none; }
+.concept-skip-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
 
 .level-buttons {
   display: grid;
@@ -354,23 +310,231 @@ body {
   border: 3px solid #ffcc66;
   backdrop-filter: blur(5px);
 }
-.level-btn span {
-  font-size: 0.9rem;
-  display: block;
-  margin-top: 10px;
-  color: #FFE5B4;
-}
+.level-btn span { font-size: 0.9rem; display: block; margin-top: 10px; color: #FFE5B4; }
 
+/* 概念学习样式 */
+.concept-welcome { text-align: center; max-width: 700px; width: 100%; }
+.concept-welcome h2 { font-size: 2.8rem; color: #FFE5B4; margin-bottom: 10px; }
+.concept-welcome p { font-size: 1.2rem; color: #ddd; margin-bottom: 20px; }
+.concept-welcome .highlight-box {
+  background: rgba(255,200,100,0.15);
+  border-radius: 30px;
+  padding: 25px 30px;
+  margin: 20px 0;
+  text-align: left;
+}
+.concept-welcome .highlight-box li {
+  font-size: 1.1rem;
+  color: #FFE5B4;
+  padding: 8px 0;
+  list-style: none;
+}
+.concept-welcome .highlight-box li::before { content: "⭐ "; }
+.concept-welcome .btn-group { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+.concept-welcome .already-done { color: #4CAF50; font-size: 1.2rem; margin-top: 15px; }
+
+.concept-lesson { max-width: 800px; width: 100%; padding: 10px; }
+.concept-lesson .lesson-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.concept-lesson .lesson-header .lesson-title { font-size: 1.8rem; color: #FFE5B4; }
+.concept-lesson .lesson-header .lesson-progress { color: #aaa; font-size: 1rem; }
+.concept-lesson .progress-dots { display: flex; gap: 10px; margin: 10px 0 20px 0; width: 100%; justify-content: center; }
+.concept-lesson .progress-dots .dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  transition: all 0.3s;
+}
+.concept-lesson .progress-dots .dot.active { background: #ffaa55; transform: scale(1.2); }
+.concept-lesson .progress-dots .dot.completed { background: #4CAF50; }
+.concept-lesson .step-content {
+  background: rgba(255,255,255,0.08);
+  border-radius: 30px;
+  padding: 30px;
+  min-height: 300px;
+  width: 100%;
+}
+.concept-lesson .step-content .step-title { font-size: 1.6rem; color: #FFE5B4; margin-bottom: 15px; }
+.concept-lesson .step-content .step-text { font-size: 1.2rem; color: #ddd; line-height: 1.8; }
+.concept-lesson .step-content .step-example {
+  font-size: 2rem;
+  color: #ffcc88;
+  text-align: center;
+  padding: 20px;
+  margin: 15px 0;
+  background: rgba(255,200,100,0.1);
+  border-radius: 20px;
+}
+.concept-lesson .step-content .step-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px 0;
+}
+.concept-lesson .step-content .step-visual .grid-container {
+  display: grid;
+  gap: 6px;
+  padding: 15px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+}
+.concept-lesson .step-content .step-visual .grid-cell {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: rgba(255,200,100,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.3s;
+}
+.concept-lesson .step-content .step-visual .grid-cell.filled {
+  background: rgba(255,200,100,0.4);
+  animation: popIn 0.3s ease-out;
+}
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  70% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.concept-lesson .step-content .step-visual .grid-cell.highlight {
+  background: rgba(255,170,68,0.6);
+  box-shadow: 0 0 20px rgba(255,170,68,0.3);
+}
+.concept-lesson .step-content .step-visual .formula-display {
+  font-size: 2.2rem;
+  color: #ffcc88;
+  font-weight: bold;
+  padding: 15px 25px;
+  background: rgba(255,200,100,0.1);
+  border-radius: 20px;
+  min-width: 120px;
+  text-align: center;
+}
+.concept-lesson .step-content .check-question { margin-top: 20px; padding-top: 20px; border-top: 2px solid rgba(255,255,255,0.1); }
+.concept-lesson .step-content .check-question .q-text { font-size: 1.3rem; color: #FFE5B4; margin-bottom: 15px; }
+.concept-lesson .step-content .check-question .q-options { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+.concept-lesson .step-content .check-question .q-options button {
+  padding: 14px 28px;
+  border-radius: 40px;
+  border: 3px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.05);
+  color: #FFE5B4;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+.concept-lesson .step-content .check-question .q-options button:hover {
+  background: rgba(255,200,100,0.2);
+  transform: scale(1.05);
+}
+.concept-lesson .step-content .check-question .q-options button.correct {
+  background: rgba(76, 175, 80, 0.4);
+  border-color: #4CAF50;
+}
+.concept-lesson .step-content .check-question .q-options button.wrong {
+  background: rgba(244, 67, 54, 0.4);
+  border-color: #f44336;
+  animation: shake 0.4s ease-in-out;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-15px); }
+  75% { transform: translateX(15px); }
+}
+.concept-lesson .step-content .check-question .feedback-text { margin-top: 12px; font-size: 1.1rem; text-align: center; }
+.concept-lesson .step-content .check-question .feedback-text.success { color: #4CAF50; }
+.concept-lesson .step-content .check-question .feedback-text.error { color: #ff6b6b; }
+.concept-lesson .lesson-nav { display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+.concept-lesson .lesson-nav button { padding: 12px 28px; font-size: 1.1rem; }
+
+.concept-complete-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  z-index: 300;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+.concept-complete-overlay.active { display: flex; }
+.concept-complete-overlay .complete-box {
+  background: linear-gradient(135deg, #1a2a4a, #2a1a3a);
+  border-radius: 60px;
+  padding: 50px 60px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  border: 3px solid #ffcc88;
+  animation: popIn 0.5s ease-out;
+}
+.concept-complete-overlay .complete-box h2 { font-size: 2.5rem; color: #FFE5B4; margin-bottom: 10px; }
+.concept-complete-overlay .complete-box .big-icon { font-size: 5rem; margin: 15px 0; }
+.concept-complete-overlay .complete-box p { font-size: 1.2rem; color: #ddd; margin: 10px 0; }
+.concept-complete-overlay .complete-box .badge-unlock { font-size: 1.3rem; color: #ffcc88; margin: 15px 0; }
+.concept-complete-overlay .complete-box .btn-group { margin-top: 20px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+
+/* 已有样式 */
 .timer-container { width: 100%; position: relative; margin-bottom: 10px; }
 .timer-bar { width: 100%; height: 20px; background: rgba(0,0,0,0.4); border-radius: 20px; overflow: hidden; border: 1px solid #ffaa66; }
 .timer-progress { height: 100%; background: linear-gradient(90deg, #ffaa44, #ff6644); width: 100%; border-radius: 20px; box-shadow: 0 0 10px #ff8844; }
 .question { font-size: 6rem; font-weight: 900; background: linear-gradient(135deg, #FFE5B4, #FFB347); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 30px rgba(255,200,100,0.5); letter-spacing: 10px; padding: 20px; animation: pulse 1s infinite; }
 @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
 .options { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; width: 100%; }
-.option-btn { background: radial-gradient(circle at 30% 30%, #ffaa66, #ff8844); border: 4px solid #FFE5B4; border-radius: 60px; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; font-weight: 800; color: white; cursor: pointer; transition: all 0.2s; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-.option-btn:hover { transform: scale(1.1) rotate(5deg); background: radial-gradient(circle at 30% 30%, #ffbb77, #ff9955); box-shadow: 0 15px 30px rgba(255,140,0,0.6); }
-.input-answer { background: rgba(30, 40, 70, 0.9); border: 3px solid #ffaa66; border-radius: 60px; width: 300px; height: 130px; font-size: 4rem; text-align: center; color: #FFE5B4; outline: none; font-weight: bold; transition: all 0.3s; }
-.input-answer:focus { border-color: #ffcc88; box-shadow: 0 0 30px rgba(255,200,100,0.5); transform: scale(1.05); }
+.option-btn {
+  background: radial-gradient(circle at 30% 30%, #ffaa66, #ff8844);
+  border: 4px solid #FFE5B4;
+  border-radius: 60px;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+.option-btn:hover {
+  transform: scale(1.1) rotate(5deg);
+  background: radial-gradient(circle at 30% 30%, #ffbb77, #ff9955);
+  box-shadow: 0 15px 30px rgba(255,140,0,0.6);
+}
+.input-answer {
+  background: rgba(30, 40, 70, 0.9);
+  border: 3px solid #ffaa66;
+  border-radius: 60px;
+  width: 300px;
+  height: 130px;
+  font-size: 4rem;
+  text-align: center;
+  color: #FFE5B4;
+  outline: none;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+.input-answer:focus {
+  border-color: #ffcc88;
+  box-shadow: 0 0 30px rgba(255,200,100,0.5);
+  transform: scale(1.05);
+}
 .button-group { display: flex; gap: 20px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
 
 .report-card, .teacher-card, .tutorial-card, .wrong-questions-card {
@@ -384,105 +548,17 @@ body {
   overflow-y: auto;
   color: #FFE5B4;
 }
-
-.report-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px 0;
-  border-bottom: 2px solid rgba(255,200,100,0.3);
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: #FFE5B4;
-}
-
-.table-item {
-  display: flex;
-  justify-content: space-between;
-  font-size: 1.1rem;
-  padding: 12px 20px;
-  background: rgba(255,200,100,0.15);
-  border-radius: 40px;
-  transition: all 0.3s;
-  color: #FFE5B4;
-}
-
-.history-item {
-  background: rgba(100,150,255,0.2);
-  margin-top: 12px;
-  padding: 15px;
-  border-radius: 30px;
-  transition: all 0.3s;
-  color: #FFE5B4;
-}
-
-.rank-item {
-  background: rgba(255,200,100,0.15);
-  margin: 10px 0;
-  padding: 15px;
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  transition: all 0.3s;
-  color: #FFE5B4;
-}
-
-.rank-item strong {
-  color: #FFE5B4;
-}
-
-.class-item {
-  background: rgba(255,200,100,0.15);
-  margin: 10px 0;
-  padding: 15px;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s;
-  color: #FFE5B4;
-}
-
-.class-item strong {
-  color: #FFE5B4;
-}
-
-.suggestion-box {
-  background: rgba(255,200,100,0.2);
-  border-left: 5px solid #ffaa55;
-  padding: 15px;
-  border-radius: 20px;
-  margin: 15px 0;
-  color: #FFE5B4;
-}
-
-.wrong-question-item {
-  background: rgba(255,100,80,0.2);
-  margin: 10px 0;
-  padding: 15px;
-  border-radius: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  color: #FFE5B4;
-}
-
-.stat-card {
-  background: rgba(255,200,100,0.2);
-  padding: 20px;
-  border-radius: 40px;
-  text-align: center;
-  color: #FFE5B4;
-}
-
-.multiplication-card {
-  background: rgba(255,200,100,0.12);
-  padding: 12px;
-  border-radius: 20px;
-  text-align: center;
-  transition: all 0.3s;
-  color: #FFE5B4;
-}
-
+.report-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 2px solid rgba(255,200,100,0.3); font-size: 1.2rem; font-weight: 500; color: #FFE5B4; }
+.table-item { display: flex; justify-content: space-between; font-size: 1.1rem; padding: 12px 20px; background: rgba(255,200,100,0.15); border-radius: 40px; transition: all 0.3s; color: #FFE5B4; }
+.history-item { background: rgba(100,150,255,0.2); margin-top: 12px; padding: 15px; border-radius: 30px; transition: all 0.3s; color: #FFE5B4; }
+.rank-item { background: rgba(255,200,100,0.15); margin: 10px 0; padding: 15px; border-radius: 30px; display: flex; align-items: center; gap: 15px; transition: all 0.3s; color: #FFE5B4; }
+.rank-item strong { color: #FFE5B4; }
+.class-item { background: rgba(255,200,100,0.15); margin: 10px 0; padding: 15px; border-radius: 30px; cursor: pointer; transition: all 0.3s; color: #FFE5B4; }
+.class-item strong { color: #FFE5B4; }
+.suggestion-box { background: rgba(255,200,100,0.2); border-left: 5px solid #ffaa55; padding: 15px; border-radius: 20px; margin: 15px 0; color: #FFE5B4; }
+.wrong-question-item { background: rgba(255,100,80,0.2); margin: 10px 0; padding: 15px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; color: #FFE5B4; }
+.stat-card { background: rgba(255,200,100,0.2); padding: 20px; border-radius: 40px; text-align: center; color: #FFE5B4; }
+.multiplication-card { background: rgba(255,200,100,0.12); padding: 12px; border-radius: 20px; text-align: center; transition: all 0.3s; color: #FFE5B4; }
 .rank-list { max-height: 300px; overflow-y: auto; }
 .rank-item { background: rgba(255,200,100,0.15); margin: 10px 0; padding: 15px; border-radius: 30px; display: flex; align-items: center; gap: 15px; transition: all 0.3s; }
 .rank-item:hover { background: rgba(255,200,100,0.3); transform: translateX(5px); }
@@ -519,7 +595,6 @@ canvas { max-height: 300px; margin: 20px 0; }
 .multiplication-level { font-size: 0.85rem; margin-top: 5px; }
 .tutorial-step { background: rgba(255,200,100,0.1); border-radius: 30px; padding: 20px; margin: 15px 0; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .tutorial-number { width: 50px; height: 50px; background: #ffaa55; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; color: #221c0f; }
-
 .heatmap-table { overflow-x: auto; margin-top: 10px; }
 .heatmap-table table { border-collapse: collapse; width: 100%; color: white; }
 .heatmap-table th, .heatmap-table td { padding: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.2); }
@@ -537,14 +612,20 @@ canvas { max-height: 300px; margin: 20px 0; }
   .nav-btn, .teacher-btn, .tutorial-btn { padding: 6px 12px; font-size: 0.75rem; }
   .multiplication-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
   .table-checkbox-grid { grid-template-columns: repeat(3, 1fr); }
+  .concept-lesson .step-content { padding: 20px; min-height: 200px; }
+  .concept-lesson .step-content .step-visual .grid-cell { width: 34px; height: 34px; font-size: 1.1rem; }
+  .concept-lesson .step-content .step-visual .formula-display { font-size: 1.6rem; padding: 10px 18px; }
+  .concept-welcome h2 { font-size: 2rem; }
+  .concept-start-btn { font-size: 1.2rem; padding: 16px 32px; }
+  .concept-complete-overlay .complete-box { padding: 30px 25px; }
 }
 </style>
 </head>
 <body>
 
 <div class="stars" id="stars"></div>
-<div class="planet" style="width: 150px; height: 150px; background: radial-gradient(circle, #ffaa66, #aa6644); top: 10%; right: 5%; opacity: 0.3;"></div>
-<div class="planet" style="width: 80px; height: 80px; background: radial-gradient(circle, #66aaff, #3366aa); bottom: 15%; left: 3%; opacity: 0.4;"></div>
+<div class="planet" style="width:150px;height:150px;background:radial-gradient(circle,#ffaa66,#aa6644);top:10%;right:5%;opacity:0.3;"></div>
+<div class="planet" style="width:80px;height:80px;background:radial-gradient(circle,#66aaff,#3366aa);bottom:15%;left:3%;opacity:0.4;"></div>
 <div class="rocket">🚀</div>
 <div class="ufo">🛸</div>
 
@@ -552,8 +633,8 @@ canvas { max-height: 300px; margin: 20px 0; }
 
 <div class="modal" id="customModal">
   <div class="modal-content">
-    <h3 id="modalTitle" style="text-align:center; margin-bottom:20px;">✨ 自选乘法表 ✨</h3>
-    <p id="modalHint" style="text-align:center; margin-bottom:10px;">请至少选择3个乘法表 / Pilih sekurang-kurangnya 3 sifir</p>
+    <h3 id="modalTitle" style="text-align:center;margin-bottom:20px;">✨ 自选乘法表 ✨</h3>
+    <p id="modalHint" style="text-align:center;margin-bottom:10px;">请至少选择3个乘法表</p>
     <div class="table-checkbox-grid" id="tableCheckboxGrid"></div>
     <div class="modal-buttons">
       <button class="back-btn" id="cancelCustomBtn">◀ 取消</button>
@@ -564,8 +645,8 @@ canvas { max-height: 300px; margin: 20px 0; }
 
 <div class="progress-modal" id="progressModal">
   <div class="progress-content">
-    <h3 id="progressTitle" style="text-align:center; margin-bottom:20px;">📈 学生进步曲线</h3>
-    <canvas id="progressChart" style="max-height: 300px;"></canvas>
+    <h3 id="progressTitle" style="text-align:center;margin-bottom:20px;">📈 学生进步曲线</h3>
+    <canvas id="progressChart" style="max-height:300px;"></canvas>
     <div class="modal-buttons" style="margin-top:20px;">
       <button class="back-btn" id="closeProgressBtn">◀ 关闭</button>
     </div>
@@ -580,6 +661,7 @@ canvas { max-height: 300px; margin: 20px 0; }
   </div>
   <button class="lang-switch" id="langBtn">🌙 EN</button>
 
+  <!-- 学生信息页面 -->
   <div class="screen active" id="infoScreen">
     <h1 class="title" id="mainTitle">🚀 太空乘法任务 🌟</h1>
     <p class="subtitle" id="infoSubtitle">✦ 填写宇航员资料 ✦</p>
@@ -591,6 +673,51 @@ canvas { max-height: 300px; margin: 20px 0; }
     </div>
   </div>
 
+  <!-- 概念学习欢迎页面 -->
+  <div class="screen" id="welcomeScreen">
+    <div class="concept-welcome">
+      <h2 id="conceptWelcomeTitle">📚 乘法概念小课堂</h2>
+      <p id="conceptWelcomeDesc">先理解概念，再开始练习和挑战！</p>
+      <div class="highlight-box">
+        <div style="font-weight:bold;color:#ffcc88;margin-bottom:12px;font-size:1.2rem;" id="conceptWelcomeLearnTitle">🎯 你将学到：</div>
+        <ul id="conceptWelcomeLearnList">
+          <li>什么是乘法（重复相加）</li>
+          <li>乘法表的规律（×0, ×1, ×2, ×5, ×9）</li>
+          <li>交换律（4×3 = 3×4）</li>
+          <li>乘法表的宝藏（已知推未知）</li>
+        </ul>
+        <div style="margin-top:12px;color:#aaa;font-size:1rem;" id="conceptWelcomeTime">⏱️ 约 10 分钟</div>
+      </div>
+      <div id="conceptWelcomeStatus" style="display:none;" class="already-done">✅ 已完成概念学习！可以随时重新学习。</div>
+      <div class="btn-group">
+        <button class="concept-start-btn" id="conceptStartBtn">🚀 开始学习</button>
+        <button class="concept-skip-btn" id="conceptSkipBtn" disabled>⏭️ 跳过 <span id="skipCountdown">5</span>s</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 概念学习课程页面 -->
+  <div class="screen" id="conceptScreen">
+    <div class="concept-lesson">
+      <div class="lesson-header">
+        <span class="lesson-title" id="conceptLessonTitle">第一课：什么是乘法？</span>
+        <span class="lesson-progress" id="conceptLessonProgress">1 / 4</span>
+      </div>
+      <div class="progress-dots" id="conceptDots">
+        <span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+      <div class="step-content" id="conceptStepContent">
+        <!-- 由 JavaScript 动态渲染 -->
+      </div>
+      <div class="lesson-nav">
+        <button class="back-btn" id="conceptBackBtn" style="display:none;">◀ 上一步</button>
+        <button class="concept-next-btn" id="conceptNextBtn">下一步 ➤</button>
+        <button class="back-btn" id="conceptExitBtn">✕ 退出</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 等级选择页面 -->
   <div class="screen" id="levelScreen">
     <h1 class="title" id="levelTitle">🪐 选择任务等级 🪐</h1>
     <div class="level-buttons" id="levelButtons">
@@ -604,9 +731,10 @@ canvas { max-height: 300px; margin: 20px 0; }
       </button>
       <button class="smart-review-btn" id="smartReviewBtn" style="display:none;">🧠 智能复习</button>
     </div>
-    <button class="back-btn" id="backToInfoBtn">◀ 返回填写资料</button>
+    <button class="back-btn" id="backToWelcomeBtn">◀ 返回概念学习</button>
   </div>
 
+  <!-- 答题页面 -->
   <div class="screen" id="quizScreen">
     <div class="timer-container"><div class="timer-bar"><div class="timer-progress" id="timerProgress"></div></div></div>
     <div class="question" id="questionDisplay">3 × 4 = ?</div>
@@ -618,12 +746,12 @@ canvas { max-height: 300px; margin: 20px 0; }
     </div>
   </div>
 
+  <!-- 报告页面 -->
   <div class="screen" id="reportScreen">
     <h2 class="title" id="reportTitle">📋 星际评估报告 🌟</h2>
-    <div class="report-lang" style="display: flex; gap: 15px; justify-content: center; margin-bottom: 15px;">
-      <button class="report-btn active" data-lang="zh" style="background: #ffaa55; border: none; padding: 8px 20px; border-radius: 30px; cursor: pointer;">中文</button>
-      <button class="report-btn" data-lang="en" style="background: rgba(255,170,85,0.3); border: none; padding: 8px 20px; border-radius: 30px; cursor: pointer;">English</button>
-      <button class="report-btn" data-lang="ms" style="background: rgba(255,170,85,0.3); border: none; padding: 8px 20px; border-radius: 30px; cursor: pointer;">Bahasa Melayu</button>
+    <div class="report-lang" style="display:flex;gap:15px;justify-content:center;margin-bottom:15px;">
+      <button class="report-btn active" data-lang="zh" style="background:#ffaa55;border:none;padding:8px 20px;border-radius:30px;cursor:pointer;">中文</button>
+      <button class="report-btn" data-lang="en" style="background:rgba(255,170,85,0.3);border:none;padding:8px 20px;border-radius:30px;cursor:pointer;">English</button>
     </div>
     <div class="report-card" id="reportCard"></div>
     <div class="button-group">
@@ -634,15 +762,17 @@ canvas { max-height: 300px; margin: 20px 0; }
     </div>
   </div>
 
+  <!-- 错题本页面 -->
   <div class="screen" id="wrongQuestionsScreen">
     <h2 class="title" id="wrongTitle">📝 我的错题本 📝</h2>
     <div class="wrong-questions-card" id="wrongQuestionsCard"></div>
     <div class="button-group">
       <button class="back-btn" id="backToReportBtn">◀ 返回报告</button>
-      <button class="restart-btn" id="clearWrongBtn" style="background: linear-gradient(135deg, #ff6644, #cc4422);">🗑️ 清空错题本</button>
+      <button class="restart-btn" id="clearWrongBtn" style="background:linear-gradient(135deg,#ff6644,#cc4422);">🗑️ 清空错题本</button>
     </div>
   </div>
 
+  <!-- 排行榜页面 -->
   <div class="screen" id="rankScreen">
     <h2 class="title" id="rankTitle">🏆 星际排行榜 🏆</h2>
     <div class="teacher-card" id="rankCard"></div>
@@ -651,6 +781,7 @@ canvas { max-height: 300px; margin: 20px 0; }
     </div>
   </div>
 
+  <!-- 教师后台页面 -->
   <div class="screen" id="teacherScreen">
     <h2 class="title" id="teacherTitle">👩‍🏫 教师后台管理系统</h2>
     <div class="filter-bar">
@@ -658,35 +789,61 @@ canvas { max-height: 300px; margin: 20px 0; }
       <input type="text" id="filterClass" placeholder="筛选班级 / Filter Class">
       <input type="text" id="filterStudentName" placeholder="筛选姓名 / Filter Name">
       <button class="export-btn" id="exportBtn">📊 导出测试记录</button>
-      <button class="export-btn" id="exportStudentDetailBtn" style="background: linear-gradient(135deg, #aa66cc, #8844aa);">📋 导出学生详情</button>
-      <button class="export-btn" id="deleteDataBtn" style="background: linear-gradient(135deg, #ff4444, #cc2222);">🗑️ 删除数据</button>
+      <button class="export-btn" id="exportStudentDetailBtn" style="background:linear-gradient(135deg,#aa66cc,#8844aa);">📋 导出学生详情</button>
+      <button class="export-btn" id="deleteDataBtn" style="background:linear-gradient(135deg,#ff4444,#cc2222);">🗑️ 删除数据</button>
       <button class="back-btn" id="backFromTeacherBtn">◀ 返回首页</button>
     </div>
-    <div class="teacher-card" id="classComparisonCard" style="margin-bottom: 20px;">
-      <div style="font-weight:bold; margin-bottom: 15px;" id="classComparisonTitle">📊 班级成绩对比</div>
-      <canvas id="classComparisonChart" style="max-height: 300px;"></canvas>
+    <div class="teacher-card" id="classComparisonCard" style="margin-bottom:20px;">
+      <div style="font-weight:bold;margin-bottom:15px;" id="classComparisonTitle">📊 班级成绩对比</div>
+      <canvas id="classComparisonChart" style="max-height:300px;"></canvas>
     </div>
     <div class="teacher-card" id="teacherCard">
       <div class="loading">请输入密码进入教师后台 / Enter password to access</div>
     </div>
   </div>
 
+  <!-- 教程页面 -->
   <div class="screen" id="tutorialScreen">
     <h2 class="title" id="tutorialTitle">📖 使用教程</h2>
     <div class="tutorial-card">
       <div class="tutorial-step"><div class="tutorial-number">1</div><div><h3 id="step1Title">📝 填写宇航员资料</h3><p id="step1Desc">输入学校、班级和姓名，点击"发射启程"开始太空数学之旅！</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">2</div><div><h3 id="step2Title">🎯 选择任务等级</h3><p id="step2Desc">5种模式：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)，以及✨自选练习✨ - 可自由勾选需要练习的乘法表（至少选3个）！</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">3</div><div><h3 id="step3Title">⏱️ 限时答题</h3><p id="step3Desc">低级：20秒选择题；高级：25秒输入答案。自选模式：每个乘法表按难度出8题（简单2题+中等3题+困难3题），全面考察掌握程度！</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">4</div><div><h3 id="step4Title">📊 查看评估报告</h3><p id="step4Desc">测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议、排行榜，还有🏅成就徽章系统（完成测试、获得高分、错题清零等都可解锁徽章）！</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">5</div><div><h3 id="step5Title">📝 错题本功能</h3><p id="step5Desc">做错的题目自动收集到错题本，可以随时复习和重做！"错题终结者"徽章等你来拿！</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">6</div><div><h3 id="step6Title">🏆 排行榜与成就</h3><p id="step6Desc">查看全班排行榜，收集乘法大师徽章！教师还可以点击学生姓名查看其进步曲线图！</p></div></div>
-      <div style="text-align: center; margin-top: 20px;"><p id="tutorialFooter">🚀 太空乘法任务 - 让学习乘法变得有趣！ 🌟</p></div>
+      <div class="tutorial-step"><div class="tutorial-number">2</div><div><h3 id="step2Title">📚 乘法概念小课堂</h3><p id="step2Desc">首次登录先学习乘法概念（什么是乘法、规律、交换律），完成后才能进入练习模式！</p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">3</div><div><h3 id="step3Title">🎯 选择任务等级</h3><p id="step3Desc">5种模式：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)，以及✨自选练习✨ - 可自由勾选需要练习的乘法表（至少选3个）！</p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">4</div><div><h3 id="step4Title">⏱️ 限时答题</h3><p id="step4Desc">低级：20秒选择题；高级：25秒输入答案。自选模式：每个乘法表按难度出8题（简单2题+中等3题+困难3题），全面考察掌握程度！</p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">5</div><div><h3 id="step5Title">📊 查看评估报告</h3><p id="step5Desc">测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议、排行榜，还有🏅成就徽章系统！</p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">6</div><div><h3 id="step6Title">📝 错题本功能</h3><p id="step6Desc">做错的题目自动收集到错题本，可以随时复习和重做！</p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">7</div><div><h3 id="step7Title">🏆 排行榜与成就</h3><p id="step7Desc">查看全班排行榜，收集乘法大师徽章！教师还可以点击学生姓名查看其进步曲线图！</p></div></div>
+      <div style="text-align:center;margin-top:20px;"><p id="tutorialFooter">🚀 太空乘法任务 - 让学习乘法变得有趣！ 🌟</p></div>
     </div>
-    <button class="back-btn" id="backFromTutorialBtn" style="margin-top: 20px;">◀ 返回首页</button>
+    <button class="back-btn" id="backFromTutorialBtn" style="margin-top:20px;">◀ 返回首页</button>
+  </div>
+</div>
+
+<!-- 概念学习完成弹窗 -->
+<div class="concept-complete-overlay" id="conceptCompleteOverlay">
+  <div class="complete-box">
+    <div class="big-icon">🎉</div>
+    <h2 id="completeTitle">恭喜完成概念学习！</h2>
+    <p id="completeDesc">你已经掌握了乘法的核心概念，可以开始练习了！</p>
+    <div class="badge-unlock" id="completeBadge">🏅 获得徽章：📚 概念小达人</div>
+    <div class="btn-group">
+      <button class="start-btn" id="completeGoBtn">🚀 开始练习</button>
+      <button class="back-btn" id="completeReviewBtn">🔄 重新学习</button>
+    </div>
   </div>
 </div>
 
 <script>
+// ============================================================
+// 第 2 部分：完整的 JavaScript 将在此处继续
+// ============================================================
+</script>
+</body>
+</html>
+// ============================================================
+// 第 2 部分：完整的 JavaScript
+// ============================================================
+
 // ==================== Supabase 配置 ====================
 const SUPABASE_URL = 'https://nlvfaurgathcoftyucfw.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdmZhdXJnYXRoY29mdHl1Y2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MzI5NTksImV4cCI6MjA5MDQwODk1OX0.jTODbPq65I9LEz7950Qe1Lf9viT2He5UYxNO-tJfz5w';
@@ -699,7 +856,7 @@ function initSupabase() {
     supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('✅ Supabase 已连接');
   } else {
-    console.warn('⚠️ Supabase SDK 未加载，将使用本地存储');
+    console.warn('⚠️ Supabase SDK 未加载');
   }
 }
 setTimeout(initSupabase, 1000);
@@ -722,14 +879,31 @@ let wrongQuestions = [];
 let selectedTables = [];
 let classRecords = [];
 
+let conceptState = {
+  currentLesson: 0,
+  currentStep: 0,
+  completed: false,
+  checkCorrect: 0,
+  totalCheckCorrect: 0,
+  totalChecks: 0,
+  allCorrect: false,
+  stepHistory: [],
+  lessonCompleted: false
+};
+let skipTimer = null;
+let skipCountdown = 5;
+
 const student = { school: '', className: '', name: '' };
 
+// ==================== 学生成就数据 ====================
 let studentAchievements = {
   totalTests: 0,
   bestAccuracy: 0,
   wrongCleared: 0,
   rankFirst: 0,
   allTablesMastered: false,
+  conceptCompleted: false,
+  conceptScore: 0,
   badges: {
     first_test: false,
     one_star: false,
@@ -738,164 +912,141 @@ let studentAchievements = {
     wrong_clear: false,
     rank_champion: false,
     practice_master: false,
-    multiplication_master: false
+    multiplication_master: false,
+    concept_master: false
   }
 };
 
+// ==================== 徽章定义 ====================
 const BADGES = {
-  first_test: { name: '🚀 新手宇航员', nameEn: '🚀 Novice Astronaut', nameMs: '🚀 Angkasawan Baru', condition: (s) => s.totalTests >= 1 },
-  one_star: { name: '⭐ 一星学者', nameEn: '⭐ One Star Scholar', nameMs: '⭐ Sarjana Satu Bintang', condition: (s) => s.bestAccuracy >= 60 },
-  two_star: { name: '⭐⭐ 二星学者', nameEn: '⭐⭐ Two Star Scholar', nameMs: '⭐⭐ Sarjana Dua Bintang', condition: (s) => s.bestAccuracy >= 75 },
-  three_star: { name: '⭐⭐⭐ 三星学者', nameEn: '⭐⭐⭐ Three Star Scholar', nameMs: '⭐⭐⭐ Sarjana Tiga Bintang', condition: (s) => s.bestAccuracy >= 90 },
-  wrong_clear: { name: '📝 错题终结者', nameEn: '📝 Wrong Question Terminator', nameMs: '📝 Penamat Soalan Salah', condition: (s) => s.wrongCleared >= 1 },
-  rank_champion: { name: '🏆 排行榜冠军', nameEn: '🏆 Ranking Champion', nameMs: '🏆 Juara Carta', condition: (s) => s.rankFirst >= 1 },
-  practice_master: { name: '🔥 练习达人', nameEn: '🔥 Practice Master', nameMs: '🔥 Master Latihan', condition: (s) => s.totalTests >= 10 },
-  multiplication_master: { name: '🌟 乘法大师', nameEn: '🌟 Multiplication Master', nameMs: '🌟 Master Sifir', condition: (s) => s.allTablesMastered }
+  first_test: { name: '🚀 新手宇航员', nameEn: '🚀 Novice Astronaut', condition: (s) => s.totalTests >= 1 },
+  one_star: { name: '⭐ 一星学者', nameEn: '⭐ One Star Scholar', condition: (s) => s.bestAccuracy >= 60 },
+  two_star: { name: '⭐⭐ 二星学者', nameEn: '⭐⭐ Two Star Scholar', condition: (s) => s.bestAccuracy >= 75 },
+  three_star: { name: '⭐⭐⭐ 三星学者', nameEn: '⭐⭐⭐ Three Star Scholar', condition: (s) => s.bestAccuracy >= 90 },
+  wrong_clear: { name: '📝 错题终结者', nameEn: '📝 Wrong Question Terminator', condition: (s) => s.wrongCleared >= 1 },
+  rank_champion: { name: '🏆 排行榜冠军', nameEn: '🏆 Ranking Champion', condition: (s) => s.rankFirst >= 1 },
+  practice_master: { name: '🔥 练习达人', nameEn: '🔥 Practice Master', condition: (s) => s.totalTests >= 10 },
+  multiplication_master: { name: '🌟 乘法大师', nameEn: '🌟 Multiplication Master', condition: (s) => s.allTablesMastered },
+  concept_master: { name: '📚 概念小达人', nameEn: '📚 Concept Master', condition: (s) => s.conceptCompleted }
 };
 
-function loadAchievements() {
-  const saved = localStorage.getItem(`achievements_${student.school}_${student.className}_${student.name}`);
-  if (saved) {
-    studentAchievements = JSON.parse(saved);
-  }
-}
-
-function saveAchievements() {
-  localStorage.setItem(`achievements_${student.school}_${student.className}_${student.name}`, JSON.stringify(studentAchievements));
-}
-
-function updateBadges(accuracy, currentStats) {
-  studentAchievements.bestAccuracy = Math.max(studentAchievements.bestAccuracy, accuracy);
-  studentAchievements.totalTests++;
-  
-  let allMastered = true;
-  for (let table in currentStats) {
-    const item = currentStats[table];
-    const percent = item.total ? Math.round((item.correct / item.total) * 100) : 0;
-    if (percent < 85 && item.total > 0) {
-      allMastered = false;
-      break;
+// ==================== 概念课程数据 ====================
+const conceptLessons = {
+  zh: [
+    {
+      id: 1, title: '什么是乘法？', icon: '🌟', estimatedTime: '3 分钟',
+      steps: [
+        { type: 'concept', title: '乘法就是重复相加！', content: '3 × 4 就是 3 个 4 加在一起：4 + 4 + 4 = 12', visual: 'grid', gridData: { rows: 3, cols: 4 }, example: '4 + 4 + 4 = 12' },
+        { type: 'concept', title: '再看一个例子！', content: '5 × 3 就是 5 个 3 加在一起：3 + 3 + 3 + 3 + 3 = 15', visual: 'grid', gridData: { rows: 5, cols: 3 }, example: '3 + 3 + 3 + 3 + 3 = 15' },
+        { type: 'concept', title: '记住这个关键！', content: '"×" 就是 "个" 的意思。3 × 4 = 3 个 4', visual: 'none' }
+      ],
+      checkQuestions: [
+        { question: '4 × 3 等于什么？', options: ['4 + 4 + 4', '3 + 3 + 3 + 3', '4 × 4 × 4'], correct: 0 },
+        { question: '看这个点阵图（2行×5列），它代表什么？', options: ['2 + 2 + 2 + 2 + 2', '5 + 5', '2 × 2 × 2 × 2 × 2'], correct: 1 },
+        { question: '6 × 2 可以写成什么？', options: ['6 + 2', '2 + 2 + 2 + 2 + 2 + 2', '6 × 6'], correct: 1 }
+      ]
+    },
+    {
+      id: 2, title: '乘法表的规律', icon: '📊', estimatedTime: '3 分钟',
+      steps: [
+        { type: 'concept', title: '×0 规律', content: '任何数 × 0 = 0。比如 5 × 0 = 0，100 × 0 = 0', visual: 'none' },
+        { type: 'concept', title: '×1 规律', content: '任何数 × 1 = 它本身。比如 7 × 1 = 7', visual: 'none' },
+        { type: 'concept', title: '×2 规律', content: '×2 就是双倍。比如 6 × 2 = 12，就是 6 的两倍', visual: 'none' },
+        { type: 'concept', title: '×5 规律', content: '×5 的结果末尾总是 0 或 5：5, 10, 15, 20, 25...', visual: 'none' },
+        { type: 'concept', title: '×9 的手指法', content: '弯曲第 n 根手指，左边是十位，右边是个位！比如 3×9：弯曲第3根手指，左边2根，右边7根 → 27', visual: 'none' }
+      ],
+      checkQuestions: [
+        { question: '8 × 0 = ？', options: ['0', '8', '80'], correct: 0 },
+        { question: '7 × 2 = ？', options: ['7', '14', '21'], correct: 1 },
+        { question: '4 × 5 = ？', options: ['15', '20', '25'], correct: 1 }
+      ]
+    },
+    {
+      id: 3, title: '交换律', icon: '🔄', estimatedTime: '2 分钟',
+      steps: [
+        { type: 'concept', title: '什么是交换律？', content: '在乘法中，交换两个数的位置，答案不变。这叫交换律。', visual: 'none' },
+        { type: 'concept', title: '看这个例子！', content: '4 × 3 = 3 × 4 = 12', visual: 'grid', gridData: { rows: 3, cols: 4 }, example: '4 × 3 = 3 × 4 = 12' },
+        { type: 'concept', title: '实用技巧', content: '如果忘记 7 × 8，可以想 8 × 7，结果一样！', visual: 'none' }
+      ],
+      checkQuestions: [
+        { question: '6 × 4 和 4 × 6 的结果一样吗？', options: ['一样', '不一样'], correct: 0 },
+        { question: '以下哪个算式和 5 × 9 的结果相同？', options: ['9 × 5', '5 + 9', '9 + 5'], correct: 0 },
+        { question: '小明说 3 × 8 = 8 × 3，他说得对吗？', options: ['对', '不对'], correct: 0 }
+      ]
+    },
+    {
+      id: 4, title: '乘法表的宝藏', icon: '💎', estimatedTime: '2 分钟',
+      steps: [
+        { type: 'concept', title: '已知推未知', content: '知道 6 × 5 = 30，那么 6 × 7 = 6 × 5 + 6 × 2 = 30 + 12 = 42', visual: 'none' },
+        { type: 'concept', title: '乘法表的对称性', content: '乘法表对角线的两边是对称的！4 × 7 = 28，7 × 4 = 28', visual: 'none' },
+        { type: 'concept', title: '发现规律', content: '如果我们知道 4 × 6 = 24，我们还知道 6 × 4 = 24！', visual: 'none' }
+      ],
+      checkQuestions: [
+        { question: '如果知道 7 × 6 = 42，怎么算 7 × 8？', options: ['42 + 7 + 7 = 56', '42 × 2 = 84', '42 + 8 = 50'], correct: 0 },
+        { question: '看乘法表：4 × 7 = 28，那么 7 × 4 = ？', options: ['24', '28', '32'], correct: 1 },
+        { question: '如果知道 8 × 5 = 40，怎么算 8 × 6？', options: ['40 + 8 = 48', '40 + 5 = 45', '40 × 6 = 240'], correct: 0 }
+      ]
     }
-  }
-  if (allMastered && Object.keys(currentStats).length >= 3) {
-    studentAchievements.allTablesMastered = true;
-  }
-  
-  for (const [key, badge] of Object.entries(BADGES)) {
-    if (!studentAchievements.badges[key] && badge.condition(studentAchievements)) {
-      studentAchievements.badges[key] = true;
+  ],
+  en: [
+    {
+      id: 1, title: 'What is Multiplication?', icon: '🌟', estimatedTime: '3 min',
+      steps: [
+        { type: 'concept', title: 'Multiplication is repeated addition!', content: '3 × 4 means 3 groups of 4: 4 + 4 + 4 = 12', visual: 'grid', gridData: { rows: 3, cols: 4 }, example: '4 + 4 + 4 = 12' },
+        { type: 'concept', title: 'Another example!', content: '5 × 3 means 5 groups of 3: 3 + 3 + 3 + 3 + 3 = 15', visual: 'grid', gridData: { rows: 5, cols: 3 }, example: '3 + 3 + 3 + 3 + 3 = 15' },
+        { type: 'concept', title: 'Remember this key point!', content: '"×" means "groups of". 3 × 4 = 3 groups of 4', visual: 'none' }
+      ],
+      checkQuestions: [
+        { question: 'What does 4 × 3 equal?', options: ['4 + 4 + 4', '3 + 3 + 3 + 3', '4 × 4 × 4'], correct: 0 },
+        { question: 'Looking at this grid (2 rows × 5 cols), what does it represent?', options: ['2 + 2 + 2 + 2 + 2', '5 + 5', '2 × 2 × 2 × 2 × 2'], correct: 1 },
+        { question: 'What can 6 × 2 be written as?', options: ['6 + 2', '2 + 2 + 2 + 2 + 2 + 2', '6 × 6'], correct: 1 }
+      ]
+    },
+    {
+      id: 2, title: 'Times Table Patterns', icon: '📊', estimatedTime: '3 min',
+      steps: [
+        { type: 'concept', title: '×0 Pattern', content: 'Any number × 0 = 0. For example: 5 × 0 = 0, 100 × 0 = 0', visual: 'none' },
+        { type: 'concept', title: '×1 Pattern', content: 'Any number × 1 = itself. For example: 7 × 1 = 7', visual: 'none' },
+        { type: 'concept', title: '×2 Pattern', content: '×2 means double. For example: 6 × 2 = 12, which is double 6', visual: 'none' },
+        { type: 'concept', title: '×5 Pattern', content: '×5 always ends in 0 or 5: 5, 10, 15, 20, 25...', visual: 'none' },
+        { type: 'concept', title: '×9 Finger Trick', content: 'Bend the nth finger. Left side = tens, right side = ones! For 3×9: bend 3rd finger, 2 on left, 7 on right → 27', visual: 'none' }
+      ],
+      checkQuestions: [
+        { question: '8 × 0 = ?', options: ['0', '8', '80'], correct: 0 },
+        { question: '7 × 2 = ?', options: ['7', '14', '21'], correct: 1 },
+        { question: '4 × 5 = ?', options: ['15', '20', '25'], correct: 1 }
+      ]
+    },
+    {
+      id: 3, title: 'Commutative Property', icon: '🔄', estimatedTime: '2 min',
+      steps: [
+        { type: 'concept', title: 'What is the Commutative Property?', content: 'In multiplication, swapping the two numbers gives the same answer. This is the commutative property.', visual: 'none' },
+        { type: 'concept', title: 'Look at this example!', content: '4 × 3 = 3 × 4 = 12', visual: 'grid', gridData: { rows: 3, cols: 4 }, example: '4 × 3 = 3 × 4 = 12' },
+        { type: 'concept', title: 'Helpful Tip', content: 'If you forget 7 × 8, just think 8 × 7 — the answer is the same!', visual: 'none' }
+      ],
+      checkQuestions: [
+        { question: 'Are 6 × 4 and 4 × 6 the same?', options: ['Yes', 'No'], correct: 0 },
+        { question: 'Which expression has the same result as 5 × 9?', options: ['9 × 5', '5 + 9', '9 + 5'], correct: 0 },
+        { question: 'Xiao Ming says 3 × 8 = 8 × 3. Is he right?', options: ['Yes', 'No'], correct: 0 }
+      ]
+    },
+    {
+      id: 4, title: 'Treasures of the Times Table', icon: '💎', estimatedTime: '2 min',
+      steps: [
+        { type: 'concept', title: 'Known to Unknown', content: 'If you know 6 × 5 = 30, then 6 × 7 = 6 × 5 + 6 × 2 = 30 + 12 = 42', visual: 'none' },
+        { type: 'concept', title: 'Symmetry in the Times Table', content: 'The times table is symmetrical! 4 × 7 = 28 and 7 × 4 = 28', visual: 'none' },
+        { type: 'concept', title: 'Discover Patterns', content: 'If we know 4 × 6 = 24, we also know 6 × 4 = 24!', visual: 'none' }
+      ],
+      checkQuestions: [
+        { question: 'If 7 × 6 = 42, how do you calculate 7 × 8?', options: ['42 + 7 + 7 = 56', '42 × 2 = 84', '42 + 8 = 50'], correct: 0 },
+        { question: 'In the times table: 4 × 7 = 28, what is 7 × 4 = ?', options: ['24', '28', '32'], correct: 1 },
+        { question: 'If 8 × 5 = 40, how do you calculate 8 × 6?', options: ['40 + 8 = 48', '40 + 5 = 45', '40 × 6 = 240'], correct: 0 }
+      ]
     }
-  }
-  saveAchievements();
-}
+  ]
+};
 
-function getEarnedBadges() {
-  const badges = [];
-  for (const [key, badge] of Object.entries(BADGES)) {
-    if (studentAchievements.badges[key]) {
-      let name = badge.name;
-      if (currentLang === 'en') name = badge.nameEn;
-      else if (currentLang === 'ms') name = badge.nameMs;
-      badges.push({ key, name });
-    }
-  }
-  return badges;
-}
-
-function renderBadges() {
-  const badges = getEarnedBadges();
-  if (badges.length === 0) return '';
-  let html = '<div class="badges-container"><div style="font-weight:bold; width:100%; margin-bottom:5px;">🏅 ' + (currentLang === 'zh' ? '获得的徽章' : (currentLang === 'en' ? 'Earned Badges' : 'Lencana Diperoleh')) + ':</div>';
-  badges.forEach(b => {
-    html += `<span class="badge-item unlocked">${b.name}</span>`;
-  });
-  html += '</div>';
-  return html;
-}
-
-// ==================== 错题本功能 ====================
-function loadWrongQuestions() {
-  const saved = localStorage.getItem(`wrongQuestions_${student.school}_${student.className}_${student.name}`);
-  wrongQuestions = saved ? JSON.parse(saved) : [];
-}
-
-function saveWrongQuestions() {
-  localStorage.setItem(`wrongQuestions_${student.school}_${student.className}_${student.name}`, JSON.stringify(wrongQuestions));
-}
-
-function addWrongQuestion(question, userAnswer) {
-  wrongQuestions.push({
-    question: question,
-    userAnswer: userAnswer,
-    correctAnswer: question.ans,
-    timestamp: new Date().toISOString()
-  });
-  saveWrongQuestions();
-}
-
-function clearWrongQuestions() {
-  const t = texts[currentLang];
-  if (confirm(t.clearWrong + '？')) {
-    if (wrongQuestions.length > 0) {
-      studentAchievements.wrongCleared++;
-      saveAchievements();
-    }
-    wrongQuestions = [];
-    saveWrongQuestions();
-    renderWrongQuestions();
-  }
-}
-
-function renderWrongQuestions() {
-  const t = texts[currentLang];
-  const container = document.getElementById('wrongQuestionsCard');
-  if (!container) return;
-  
-  if (wrongQuestions.length === 0) {
-    container.innerHTML = `<div class="loading">🎉 ${t.noWrongQuestions}</div>`;
-    return;
-  }
-  
-  let html = `<div class="class-list">`;
-  wrongQuestions.forEach((item, idx) => {
-    const date = new Date(item.timestamp).toLocaleString();
-    html += `
-      <div class="wrong-question-item">
-        <div>
-          <strong>${item.question.a} × ${item.question.b} = ?</strong><br>
-          <span style="color: #ff9090;">${currentLang === 'zh' ? '你的答案' : 'Your answer'}: ${item.userAnswer}</span><br>
-          <span style="color: #90ff90;">${currentLang === 'zh' ? '正确答案' : 'Correct answer'}: ${item.correctAnswer}</span><br>
-          <span style="font-size: 0.8rem;">${date}</span>
-        </div>
-        <button class="practice-single-btn" data-idx="${idx}" style="background: #ffaa55; border: none; padding: 8px 16px; border-radius: 30px; cursor: pointer;">${t.practiceThis}</button>
-      </div>
-    `;
-  });
-  html += `</div>`;
-  container.innerHTML = html;
-  
-  document.querySelectorAll('.practice-single-btn').forEach(btn => {
-    btn.onclick = () => {
-      const idx = parseInt(btn.dataset.idx);
-      startPracticeQuestion(wrongQuestions[idx].question);
-    };
-  });
-}
-
-function startPracticeQuestion(question) {
-  currentLevel = 5;
-  questions = [question];
-  currentIndex = 0;
-  correctCount = 0;
-  gameStarted = true;
-  stats = {};
-  stats[question.a] = { total: 1, correct: 0, wrongQuestions: [] };
-  document.getElementById('wrongQuestionsScreen').classList.remove('active');
-  document.getElementById('quizScreen').classList.add('active');
-  showCurrentQuestion();
-}
-
-// ==================== 多语言词库（完整翻译） ====================
+// ==================== 多语言词库 ====================
 const texts = {
   zh: {
     mainTitle: '🚀 太空乘法任务 🌟',
@@ -913,6 +1064,7 @@ const texts = {
     tutorialBtn: '📖 使用教程',
     backToInfo: '◀ 返回填写资料',
     backToLevel: '◀ 返回选等级',
+    backToWelcome: '◀ 返回概念学习',
     teacherTitle: '👩‍🏫 教师后台管理系统',
     tutorialTitle: '📖 使用教程',
     filterSchool: '筛选学校',
@@ -965,16 +1117,18 @@ const texts = {
     suggestionStrongTables: '已经掌握的乘法表',
     step1Title: '📝 填写宇航员资料',
     step1Desc: '输入学校、班级和姓名，点击"发射启程"开始太空数学之旅！',
-    step2Title: '🎯 选择任务等级',
-    step2Desc: '5种模式：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)，以及✨自选练习✨ - 可自由勾选需要练习的乘法表（至少选3个）！',
-    step3Title: '⏱️ 限时答题',
-    step3Desc: '低级：20秒选择题；高级：25秒输入答案。自选模式：每个乘法表按难度出8题（简单2题+中等3题+困难3题），全面考察掌握程度！',
-    step4Title: '📊 查看评估报告',
-    step4Desc: '测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议、排行榜，还有🏅成就徽章系统（完成测试、获得高分、错题清零等都可解锁徽章）！',
-    step5Title: '📝 错题本功能',
-    step5Desc: '做错的题目自动收集到错题本，可以随时复习和重做！"错题终结者"徽章等你来拿！',
-    step6Title: '🏆 排行榜与成就',
-    step6Desc: '查看全班排行榜，收集乘法大师徽章！教师还可以点击学生姓名查看其进步曲线图！',
+    step2Title: '📚 乘法概念小课堂',
+    step2Desc: '首次登录先学习乘法概念（什么是乘法、规律、交换律），完成后才能进入练习模式！',
+    step3Title: '🎯 选择任务等级',
+    step3Desc: '5种模式：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)，以及✨自选练习✨ - 可自由勾选需要练习的乘法表（至少选3个）！',
+    step4Title: '⏱️ 限时答题',
+    step4Desc: '低级：20秒选择题；高级：25秒输入答案。自选模式：每个乘法表按难度出8题（简单2题+中等3题+困难3题），全面考察掌握程度！',
+    step5Title: '📊 查看评估报告',
+    step5Desc: '测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议、排行榜，还有🏅成就徽章系统！',
+    step6Title: '📝 错题本功能',
+    step6Desc: '做错的题目自动收集到错题本，可以随时复习和重做！',
+    step7Title: '🏆 排行榜与成就',
+    step7Desc: '查看全班排行榜，收集乘法大师徽章！教师还可以点击学生姓名查看其进步曲线图！',
     tutorialFooter: '🚀 太空乘法任务 - 让学习乘法变得有趣！ 🌟',
     feedback: '📝 填写问卷',
     customTitle: '✨ 自选乘法表 ✨',
@@ -999,10 +1153,10 @@ const texts = {
     practiceThis: '📝 练习此题',
     errorAnalysisTitle: '📊 错误分析',
     noErrors: '🎉 没有错误！太棒了！',
-    errorTypeTimeout: '超时未答',
-    errorTypeConfusion: '口诀混淆',
-    errorTypeCalc: '计算错误',
-    errorTypeDigit: '数字倒置',
+    errorTypeTimeout: '⏰ 超时未答',
+    errorTypeConfusion: '🔄 口诀混淆',
+    errorTypeCalc: '🧮 计算错误',
+    errorTypeDigit: '🔢 数字倒置',
     commonErrors: '错误类型',
     correctAnswerLabel: '正确答案',
     radarChartTitle: '📊 能力雷达图',
@@ -1016,7 +1170,6 @@ const texts = {
     weakTablesAdvice: '⚠️ 班级整体在以下乘法表表现较弱：',
     noWeakTablesAdvice: '🎉 班级整体乘法表掌握良好，继续保持！',
     tableLabel: (n) => `${n} 的乘法表`,
-    // ✅ 新增翻译
     levelPrefix: '等级',
     currentTest: '本次测试',
     certLevel1: '新手宇航员',
@@ -1025,6 +1178,26 @@ const texts = {
     certLevel4: '银河霸主',
     certLevel5: '错题练习',
     certLevel6: '自选练习',
+    conceptWelcomeTitle: '📚 乘法概念小课堂',
+    conceptWelcomeDesc: '先理解概念，再开始练习和挑战！',
+    conceptWelcomeLearnTitle: '🎯 你将学到：',
+    conceptWelcomeLearnList: ['什么是乘法（重复相加）', '乘法表的规律（×0, ×1, ×2, ×5, ×9）', '交换律（4×3 = 3×4）', '乘法表的宝藏（已知推未知）'],
+    conceptWelcomeTime: '⏱️ 约 10 分钟',
+    conceptWelcomeDone: '✅ 已完成概念学习！可以随时重新学习。',
+    conceptStartBtn: '🚀 开始学习',
+    conceptSkipBtn: '⏭️ 跳过',
+    conceptBackBtn: '◀ 上一步',
+    conceptNextBtn: '下一步 ➤',
+    conceptExitBtn: '✕ 退出',
+    conceptCompleteTitle: '🎉 恭喜完成概念学习！',
+    conceptCompleteDesc: '你已经掌握了乘法的核心概念，可以开始练习了！',
+    conceptCompleteBadge: '🏅 获得徽章：📚 概念小达人',
+    conceptCompleteGo: '🚀 开始练习',
+    conceptCompleteReview: '🔄 重新学习',
+    conceptCheckTitle: '✅ 检查理解',
+    conceptCheckCorrect: '✅ 回答正确！',
+    conceptCheckWrong: '❌ 再想想，答案是 ',
+    conceptCheckTryAgain: '再试一次',
   },
   en: {
     mainTitle: '🚀 Space Math Mission 🌟',
@@ -1042,6 +1215,7 @@ const texts = {
     tutorialBtn: '📖 Tutorial',
     backToInfo: '◀ Back to Info',
     backToLevel: '◀ Back to Levels',
+    backToWelcome: '◀ Back to Concept Learning',
     teacherTitle: '👩‍🏫 Teacher Dashboard',
     tutorialTitle: '📖 Tutorial',
     filterSchool: 'Filter School',
@@ -1094,16 +1268,18 @@ const texts = {
     suggestionStrongTables: 'Tables mastered',
     step1Title: '📝 Fill in Astronaut Info',
     step1Desc: 'Enter school, class and name, then click "Launch" to start!',
-    step2Title: '🎯 Select Mission Level',
-    step2Desc: '5 modes: Novice, Moon Explorer, Solar Warrior, Galaxy Master, plus ✨Custom Practice✨ - select at least 3 tables!',
-    step3Title: '⏱️ Timed Questions',
-    step3Desc: 'Easy: 20s multiple choice; Hard: 25s input. Custom mode: 8 questions per table (2 easy + 3 medium + 3 hard)',
-    step4Title: '📊 View Assessment Report',
-    step4Desc: 'Shows mastery, suggestions, ranking, and 🏅achievement badges!',
-    step5Title: '📝 Wrong Questions Book',
-    step5Desc: 'Wrong answers saved automatically. Review anytime!',
-    step6Title: '🏆 Ranking & Achievements',
-    step6Desc: 'View class ranking and collect badges! Teachers can view student progress charts!',
+    step2Title: '📚 Concept Classroom',
+    step2Desc: 'First, learn multiplication concepts (what is multiplication, patterns, commutative property), then unlock practice mode!',
+    step3Title: '🎯 Select Mission Level',
+    step3Desc: '5 modes: Novice, Moon Explorer, Solar Warrior, Galaxy Master, plus ✨Custom Practice✨ - select at least 3 tables!',
+    step4Title: '⏱️ Timed Questions',
+    step4Desc: 'Easy: 20s multiple choice; Hard: 25s input. Custom mode: 8 questions per table (2 easy + 3 medium + 3 hard)',
+    step5Title: '📊 View Assessment Report',
+    step5Desc: 'Shows mastery, suggestions, ranking, and 🏅achievement badges!',
+    step6Title: '📝 Wrong Questions Book',
+    step6Desc: 'Wrong answers saved automatically. Review anytime!',
+    step7Title: '🏆 Ranking & Achievements',
+    step7Desc: 'View class ranking and collect badges! Teachers can view student progress charts!',
     tutorialFooter: '🚀 Space Math Mission - Making multiplication fun! 🌟',
     feedback: '📝 Feedback',
     customTitle: '✨ Custom Selection ✨',
@@ -1128,10 +1304,10 @@ const texts = {
     practiceThis: '📝 Practice',
     errorAnalysisTitle: '📊 Error Analysis',
     noErrors: '🎉 No errors! Great job!',
-    errorTypeTimeout: 'Timeout',
-    errorTypeConfusion: 'Table Confusion',
-    errorTypeCalc: 'Calculation Error',
-    errorTypeDigit: 'Digit Reversal',
+    errorTypeTimeout: '⏰ Timeout',
+    errorTypeConfusion: '🔄 Table Confusion',
+    errorTypeCalc: '🧮 Calculation Error',
+    errorTypeDigit: '🔢 Digit Reversal',
     commonErrors: 'Error Type',
     correctAnswerLabel: 'Correct Answer',
     radarChartTitle: '📊 Ability Radar Chart',
@@ -1145,7 +1321,6 @@ const texts = {
     weakTablesAdvice: '⚠️ Class overall weak in these tables: ',
     noWeakTablesAdvice: '🎉 Class overall mastery is good, keep it up!',
     tableLabel: (n) => `${n} Times Table`,
-    // ✅ 新增翻译
     levelPrefix: 'Level',
     currentTest: 'Current Test',
     certLevel1: 'Novice Astronaut',
@@ -1154,230 +1329,60 @@ const texts = {
     certLevel4: 'Galaxy Master',
     certLevel5: 'Wrong Questions Practice',
     certLevel6: 'Custom Practice',
-  },
-  ms: {
-    mainTitle: '🚀 Misi Matematik Angkasa 🌟',
-    infoSubtitle: '✦ Isi Maklumat Angkasawan ✦',
-    schoolLabel: '🏫 Sekolah',
-    classLabel: '📚 Kelas',
-    nameLabel: '👩‍🚀 Nama',
-    startBtn: '⚡ Lancar ⚡',
-    levelTitle: '🪐 Pilih Tahap Misi 🪐',
-    submitBtn: '✨ Hantar ✨',
-    reportTitle: '📋 Laporan Penilaian Bintang 🌟',
-    restartBtn: '🔄 Cuba Semula 🔄',
-    homeBtn: '🏠 Laman Utama',
-    teacherBtn: '👩‍🏫 Panel Guru',
-    tutorialBtn: '📖 Tutorial',
-    backToInfo: '◀ Kembali ke Maklumat',
-    backToLevel: '◀ Kembali ke Tahap',
-    teacherTitle: '👩‍🏫 Sistem Pengurusan Panel Guru',
-    tutorialTitle: '📖 Tutorial',
-    filterSchool: 'Tapis Sekolah',
-    filterClass: 'Tapis Kelas',
-    filterStudentName: 'Tapis Nama',
-    exportRecords: '📊 Eksport Rekod',
-    exportDetails: '📋 Eksport Butiran',
-    backHome: '◀ Kembali ke Laman Utama',
-    totalStudents: 'Jumlah Murid',
-    totalTests: 'Jumlah Ujian',
-    avgAccuracy: 'Purata Ketepatan',
-    highestScore: 'Skor Tertinggi',
-    timesTableMastery: 'Butiran Penguasaan Sifir (0-12)',
-    recentRecords: '📋 Rekod Terkini',
-    noData: 'Tiada data.',
-    loading: 'Memuatkan...',
-    enterPassword: 'Masukkan kata laluan',
-    wrongPassword: '❌ Kata laluan salah!',
-    exportSuccess: (c) => `✅ Dieksport ${c} rekod`,
-    exportStudentSuccess: (c) => `✅ Dieksport butiran ${c} murid`,
-    noDataToExport: 'Tiada data',
-    testLabel: 'Ujian',
-    certTitle: '🏆 Sijil Master Sifir 🏆',
-    certAwardTo: 'Dianugerahkan kepada',
-    certLevel: 'Tahap',
-    certDate: 'Tarikh',
-    certMessage: 'Anda adalah Navigator Angkasa Sejati!',
-    classComparison: '📊 Perbandingan Prestasi Kelas',
-    level1Name: '🌟 Angkasawan Baru',
-    level1Desc: 'Sifir 2',
-    level2Name: '🌙 Penjelajah Bulan',
-    level2Desc: 'Sifir 0-5',
-    level3Name: '☀️ Pahlawan Matahari',
-    level3Desc: 'Sifir 2-9',
-    level4Name: '🌀 Penguasa Galaksi',
-    level4Desc: 'Sifir 0-12',
-    wrongTitle: '📝 Soalan Salah Saya',
-    practiceWrong: '📝 Latihan Soalan Salah',
-    clearWrong: '🗑️ Kosongkan',
-    backToReport: '◀ Kembali ke Laporan',
-    noWrongQuestions: '🎉 Tahniah! Tiada soalan salah!',
-    rankTitle: '🏆 Carta Kedudukan Bintang',
-    yourRank: 'Kedudukan Anda',
-    rankNotRanked: 'Belum dalam carta, teruskan usaha!',
-    suggestionTitle: '💡 Cadangan Pembelajaran',
-    suggestionExcellent: '🎉 Cemerlang! Anda pakar sifir!',
-    suggestionGood: '👍 Bagus! Latih kelemahan anda!',
-    suggestionNeedPractice: '💪 Teruskan usaha! Lebih latihan!',
-    suggestionWeakTables: 'Sifir perlu diperkuatkan',
-    suggestionStrongTables: 'Sifir telah dikuasai',
-    step1Title: '📝 Isi Maklumat Angkasawan',
-    step1Desc: 'Masukkan sekolah, kelas dan nama, klik "Lancar" untuk mulakan!',
-    step2Title: '🎯 Pilih Tahap Misi',
-    step2Desc: '5 mod: Novis, Penjelajah Bulan, Pahlawan Matahari, Penguasa Galaksi, dan ✨Pilihan Sendiri✨ - pilih sekurang-kurangnya 3 sifir!',
-    step3Title: '⏱️ Soalan Berhad Masa',
-    step3Desc: 'Mudah: 20 saat; Sukar: 25 saat. Mod pilihan sendiri: 8 soalan setiap sifir (2 mudah + 3 sederhana + 3 sukar)',
-    step4Title: '📊 Lihat Laporan Penilaian',
-    step4Desc: 'Tunjukkan penguasaan, cadangan, carta, dan 🏅lencana pencapaian!',
-    step5Title: '📝 Buku Soalan Salah',
-    step5Desc: 'Jawapan salah disimpan. Ulang kaji bila-bila!',
-    step6Title: '🏆 Carta & Pencapaian',
-    step6Desc: 'Lihat carta kelas dan kumpul lencana! Guru boleh lihat carta kemajuan murid!',
-    tutorialFooter: '🚀 Misi Matematik Angkasa - Pembelajaran sifir menyeronokkan! 🌟',
-    feedback: '📝 Borang Maklum Balas',
-    customTitle: '✨ Pilihan Sendiri ✨',
-    customHint: 'Sila pilih sekurang-kurangnya 3 sifir',
-    schoolPlaceholder: 'Galaxy Primary School',
-    classPlaceholder: 'Star Class 5A',
-    namePlaceholder: 'Little Astronaut',
-    customLevelDesc: 'Custom Tables',
-    customLevelLabel: '✨ Latihan Pilihan Sendiri',
-    deleteData: '🗑️ Padam Data',
-    cancelBtn: '◀ Batal',
-    confirmCustomBtn: '✅ Mula Latihan',
-    langSwitchText: '🌙 EN',
-    progressTitle: '📈 Kemajuan Murid',
-    closeBtn: '◀ Tutup',
-    loadingRanking: 'Memuatkan...',
-    loadFailed: 'Gagal memuat',
-    supabaseNotConnected: '⚠️ Supabase tidak disambungkan',
-    certFooter: 'Misi Matematik Angkasa',
-    printCert: '🖨️ Cetak Sijil',
-    closeCert: '❌ Tutup',
-    practiceThis: '📝 Latihan',
-    errorAnalysisTitle: '📊 Analisis Kesilapan',
-    noErrors: '🎉 Tiada kesilapan! Syabas!',
-    errorTypeTimeout: 'Tamat Masa',
-    errorTypeConfusion: 'Kekeliruan Sifir',
-    errorTypeCalc: 'Ralat Pengiraan',
-    errorTypeDigit: 'Terbalik Digit',
-    commonErrors: 'Jenis Kesilapan',
-    correctAnswerLabel: 'Jawapan Betul',
-    radarChartTitle: '📊 Carta Radar Keupayaan',
-    radarLabel: 'Penguasaan (%)',
-    predictedScore: '📈 Ramalan Skor Seterusnya',
-    smartReviewBtn: '🧠 Ulang Kaji Pintar',
-    smartReviewNoData: 'Tiada soalan salah untuk ulang kaji!',
-    classHeatmapTitle: '🔥 Peta Haba Sifir Kelas',
-    studentColumn: 'Murid',
-    diagnosisTitle: '🏥 Diagnosis Kelas',
-    weakTablesAdvice: '⚠️ Kelas lemah dalam sifir berikut: ',
-    noWeakTablesAdvice: '🎉 Penguasaan sifir kelas secara keseluruhan baik, teruskan!',
-    tableLabel: (n) => `Sifir ${n}`,
-    // ✅ 新增翻译
-    levelPrefix: 'Tahap',
-    currentTest: 'Ujian Ini',
-    certLevel1: 'Angkasawan Baru',
-    certLevel2: 'Penjelajah Bulan',
-    certLevel3: 'Pahlawan Matahari',
-    certLevel4: 'Penguasa Galaksi',
-    certLevel5: 'Latihan Soalan Salah',
-    certLevel6: 'Latihan Pilihan Sendiri',
+    conceptWelcomeTitle: '📚 Concept Classroom',
+    conceptWelcomeDesc: 'Learn the concepts first, then start practicing!',
+    conceptWelcomeLearnTitle: '🎯 You will learn:',
+    conceptWelcomeLearnList: ['What is multiplication (repeated addition)', 'Times table patterns (×0, ×1, ×2, ×5, ×9)', 'Commutative property (4×3 = 3×4)', 'Treasures of the times table (known to unknown)'],
+    conceptWelcomeTime: '⏱️ About 10 minutes',
+    conceptWelcomeDone: '✅ Concept learning completed! You can review anytime.',
+    conceptStartBtn: '🚀 Start Learning',
+    conceptSkipBtn: '⏭️ Skip',
+    conceptBackBtn: '◀ Back',
+    conceptNextBtn: 'Next ➤',
+    conceptExitBtn: '✕ Exit',
+    conceptCompleteTitle: '🎉 Congratulations!',
+    conceptCompleteDesc: 'You have mastered the core concepts of multiplication! Ready to practice?',
+    conceptCompleteBadge: '🏅 Badge Earned: 📚 Concept Master',
+    conceptCompleteGo: '🚀 Start Practicing',
+    conceptCompleteReview: '🔄 Review Again',
+    conceptCheckTitle: '✅ Check Your Understanding',
+    conceptCheckCorrect: '✅ Correct!',
+    conceptCheckWrong: '❌ Try again. The answer is ',
+    conceptCheckTryAgain: 'Try Again',
   }
 };
 
 // ==================== reportTexts ====================
 const reportTexts = {
-  zh: { 
-    school: "🏫 学校", 
-    class: "📚 班级", 
-    name: "👩‍🚀 姓名", 
-    date: "📅 测试日期", 
-    level: "🎯 等级", 
-    total: "📊 总题数", 
-    correct: "✅ 答对", 
-    accuracy: "⭐ 正确率", 
-    timesTable: "的乘法表", 
-    mastered: "🚀 已掌握", 
-    basic: "✨ 基本掌握", 
-    needs: "🌱 需加强", 
-    masterMsg: "🎉 太棒了！你是真正的星际领航员！🚀✨", 
-    goodMsg: "⭐️ 表现优秀！继续向宇宙深处探索！🌌", 
-    tryMsg: "💪 再练习几次，下次一定能征服银河系！🌟", 
-    history: "📜 历史成绩记录", 
-    previous: "📈 上次成绩", 
-    improvement: "🚀 进步幅度", 
-    clearHistory: "🗑️ 清除我的历史记录",
-    predictedScore: "📈 预计下次成绩",
-    errorAnalysisTitle: "📊 错误分析",
-    noErrors: "🎉 没有错误！太棒了！",
-    radarChartTitle: "📊 能力雷达图",
-    commonErrors: "错误类型",
-    correctAnswerLabel: "正确答案",
-    // ✅ 新增
-    levelPrefix: "等级",
+  zh: {
+    school: "🏫 学校", class: "📚 班级", name: "👩‍🚀 姓名", date: "📅 测试日期", level: "🎯 等级",
+    total: "📊 总题数", correct: "✅ 答对", accuracy: "⭐ 正确率", timesTable: "的乘法表",
+    mastered: "🚀 已掌握", basic: "✨ 基本掌握", needs: "🌱 需加强",
+    masterMsg: "🎉 太棒了！你是真正的星际领航员！🚀✨",
+    goodMsg: "⭐️ 表现优秀！继续向宇宙深处探索！🌌",
+    tryMsg: "💪 再练习几次，下次一定能征服银河系！🌟",
+    history: "📜 历史成绩记录", previous: "📈 上次成绩", improvement: "🚀 进步幅度",
+    clearHistory: "🗑️ 清除我的历史记录", predictedScore: "📈 预计下次成绩",
+    errorAnalysisTitle: "📊 错误分析", noErrors: "🎉 没有错误！太棒了！",
+    radarChartTitle: "📊 能力雷达图", commonErrors: "错误类型", correctAnswerLabel: "正确答案",
+    levelPrefix: "等级"
   },
-  en: { 
-    school: "🏫 School", 
-    class: "📚 Class", 
-    name: "👨‍🚀 Name", 
-    date: "📅 Date", 
-    level: "🎯 Level", 
-    total: "📊 Total", 
-    correct: "✅ Correct", 
-    accuracy: "⭐ Accuracy", 
-    timesTable: " Times Table", 
-    mastered: "🚀 Mastered", 
-    basic: "✨ Good", 
-    needs: "🌱 Need Practice", 
-    masterMsg: "🎉 Amazing! You're a true Space Navigator! 🚀✨", 
-    goodMsg: "⭐️ Great job! Keep exploring! 🌌", 
-    tryMsg: "💪 More practice and you'll conquer the galaxy! 🌟", 
-    history: "📜 History Records", 
-    previous: "📈 Previous Score", 
-    improvement: "🚀 Improvement", 
-    clearHistory: "🗑️ Clear My History",
-    predictedScore: "📈 Predicted Next Score",
-    errorAnalysisTitle: "📊 Error Analysis",
-    noErrors: "🎉 No errors! Great job!",
-    radarChartTitle: "📊 Ability Radar Chart",
-    commonErrors: "Error Type",
-    correctAnswerLabel: "Correct Answer",
-    // ✅ 新增
-    levelPrefix: "Level",
-  },
-  ms: { 
-    school: "🏫 Sekolah", 
-    class: "📚 Kelas", 
-    name: "👩‍🚀 Nama", 
-    date: "📅 Tarikh", 
-    level: "🎯 Tahap", 
-    total: "📊 Jumlah", 
-    correct: "✅ Betul", 
-    accuracy: "⭐ Ketepatan", 
-    timesTable: " Sifir", 
-    mastered: "🚀 Dikuasai", 
-    basic: "✨ Baik", 
-    needs: "🌱 Perlu Latihan", 
-    masterMsg: "🎉 Hebat! Anda Navigator Angkasa Sejati! 🚀✨", 
-    goodMsg: "⭐️ Bagus! Terus terokai! 🌌", 
-    tryMsg: "💪 Lebih latihan, pasti takluk galaksi! 🌟", 
-    history: "📜 Rekod Sejarah", 
-    previous: "📈 Keputusan Lepas", 
-    improvement: "🚀 Peningkatan", 
-    clearHistory: "🗑️ Padam Rekod Saya",
-    predictedScore: "📈 Ramalan Skor Seterusnya",
-    errorAnalysisTitle: "📊 Analisis Kesilapan",
-    noErrors: "🎉 Tiada kesilapan! Syabas!",
-    radarChartTitle: "📊 Carta Radar Keupayaan",
-    commonErrors: "Jenis Kesilapan",
-    correctAnswerLabel: "Jawapan Betul",
-    // ✅ 新增
-    levelPrefix: "Tahap",
+  en: {
+    school: "🏫 School", class: "📚 Class", name: "👨‍🚀 Name", date: "📅 Date", level: "🎯 Level",
+    total: "📊 Total", correct: "✅ Correct", accuracy: "⭐ Accuracy", timesTable: " Times Table",
+    mastered: "🚀 Mastered", basic: "✨ Good", needs: "🌱 Need Practice",
+    masterMsg: "🎉 Amazing! You're a true Space Navigator! 🚀✨",
+    goodMsg: "⭐️ Great job! Keep exploring! 🌌",
+    tryMsg: "💪 More practice and you'll conquer the galaxy! 🌟",
+    history: "📜 History Records", previous: "📈 Previous Score", improvement: "🚀 Improvement",
+    clearHistory: "🗑️ Clear My History", predictedScore: "📈 Predicted Next Score",
+    errorAnalysisTitle: "📊 Error Analysis", noErrors: "🎉 No errors! Great job!",
+    radarChartTitle: "📊 Ability Radar Chart", commonErrors: "Error Type", correctAnswerLabel: "Correct Answer",
+    levelPrefix: "Level"
   }
 };
 
-// ==================== 核心游戏函数 ====================
+// ==================== 辅助函数 ====================
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -1386,6 +1391,429 @@ function shuffleArray(arr) {
   return arr;
 }
 
+// ==================== 成就系统 ====================
+function loadAchievements() {
+  try {
+    const saved = localStorage.getItem(`achievements_${student.school}_${student.className}_${student.name}`);
+    if (saved) studentAchievements = JSON.parse(saved);
+  } catch(e) { /* ignore */ }
+}
+function saveAchievements() {
+  try {
+    localStorage.setItem(`achievements_${student.school}_${student.className}_${student.name}`, JSON.stringify(studentAchievements));
+  } catch(e) { /* ignore */ }
+}
+
+function updateBadges(accuracy, currentStats) {
+  studentAchievements.bestAccuracy = Math.max(studentAchievements.bestAccuracy, accuracy);
+  studentAchievements.totalTests++;
+  let allMastered = true;
+  for (let table in currentStats) {
+    const item = currentStats[table];
+    const percent = item.total ? Math.round((item.correct / item.total) * 100) : 0;
+    if (percent < 85 && item.total > 0) { allMastered = false; break; }
+  }
+  if (allMastered && Object.keys(currentStats).length >= 3) {
+    studentAchievements.allTablesMastered = true;
+  }
+  for (const [key, badge] of Object.entries(BADGES)) {
+    if (!studentAchievements.badges[key] && badge.condition(studentAchievements)) {
+      studentAchievements.badges[key] = true;
+    }
+  }
+  saveAchievements();
+}
+
+function getEarnedBadges() {
+  const badges = [];
+  for (const [key, badge] of Object.entries(BADGES)) {
+    if (studentAchievements.badges[key]) {
+      let name = currentLang === 'en' ? badge.nameEn : badge.name;
+      badges.push({ key, name });
+    }
+  }
+  return badges;
+}
+
+function renderBadges() {
+  const badges = getEarnedBadges();
+  if (badges.length === 0) return '';
+  let html = '<div class="badges-container"><div style="font-weight:bold;width:100%;margin-bottom:5px;">🏅 ' + 
+    (currentLang === 'zh' ? '获得的徽章' : 'Earned Badges') + ':</div>';
+  badges.forEach(b => { html += `<span class="badge-item unlocked">${b.name}</span>`; });
+  html += '</div>';
+  return html;
+}
+
+// ==================== 错题本功能 ====================
+function loadWrongQuestions() {
+  try {
+    const saved = localStorage.getItem(`wrongQuestions_${student.school}_${student.className}_${student.name}`);
+    wrongQuestions = saved ? JSON.parse(saved) : [];
+  } catch(e) { wrongQuestions = []; }
+}
+function saveWrongQuestions() {
+  try {
+    localStorage.setItem(`wrongQuestions_${student.school}_${student.className}_${student.name}`, JSON.stringify(wrongQuestions));
+  } catch(e) { /* ignore */ }
+}
+
+function addWrongQuestion(question, userAnswer) {
+  wrongQuestions.push({
+    question: question,
+    userAnswer: userAnswer,
+    correctAnswer: question.ans,
+    timestamp: new Date().toISOString()
+  });
+  saveWrongQuestions();
+}
+
+function clearWrongQuestions() {
+  const t = texts[currentLang];
+  if (confirm(t.clearWrong + '？')) {
+    if (wrongQuestions.length > 0) {
+      studentAchievements.wrongCleared++;
+      saveAchievements();
+    }
+    wrongQuestions = [];
+    saveWrongQuestions();
+    renderWrongQuestions();
+  }
+}
+
+function renderWrongQuestions() {
+  const t = texts[currentLang];
+  const container = document.getElementById('wrongQuestionsCard');
+  if (!container) return;
+  if (wrongQuestions.length === 0) {
+    container.innerHTML = `<div class="loading">🎉 ${t.noWrongQuestions}</div>`;
+    return;
+  }
+  let html = `<div class="class-list">`;
+  wrongQuestions.forEach((item, idx) => {
+    const date = new Date(item.timestamp).toLocaleString();
+    html += `
+      <div class="wrong-question-item">
+        <div>
+          <strong>${item.question.a} × ${item.question.b} = ?</strong><br>
+          <span style="color:#ff9090;">${currentLang === 'zh' ? '你的答案' : 'Your answer'}: ${item.userAnswer}</span><br>
+          <span style="color:#90ff90;">${currentLang === 'zh' ? '正确答案' : 'Correct answer'}: ${item.correctAnswer}</span><br>
+          <span style="font-size:0.8rem;">${date}</span>
+        </div>
+        <button class="practice-single-btn" data-idx="${idx}" style="background:#ffaa55;border:none;padding:8px 16px;border-radius:30px;cursor:pointer;">${t.practiceThis}</button>
+      </div>
+    `;
+  });
+  html += `</div>`;
+  container.innerHTML = html;
+  document.querySelectorAll('.practice-single-btn').forEach(btn => {
+    btn.onclick = () => {
+      const idx = parseInt(btn.dataset.idx);
+      startPracticeQuestion(wrongQuestions[idx].question);
+    };
+  });
+}
+
+function startPracticeQuestion(question) {
+  currentLevel = 5;
+  questions = [question];
+  currentIndex = 0;
+  correctCount = 0;
+  gameStarted = true;
+  stats = {};
+  stats[question.a] = { total: 1, correct: 0, wrongQuestions: [] };
+  document.getElementById('wrongQuestionsScreen').classList.remove('active');
+  document.getElementById('quizScreen').classList.add('active');
+  showCurrentQuestion();
+}
+
+// ==================== 错误类型分析 ====================
+function classifyError(correct, user, lang) {
+  const t = texts[lang];
+  if (user === null || user === undefined || user === '') return t.errorTypeTimeout;
+  const diff = Math.abs(correct - user);
+  if (diff === 0) return '';
+  if (diff <= 5 && diff % 10 !== 0) return t.errorTypeConfusion;
+  if (String(user).split('').sort().join('') === String(correct).split('').sort().join('')) return t.errorTypeDigit;
+  return t.errorTypeCalc;
+}
+
+function analyzeErrors(lang) {
+  const errors = [];
+  const t = texts[lang];
+  for (let table in stats) {
+    const wrongList = stats[table].wrongQuestions || [];
+    wrongList.forEach(item => {
+      const errorType = classifyError(item.correct, item.user, lang);
+      errors.push({
+        table: table,
+        question: `${item.a} × ${item.b}`,
+        correct: item.correct,
+        user: item.user,
+        type: errorType || t.errorTypeCalc
+      });
+    });
+  }
+  return errors;
+}
+
+// ==================== 概念学习功能 ====================
+function loadConceptProgress() {
+  try {
+    const key = `concept_${student.school}_${student.className}_${student.name}`;
+    const saved = localStorage.getItem(key);
+    if (saved) conceptState = { ...conceptState, ...JSON.parse(saved) };
+  } catch(e) { /* ignore */ }
+}
+function saveConceptProgress() {
+  try {
+    const key = `concept_${student.school}_${student.className}_${student.name}`;
+    localStorage.setItem(key, JSON.stringify(conceptState));
+  } catch(e) { /* ignore */ }
+}
+
+function renderConceptWelcome() {
+  const t = texts[currentLang];
+  document.getElementById('conceptWelcomeTitle').textContent = t.conceptWelcomeTitle;
+  document.getElementById('conceptWelcomeDesc').textContent = t.conceptWelcomeDesc;
+  document.getElementById('conceptWelcomeLearnTitle').textContent = t.conceptWelcomeLearnTitle;
+  const list = document.getElementById('conceptWelcomeLearnList');
+  list.innerHTML = '';
+  t.conceptWelcomeLearnList.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = item;
+    list.appendChild(li);
+  });
+  document.getElementById('conceptWelcomeTime').textContent = t.conceptWelcomeTime;
+  
+  const statusEl = document.getElementById('conceptWelcomeStatus');
+  const startBtn = document.getElementById('conceptStartBtn');
+  const skipBtn = document.getElementById('conceptSkipBtn');
+  
+  if (conceptState.completed) {
+    statusEl.style.display = 'block';
+    statusEl.textContent = t.conceptWelcomeDone;
+    startBtn.textContent = '🔄 ' + (currentLang === 'zh' ? '重新学习' : 'Review');
+  } else {
+    statusEl.style.display = 'none';
+    startBtn.textContent = t.conceptStartBtn;
+  }
+  
+  skipBtn.textContent = t.conceptSkipBtn + ' ' + skipCountdown + 's';
+  skipBtn.disabled = true;
+  if (skipTimer) clearInterval(skipTimer);
+  skipCountdown = 5;
+  skipTimer = setInterval(() => {
+    skipCountdown--;
+    if (skipCountdown <= 0) {
+      skipBtn.disabled = false;
+      skipBtn.textContent = t.conceptSkipBtn;
+      clearInterval(skipTimer);
+      skipTimer = null;
+    } else {
+      skipBtn.textContent = t.conceptSkipBtn + ' ' + skipCountdown + 's';
+    }
+  }, 1000);
+}
+
+function renderConceptLesson() {
+  const t = texts[currentLang];
+  const lessons = conceptLessons[currentLang] || conceptLessons.zh;
+  const lesson = lessons[conceptState.currentLesson];
+  const totalSteps = lesson.steps.length;
+  const hasChecks = lesson.checkQuestions && lesson.checkQuestions.length > 0;
+  const isCheckStep = conceptState.currentStep >= totalSteps;
+  const checkIndex = isCheckStep ? conceptState.currentStep - totalSteps : 0;
+  
+  document.getElementById('conceptLessonTitle').textContent = `${lesson.icon} ${lesson.title}`;
+  document.getElementById('conceptLessonProgress').textContent = `${conceptState.currentLesson + 1} / ${lessons.length}`;
+  
+  const dots = document.querySelectorAll('#conceptDots .dot');
+  dots.forEach((dot, idx) => {
+    dot.className = 'dot';
+    if (idx < conceptState.currentLesson) dot.classList.add('completed');
+    else if (idx === conceptState.currentLesson) dot.classList.add('active');
+  });
+  
+  const container = document.getElementById('conceptStepContent');
+  let html = '';
+  
+  if (isCheckStep && checkIndex < lesson.checkQuestions.length) {
+    const q = lesson.checkQuestions[checkIndex];
+    html = `
+      <div class="check-question">
+        <div class="q-text">${t.conceptCheckTitle} (${checkIndex+1}/${lesson.checkQuestions.length})</div>
+        <div class="q-text" style="font-size:1.4rem;margin-bottom:15px;">${q.question}</div>
+        <div class="q-options" id="qOptions">
+          ${q.options.map((opt, idx) => `<button data-optidx="${idx}" class="q-opt-btn">${opt}</button>`).join('')}
+        </div>
+        <div class="feedback-text" id="qFeedback"></div>
+      </div>
+    `;
+    container.innerHTML = html;
+    
+    document.querySelectorAll('.q-opt-btn').forEach(btn => {
+      btn.onclick = function() {
+        const idx = parseInt(this.dataset.optidx);
+        const qData = lesson.checkQuestions[checkIndex];
+        const isCorrect = idx === qData.correct;
+        const feedback = document.getElementById('qFeedback');
+        const allBtns = document.querySelectorAll('.q-opt-btn');
+        
+        allBtns.forEach(b => b.disabled = true);
+        
+        if (isCorrect) {
+          this.classList.add('correct');
+          feedback.className = 'feedback-text success';
+          feedback.textContent = t.conceptCheckCorrect;
+          conceptState.totalCheckCorrect++;
+          conceptState.checkCorrect++;
+          conceptState.totalChecks++;
+          
+          setTimeout(() => {
+            conceptState.currentStep++;
+            // 检查当前课程是否所有检查题都完成了
+            if (conceptState.currentStep >= totalSteps + lesson.checkQuestions.length) {
+              // 当前课程完成，检查是否所有课程都完成了
+              if (conceptState.currentLesson >= lessons.length - 1) {
+                // ===== 所有课程完成！ =====
+                conceptState.completed = true;
+                conceptState.allCorrect = conceptState.totalCheckCorrect === conceptState.totalChecks;
+                saveConceptProgress();
+                studentAchievements.conceptCompleted = true;
+                studentAchievements.conceptScore = conceptState.totalChecks > 0 ? 
+                  Math.round((conceptState.totalCheckCorrect / conceptState.totalChecks) * 100) : 0;
+                if (conceptState.allCorrect && conceptState.totalChecks > 0) {
+                  studentAchievements.badges.concept_master = true;
+                }
+                saveAchievements();
+                document.getElementById('completeTitle').textContent = t.conceptCompleteTitle;
+                document.getElementById('completeDesc').textContent = t.conceptCompleteDesc;
+                document.getElementById('completeBadge').textContent = t.conceptCompleteBadge;
+                document.getElementById('completeGoBtn').textContent = t.conceptCompleteGo;
+                document.getElementById('completeReviewBtn').textContent = t.conceptCompleteReview;
+                document.getElementById('conceptCompleteOverlay').classList.add('active');
+                return;
+              } else {
+                conceptState.currentLesson++;
+                conceptState.currentStep = 0;
+                conceptState.checkCorrect = 0;
+                renderConceptLesson();
+                saveConceptProgress();
+                return;
+              }
+            }
+            renderConceptLesson();
+            saveConceptProgress();
+          }, 800);
+        } else {
+          this.classList.add('wrong');
+          feedback.className = 'feedback-text error';
+          feedback.textContent = t.conceptCheckWrong + q.options[qData.correct];
+          setTimeout(() => {
+            allBtns.forEach(b => {
+              b.disabled = false;
+              b.classList.remove('wrong');
+            });
+            feedback.textContent = '';
+          }, 1500);
+        }
+      };
+    });
+    
+    document.getElementById('conceptBackBtn').style.display = 'inline-block';
+    document.getElementById('conceptBackBtn').textContent = t.conceptBackBtn;
+    document.getElementById('conceptNextBtn').style.display = 'none';
+    document.getElementById('conceptExitBtn').textContent = t.conceptExitBtn;
+    return;
+  }
+  
+  // 概念步骤
+  const step = lesson.steps[conceptState.currentStep];
+  html = `
+    <div class="step-title">${step.title}</div>
+    <div class="step-text">${step.content}</div>
+  `;
+  
+  if (step.visual === 'grid' && step.gridData) {
+    html += `<div class="step-visual">`;
+    html += `<div class="grid-container" style="grid-template-columns: repeat(${step.gridData.cols}, 1fr);">`;
+    const total = step.gridData.rows * step.gridData.cols;
+    for (let i = 0; i < total; i++) {
+      const row = Math.floor(i / step.gridData.cols);
+      const fill = row < step.gridData.rows ? 'filled' : '';
+      html += `<div class="grid-cell ${fill}">${fill ? '⭐' : ''}</div>`;
+    }
+    html += `</div>`;
+    if (step.example) html += `<div class="formula-display">${step.example}</div>`;
+    html += `</div>`;
+  }
+  
+  if (conceptState.currentStep === totalSteps - 1 && hasChecks) {
+    html += `<div style="margin-top:20px;padding:15px;background:rgba(255,200,100,0.1);border-radius:16px;text-align:center;color:#ffcc88;">
+      📝 ${currentLang === 'zh' ? '接下来是检查题，检验你是否理解！' : 'Next up: Check your understanding!'}
+    </div>`;
+  }
+  
+  container.innerHTML = html;
+  
+  const backBtn = document.getElementById('conceptBackBtn');
+  const nextBtn = document.getElementById('conceptNextBtn');
+  
+  if (conceptState.currentStep === 0) {
+    backBtn.style.display = 'none';
+  } else {
+    backBtn.style.display = 'inline-block';
+    backBtn.textContent = t.conceptBackBtn;
+  }
+  
+  if (conceptState.currentStep === totalSteps - 1 && hasChecks) {
+    nextBtn.textContent = t.conceptCheckTitle;
+    nextBtn.style.display = 'inline-block';
+  } else {
+    nextBtn.textContent = t.conceptNextBtn;
+    nextBtn.style.display = 'inline-block';
+  }
+  document.getElementById('conceptExitBtn').textContent = t.conceptExitBtn;
+}
+
+function conceptNextStep() {
+  const lessons = conceptLessons[currentLang] || conceptLessons.zh;
+  const lesson = lessons[conceptState.currentLesson];
+  const totalSteps = lesson.steps.length;
+  const hasChecks = lesson.checkQuestions && lesson.checkQuestions.length > 0;
+  
+  if (conceptState.currentStep < totalSteps) {
+    if (conceptState.currentStep === totalSteps - 1 && hasChecks) {
+      conceptState.currentStep = totalSteps;
+      renderConceptLesson();
+      saveConceptProgress();
+      return;
+    }
+    if (conceptState.currentStep < totalSteps - 1) {
+      conceptState.currentStep++;
+      renderConceptLesson();
+      saveConceptProgress();
+      return;
+    }
+  }
+}
+
+function conceptPrevStep() {
+  const lessons = conceptLessons[currentLang] || conceptLessons.zh;
+  const lesson = lessons[conceptState.currentLesson];
+  const totalSteps = lesson.steps.length;
+  
+  if (conceptState.currentStep > totalSteps) {
+    conceptState.currentStep = totalSteps - 1;
+  } else if (conceptState.currentStep > 0) {
+    conceptState.currentStep--;
+  }
+  renderConceptLesson();
+  saveConceptProgress();
+}
+
+// ==================== 核心游戏函数 ====================
 function generateQuestionsByLevel(level) {
   let qList = [];
   stats = {};
@@ -1394,28 +1822,29 @@ function generateQuestionsByLevel(level) {
     let copy = shuffleArray([...qList]);
     qList = [...qList, ...copy];
     stats[2] = { total: qList.length, correct: 0, wrongQuestions: [] };
-  } 
-  else if (level === 2) {
+  } else if (level === 2) {
     for (let m = 0; m <= 5; m++) {
       stats[m] = { total: 13, correct: 0, wrongQuestions: [] };
       for (let i = 0; i <= 12; i++) qList.push({ a: m, b: i, ans: m * i });
     }
     qList = shuffleArray(qList);
-  }
-  else if (level === 3) {
+  } else if (level === 3) {
     let pool = [];
-    stats[0] = { total: 2, correct: 0, wrongQuestions: [] }; pool.push({ a: 0, b: 4, ans: 0 }, { a: 0, b: 9, ans: 0 });
-    stats[1] = { total: 2, correct: 0, wrongQuestions: [] }; pool.push({ a: 1, b: 5, ans: 5 }, { a: 1, b: 12, ans: 12 });
+    stats[0] = { total: 2, correct: 0, wrongQuestions: [] };
+    pool.push({ a: 0, b: 4, ans: 0 }, { a: 0, b: 9, ans: 0 });
+    stats[1] = { total: 2, correct: 0, wrongQuestions: [] };
+    pool.push({ a: 1, b: 5, ans: 5 }, { a: 1, b: 12, ans: 12 });
     for (let n = 2; n <= 9; n++) {
       stats[n] = { total: 13, correct: 0, wrongQuestions: [] };
       for (let i = 0; i <= 12; i++) pool.push({ a: n, b: i, ans: n * i });
     }
     qList = shuffleArray(pool);
-  }
-  else if (level === 4) {
+  } else if (level === 4) {
     let pool = [];
-    stats[0] = { total: 2, correct: 0, wrongQuestions: [] }; pool.push({ a: 0, b: 3, ans: 0 }, { a: 0, b: 8, ans: 0 });
-    stats[1] = { total: 2, correct: 0, wrongQuestions: [] }; pool.push({ a: 1, b: 6, ans: 6 }, { a: 1, b: 11, ans: 11 });
+    stats[0] = { total: 2, correct: 0, wrongQuestions: [] };
+    pool.push({ a: 0, b: 3, ans: 0 }, { a: 0, b: 8, ans: 0 });
+    stats[1] = { total: 2, correct: 0, wrongQuestions: [] };
+    pool.push({ a: 1, b: 6, ans: 6 }, { a: 1, b: 11, ans: 11 });
     for (let n = 2; n <= 9; n++) {
       stats[n] = { total: 11, correct: 0, wrongQuestions: [] };
       for (let i = 2; i <= 12; i++) pool.push({ a: n, b: i, ans: n * i });
@@ -1436,48 +1865,19 @@ function generateQuestionsByLevel(level) {
 function generateCustomQuestions(selectedTables) {
   let qList = [];
   stats = {};
-  
   const easyNumbers = [0, 1, 2, 10];
   const mediumNumbers = [3, 4, 5, 9, 11];
   const hardNumbers = [6, 7, 8, 12];
-  
   for (const table of selectedTables) {
     stats[table] = { total: 8, correct: 0, wrongQuestions: [] };
-    
-    let easySelected = [...easyNumbers];
-    for (let i = easySelected.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [easySelected[i], easySelected[j]] = [easySelected[j], easySelected[i]];
-    }
-    for (let i = 0; i < 2; i++) {
-      qList.push({ a: table, b: easySelected[i], ans: table * easySelected[i] });
-    }
-    
-    let mediumSelected = [...mediumNumbers];
-    for (let i = mediumSelected.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [mediumSelected[i], mediumSelected[j]] = [mediumSelected[j], mediumSelected[i]];
-    }
-    for (let i = 0; i < 3; i++) {
-      qList.push({ a: table, b: mediumSelected[i], ans: table * mediumSelected[i] });
-    }
-    
-    let hardSelected = [...hardNumbers];
-    for (let i = hardSelected.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [hardSelected[i], hardSelected[j]] = [hardSelected[j], hardSelected[i]];
-    }
-    for (let i = 0; i < 3; i++) {
-      qList.push({ a: table, b: hardSelected[i], ans: table * hardSelected[i] });
-    }
+    let easySelected = shuffleArray([...easyNumbers]);
+    for (let i = 0; i < 2; i++) qList.push({ a: table, b: easySelected[i], ans: table * easySelected[i] });
+    let mediumSelected = shuffleArray([...mediumNumbers]);
+    for (let i = 0; i < 3; i++) qList.push({ a: table, b: mediumSelected[i], ans: table * mediumSelected[i] });
+    let hardSelected = shuffleArray([...hardNumbers]);
+    for (let i = 0; i < 3; i++) qList.push({ a: table, b: hardSelected[i], ans: table * hardSelected[i] });
   }
-  
-  for (let i = qList.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [qList[i], qList[j]] = [qList[j], qList[i]];
-  }
-  
-  return qList;
+  return shuffleArray(qList);
 }
 
 function renderOptions(correctAns, countOpt) {
@@ -1501,10 +1901,7 @@ function renderOptions(correctAns, countOpt) {
 }
 
 function stopTimer() {
-  if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
-  }
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
 }
 
 function startTimerForQuestion() {
@@ -1523,18 +1920,13 @@ function startTimerForQuestion() {
     timeLeft--;
     if (timeLeft <= 0) {
       stopTimer();
-      if (currentIndex < questions.length) {
-        checkAnswer(null);
-      }
+      if (currentIndex < questions.length) checkAnswer(null);
     }
   }, 1000);
 }
 
 function showCurrentQuestion() {
-  if (currentIndex >= questions.length) {
-    saveAndShowReport();
-    return;
-  }
+  if (currentIndex >= questions.length) { saveAndShowReport(); return; }
   const q = questions[currentIndex];
   document.getElementById('questionDisplay').textContent = `${q.a} × ${q.b} = ?`;
   const optDiv = document.getElementById('optionsContainer');
@@ -1542,8 +1934,7 @@ function showCurrentQuestion() {
   if (currentLevel === 1 || currentLevel === 2) {
     inputField.style.display = 'none';
     optDiv.style.display = 'flex';
-    const optCount = (currentLevel === 1) ? 4 : 5;
-    renderOptions(q.ans, optCount);
+    renderOptions(q.ans, currentLevel === 1 ? 4 : 5);
   } else {
     optDiv.style.display = 'none';
     inputField.style.display = 'block';
@@ -1558,73 +1949,28 @@ function checkAnswer(userAnswer) {
   if (currentIndex >= questions.length) return;
   const q = questions[currentIndex];
   const isCorrect = (userAnswer === q.ans);
-  if (isCorrect) {
-    correctCount++;
-  } else {
-    if (currentLevel !== 5) {
-      addWrongQuestion(q, userAnswer);
-    }
+  if (isCorrect) { correctCount++; } else {
+    if (currentLevel !== 5) addWrongQuestion(q, userAnswer);
     if (stats[q.a]) {
       if (!stats[q.a].wrongQuestions) stats[q.a].wrongQuestions = [];
-      stats[q.a].wrongQuestions.push({
-        a: q.a,
-        b: q.b,
-        correct: q.ans,
-        user: userAnswer
-      });
+      stats[q.a].wrongQuestions.push({ a: q.a, b: q.b, correct: q.ans, user: userAnswer });
     }
   }
-  if (stats[q.a]) {
-    stats[q.a].correct += isCorrect ? 1 : 0;
-  }
+  if (stats[q.a]) stats[q.a].correct += isCorrect ? 1 : 0;
   currentIndex++;
-  setTimeout(() => {
-    showCurrentQuestion();
-  }, 280);
-}
-
-function classifyError(correct, user, lang) {
-  const t = texts[lang];
-  if (user === null || user === undefined) return t.errorTypeTimeout;
-  const diff = Math.abs(correct - user);
-  if (diff === 0) return '';
-  if (diff <= 5 && diff % 10 !== 0) return t.errorTypeConfusion;
-  if (String(user).split('').sort().join('') === String(correct).split('').sort().join('')) return t.errorTypeDigit;
-  return t.errorTypeCalc;
-}
-
-function analyzeErrors(lang) {
-  const errors = [];
-  for (let table in stats) {
-    const wrongList = stats[table].wrongQuestions || [];
-    wrongList.forEach(item => {
-      errors.push({
-        table: table,
-        question: `${item.a} × ${item.b}`,
-        correct: item.correct,
-        user: item.user,
-        type: classifyError(item.correct, item.user, lang)
-      });
-    });
-  }
-  return errors;
+  setTimeout(() => showCurrentQuestion(), 280);
 }
 
 function renderRadarChart() {
   const rt = texts[reportLang];
   const canvas = document.getElementById('radarChart');
   if (!canvas || typeof Chart === 'undefined') return;
-  if (radarChart) {
-    radarChart.destroy();
-    radarChart = null;
-  }
-  const labels = [];
-  const data = [];
+  if (radarChart) { radarChart.destroy(); radarChart = null; }
+  const labels = [], data = [];
   for (let i = 0; i <= 12; i++) {
     if (stats[i]) {
       labels.push(rt.tableLabel(i));
-      const percent = stats[i].total ? Math.round((stats[i].correct / stats[i].total) * 100) : 0;
-      data.push(percent);
+      data.push(stats[i].total ? Math.round((stats[i].correct / stats[i].total) * 100) : 0);
     }
   }
   if (labels.length === 0) return;
@@ -1664,34 +2010,21 @@ function renderRadarChart() {
 function predictNextScore(history) {
   if (!history || history.length < 2) return null;
   const sorted = [...history].sort((a,b) => new Date(a.created_at || a.date) - new Date(b.created_at || b.date));
-  const x = sorted.map((_, i) => i + 1);
-  const y = sorted.map(r => r.accuracy);
-  const n = x.length;
-  const sumX = x.reduce((s,v)=>s+v,0);
-  const sumY = y.reduce((s,v)=>s+v,0);
-  const sumXY = x.reduce((s,v,i)=>s+v*y[i],0);
-  const sumXX = x.reduce((s,v)=>s+v*v,0);
+  const x = sorted.map((_, i) => i + 1), y = sorted.map(r => r.accuracy);
+  const n = x.length, sumX = x.reduce((s,v)=>s+v,0), sumY = y.reduce((s,v)=>s+v,0);
+  const sumXY = x.reduce((s,v,i)=>s+v*y[i],0), sumXX = x.reduce((s,v)=>s+v*v,0);
   const slope = (n*sumXY - sumX*sumY) / (n*sumXX - sumX*sumX);
   const intercept = (sumY - slope*sumX) / n;
-  const nextX = n + 1;
-  const predicted = Math.round(intercept + slope*nextX);
-  return Math.min(100, Math.max(0, predicted));
+  return Math.min(100, Math.max(0, Math.round(intercept + slope*(n+1))));
 }
 
 function startSmartReview() {
   const t = texts[currentLang];
-  if (wrongQuestions.length === 0) {
-    alert(t.smartReviewNoData);
-    return;
-  }
-  const uniqueQuestions = [];
-  const seen = new Set();
+  if (wrongQuestions.length === 0) { alert(t.smartReviewNoData); return; }
+  const uniqueQuestions = [], seen = new Set();
   wrongQuestions.forEach(item => {
     const key = `${item.question.a}x${item.question.b}`;
-    if (!seen.has(key)) {
-      seen.add(key);
-      uniqueQuestions.push(item.question);
-    }
+    if (!seen.has(key)) { seen.add(key); uniqueQuestions.push(item.question); }
   });
   currentLevel = 6;
   questions = uniqueQuestions;
@@ -1699,10 +2032,7 @@ function startSmartReview() {
   correctCount = 0;
   gameStarted = true;
   stats = {};
-  uniqueQuestions.forEach(q => {
-    if (!stats[q.a]) stats[q.a] = { total: 0, correct: 0, wrongQuestions: [] };
-    stats[q.a].total += 1;
-  });
+  uniqueQuestions.forEach(q => { if (!stats[q.a]) stats[q.a] = { total: 0, correct: 0, wrongQuestions: [] }; stats[q.a].total += 1; });
   document.getElementById('levelScreen').classList.remove('active');
   document.getElementById('quizScreen').classList.add('active');
   showCurrentQuestion();
@@ -1710,10 +2040,7 @@ function startSmartReview() {
 
 // ==================== 保存与报告 ====================
 async function saveToSupabase() {
-  if (!supabaseClient) {
-    saveToLocalStorage();
-    return;
-  }
+  if (!supabaseClient) { saveToLocalStorage(); return; }
   const newRecord = {
     school: student.school,
     class: student.className,
@@ -1721,18 +2048,14 @@ async function saveToSupabase() {
     level: currentLevel === 5 ? 0 : currentLevel,
     correct: correctCount,
     total: questions.length,
-    accuracy: Math.round((correctCount / questions.length) * 100),
+    accuracy: Math.round((correctCount/questions.length)*100),
     details: stats,
     created_at: new Date().toISOString()
   };
   try {
     const { error } = await supabaseClient.from('math_records').insert([newRecord]);
     if (error) throw error;
-    console.log('✅ 成绩已保存到云端');
-  } catch(e) {
-    console.log('云端保存失败，保存到本地:', e);
-    saveToLocalStorage();
-  }
+  } catch(e) { saveToLocalStorage(); }
 }
 
 function saveToLocalStorage() {
@@ -1742,7 +2065,7 @@ function saveToLocalStorage() {
     level: currentLevel === 5 ? 0 : currentLevel,
     correct: correctCount,
     total: questions.length,
-    accuracy: Math.round((correctCount / questions.length) * 100),
+    accuracy: Math.round((correctCount/questions.length)*100),
     date: new Date().toISOString(),
     stats: stats
   });
@@ -1762,16 +2085,14 @@ async function getHistoryRecords() {
       .eq('name', student.name)
       .eq('school', student.school)
       .order('created_at', { ascending: false });
-    if (error) throw error;
+    if (error) return [];
     return data || [];
-  } catch(e) {
-    return [];
-  }
+  } catch(e) { return []; }
 }
 
 async function saveAndShowReport() {
   if (!gameStarted || questions.length === 0) return;
-  const accuracy = Math.round((correctCount / questions.length) * 100);
+  const accuracy = Math.round((correctCount/questions.length)*100);
   updateBadges(accuracy, stats);
   await saveToSupabase();
   const history = await getHistoryRecords();
@@ -1780,7 +2101,6 @@ async function saveAndShowReport() {
   renderReport(history, accuracy);
 }
 
-// ==================== 修复：使用 reportTexts 而不是 texts ====================
 function renderReport(history, accuracy) {
   const rt = reportTexts[reportLang];
   const t = texts[currentLang];
@@ -1796,30 +2116,29 @@ function renderReport(history, accuracy) {
     <div class="report-row"><span>${rt.accuracy}</span><span>${accuracy}%</span></div>`;
   
   const predicted = predictNextScore(history);
-  if (predicted !== null) {
-    html += `<div class="report-row"><span>${rt.predictedScore}</span><span>${predicted}%</span></div>`;
-  }
+  if (predicted !== null) html += `<div class="report-row"><span>${rt.predictedScore}</span><span>${predicted}%</span></div>`;
   
-  html += `<div class="table-results"><div style="font-weight:bold; padding:0 12px;">📊 ${t.timesTableMastery || '乘法表掌握情况'}</div>`;
+  html += `<div class="table-results"><div style="font-weight:bold;padding:0 12px;">📊 ${t.timesTableMastery || '乘法表掌握情况'}</div>`;
   const sortedKeys = Object.keys(stats).sort((a,b)=> +a - +b);
   for (let mult of sortedKeys) {
     const item = stats[mult];
-    const percent = item.total ? Math.round((item.correct / item.total)*100) : 0;
-    let levelText = percent >= 85 ? rt.mastered : (percent >= 60 ? rt.basic : rt.needs);
-    html += `<div class="table-item"><span>${mult} ${rt.timesTable}</span><span>${levelText} (${percent}%)</span></div>`;
+    const percent = item.total ? Math.round((item.correct/item.total)*100) : 0;
+    html += `<div class="table-item"><span>${mult} ${rt.timesTable}</span><span>${percent >= 85 ? rt.mastered : (percent >= 60 ? rt.basic : rt.needs)} (${percent}%)</span></div>`;
   }
   
+  // 错误分析
   const errors = analyzeErrors(reportLang);
   if (errors.length === 0) {
     html += `<div class="suggestion-box">${rt.noErrors}</div>`;
   } else {
-    html += `<div style="margin-top:20px;"><div style="font-weight:bold; margin-bottom:10px;">${rt.errorAnalysisTitle}</div>`;
-    html += `<div class="class-list">`;
+    html += `<div style="margin-top:20px;"><div style="font-weight:bold;margin-bottom:10px;">${rt.errorAnalysisTitle}</div><div class="class-list">`;
     errors.forEach(e => {
+      const userDisplay = e.user !== null && e.user !== undefined ? e.user : (currentLang === 'zh' ? '超时' : 'Timeout');
       html += `<div class="wrong-question-item">
         <div>
           <strong>${e.question} = ?</strong><br>
           <span style="color:#ff9090;">${rt.commonErrors}: ${e.type}</span><br>
+          <span style="color:#ff9090;">${currentLang === 'zh' ? '你的答案' : 'Your answer'}: ${userDisplay}</span><br>
           <span style="color:#90ff90;">${rt.correctAnswerLabel}: ${e.correct}</span>
         </div>
       </div>`;
@@ -1827,66 +2146,74 @@ function renderReport(history, accuracy) {
     html += `</div></div>`;
   }
   
-  html += `<div style="margin-top:20px;"><div style="font-weight:bold; margin-bottom:10px;">${rt.radarChartTitle}</div><canvas id="radarChart" style="max-height:300px;"></canvas></div>`;
-  
+  html += `<div style="margin-top:20px;"><div style="font-weight:bold;margin-bottom:10px;">${rt.radarChartTitle}</div><canvas id="radarChart" style="max-height:300px;"></canvas></div>`;
   html += generateLearningSuggestions();
-  html += `<div style="margin-top:20px; text-align:center;"><button id="viewRankBtn" style="background:#ffaa55; border:none; padding:12px 24px; border-radius:40px; cursor:pointer; font-size:1rem;">🏆 ${t.rankTitle || '查看排行榜'}</button></div>`;
+  html += `<div style="margin-top:20px;text-align:center;"><button id="viewRankBtn" style="background:#ffaa55;border:none;padding:12px 24px;border-radius:40px;cursor:pointer;font-size:1rem;">🏆 ${t.rankTitle || '查看排行榜'}</button></div>`;
   
   if (history && history.length > 1) {
-    html += `<div style="margin-top:25px;"><div style="font-weight:bold; margin-bottom:15px;">📜 ${rt.history}</div>`;
+    html += `<div style="margin-top:25px;"><div style="font-weight:bold;margin-bottom:15px;">📜 ${rt.history}</div>`;
     const lastFive = history.slice(0, 5);
     lastFive.forEach((record, idx) => {
       const date = new Date(record.created_at || record.date).toLocaleString();
       const isCurrent = idx === 0;
-      html += `<div class="history-item" ${isCurrent ? 'style="background:rgba(255,200,100,0.3); border-left:4px solid #ffb359;"' : ''}>
-        ${date}<br>
-        ${rt.levelPrefix || 'Level'} ${record.level}: ${record.correct}/${record.total} (${record.accuracy}%)
+      html += `<div class="history-item" ${isCurrent ? 'style="background:rgba(255,200,100,0.3);border-left:4px solid #ffb359;"' : ''}>
+        ${date}<br>${rt.levelPrefix || 'Level'} ${record.level}: ${record.correct}/${record.total} (${record.accuracy}%)
         ${isCurrent ? ' ✨ ' + (t.currentTest || '本次测试') + ' ✨' : ''}
       </div>`;
     });
-    html += `<div style="text-align:center; margin-top:15px;"><button class="clear-history-btn" id="clearHistoryBtn">🗑️ ${rt.clearHistory}</button></div>`;
-    html += `</div>`;
+    html += `<div style="text-align:center;margin-top:15px;"><button class="clear-history-btn" id="clearHistoryBtn">🗑️ ${rt.clearHistory}</button></div></div>`;
   }
   
   let msg = accuracy >= 90 ? rt.masterMsg : (accuracy >= 70 ? rt.goodMsg : rt.tryMsg);
   html += `</div><div class="report-conclusion">${msg}</div>`;
   document.getElementById('reportCard').innerHTML = html;
-  
   setTimeout(() => renderRadarChart(), 200);
   
   const rankBtn = document.getElementById('viewRankBtn');
-  if (rankBtn) {
-    rankBtn.onclick = async () => {
-      document.getElementById('reportScreen').classList.remove('active');
-      document.getElementById('rankScreen').classList.add('active');
-      await loadRanking();
-    };
-  }
-  
+  if (rankBtn) rankBtn.onclick = async () => {
+    document.getElementById('reportScreen').classList.remove('active');
+    document.getElementById('rankScreen').classList.add('active');
+    await loadRanking();
+  };
   const practiceBtn = document.getElementById('practiceWrongBtn');
-  if (practiceBtn) {
-    practiceBtn.style.display = wrongQuestions.length > 0 ? 'inline-block' : 'none';
-  }
-  
+  if (practiceBtn) practiceBtn.style.display = wrongQuestions.length > 0 ? 'inline-block' : 'none';
   const clearBtn = document.getElementById('clearHistoryBtn');
   if (clearBtn) clearBtn.onclick = clearHistory;
 }
 
 async function clearHistory() {
   const t = texts[currentLang];
-  const confirmMsg = t.clearHistory || '确定要清除所有历史记录吗？🚀';
-  if (confirm(confirmMsg)) {
+  if (confirm(t.clearHistory || '确定要清除所有历史记录吗？🚀')) {
     if (supabaseClient) {
-      try {
-        await supabaseClient.from('math_records').delete().eq('name', student.name).eq('school', student.school);
-      } catch(e) { console.log('删除云端记录失败', e); }
+      try { await supabaseClient.from('math_records').delete().eq('name', student.name).eq('school', student.school); } catch(e) {}
     }
     const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
-    const otherRecords = records.filter(r => r.name !== student.name || r.school !== student.school);
-    localStorage.setItem('mathRecords', JSON.stringify(otherRecords));
+    localStorage.setItem('mathRecords', JSON.stringify(records.filter(r => r.name !== student.name || r.school !== student.school)));
     const history = await getHistoryRecords();
-    renderReport(history, Math.round((correctCount / questions.length) * 100));
+    renderReport(history, Math.round((correctCount/questions.length)*100));
   }
+}
+
+function generateLearningSuggestions() {
+  const t = texts[currentLang];
+  const weakTables = [], strongTables = [];
+  const sortedKeys = Object.keys(stats).sort((a,b)=> +a - +b);
+  for (let mult of sortedKeys) {
+    const item = stats[mult];
+    const percent = item.total ? Math.round((item.correct/item.total)*100) : 0;
+    if (percent < 60) weakTables.push(mult);
+    else if (percent >= 85) strongTables.push(mult);
+  }
+  let html = `<div class="suggestion-box"><div style="font-weight:bold;margin-bottom:10px;">💡 ${t.suggestionTitle}</div>`;
+  const totalPercent = Math.round((correctCount/questions.length)*100);
+  if (totalPercent >= 90) html += `<p>${t.suggestionExcellent}</p>`;
+  else if (totalPercent >= 70) html += `<p>${t.suggestionGood}</p>`;
+  else html += `<p>${t.suggestionNeedPractice}</p>`;
+  if (weakTables.length > 0) html += `<p style="margin-top:10px;">⚠️ ${t.suggestionWeakTables}: ${weakTables.join('、')}</p>`;
+  if (strongTables.length > 0) html += `<p style="margin-top:10px;">✅ ${t.suggestionStrongTables}: ${strongTables.join('、')}</p>`;
+  if (wrongQuestions.length > 0) html += `<p style="margin-top:10px;">📝 ${currentLang === 'zh' ? `你有 ${wrongQuestions.length} 道错题待复习` : `You have ${wrongQuestions.length} wrong questions to review`}</p>`;
+  html += `</div>${renderBadges()}`;
+  return html;
 }
 
 // ==================== 排行榜功能 ====================
@@ -1894,11 +2221,7 @@ async function loadRanking() {
   const t = texts[currentLang];
   const card = document.getElementById('rankCard');
   if (!card) return;
-  if (!supabaseClient) {
-    card.innerHTML = `<div class="loading">${t.supabaseNotConnected}</div>`;
-    return;
-  }
-  
+  if (!supabaseClient) { card.innerHTML = `<div class="loading">${t.supabaseNotConnected}</div>`; return; }
   try {
     const { data, error } = await supabaseClient
       .from('math_records')
@@ -1906,182 +2229,84 @@ async function loadRanking() {
       .eq('school', student.school)
       .eq('class', student.className)
       .order('accuracy', { ascending: false });
-    
     if (error) throw error;
-    
     const bestScores = {};
     data.forEach(record => {
       const key = record.name;
       if (!bestScores[key] || record.accuracy > bestScores[key].accuracy) {
-        bestScores[key] = {
-          name: record.name,
-          accuracy: record.accuracy,
-          date: record.created_at,
-          level: record.level
-        };
-        if (record.name === student.name && record.accuracy >= 90) {
-          studentAchievements.rankFirst = 1;
-          saveAchievements();
-        }
+        bestScores[key] = { name: record.name, accuracy: record.accuracy, date: record.created_at, level: record.level };
+        if (record.name === student.name && record.accuracy >= 90) { studentAchievements.rankFirst = 1; saveAchievements(); }
       }
     });
-    
-    const ranking = Object.values(bestScores).sort((a, b) => b.accuracy - a.accuracy);
-    
-    if (ranking.length === 0) {
-      card.innerHTML = `<div class="loading">${t.noData}</div>`;
-      return;
-    }
-    
+    const ranking = Object.values(bestScores).sort((a,b) => b.accuracy - a.accuracy);
+    if (ranking.length === 0) { card.innerHTML = `<div class="loading">${t.noData}</div>`; return; }
     let html = `<div class="rank-list">`;
     ranking.forEach((item, idx) => {
       const rankNum = idx + 1;
-      let rankClass = '';
-      let rankEmoji = '';
+      let rankClass = '', rankEmoji = '';
       if (rankNum === 1) { rankClass = 'gold'; rankEmoji = '🥇'; }
       else if (rankNum === 2) { rankClass = 'silver'; rankEmoji = '🥈'; }
       else if (rankNum === 3) { rankClass = 'bronze'; rankEmoji = '🥉'; }
-      
       const isCurrentUser = item.name === student.name;
-      const highlight = isCurrentUser ? 'style="background: rgba(255,200,100,0.4); border: 2px solid #ffaa55;"' : '';
-      
-      html += `
-        <div class="rank-item" ${highlight}>
-          <div class="rank-number ${rankClass}">${rankEmoji || rankNum}</div>
-          <div style="flex: 1;">
-            <strong>${item.name}</strong>
-            <div style="font-size: 0.8rem;">Level ${item.level}</div>
-          </div>
-          <div style="text-align: right;">
-            <div style="font-size: 1.3rem; font-weight: bold; color: #ffcc88;">${item.accuracy}%</div>
-            <div style="font-size: 0.7rem;">${new Date(item.date).toLocaleDateString()}</div>
-          </div>
-        </div>
-      `;
+      const highlight = isCurrentUser ? 'style="background:rgba(255,200,100,0.4);border:2px solid #ffaa55;"' : '';
+      html += `<div class="rank-item" ${highlight}>
+        <div class="rank-number ${rankClass}">${rankEmoji || rankNum}</div>
+        <div style="flex:1;"><strong>${item.name}</strong><div style="font-size:0.8rem;">Level ${item.level}</div></div>
+        <div style="text-align:right;"><div style="font-size:1.3rem;font-weight:bold;color:#ffcc88;">${item.accuracy}%</div>
+        <div style="font-size:0.7rem;">${new Date(item.date).toLocaleDateString()}</div></div>
+      </div>`;
     });
     html += `</div>`;
-    
     const userRank = ranking.findIndex(r => r.name === student.name) + 1;
-    if (userRank > 0) {
-      html += `<div class="suggestion-box" style="margin-top: 20px; text-align: center;">
-        <strong>${t.yourRank}</strong><br>
-        <span style="font-size: 1.5rem; font-weight: bold; color: #ffcc88;">${currentLang === 'zh' ? '第 ' + userRank + ' 名' : 'Rank ' + userRank}</span>
-      </div>`;
-    } else {
-      html += `<div class="suggestion-box" style="margin-top: 20px; text-align: center;">
-        <strong>${t.rankNotRanked}</strong>
-      </div>`;
-    }
-    
+    if (userRank > 0) html += `<div class="suggestion-box" style="margin-top:20px;text-align:center;">
+      <strong>${t.yourRank}</strong><br><span style="font-size:1.5rem;font-weight:bold;color:#ffcc88;">${currentLang === 'zh' ? '第 ' + userRank + ' 名' : 'Rank ' + userRank}</span></div>`;
+    else html += `<div class="suggestion-box" style="margin-top:20px;text-align:center;"><strong>${t.rankNotRanked}</strong></div>`;
     card.innerHTML = html;
-  } catch(e) {
-    card.innerHTML = `<div class="loading">${t.loadFailed}: ${e.message}</div>`;
-  }
-}
-
-// ==================== 学习建议功能 ====================
-function generateLearningSuggestions() {
-  const t = texts[currentLang];
-  const weakTables = [];
-  const strongTables = [];
-  
-  const sortedKeys = Object.keys(stats).sort((a,b)=> +a - +b);
-  for (let mult of sortedKeys) {
-    const item = stats[mult];
-    const percent = item.total ? Math.round((item.correct / item.total)*100) : 0;
-    if (percent < 60) {
-      weakTables.push(mult);
-    } else if (percent >= 85) {
-      strongTables.push(mult);
-    }
-  }
-  
-  let html = `<div class="suggestion-box">`;
-  html += `<div style="font-weight:bold; margin-bottom: 10px;">💡 ${t.suggestionTitle}</div>`;
-  
-  const totalPercent = Math.round((correctCount / questions.length) * 100);
-  if (totalPercent >= 90) {
-    html += `<p>${t.suggestionExcellent}</p>`;
-  } else if (totalPercent >= 70) {
-    html += `<p>${t.suggestionGood}</p>`;
-  } else {
-    html += `<p>${t.suggestionNeedPractice}</p>`;
-  }
-  
-  if (weakTables.length > 0) {
-    html += `<p style="margin-top: 10px;">⚠️ ${t.suggestionWeakTables}: ${weakTables.join('、')} ${currentLang === 'zh' ? '的乘法表' : (currentLang === 'en' ? 'tables' : 'sifir')}</p>`;
-  }
-  
-  if (strongTables.length > 0) {
-    html += `<p style="margin-top: 10px;">✅ ${t.suggestionStrongTables}: ${strongTables.join('、')} ${currentLang === 'zh' ? '的乘法表' : (currentLang === 'en' ? 'tables' : 'sifir')}</p>`;
-  }
-  
-  if (wrongQuestions.length > 0) {
-    html += `<p style="margin-top: 10px;">📝 ${currentLang === 'zh' ? `你有 ${wrongQuestions.length} 道错题待复习` : (currentLang === 'en' ? `You have ${wrongQuestions.length} wrong questions to review` : `Anda ada ${wrongQuestions.length} soalan salah untuk ulang kaji`)}</p>`;
-  }
-  
-  html += `</div>`;
-  html += renderBadges();
-  return html;
+  } catch(e) { card.innerHTML = `<div class="loading">${t.loadFailed}: ${e.message}</div>`; }
 }
 
 // ==================== 教师后台功能 ====================
 async function loadTeacherData() {
   const t = texts[currentLang];
   const card = document.getElementById('teacherCard');
-  if (!supabaseClient) {
-    if (card) card.innerHTML = `<div class="loading">${t.supabaseNotConnected}</div>`;
-    return;
-  }
+  if (!supabaseClient) { if (card) card.innerHTML = `<div class="loading">${t.supabaseNotConnected}</div>`; return; }
   if (card) card.innerHTML = `<div class="loading">${t.loading}</div>`;
   try {
     const schoolFilter = document.getElementById('filterSchool').value.trim();
     const classFilter = document.getElementById('filterClass').value.trim();
     const nameFilter = document.getElementById('filterStudentName').value.trim();
-    
     let query = supabaseClient.from('math_records').select('*').order('created_at', { ascending: false });
     if (schoolFilter) query = query.eq('school', schoolFilter);
     if (classFilter) query = query.eq('class', classFilter);
     if (nameFilter) query = query.eq('name', nameFilter);
-    
     const { data, error } = await query;
     if (error) throw error;
     classRecords = data || [];
     renderTeacherDashboard(classRecords);
     renderClassComparison();
-  } catch(e) {
-    if (card) card.innerHTML = `<div class="loading">❌ ${t.loadFailed}: ${e.message}</div>`;
-  }
+  } catch(e) { if (card) card.innerHTML = `<div class="loading">❌ ${t.loadFailed}: ${e.message}</div>`; }
 }
 
 function renderTeacherDashboard(records) {
   const t = texts[currentLang];
   const card = document.getElementById('teacherCard');
   if (!card) return;
-  if (!records || records.length === 0) {
-    card.innerHTML = `<div class="loading">${t.noData}</div>`;
-    return;
-  }
-  
+  if (!records || records.length === 0) { card.innerHTML = `<div class="loading">${t.noData}</div>`; return; }
   const totalTests = records.length;
   const avgAccuracy = Math.round(records.reduce((sum, r) => sum + r.accuracy, 0) / totalTests);
   const bestScore = Math.max(...records.map(r => r.accuracy));
   const studentCount = [...new Set(records.map(r => `${r.school}-${r.class}-${r.name}`))].length;
   const multiplicationStats = calculateMultiplicationStats(records);
-  
-  let html = `
-    <div class="stats-grid">
-      <div class="stat-card"><div class="stat-number">${studentCount}</div><div>${t.totalStudents}</div></div>
-      <div class="stat-card"><div class="stat-number">${totalTests}</div><div>${t.totalTests}</div></div>
-      <div class="stat-card"><div class="stat-number">${avgAccuracy}%</div><div>${t.avgAccuracy}</div></div>
-      <div class="stat-card"><div class="stat-number">${bestScore}%</div><div>${t.highestScore}</div></div>
-    </div>
-    ${renderMultiplicationDetails(multiplicationStats)}
-    <div style="margin-top:25px;"><div style="font-weight:bold; margin-bottom:15px;">${t.classHeatmapTitle}</div>${renderClassHeatmap(records, t)}</div>
-    <div style="margin-top:25px;"><div style="font-weight:bold; margin-bottom:15px;">${t.diagnosisTitle}</div><div class="suggestion-box">${generateClassDiagnosis(records, t)}</div></div>
-    <div style="margin-top:25px;"><div style="font-weight:bold; margin-bottom:15px;">${t.recentRecords}</div>
-    <div class="class-list">`;
-  
+  let html = `<div class="stats-grid">
+    <div class="stat-card"><div class="stat-number">${studentCount}</div><div>${t.totalStudents}</div></div>
+    <div class="stat-card"><div class="stat-number">${totalTests}</div><div>${t.totalTests}</div></div>
+    <div class="stat-card"><div class="stat-number">${avgAccuracy}%</div><div>${t.avgAccuracy}</div></div>
+    <div class="stat-card"><div class="stat-number">${bestScore}%</div><div>${t.highestScore}</div></div>
+  </div>`;
+  html += renderMultiplicationDetails(multiplicationStats);
+  html += `<div style="margin-top:25px;"><div style="font-weight:bold;margin-bottom:15px;">${t.classHeatmapTitle}</div>${renderClassHeatmap(records, t)}</div>`;
+  html += `<div style="margin-top:25px;"><div style="font-weight:bold;margin-bottom:15px;">${t.diagnosisTitle}</div><div class="suggestion-box">${generateClassDiagnosis(records, t)}</div></div>`;
+  html += `<div style="margin-top:25px;"><div style="font-weight:bold;margin-bottom:15px;">${t.recentRecords}</div><div class="class-list">`;
   records.slice(0, 20).forEach(record => {
     const date = new Date(record.created_at).toLocaleString();
     html += `<div class="class-item" data-name="${record.name}" data-school="${record.school}" data-class="${record.class}">
@@ -2092,7 +2317,6 @@ function renderTeacherDashboard(records) {
   });
   html += `</div></div>`;
   card.innerHTML = html;
-  
   document.querySelectorAll('.class-item').forEach(item => {
     item.addEventListener('click', () => {
       const name = item.dataset.name, school = item.dataset.school, className = item.dataset.class;
@@ -2121,29 +2345,16 @@ function calculateMultiplicationStats(records) {
 
 function renderMultiplicationDetails(stats) {
   const t = texts[currentLang];
-  let html = `<div style="margin-top:25px;"><div style="font-weight:bold; margin-bottom:15px; font-size:1.2rem;">📊 ${t.timesTableMastery}</div><div class="multiplication-grid">`;
+  let html = `<div style="margin-top:25px;"><div style="font-weight:bold;margin-bottom:15px;font-size:1.2rem;">📊 ${t.timesTableMastery}</div><div class="multiplication-grid">`;
   for (let i = 0; i <= 12; i++) {
     const stat = stats[i];
-    const percent = stat.total > 0 ? Math.round((stat.correct / stat.total) * 100) : 0;
+    const percent = stat.total > 0 ? Math.round((stat.correct/stat.total)*100) : 0;
     let level = '', levelColor = '', emoji = '';
-    if (stat.total === 0) {
-      level = currentLang === 'zh' ? '暂无数据' : (currentLang === 'en' ? 'No data' : 'Tiada data');
-      levelColor = '#888';
-      emoji = '❓';
-    } else if (percent >= 85) {
-      level = currentLang === 'zh' ? '已掌握' : (currentLang === 'en' ? 'Mastered' : 'Dikuasai');
-      levelColor = '#90ff90';
-      emoji = '🚀';
-    } else if (percent >= 60) {
-      level = currentLang === 'zh' ? '基本掌握' : (currentLang === 'en' ? 'Good' : 'Baik');
-      levelColor = '#ffcc88';
-      emoji = '✨';
-    } else {
-      level = currentLang === 'zh' ? '需加强' : (currentLang === 'en' ? 'Need Practice' : 'Perlu Latihan');
-      levelColor = '#ff9090';
-      emoji = '🌱';
-    }
-    const title = currentLang === 'zh' ? `${i} 的乘法表` : (currentLang === 'en' ? `${i} Times Table` : `Sifir ${i}`);
+    if (stat.total === 0) { level = currentLang === 'zh' ? '暂无数据' : 'No data'; levelColor = '#888'; emoji = '❓'; }
+    else if (percent >= 85) { level = currentLang === 'zh' ? '已掌握' : 'Mastered'; levelColor = '#90ff90'; emoji = '🚀'; }
+    else if (percent >= 60) { level = currentLang === 'zh' ? '基本掌握' : 'Good'; levelColor = '#ffcc88'; emoji = '✨'; }
+    else { level = currentLang === 'zh' ? '需加强' : 'Need Practice'; levelColor = '#ff9090'; emoji = '🌱'; }
+    const title = currentLang === 'zh' ? `${i} 的乘法表` : `${i} Times Table`;
     html += `<div class="multiplication-card"><div class="multiplication-title">${emoji} ${title}</div>
       <div class="multiplication-stats">${stat.correct} / ${stat.total}</div>
       <div class="multiplication-percent" style="color:${levelColor};">${percent}%</div>
@@ -2153,27 +2364,31 @@ function renderMultiplicationDetails(stats) {
   return html;
 }
 
+// ✅ 修复：renderClassHeatmap 中正确解构变量
 function renderClassHeatmap(records, t) {
   const students = [...new Set(records.map(r => `${r.school}|${r.class}|${r.name}`))];
   const tableStats = {};
   students.forEach(key => {
-    const [school, className, name] = key.split('|');
+    const parts = key.split('|');
+    const school = parts[0];
+    const className = parts[1];
+    const name = parts[2];
     const studentRecords = records.filter(r => r.school === school && r.class === className && r.name === name);
     const bestRecord = studentRecords.sort((a,b) => b.accuracy - a.accuracy)[0];
     tableStats[key] = bestRecord?.details || {};
   });
-  let html = '<div class="heatmap-table"><table>';
-  html += `<tr><th>${t.studentColumn}</th>`;
+  let html = '<div class="heatmap-table"><table><tr><th>' + t.studentColumn + '</th>';
   for (let i = 0; i <= 12; i++) html += `<th>${i}</th>`;
   html += '</tr>';
   students.slice(0, 20).forEach(key => {
-    const [school, className, name] = key.split('|');
+    const parts = key.split('|');
+    const name = parts[2];
     html += `<tr><td>${name}</td>`;
     for (let i = 0; i <= 12; i++) {
       const detail = tableStats[key][i];
-      const percent = detail && detail.total ? Math.round((detail.correct / detail.total) * 100) : null;
+      const percent = detail && detail.total ? Math.round((detail.correct/detail.total)*100) : null;
       const bgColor = percent === null ? '#333' : getHeatColor(percent);
-      html += `<td style="background:${bgColor};">${percent ?? '-'}</td>`;
+      html += `<td style="background:${bgColor};">${percent ?? '-'}</td>';
     }
     html += '</tr>';
   });
@@ -2193,15 +2408,11 @@ function generateClassDiagnosis(records, t) {
   for (let i = 0; i <= 12; i++) {
     const stat = multiplicationStats[i];
     if (stat.total > 0) {
-      const percent = Math.round((stat.correct / stat.total) * 100);
+      const percent = Math.round((stat.correct/stat.total)*100);
       if (percent < 70) weakTables.push(`${i} (${percent}%)`);
     }
   }
-  if (weakTables.length > 0) {
-    return t.weakTablesAdvice + weakTables.join('、');
-  } else {
-    return t.noWeakTablesAdvice;
-  }
+  return weakTables.length > 0 ? t.weakTablesAdvice + weakTables.join('、') : t.noWeakTablesAdvice;
 }
 
 async function renderClassComparison() {
@@ -2212,12 +2423,7 @@ async function renderClassComparison() {
   const { data } = await query;
   if (!data || data.length === 0) return;
   const classStats = {};
-  data.forEach(r => { 
-    const className = r.class;
-    if (!classStats[className]) { classStats[className] = { total: 0, count: 0 }; }
-    classStats[className].total += r.accuracy;
-    classStats[className].count++;
-  });
+  data.forEach(r => { if (!classStats[r.class]) classStats[r.class] = { total: 0, count: 0 }; classStats[r.class].total += r.accuracy; classStats[r.class].count++; });
   const classes = Object.keys(classStats);
   const avgScores = classes.map(c => Math.round(classStats[c].total / classStats[c].count));
   const ctx = document.getElementById('classComparisonChart');
@@ -2226,24 +2432,8 @@ async function renderClassComparison() {
     const t = texts[currentLang];
     classChart = new Chart(ctx.getContext('2d'), {
       type: 'bar',
-      data: {
-        labels: classes,
-        datasets: [{
-          label: t.avgAccuracy + ' (%)',
-          data: avgScores,
-          backgroundColor: '#ffaa66',
-          borderRadius: 10
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: { legend: { labels: { color: 'white' } } },
-        scales: {
-          y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: 'white' } },
-          x: { ticks: { color: 'white' } }
-        }
-      }
+      data: { labels: classes, datasets: [{ label: t.avgAccuracy + ' (%)', data: avgScores, backgroundColor: '#ffaa66', borderRadius: 10 }] },
+      options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: 'white' } } }, scales: { y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: 'white' } }, x: { ticks: { color: 'white' } } } }
     });
   }
 }
@@ -2255,63 +2445,37 @@ async function showStudentProgress(name, school, className) {
   if (!data || data.length === 0) return;
   const labels = data.map((_, i) => `${t.testLabel} ${i+1}`);
   const accuracies = data.map(r => r.accuracy);
-  document.getElementById('progressTitle').innerHTML = `📈 ${name} - ${t.avgAccuracy} ${currentLang === 'zh' ? '趋势' : (currentLang === 'en' ? 'Trend' : 'Aliran')}`;
+  document.getElementById('progressTitle').innerHTML = `📈 ${name} - ${t.avgAccuracy} ${currentLang === 'zh' ? '趋势' : 'Trend'}`;
   document.getElementById('closeProgressBtn').innerHTML = t.closeBtn;
   document.getElementById('progressModal').classList.add('active');
   const ctx = document.getElementById('progressChart').getContext('2d');
   if (progressChart) progressChart.destroy();
   progressChart = new Chart(ctx, {
     type: 'line',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: t.avgAccuracy + ' (%)',
-        data: accuracies,
-        borderColor: '#ffaa66',
-        backgroundColor: 'rgba(255,170,102,0.1)',
-        tension: 0.3,
-        fill: true
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      plugins: { legend: { labels: { color: 'white' } } },
-      scales: {
-        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: 'white' } },
-        x: { ticks: { color: 'white' } }
-      }
-    }
+    data: { labels, datasets: [{ label: t.avgAccuracy + ' (%)', data: accuracies, borderColor: '#ffaa66', backgroundColor: 'rgba(255,170,102,0.1)', tension: 0.3, fill: true }] },
+    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: 'white' } } }, scales: { y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: 'white' } }, x: { ticks: { color: 'white' } } } }
   });
 }
 
-// ==================== 导出功能（支持学校、班级、姓名筛选） ====================
+// ==================== 导出功能 ====================
 function exportToExcel() {
   const t = texts[currentLang];
   if (!supabaseClient) return alert(t.noDataToExport);
-  
   const schoolFilter = document.getElementById('filterSchool').value.trim();
   const classFilter = document.getElementById('filterClass').value.trim();
   const nameFilter = document.getElementById('filterStudentName').value.trim();
-  
   let query = supabaseClient.from('math_records').select('*').order('created_at', { ascending: false });
   if (schoolFilter) query = query.eq('school', schoolFilter);
   if (classFilter) query = query.eq('class', classFilter);
   if (nameFilter) query = query.eq('name', nameFilter);
-  
   query.then(({ data }) => {
     if (!data || data.length === 0) return alert(t.noDataToExport);
-    
-    let csv = currentLang === 'zh' ? '学校,班级,姓名,等级,正确数,总题数,正确率,测试时间\n' : 
-               (currentLang === 'en' ? 'School,Class,Name,Level,Correct,Total,Accuracy,Test Date\n' : 
-               'Sekolah,Kelas,Nama,Tahap,Betul,Jumlah,Ketepatan,Tarikh Ujian\n');
-    data.forEach(r => {
-      csv += `"${r.school}","${r.class}","${r.name}",${r.level},${r.correct},${r.total},${r.accuracy}%,"${new Date(r.created_at).toLocaleString()}"\n`;
-    });
+    let csv = currentLang === 'zh' ? '学校,班级,姓名,等级,正确数,总题数,正确率,测试时间\n' : 'School,Class,Name,Level,Correct,Total,Accuracy,Test Date\n';
+    data.forEach(r => { csv += `"${r.school}","${r.class}","${r.name}",${r.level},${r.correct},${r.total},${r.accuracy}%,"${new Date(r.created_at).toLocaleString()}"\n`; });
     const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    let fileName = `${currentLang === 'zh' ? '测试记录' : (currentLang === 'en' ? 'Test_Records' : 'Rekod_Ujian')}`;
+    let fileName = `${currentLang === 'zh' ? '测试记录' : 'Test_Records'}`;
     if (nameFilter) fileName += `_${nameFilter}`;
     if (classFilter) fileName += `_${classFilter}`;
     if (schoolFilter) fileName += `_${schoolFilter}`;
@@ -2326,40 +2490,26 @@ function exportToExcel() {
 function exportStudentMultiplicationDetails() {
   const t = texts[currentLang];
   if (!supabaseClient) return alert(t.noDataToExport);
-  
   const schoolFilter = document.getElementById('filterSchool').value.trim();
   const classFilter = document.getElementById('filterClass').value.trim();
   const nameFilter = document.getElementById('filterStudentName').value.trim();
-  
   let query = supabaseClient.from('math_records').select('*');
   if (schoolFilter) query = query.eq('school', schoolFilter);
   if (classFilter) query = query.eq('class', classFilter);
   if (nameFilter) query = query.eq('name', nameFilter);
-  
   query.then(({ data }) => {
     if (!data || data.length === 0) return alert(t.noDataToExport);
     const bestRecords = getStudentBestRecords(data);
-    let csv = '';
-    if (currentLang === 'zh') {
-      csv = '学校,班级,姓名,测试日期,正确率';
-      for (let i = 0; i <= 12; i++) csv += `,${i}的乘法表`;
-      csv += '\n';
-    } else if (currentLang === 'en') {
-      csv = 'School,Class,Name,Test Date,Accuracy';
-      for (let i = 0; i <= 12; i++) csv += `,${i} Times Table`;
-      csv += '\n';
-    } else {
-      csv = 'Sekolah,Kelas,Nama,Tarikh Ujian,Ketepatan';
-      for (let i = 0; i <= 12; i++) csv += `,Sifir ${i}`;
-      csv += '\n';
-    }
+    let csv = currentLang === 'zh' ? '学校,班级,姓名,测试日期,正确率' : 'School,Class,Name,Test Date,Accuracy';
+    for (let i = 0; i <= 12; i++) csv += currentLang === 'zh' ? `,${i}的乘法表` : `,${i} Times Table`;
+    csv += '\n';
     for (const record of bestRecords) {
       const date = new Date(record.created_at).toLocaleDateString();
       let row = `"${record.school}","${record.class}","${record.name}","${date}",${record.accuracy}%`;
       const details = record.details || {};
       for (let i = 0; i <= 12; i++) {
         const detail = details[i];
-        let percent = (detail && detail.total > 0) ? Math.round((detail.correct / detail.total) * 100) + '%' : '-';
+        let percent = (detail && detail.total > 0) ? Math.round((detail.correct/detail.total)*100) + '%' : '-';
         row += `,"${percent}"`;
       }
       csv += row + '\n';
@@ -2367,7 +2517,7 @@ function exportStudentMultiplicationDetails() {
     const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    let fileName = `${currentLang === 'zh' ? '学生乘法表详情' : (currentLang === 'en' ? 'Student_Multiplication_Details' : 'Butiran_Sifir_Murid')}`;
+    let fileName = `${currentLang === 'zh' ? '学生乘法表详情' : 'Student_Multiplication_Details'}`;
     if (nameFilter) fileName += `_${nameFilter}`;
     if (classFilter) fileName += `_${classFilter}`;
     if (schoolFilter) fileName += `_${schoolFilter}`;
@@ -2390,58 +2540,37 @@ function getStudentBestRecords(records) {
 
 async function deleteTeacherData() {
   const t = texts[currentLang];
-  const confirmMsg = currentLang === 'zh' ? '确定要删除当前筛选条件下的所有数据吗？此操作不可恢复！' : 
-                     (currentLang === 'en' ? 'Are you sure you want to delete all data under current filters? This cannot be undone!' : 
-                     'Adakah anda pasti mahu memadam semua data di bawah penapis semasa? Tindakan ini tidak boleh dibatalkan!');
-  if (!confirm(confirmMsg)) return;
-  
+  if (!confirm(currentLang === 'zh' ? '确定要删除当前筛选条件下的所有数据吗？此操作不可恢复！' : 'Are you sure you want to delete all data under current filters? This cannot be undone!')) return;
   const password = prompt(t.enterPassword);
-  if (password !== TEACHER_PASSWORD) {
-    alert(t.wrongPassword);
-    return;
-  }
-  
+  if (password !== TEACHER_PASSWORD) { alert(t.wrongPassword); return; }
   if (!supabaseClient) return alert('Supabase not connected');
-  
   try {
     const schoolFilter = document.getElementById('filterSchool').value.trim();
     const classFilter = document.getElementById('filterClass').value.trim();
     const nameFilter = document.getElementById('filterStudentName').value.trim();
-    
     let query = supabaseClient.from('math_records').delete();
     if (schoolFilter) query = query.eq('school', schoolFilter);
     if (classFilter) query = query.eq('class', classFilter);
     if (nameFilter) query = query.eq('name', nameFilter);
-    
-    const { error } = await query;
-    if (error) throw error;
-    
+    await query;
     const records = JSON.parse(localStorage.getItem('mathRecords') || '[]');
-    const newRecords = records.filter(r => {
+    localStorage.setItem('mathRecords', JSON.stringify(records.filter(r => {
       if (schoolFilter && r.school !== schoolFilter) return true;
       if (classFilter && r.class !== classFilter) return true;
       if (nameFilter && r.name !== nameFilter) return true;
       return false;
-    });
-    localStorage.setItem('mathRecords', JSON.stringify(newRecords));
-    
-    alert(currentLang === 'zh' ? '✅ 数据已删除' : (currentLang === 'en' ? '✅ Data deleted' : '✅ Data dipadam'));
+    })));
+    alert(currentLang === 'zh' ? '✅ 数据已删除' : '✅ Data deleted');
     loadTeacherData();
-  } catch(e) {
-    alert(currentLang === 'zh' ? '删除失败: ' + e.message : (currentLang === 'en' ? 'Delete failed: ' + e.message : 'Padam gagal: ' + e.message));
-  }
+  } catch(e) { alert(currentLang === 'zh' ? '删除失败: ' + e.message : 'Delete failed: ' + e.message); }
 }
 
-// ==================== 证书生成（完全翻译） ====================
+// ==================== 证书生成 ====================
 function generateCertificate() {
   const t = texts[currentLang];
-  const accuracy = Math.round((correctCount / questions.length) * 100);
+  const accuracy = Math.round((correctCount/questions.length)*100);
   const nowDate = new Date().toLocaleDateString();
-  
-  let levelText = '';
-  let customTablesHtml = '';
-  
-  // ✅ 使用多语言
+  let levelText = '', customTablesHtml = '';
   if (currentLevel === 1) levelText = t.certLevel1;
   else if (currentLevel === 2) levelText = t.certLevel2;
   else if (currentLevel === 3) levelText = t.certLevel3;
@@ -2449,180 +2578,109 @@ function generateCertificate() {
   else if (currentLevel === 5) levelText = t.certLevel5;
   else if (currentLevel === 6) {
     levelText = t.certLevel6;
-    const tableLabelText = currentLang === 'zh' ? '📋 练习的乘法表：' : (currentLang === 'en' ? '📋 Practiced Tables:' : '📋 Sifir yang Dilatih:');
-    customTablesHtml = `<div style="margin: 15px 0; padding: 10px; background: rgba(255,200,100,0.15); border-radius: 20px;">
-      <strong>${tableLabelText}</strong><br>
-      ${selectedTables.map(table => {
-        return currentLang === 'zh' ? `${table} 的乘法表` : (currentLang === 'en' ? `${table} Times Table` : `Sifir ${table}`);
-      }).join(' · ')}
-    </div>`;
+    const tableLabelText = currentLang === 'zh' ? '📋 练习的乘法表：' : '📋 Practiced Tables:';
+    customTablesHtml = `<div style="margin:15px 0;padding:10px;background:rgba(255,200,100,0.15);border-radius:20px;"><strong>${tableLabelText}</strong><br>${selectedTables.map(table => currentLang === 'zh' ? `${table} 的乘法表` : `${table} Times Table`).join(' · ')}</div>`;
   }
-  
   let starRating = accuracy >= 90 ? '🌟🌟🌟🌟🌟' : (accuracy >= 75 ? '🌟🌟🌟🌟' : (accuracy >= 60 ? '🌟🌟🌟' : '🌟🌟'));
-  
   const certHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${t.certTitle} - ${student.name}</title><style>
-    body { margin:0; padding:40px; background:linear-gradient(135deg,#0a0f2a,#0a1a3a); font-family:'Comic Neue','Segoe UI','Comic Sans MS',cursive; min-height:100vh; display:flex; justify-content:center; align-items:center; }
-    .certificate { background:linear-gradient(135deg,#fff8e7,#ffe8c8); border-radius:30px; padding:50px; max-width:800px; width:100%; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,0.3); border:10px solid #ffcc88; }
-    h1 { color:#ff8844; font-size:2.5rem; margin-bottom:20px; }
-    .star { font-size:2rem; margin:20px 0; }
-    .student-name { font-size:2rem; color:#ff6644; margin:20px 0; border-bottom:2px solid #ffcc88; display:inline-block; }
-    .info { margin:20px 0; font-size:1.2rem; color:#555; }
-    .score { font-size:3rem; font-weight:bold; color:#ff8844; margin:20px 0; }
-    .message { font-size:1.3rem; color:#888; margin-top:30px; font-style:italic; }
-    .footer { margin-top:40px; font-size:0.9rem; color:#aaa; }
-    .btn-close { background:#ff8844; color:white; border:none; padding:10px 30px; border-radius:30px; font-size:1rem; cursor:pointer; margin-top:20px; margin-left:10px; }
-    .btn-close:hover { background:#ff6633; }
-    .btn-print { background:#44aa66; color:white; border:none; padding:10px 30px; border-radius:30px; font-size:1rem; cursor:pointer; margin:10px; }
-    .btn-print:hover { background:#228844; }
-    @media print { body { padding:0; background:white; } .certificate { box-shadow:none; border:2px solid #ffcc88; } .no-print { display:none; } }
+    body{margin:0;padding:40px;background:linear-gradient(135deg,#0a0f2a,#0a1a3a);font-family:'Comic Neue','Segoe UI','Comic Sans MS',cursive;min-height:100vh;display:flex;justify-content:center;align-items:center;}
+    .certificate{background:linear-gradient(135deg,#fff8e7,#ffe8c8);border-radius:30px;padding:50px;max-width:800px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.3);border:10px solid #ffcc88;}
+    h1{color:#ff8844;font-size:2.5rem;margin-bottom:20px;}.star{font-size:2rem;margin:20px 0;}.student-name{font-size:2rem;color:#ff6644;margin:20px 0;border-bottom:2px solid #ffcc88;display:inline-block;}
+    .info{margin:20px 0;font-size:1.2rem;color:#555;}.score{font-size:3rem;font-weight:bold;color:#ff8844;margin:20px 0;}.message{font-size:1.3rem;color:#888;margin-top:30px;font-style:italic;}
+    .footer{margin-top:40px;font-size:0.9rem;color:#aaa;}.btn-close{background:#ff8844;color:white;border:none;padding:10px 30px;border-radius:30px;font-size:1rem;cursor:pointer;margin-top:20px;margin-left:10px;}
+    .btn-close:hover{background:#ff6633;}.btn-print{background:#44aa66;color:white;border:none;padding:10px 30px;border-radius:30px;font-size:1rem;cursor:pointer;margin:10px;}
+    .btn-print:hover{background:#228844;}@media print{body{padding:0;background:white;}.certificate{box-shadow:none;border:2px solid #ffcc88;}.no-print{display:none;}}
   </style></head><body>
-  <div class="certificate">
-    <h1>🚀 ${t.certTitle} 🚀</h1>
-    <div class="star">${starRating}</div>
-    <div class="student-name">${student.name}</div>
-    <div class="info">${student.school} - ${student.className}</div>
-    ${customTablesHtml}
-    <div class="score">${accuracy}%</div>
-    <div class="info">${t.certLevel}: ${levelText}</div>
-    <div class="info">${t.certDate}: ${nowDate}</div>
-    <div class="message">⭐ ${t.certMessage} ⭐</div>
-    <div class="footer">${t.certFooter}</div>
-    <div class="no-print" style="margin-top:20px;">
-      <button class="btn-print" onclick="window.print();">${t.printCert}</button>
-      <button class="btn-close" onclick="window.close();">${t.closeCert}</button>
-    </div>
-  </div>
-  <script>window.onload = function() { setTimeout(function() { window.print(); }, 500); }<\/script>
-  </body></html>`;
-  
+  <div class="certificate"><h1>🚀 ${t.certTitle} 🚀</h1><div class="star">${starRating}</div><div class="student-name">${student.name}</div>
+  <div class="info">${student.school} - ${student.className}</div>${customTablesHtml}<div class="score">${accuracy}%</div>
+  <div class="info">${t.certLevel}: ${levelText}</div><div class="info">${t.certDate}: ${nowDate}</div>
+  <div class="message">⭐ ${t.certMessage} ⭐</div><div class="footer">${t.certFooter}</div>
+  <div class="no-print" style="margin-top:20px;"><button class="btn-print" onclick="window.print();">${t.printCert}</button><button class="btn-close" onclick="window.close();">${t.closeCert}</button></div></div>
+  <script>window.onload = function() { setTimeout(function() { window.print(); }, 500); }<\/script></body></html>`;
   const win = window.open();
-  if (win) {
-    win.document.write(certHtml);
-    win.document.close();
-  } else {
-    const newWin = window.open('', '_blank');
-    if (newWin) {
-      newWin.document.write(certHtml);
-      newWin.document.close();
-    } else {
-      alert('请允许弹出窗口以生成证书');
-    }
-  }
+  if (win) { win.document.write(certHtml); win.document.close(); }
+  else { const newWin = window.open('', '_blank'); if (newWin) { newWin.document.write(certHtml); newWin.document.close(); } else { alert('请允许弹出窗口以生成证书'); } }
 }
 
 // ==================== UI 语言应用 ====================
 function applyUILang() {
   const t = texts[currentLang];
   const elements = {
-    'mainTitle': t.mainTitle,
-    'infoSubtitle': t.infoSubtitle,
-    'schoolLabel': t.schoolLabel,
-    'classLabel': t.classLabel,
-    'nameLabel': t.nameLabel,
-    'startBtn': t.startBtn,
-    'levelTitle': t.levelTitle,
-    'submitBtn': t.submitBtn,
-    'reportTitle': t.reportTitle,
-    'restartBtn': t.restartBtn,
-    'homeBtn': t.homeBtn,
-    'teacherBtn': t.teacherBtn,
-    'tutorialBtn': t.tutorialBtn,
-    'tutorialTitle': t.tutorialTitle,
-    'backToInfoBtn': t.backToInfo,
-    'backToLevelBtn': t.backToLevel,
-    'backToLevelFromReportBtn': t.backToLevel,
-    'backFromTutorialBtn': t.backHome,
-    'backFromTeacherBtn': t.backHome,
-    'teacherTitle': t.teacherTitle,
-    'wrongTitle': t.wrongTitle,
-    'practiceWrongBtn': t.practiceWrong,
-    'clearWrongBtn': t.clearWrong,
-    'backToReportBtn': t.backToReport,
-    'backToReportFromRankBtn': t.backToReport,
-    'rankTitle': t.rankTitle,
-    'classComparisonTitle': t.classComparison,
-    'feedbackBtn': t.feedback,
-    'modalTitle': t.customTitle,
-    'modalHint': t.customHint,
-    'cancelCustomBtn': t.cancelBtn,
-    'confirmCustomBtn': t.confirmCustomBtn,
-    'progressTitle': t.progressTitle,
-    'closeProgressBtn': t.closeBtn,
-    'smartReviewBtn': t.smartReviewBtn,
-    'customLevelDesc': t.customLevelDesc,
-    'customLevelLabel': t.customLevelLabel,
-    'deleteDataBtn': t.deleteData,
-    'exportBtn': t.exportRecords,
+    'mainTitle': t.mainTitle, 'infoSubtitle': t.infoSubtitle, 'schoolLabel': t.schoolLabel,
+    'classLabel': t.classLabel, 'nameLabel': t.nameLabel, 'startBtn': t.startBtn,
+    'levelTitle': t.levelTitle, 'submitBtn': t.submitBtn, 'reportTitle': t.reportTitle,
+    'restartBtn': t.restartBtn, 'homeBtn': t.homeBtn, 'teacherBtn': t.teacherBtn,
+    'tutorialBtn': t.tutorialBtn, 'tutorialTitle': t.tutorialTitle, 'backToInfoBtn': t.backToInfo,
+    'backToLevelBtn': t.backToLevel, 'backToWelcomeBtn': t.backToWelcome,
+    'backToLevelFromReportBtn': t.backToLevel, 'backFromTutorialBtn': t.backHome,
+    'backFromTeacherBtn': t.backHome, 'teacherTitle': t.teacherTitle, 'wrongTitle': t.wrongTitle,
+    'practiceWrongBtn': t.practiceWrong, 'clearWrongBtn': t.clearWrong,
+    'backToReportBtn': t.backToReport, 'backToReportFromRankBtn': t.backToReport,
+    'rankTitle': t.rankTitle, 'classComparisonTitle': t.classComparison, 'feedbackBtn': t.feedback,
+    'modalTitle': t.customTitle, 'modalHint': t.customHint, 'cancelCustomBtn': t.cancelBtn,
+    'confirmCustomBtn': t.confirmCustomBtn, 'progressTitle': t.progressTitle,
+    'closeProgressBtn': t.closeBtn, 'smartReviewBtn': t.smartReviewBtn,
+    'customLevelDesc': t.customLevelDesc, 'customLevelLabel': t.customLevelLabel,
+    'deleteDataBtn': t.deleteData, 'exportBtn': t.exportRecords,
     'exportStudentDetailBtn': t.exportDetails,
-    'step1Title': t.step1Title,
-    'step1Desc': t.step1Desc,
-    'step2Title': t.step2Title,
-    'step2Desc': t.step2Desc,
-    'step3Title': t.step3Title,
-    'step3Desc': t.step3Desc,
-    'step4Title': t.step4Title,
-    'step4Desc': t.step4Desc,
-    'step5Title': t.step5Title,
-    'step5Desc': t.step5Desc,
-    'step6Title': t.step6Title,
-    'step6Desc': t.step6Desc,
+    'step1Title': t.step1Title, 'step1Desc': t.step1Desc,
+    'step2Title': t.step2Title, 'step2Desc': t.step2Desc,
+    'step3Title': t.step3Title, 'step3Desc': t.step3Desc,
+    'step4Title': t.step4Title, 'step4Desc': t.step4Desc,
+    'step5Title': t.step5Title, 'step5Desc': t.step5Desc,
+    'step6Title': t.step6Title, 'step6Desc': t.step6Desc,
+    'step7Title': t.step7Title, 'step7Desc': t.step7Desc,
     'tutorialFooter': t.tutorialFooter,
+    'conceptWelcomeTitle': t.conceptWelcomeTitle,
+    'conceptWelcomeDesc': t.conceptWelcomeDesc,
+    'conceptWelcomeLearnTitle': t.conceptWelcomeLearnTitle,
+    'conceptWelcomeTime': t.conceptWelcomeTime,
+    'conceptStartBtn': t.conceptStartBtn,
+    'conceptSkipBtn': t.conceptSkipBtn,
+    'conceptBackBtn': t.conceptBackBtn,
+    'conceptNextBtn': t.conceptNextBtn,
+    'conceptExitBtn': t.conceptExitBtn
   };
-  
   for (const [id, text] of Object.entries(elements)) {
     const el = document.getElementById(id);
     if (el) {
-      const innerHTMLIds = [
-        'homeBtn', 'teacherBtn', 'tutorialBtn',
-        'backToInfoBtn', 'backToLevelBtn', 'backToLevelFromReportBtn',
-        'backToReportBtn', 'backToReportFromRankBtn', 'backFromTeacherBtn',
-        'backFromTutorialBtn',
-        'cancelCustomBtn', 'confirmCustomBtn', 'closeProgressBtn',
-        'practiceWrongBtn', 'clearWrongBtn', 'deleteDataBtn',
-        'exportBtn', 'exportStudentDetailBtn'
-      ];
-      if (innerHTMLIds.includes(id)) {
-        el.innerHTML = text;
-      } else {
-        el.textContent = text;
-      }
+      const innerHTMLIds = ['homeBtn', 'teacherBtn', 'tutorialBtn', 'backToInfoBtn', 'backToLevelBtn',
+        'backToLevelFromReportBtn', 'backToReportBtn', 'backToReportFromRankBtn', 'backFromTeacherBtn',
+        'backFromTutorialBtn', 'cancelCustomBtn', 'confirmCustomBtn', 'closeProgressBtn',
+        'practiceWrongBtn', 'clearWrongBtn', 'deleteDataBtn', 'exportBtn', 'exportStudentDetailBtn',
+        'backToWelcomeBtn'];
+      if (innerHTMLIds.includes(id)) el.innerHTML = text;
+      else el.textContent = text;
     }
   }
-  
   const levelBtns = document.querySelectorAll('.level-btn[data-lvl]');
   const levelNames = [t.level1Name, t.level2Name, t.level3Name, t.level4Name];
   const levelDescs = [t.level1Desc, t.level2Desc, t.level3Desc, t.level4Desc];
-  levelBtns.forEach((btn, idx) => {
-    if (idx < levelNames.length) {
-      btn.innerHTML = `${levelNames[idx]}<br><span>${levelDescs[idx]}</span>`;
-    }
-  });
-  
-  const schoolInput = document.getElementById('school');
-  const classInput = document.getElementById('className');
-  const nameInput = document.getElementById('studentName');
-  if (schoolInput) schoolInput.placeholder = t.schoolPlaceholder;
-  if (classInput) classInput.placeholder = t.classPlaceholder;
-  if (nameInput) nameInput.placeholder = t.namePlaceholder;
-  
-  const filterSchool = document.getElementById('filterSchool');
-  const filterClass = document.getElementById('filterClass');
-  const filterStudentName = document.getElementById('filterStudentName');
-  if (filterSchool) filterSchool.placeholder = t.filterSchool + ' / Filter School';
-  if (filterClass) filterClass.placeholder = t.filterClass + ' / Filter Class';
-  if (filterStudentName) filterStudentName.placeholder = t.filterStudentName + ' / Filter Name';
-  
-  const langBtn = document.getElementById('langBtn');
-  if (langBtn) langBtn.textContent = t.langSwitchText;
+  levelBtns.forEach((btn, idx) => { if (idx < levelNames.length) btn.innerHTML = `${levelNames[idx]}<br><span>${levelDescs[idx]}</span>`; });
+  document.getElementById('school').placeholder = t.schoolPlaceholder;
+  document.getElementById('className').placeholder = t.classPlaceholder;
+  document.getElementById('studentName').placeholder = t.namePlaceholder;
+  document.getElementById('filterSchool').placeholder = t.filterSchool + ' / Filter School';
+  document.getElementById('filterClass').placeholder = t.filterClass + ' / Filter Class';
+  document.getElementById('filterStudentName').placeholder = t.filterStudentName + ' / Filter Name';
+  document.getElementById('langBtn').textContent = t.langSwitchText;
+  const list = document.getElementById('conceptWelcomeLearnList');
+  if (list && t.conceptWelcomeLearnList) {
+    list.innerHTML = '';
+    t.conceptWelcomeLearnList.forEach(item => { const li = document.createElement('li'); li.textContent = item; list.appendChild(li); });
+  }
+  const skipBtn = document.getElementById('conceptSkipBtn');
+  if (skipBtn) skipBtn.textContent = t.conceptSkipBtn + ' ' + skipCountdown + 's';
 }
 
 // ==================== 页面导航 ====================
 function goToHome() {
   stopTimer(); gameStarted = false; currentLevel = null; questions = []; currentIndex = 0; correctCount = 0; stats = {};
-  document.getElementById('school') && (document.getElementById('school').value = '');
-  document.getElementById('className') && (document.getElementById('className').value = '');
-  document.getElementById('studentName') && (document.getElementById('studentName').value = '');
+  document.getElementById('school').value = '';
+  document.getElementById('className').value = '';
+  document.getElementById('studentName').value = '';
   document.getElementById('infoScreen').classList.add('active');
+  document.getElementById('welcomeScreen').classList.remove('active');
   document.getElementById('levelScreen').classList.remove('active');
   document.getElementById('quizScreen').classList.remove('active');
   document.getElementById('reportScreen').classList.remove('active');
@@ -2630,9 +2688,11 @@ function goToHome() {
   document.getElementById('rankScreen').classList.remove('active');
   document.getElementById('teacherScreen').classList.remove('active');
   document.getElementById('tutorialScreen').classList.remove('active');
+  document.getElementById('conceptScreen').classList.remove('active');
+  document.getElementById('conceptCompleteOverlay').classList.remove('active');
 }
 
-function goToTutorial() {
+function goToWelcome() {
   document.getElementById('infoScreen').classList.remove('active');
   document.getElementById('levelScreen').classList.remove('active');
   document.getElementById('quizScreen').classList.remove('active');
@@ -2640,7 +2700,11 @@ function goToTutorial() {
   document.getElementById('wrongQuestionsScreen').classList.remove('active');
   document.getElementById('rankScreen').classList.remove('active');
   document.getElementById('teacherScreen').classList.remove('active');
-  document.getElementById('tutorialScreen').classList.add('active');
+  document.getElementById('tutorialScreen').classList.remove('active');
+  document.getElementById('conceptScreen').classList.remove('active');
+  document.getElementById('conceptCompleteOverlay').classList.remove('active');
+  document.getElementById('welcomeScreen').classList.add('active');
+  renderConceptWelcome();
 }
 
 function goToLevelSelect() {
@@ -2649,17 +2713,32 @@ function goToLevelSelect() {
   document.getElementById('reportScreen').classList.remove('active');
   document.getElementById('wrongQuestionsScreen').classList.remove('active');
   document.getElementById('rankScreen').classList.remove('active');
+  document.getElementById('conceptScreen').classList.remove('active');
+  document.getElementById('conceptCompleteOverlay').classList.remove('active');
   document.getElementById('levelScreen').classList.add('active');
   const smartBtn = document.getElementById('smartReviewBtn');
   if (smartBtn) smartBtn.style.display = wrongQuestions.length > 0 ? 'inline-block' : 'none';
+}
+
+function goToTutorial() {
+  document.getElementById('infoScreen').classList.remove('active');
+  document.getElementById('welcomeScreen').classList.remove('active');
+  document.getElementById('levelScreen').classList.remove('active');
+  document.getElementById('quizScreen').classList.remove('active');
+  document.getElementById('reportScreen').classList.remove('active');
+  document.getElementById('wrongQuestionsScreen').classList.remove('active');
+  document.getElementById('rankScreen').classList.remove('active');
+  document.getElementById('teacherScreen').classList.remove('active');
+  document.getElementById('conceptScreen').classList.remove('active');
+  document.getElementById('conceptCompleteOverlay').classList.remove('active');
+  document.getElementById('tutorialScreen').classList.add('active');
 }
 
 function showCustomModal() {
   const grid = document.getElementById('tableCheckboxGrid');
   let html = '';
   for (let i = 0; i <= 12; i++) {
-    const label = currentLang === 'zh' ? `${i} 的乘法表` : (currentLang === 'en' ? `${i} Times Table` : `Sifir ${i}`);
-    html += `<label class="table-checkbox-item"><input type="checkbox" value="${i}" class="table-cb"> ${label}</label>`;
+    html += `<label class="table-checkbox-item"><input type="checkbox" value="${i}" class="table-cb"> ${currentLang === 'zh' ? `${i} 的乘法表` : `${i} Times Table`}</label>`;
   }
   grid.innerHTML = html;
   document.getElementById('customModal').classList.add('active');
@@ -2670,7 +2749,6 @@ function verifyTeacherPassword() {
   return pwd === TEACHER_PASSWORD;
 }
 
-// ==================== 创建星星动画 ====================
 function createStars() {
   const container = document.getElementById('stars');
   if (!container) return;
@@ -2687,40 +2765,41 @@ createStars();
 // ==================== 事件绑定 ====================
 let loadTimeout = null;
 
-document.getElementById('langBtn').onclick = () => { 
+document.getElementById('langBtn').onclick = () => {
   currentLang = currentLang === 'zh' ? 'en' : 'zh';
-  applyUILang(); 
+  applyUILang();
   if (document.getElementById('teacherScreen').classList.contains('active')) loadTeacherData();
   if (document.getElementById('reportScreen').classList.contains('active') && gameStarted) {
-    getHistoryRecords().then(history => {
-      renderReport(history, Math.round((correctCount / questions.length) * 100));
-    });
+    getHistoryRecords().then(history => renderReport(history, Math.round((correctCount/questions.length)*100)));
   }
-  if (document.getElementById('wrongQuestionsScreen').classList.contains('active')) {
-    renderWrongQuestions();
-  }
+  if (document.getElementById('wrongQuestionsScreen').classList.contains('active')) renderWrongQuestions();
+  if (document.getElementById('welcomeScreen').classList.contains('active')) renderConceptWelcome();
+  if (document.getElementById('conceptScreen').classList.contains('active')) renderConceptLesson();
 };
 
-document.getElementById('homeBtn').onclick = () => { 
+document.getElementById('homeBtn').onclick = () => {
   const t = texts[currentLang];
-  if (confirm(t.homeBtn + '？' + (currentLang === 'zh' ? '进度将丢失。' : (currentLang === 'en' ? ' Progress lost.' : ' Kemajuan akan hilang.')))) goToHome(); 
+  if (confirm(t.homeBtn + '？' + (currentLang === 'zh' ? '进度将丢失。' : ' Progress lost.'))) goToHome();
 };
 
 document.getElementById('tutorialBtn').onclick = goToTutorial;
 document.getElementById('backFromTutorialBtn').onclick = goToHome;
 
-document.getElementById('teacherBtn').onclick = () => { 
-  if (verifyTeacherPassword()) { 
+document.getElementById('teacherBtn').onclick = () => {
+  if (verifyTeacherPassword()) {
     document.getElementById('infoScreen').classList.remove('active');
+    document.getElementById('welcomeScreen').classList.remove('active');
     document.getElementById('levelScreen').classList.remove('active');
     document.getElementById('quizScreen').classList.remove('active');
     document.getElementById('reportScreen').classList.remove('active');
     document.getElementById('wrongQuestionsScreen').classList.remove('active');
     document.getElementById('rankScreen').classList.remove('active');
     document.getElementById('tutorialScreen').classList.remove('active');
+    document.getElementById('conceptScreen').classList.remove('active');
+    document.getElementById('conceptCompleteOverlay').classList.remove('active');
     document.getElementById('teacherScreen').classList.add('active');
-    loadTeacherData(); 
-  } 
+    loadTeacherData();
+  }
 };
 
 document.getElementById('backFromTeacherBtn').onclick = goToHome;
@@ -2729,28 +2808,28 @@ document.getElementById('exportBtn').onclick = exportToExcel;
 document.getElementById('exportStudentDetailBtn').onclick = exportStudentMultiplicationDetails;
 document.getElementById('certBtn').onclick = generateCertificate;
 
-document.getElementById('practiceWrongBtn').onclick = () => { 
+document.getElementById('practiceWrongBtn').onclick = () => {
   document.getElementById('reportScreen').classList.remove('active');
   document.getElementById('wrongQuestionsScreen').classList.add('active');
   renderWrongQuestions();
 };
 
 document.getElementById('clearWrongBtn').onclick = clearWrongQuestions;
-
-document.getElementById('backToReportBtn').onclick = () => { 
+document.getElementById('backToReportBtn').onclick = () => {
   document.getElementById('wrongQuestionsScreen').classList.remove('active');
   document.getElementById('reportScreen').classList.add('active');
 };
-
-document.getElementById('backToReportFromRankBtn').onclick = () => { 
+document.getElementById('backToReportFromRankBtn').onclick = () => {
   document.getElementById('rankScreen').classList.remove('active');
   document.getElementById('reportScreen').classList.add('active');
 };
 
 document.getElementById('backToInfoBtn').onclick = goToHome;
-document.getElementById('backToLevelBtn').onclick = () => { 
+document.getElementById('backToWelcomeBtn').onclick = goToWelcome;
+
+document.getElementById('backToLevelBtn').onclick = () => {
   const t = texts[currentLang];
-  if (confirm(t.backToLevel + '？' + (currentLang === 'zh' ? '进度将丢失。' : (currentLang === 'en' ? ' Progress lost.' : ' Kemajuan akan hilang.')))) goToLevelSelect(); 
+  if (confirm(t.backToLevel + '？' + (currentLang === 'zh' ? '进度将丢失。' : ' Progress lost.'))) goToLevelSelect();
 };
 document.getElementById('backToLevelFromReportBtn').onclick = goToLevelSelect;
 
@@ -2759,20 +2838,26 @@ document.getElementById('startBtn').onclick = () => {
   student.className = document.getElementById('className').value.trim();
   student.name = document.getElementById('studentName').value.trim();
   const t = texts[currentLang];
-  if (!student.school || !student.className || !student.name) { 
-    alert(t.startBtn + ' ' + (currentLang === 'zh' ? '请填写完整资料 🚀' : (currentLang === 'en' ? 'Please fill in all info 🚀' : 'Sila isi semua maklumat 🚀'))); 
-    return; 
+  if (!student.school || !student.className || !student.name) {
+    alert(t.startBtn + ' ' + (currentLang === 'zh' ? '请填写完整资料 🚀' : 'Please fill in all info 🚀'));
+    return;
   }
   loadWrongQuestions();
   loadAchievements();
+  loadConceptProgress();
   document.getElementById('infoScreen').classList.remove('active');
-  document.getElementById('levelScreen').classList.add('active');
-  const smartBtn = document.getElementById('smartReviewBtn');
-  if (smartBtn) smartBtn.style.display = wrongQuestions.length > 0 ? 'inline-block' : 'none';
+  document.getElementById('welcomeScreen').classList.add('active');
+  renderConceptWelcome();
 };
 
 document.querySelectorAll('.level-btn[data-lvl]').forEach(btn => {
   btn.onclick = () => {
+    if (!conceptState.completed) {
+      const t = texts[currentLang];
+      alert(currentLang === 'zh' ? '⚠️ 请先完成概念学习才能进入练习模式！' : '⚠️ Please complete concept learning first!');
+      goToWelcome();
+      return;
+    }
     currentLevel = parseInt(btn.dataset.lvl);
     questions = generateQuestionsByLevel(currentLevel);
     currentIndex = 0;
@@ -2784,16 +2869,30 @@ document.querySelectorAll('.level-btn[data-lvl]').forEach(btn => {
   };
 });
 
-document.getElementById('customLevelBtn').onclick = showCustomModal;
+document.getElementById('customLevelBtn').onclick = () => {
+  if (!conceptState.completed) {
+    const t = texts[currentLang];
+    alert(currentLang === 'zh' ? '⚠️ 请先完成概念学习才能进入练习模式！' : '⚠️ Please complete concept learning first!');
+    goToWelcome();
+    return;
+  }
+  showCustomModal();
+};
+
 document.getElementById('cancelCustomBtn').onclick = () => document.getElementById('customModal').classList.remove('active');
+
 document.getElementById('confirmCustomBtn').onclick = () => {
+  if (!conceptState.completed) {
+    const t = texts[currentLang];
+    alert(currentLang === 'zh' ? '⚠️ 请先完成概念学习才能进入练习模式！' : '⚠️ Please complete concept learning first!');
+    document.getElementById('customModal').classList.remove('active');
+    goToWelcome();
+    return;
+  }
   const checkboxes = document.querySelectorAll('.table-cb:checked');
   const selected = Array.from(checkboxes).map(cb => parseInt(cb.value));
   const t = texts[currentLang];
-  if (selected.length < 3) {
-    alert(t.customHint);
-    return;
-  }
+  if (selected.length < 3) { alert(t.customHint); return; }
   selectedTables = selected;
   currentLevel = 6;
   questions = generateCustomQuestions(selectedTables);
@@ -2808,12 +2907,70 @@ document.getElementById('confirmCustomBtn').onclick = () => {
 
 document.getElementById('smartReviewBtn').onclick = startSmartReview;
 
-document.getElementById('submitBtn').onclick = () => { 
-  if ((currentLevel === 3 || currentLevel === 4 || currentLevel === 5 || currentLevel === 6) && gameStarted) { 
-    const val = parseInt(document.getElementById('answerInput').value); 
-    if (isNaN(val)) return; 
-    checkAnswer(val); 
-  } 
+// 概念学习事件绑定
+document.getElementById('conceptStartBtn').onclick = () => {
+  if (conceptState.completed && conceptState.currentLesson >= 3) {
+    conceptState.currentLesson = 0;
+    conceptState.currentStep = 0;
+    conceptState.completed = false;
+    conceptState.totalCheckCorrect = 0;
+    conceptState.totalChecks = 0;
+    conceptState.allCorrect = false;
+    saveConceptProgress();
+  }
+  document.getElementById('welcomeScreen').classList.remove('active');
+  document.getElementById('conceptScreen').classList.add('active');
+  renderConceptLesson();
+};
+
+document.getElementById('conceptSkipBtn').onclick = () => {
+  if (skipTimer) clearInterval(skipTimer);
+  document.getElementById('welcomeScreen').classList.remove('active');
+  document.getElementById('levelScreen').classList.add('active');
+  const smartBtn = document.getElementById('smartReviewBtn');
+  if (smartBtn) smartBtn.style.display = wrongQuestions.length > 0 ? 'inline-block' : 'none';
+};
+
+document.getElementById('conceptNextBtn').onclick = conceptNextStep;
+document.getElementById('conceptBackBtn').onclick = conceptPrevStep;
+
+document.getElementById('conceptExitBtn').onclick = () => {
+  const t = texts[currentLang];
+  if (confirm(currentLang === 'zh' ? '确定要退出概念学习吗？进度将保存。' : 'Exit concept learning? Progress will be saved.')) {
+    saveConceptProgress();
+    document.getElementById('conceptScreen').classList.remove('active');
+    document.getElementById('welcomeScreen').classList.add('active');
+    renderConceptWelcome();
+  }
+};
+
+document.getElementById('completeGoBtn').onclick = () => {
+  document.getElementById('conceptCompleteOverlay').classList.remove('active');
+  document.getElementById('welcomeScreen').classList.remove('active');
+  document.getElementById('levelScreen').classList.add('active');
+  const smartBtn = document.getElementById('smartReviewBtn');
+  if (smartBtn) smartBtn.style.display = wrongQuestions.length > 0 ? 'inline-block' : 'none';
+};
+
+document.getElementById('completeReviewBtn').onclick = () => {
+  document.getElementById('conceptCompleteOverlay').classList.remove('active');
+  conceptState.completed = false;
+  conceptState.currentLesson = 0;
+  conceptState.currentStep = 0;
+  conceptState.totalCheckCorrect = 0;
+  conceptState.totalChecks = 0;
+  conceptState.allCorrect = false;
+  saveConceptProgress();
+  document.getElementById('conceptScreen').classList.add('active');
+  renderConceptLesson();
+};
+
+document.getElementById('submitBtn').onclick = () => {
+  if ((currentLevel === 3 || currentLevel === 4 || currentLevel === 5 || currentLevel === 6) && gameStarted) {
+    const val = parseInt(document.getElementById('answerInput').value);
+    if (isNaN(val)) return;
+    checkAnswer(val);
+  }
 };
 
 document.getElementById('answerInput').addEventListener('keydown', function(e) {
@@ -2821,22 +2978,20 @@ document.getElementById('answerInput').addEventListener('keydown', function(e) {
     e.preventDefault();
     const val = parseInt(this.value);
     if (isNaN(val)) return;
-    if ((currentLevel === 3 || currentLevel === 4 || currentLevel === 5 || currentLevel === 6)) {
-      checkAnswer(val);
-    }
+    if ((currentLevel === 3 || currentLevel === 4 || currentLevel === 5 || currentLevel === 6)) checkAnswer(val);
   }
 });
 
-document.getElementById('restartBtn').onclick = () => { 
-  if (gameStarted && currentLevel) { 
-    questions = currentLevel === 6 ? generateCustomQuestions(selectedTables) : generateQuestionsByLevel(currentLevel); 
-    currentIndex = 0; 
-    correctCount = 0; 
-    stats = {}; 
-    document.getElementById('reportScreen').classList.remove('active'); 
-    document.getElementById('quizScreen').classList.add('active'); 
-    showCurrentQuestion(); 
-  } 
+document.getElementById('restartBtn').onclick = () => {
+  if (gameStarted && currentLevel) {
+    questions = currentLevel === 6 ? generateCustomQuestions(selectedTables) : generateQuestionsByLevel(currentLevel);
+    currentIndex = 0;
+    correctCount = 0;
+    stats = {};
+    document.getElementById('reportScreen').classList.remove('active');
+    document.getElementById('quizScreen').classList.add('active');
+    showCurrentQuestion();
+  }
 };
 
 document.querySelectorAll('.report-btn').forEach(btn => {
@@ -2846,41 +3001,26 @@ document.querySelectorAll('.report-btn').forEach(btn => {
     reportLang = btn.dataset.lang;
     if (document.getElementById('reportScreen').classList.contains('active') && gameStarted && questions.length) {
       const history = await getHistoryRecords();
-      renderReport(history, Math.round((correctCount / questions.length) * 100));
+      renderReport(history, Math.round((correctCount/questions.length)*100));
     }
   };
 });
 
 document.getElementById('feedbackBtn').onclick = () => window.open(FEEDBACK_FORM_URL, '_blank');
 
-document.getElementById('filterSchool').addEventListener('input', () => { 
-  if (loadTimeout) clearTimeout(loadTimeout); 
-  loadTimeout = setTimeout(() => { loadTeacherData(); renderClassComparison(); }, 300); 
-});
-
-document.getElementById('filterClass').addEventListener('input', () => { 
-  if (loadTimeout) clearTimeout(loadTimeout); 
-  loadTimeout = setTimeout(() => { loadTeacherData(); renderClassComparison(); }, 300); 
-});
-
-document.getElementById('filterStudentName').addEventListener('input', () => { 
-  if (loadTimeout) clearTimeout(loadTimeout); 
-  loadTimeout = setTimeout(() => { loadTeacherData(); renderClassComparison(); }, 300); 
-});
+document.getElementById('filterSchool').addEventListener('input', () => { if (loadTimeout) clearTimeout(loadTimeout); loadTimeout = setTimeout(() => { loadTeacherData(); renderClassComparison(); }, 300); });
+document.getElementById('filterClass').addEventListener('input', () => { if (loadTimeout) clearTimeout(loadTimeout); loadTimeout = setTimeout(() => { loadTeacherData(); renderClassComparison(); }, 300); });
+document.getElementById('filterStudentName').addEventListener('input', () => { if (loadTimeout) clearTimeout(loadTimeout); loadTimeout = setTimeout(() => { loadTeacherData(); renderClassComparison(); }, 300); });
 
 document.getElementById('closeProgressBtn')?.addEventListener('click', () => document.getElementById('progressModal').classList.remove('active'));
 
-// ==================== 初始化语言 ====================
+// ==================== 初始化 ====================
 applyUILang();
-
-// ==================== 页面加载时初始化 ====================
 window.addEventListener('load', () => {
   if (student.school && student.className && student.name) {
     loadAchievements();
     loadWrongQuestions();
+    loadConceptProgress();
   }
   setTimeout(initSupabase, 500);
 });
-</script>
-</body>
-</html>
