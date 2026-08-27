@@ -1455,27 +1455,27 @@ function renderConceptLesson() {
       html = `<div class="step-title">${step.title}</div><div class="step-text">${step.content}</div>`;
   }
   
-  container.innerHTML = html;
-  
-  // 绑定事件
-  if (step.type === 'animation') {
-    bindAnimationEvents(step);
-  }
-  if (step.type === 'drag') {
-    bindDragGardenEvents(step);
-  }
-  if (step.type === 'drag-numberline') {
-    bindNumberLineEvents(step);
-  }
-  if (step.type === 'drag-swap') {
-    bindSwapEvents(step);
-  }
-  if (step.type === 'drag-treasure') {
-    bindTreasureEvents(step);
-  }
-  if (step.type === 'check') {
-    bindCheckEvents(step);
-  }
+container.innerHTML = html;
+
+// 绑定事件（延迟执行确保 DOM 完全渲染）
+if (step.type === 'animation') {
+  setTimeout(() => bindAnimationEvents(step), 50);
+}
+if (step.type === 'drag') {
+  setTimeout(() => bindDragGardenEvents(step), 50);
+}
+if (step.type === 'drag-numberline') {
+  setTimeout(() => bindNumberLineEvents(step), 50);
+}
+if (step.type === 'drag-swap') {
+  setTimeout(() => bindSwapEvents(step), 50);
+}
+if (step.type === 'drag-treasure') {
+  setTimeout(() => bindTreasureEvents(step), 50);
+}
+if (step.type === 'check') {
+  setTimeout(() => bindCheckEvents(step), 50);
+}
   
   // 更新导航按钮
   const backBtn = document.getElementById('conceptBackBtn');
@@ -2123,86 +2123,214 @@ function updateGardenProgress(step) {
 function bindNumberLineEvents(step) {
   const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
   const state = conceptState.dragStates[dragKey];
-  const values = [5,10,15,20,25,30,35,40,45,50,55,60];
+  const values = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
   
-  document.querySelectorAll('#numberLineWarehouse .drag-item').forEach(item => {
+  const warehouse = document.getElementById('numberLineWarehouse');
+  if (!warehouse) {
+    setTimeout(() => bindNumberLineEvents(step), 100);
+    return;
+  }
+  
+  let items = warehouse.querySelectorAll('.drag-item');
+  if (items.length === 0) {
+    setTimeout(() => bindNumberLineEvents(step), 100);
+    return;
+  }
+  
+  items.forEach(item => {
     const val = parseInt(item.textContent.replace('🚀', '').trim());
-    item.addEventListener('mousedown', (e) => {
+    
+    const newItem = item.cloneNode(true);
+    item.parentNode.replaceChild(newItem, item);
+    
+    newItem.addEventListener('mousedown', function(e) {
+      e.preventDefault();
       if (state.completed) return;
-      startDrag(e, item, val, (dropZone, value) => {
-        const idx = parseInt(dropZone.dataset.idx);
-        if (state.positions[idx] === null && value === values[idx]) {
-          state.positions[idx] = value;
-          state.filled++;
-          dropZone.textContent = value;
-          dropZone.classList.add('filled', 'correct');
-          dropZone.classList.remove('drag-over');
-          // 移除仓库中的元素
-          const warehouse = document.getElementById('numberLineWarehouse');
-          if (warehouse && item.parentNode === warehouse) {
-            item.remove();
-          }
-          updateNumberLineProgress();
-          if (state.filled === values.length) {
-            state.completed = true;
-            const feedback = document.getElementById('nlFeedback');
-            if (feedback) {
-              feedback.className = 'feedback-msg success';
-              feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！你完成了数轴！' : 'Congratulations! You completed the number line!');
-            }
-            saveConceptProgress();
-            document.getElementById('conceptNextBtn').style.display = 'inline-block';
-          }
-          saveConceptProgress();
-        } else if (value !== values[idx]) {
-          const feedback = document.getElementById('nlFeedback');
-          if (feedback) {
-            feedback.className = 'feedback-msg error';
-            feedback.textContent = `❌ ${value} ${currentLang === 'zh' ? '不是正确的位置！' : 'is not the correct position!'}`;
-            setTimeout(() => { feedback.className = 'feedback-msg'; feedback.textContent = ''; }, 1500);
+      
+      this.style.opacity = '0.3';
+      
+      const ghost = this.cloneNode(true);
+      ghost.style.cssText = `
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        font-size: 1.5rem;
+        padding: 6px 12px;
+        left: ${e.clientX - 20}px;
+        top: ${e.clientY - 20}px;
+        opacity: 0.9;
+        background: rgba(255,200,100,0.2);
+        border-radius: 12px;
+        border: 2px solid #ffaa55;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      `;
+      ghost.textContent = this.textContent;
+      document.body.appendChild(ghost);
+      
+      const onMouseMove = function(ev) {
+        ghost.style.left = (ev.clientX - 20) + 'px';
+        ghost.style.top = (ev.clientY - 20) + 'px';
+        
+        document.querySelectorAll('.drop-target.drag-over').forEach(el => el.classList.remove('drag-over'));
+        const target = document.elementFromPoint(ev.clientX, ev.clientY);
+        if (target) {
+          const dz = target.closest('.drop-target');
+          if (dz && !dz.textContent) {
+            dz.classList.add('drag-over');
           }
         }
-      });
+      };
+      
+      const onMouseUp = function(ev) {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+        ghost.remove();
+        newItem.style.opacity = '1';
+        document.querySelectorAll('.drop-target.drag-over').forEach(el => el.classList.remove('drag-over'));
+        
+        const target = document.elementFromPoint(ev.clientX, ev.clientY);
+        if (target) {
+          const dz = target.closest('.drop-target');
+          if (dz) {
+            const idx = parseInt(dz.dataset.idx);
+            if (state.positions[idx] === null && val === values[idx]) {
+              state.positions[idx] = val;
+              state.filled++;
+              dz.textContent = val;
+              dz.classList.add('filled', 'correct');
+              
+              if (newItem.parentNode === warehouse) {
+                newItem.remove();
+              }
+              
+              updateNumberLineProgress();
+              
+              if (state.filled === values.length) {
+                state.completed = true;
+                const feedback = document.getElementById('nlFeedback');
+                if (feedback) {
+                  feedback.className = 'feedback-msg success';
+                  feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！你完成了数轴！' : 'Congratulations! You completed the number line!');
+                }
+                saveConceptProgress();
+                document.getElementById('conceptNextBtn').style.display = 'inline-block';
+              }
+              saveConceptProgress();
+            } else if (val !== values[idx]) {
+              const feedback = document.getElementById('nlFeedback');
+              if (feedback) {
+                feedback.className = 'feedback-msg error';
+                feedback.textContent = `❌ ${val} ${currentLang === 'zh' ? '不是正确的位置！' : 'is not the correct position!'}`;
+                setTimeout(() => { feedback.className = 'feedback-msg'; feedback.textContent = ''; }, 1500);
+              }
+            }
+          }
+        }
+      };
+      
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
     });
-    item.addEventListener('touchstart', (e) => {
+    
+    newItem.addEventListener('touchstart', function(e) {
+      e.preventDefault();
       if (state.completed) return;
-      startDrag(e, item, val, (dropZone, value) => {
-        const idx = parseInt(dropZone.dataset.idx);
-        if (state.positions[idx] === null && value === values[idx]) {
-          state.positions[idx] = value;
-          state.filled++;
-          dropZone.textContent = value;
-          dropZone.classList.add('filled', 'correct');
-          dropZone.classList.remove('drag-over');
-          const warehouse = document.getElementById('numberLineWarehouse');
-          if (warehouse && item.parentNode === warehouse) {
-            item.remove();
-          }
-          updateNumberLineProgress();
-          if (state.filled === values.length) {
-            state.completed = true;
-            const feedback = document.getElementById('nlFeedback');
-            if (feedback) {
-              feedback.className = 'feedback-msg success';
-              feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！你完成了数轴！' : 'Congratulations! You completed the number line!');
-            }
-            saveConceptProgress();
-            document.getElementById('conceptNextBtn').style.display = 'inline-block';
-          }
-          saveConceptProgress();
-        } else if (value !== values[idx]) {
-          const feedback = document.getElementById('nlFeedback');
-          if (feedback) {
-            feedback.className = 'feedback-msg error';
-            feedback.textContent = `❌ ${value} ${currentLang === 'zh' ? '不是正确的位置！' : 'is not the correct position!'}`;
-            setTimeout(() => { feedback.className = 'feedback-msg'; feedback.textContent = ''; }, 1500);
+      
+      const touch = e.touches[0];
+      if (!touch) return;
+      
+      this.style.opacity = '0.3';
+      
+      const ghost = this.cloneNode(true);
+      ghost.style.cssText = `
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        font-size: 1.8rem;
+        padding: 6px 12px;
+        left: ${touch.clientX - 20}px;
+        top: ${touch.clientY - 20}px;
+        opacity: 0.9;
+        background: rgba(255,200,100,0.2);
+        border-radius: 12px;
+        border: 2px solid #ffaa55;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      `;
+      ghost.textContent = this.textContent;
+      document.body.appendChild(ghost);
+      
+      const onTouchMove = function(ev) {
+        ev.preventDefault();
+        const t = ev.touches[0];
+        if (!t) return;
+        ghost.style.left = (t.clientX - 20) + 'px';
+        ghost.style.top = (t.clientY - 20) + 'px';
+        
+        document.querySelectorAll('.drop-target.drag-over').forEach(el => el.classList.remove('drag-over'));
+        const target = document.elementFromPoint(t.clientX, t.clientY);
+        if (target) {
+          const dz = target.closest('.drop-target');
+          if (dz && !dz.textContent) {
+            dz.classList.add('drag-over');
           }
         }
-      });
-    }, { passive: false });
+      };
+      
+      const onTouchEnd = function(ev) {
+        document.removeEventListener('touchmove', onTouchMove);
+        document.removeEventListener('touchend', onTouchEnd);
+        ghost.remove();
+        newItem.style.opacity = '1';
+        document.querySelectorAll('.drop-target.drag-over').forEach(el => el.classList.remove('drag-over'));
+        
+        const touchEnd = ev.changedTouches[0];
+        if (!touchEnd) return;
+        
+        const target = document.elementFromPoint(touchEnd.clientX, touchEnd.clientY);
+        if (target) {
+          const dz = target.closest('.drop-target');
+          if (dz) {
+            const idx = parseInt(dz.dataset.idx);
+            if (state.positions[idx] === null && val === values[idx]) {
+              state.positions[idx] = val;
+              state.filled++;
+              dz.textContent = val;
+              dz.classList.add('filled', 'correct');
+              
+              if (newItem.parentNode === warehouse) {
+                newItem.remove();
+              }
+              
+              updateNumberLineProgress();
+              
+              if (state.filled === values.length) {
+                state.completed = true;
+                const feedback = document.getElementById('nlFeedback');
+                if (feedback) {
+                  feedback.className = 'feedback-msg success';
+                  feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！你完成了数轴！' : 'Congratulations! You completed the number line!');
+                }
+                saveConceptProgress();
+                document.getElementById('conceptNextBtn').style.display = 'inline-block';
+              }
+              saveConceptProgress();
+            } else if (val !== values[idx]) {
+              const feedback = document.getElementById('nlFeedback');
+              if (feedback) {
+                feedback.className = 'feedback-msg error';
+                feedback.textContent = `❌ ${val} ${currentLang === 'zh' ? '不是正确的位置！' : 'is not the correct position!'}`;
+                setTimeout(() => { feedback.className = 'feedback-msg'; feedback.textContent = ''; }, 1500);
+              }
+            }
+          }
+        }
+      };
+      
+      document.addEventListener('touchmove', onTouchMove, { passive: false });
+      document.addEventListener('touchend', onTouchEnd, { passive: false });
+    }, { passive: true });
   });
   
-  // 重置按钮
   const resetBtn = document.getElementById('nlReset');
   if (resetBtn) {
     resetBtn.onclick = function() {
@@ -2214,7 +2342,6 @@ function bindNumberLineEvents(step) {
     };
   }
   
-  // 检查按钮
   const checkBtn = document.getElementById('nlCheck');
   if (checkBtn) {
     checkBtn.onclick = function() {
@@ -2261,88 +2388,224 @@ function bindSwapEvents(step) {
   const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
   const state = conceptState.dragStates[dragKey];
   
-  document.querySelectorAll('#swapWarehouse .drag-item').forEach(item => {
-    item.addEventListener('mousedown', (e) => {
+  const warehouse = document.getElementById('swapWarehouse');
+  if (!warehouse) {
+    setTimeout(() => bindSwapEvents(step), 100);
+    return;
+  }
+  
+  let items = warehouse.querySelectorAll('.drag-item');
+  if (items.length === 0) {
+    setTimeout(() => bindSwapEvents(step), 100);
+    return;
+  }
+  
+  items.forEach(item => {
+    const newItem = item.cloneNode(true);
+    item.parentNode.replaceChild(newItem, item);
+    
+    newItem.addEventListener('mousedown', function(e) {
+      e.preventDefault();
       if (state.completed) return;
-      startDrag(e, item, emoji, (dropZone, value) => {
-        const side = dropZone.dataset.side;
-        const idx = parseInt(dropZone.dataset.idx);
-        if (side === 'left' && !state.left[idx]) {
-          state.left[idx] = true;
-          state.leftFilled++;
-          dropZone.dataset.filled = 'true';
-          dropZone.textContent = value;
-          dropZone.classList.add('filled');
-          dropZone.classList.remove('drag-over');
-        } else if (side === 'right' && !state.right[idx]) {
-          state.right[idx] = true;
-          state.rightFilled++;
-          dropZone.dataset.filled = 'true';
-          dropZone.textContent = value;
-          dropZone.classList.add('filled');
-          dropZone.classList.remove('drag-over');
-        } else {
-          return;
-        }
-        // 移除仓库中的元素
-        const warehouse = document.getElementById('swapWarehouse');
-        if (warehouse && item.parentNode === warehouse) {
-          item.remove();
-        }
-        updateSwapProgress(step);
-        if (state.leftFilled === total && state.rightFilled === total) {
-          state.completed = true;
-          const feedback = document.getElementById('swapFeedback');
-          if (feedback) {
-            feedback.className = 'feedback-msg success';
-            feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！两边总数相同，交换律成立！' : 'Congratulations! Both sides equal, commutative property verified!');
+      
+      this.style.opacity = '0.3';
+      
+      const ghost = this.cloneNode(true);
+      ghost.style.cssText = `
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        font-size: 2.5rem;
+        left: ${e.clientX - 20}px;
+        top: ${e.clientY - 20}px;
+        opacity: 0.9;
+        background: rgba(255,200,100,0.2);
+        border-radius: 12px;
+        padding: 4px 8px;
+        border: 2px solid #ffaa55;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      `;
+      ghost.textContent = emoji;
+      document.body.appendChild(ghost);
+      
+      const onMouseMove = function(ev) {
+        ghost.style.left = (ev.clientX - 20) + 'px';
+        ghost.style.top = (ev.clientY - 20) + 'px';
+        
+        document.querySelectorAll('.drop-zone.drag-over').forEach(el => el.classList.remove('drag-over'));
+        const target = document.elementFromPoint(ev.clientX, ev.clientY);
+        if (target) {
+          const dz = target.closest('.drop-zone');
+          if (dz && dz.dataset.filled === 'false') {
+            dz.classList.add('drag-over');
           }
-          saveConceptProgress();
-          document.getElementById('conceptNextBtn').style.display = 'inline-block';
         }
-        saveConceptProgress();
-      });
+      };
+      
+      const onMouseUp = function(ev) {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+        ghost.remove();
+        newItem.style.opacity = '1';
+        document.querySelectorAll('.drop-zone.drag-over').forEach(el => el.classList.remove('drag-over'));
+        
+        const target = document.elementFromPoint(ev.clientX, ev.clientY);
+        if (target) {
+          const dz = target.closest('.drop-zone');
+          if (dz && dz.dataset.filled === 'false') {
+            const side = dz.dataset.side;
+            const idx = parseInt(dz.dataset.idx);
+            
+            if (side === 'left' && !state.left[idx]) {
+              state.left[idx] = true;
+              state.leftFilled++;
+              dz.dataset.filled = 'true';
+              dz.textContent = emoji;
+              dz.classList.add('filled');
+              
+              if (newItem.parentNode === warehouse) {
+                newItem.remove();
+              }
+            } else if (side === 'right' && !state.right[idx]) {
+              state.right[idx] = true;
+              state.rightFilled++;
+              dz.dataset.filled = 'true';
+              dz.textContent = emoji;
+              dz.classList.add('filled');
+              
+              if (newItem.parentNode === warehouse) {
+                newItem.remove();
+              }
+            } else {
+              return;
+            }
+            
+            updateSwapProgress(step);
+            
+            if (state.leftFilled === total && state.rightFilled === total) {
+              state.completed = true;
+              const feedback = document.getElementById('swapFeedback');
+              if (feedback) {
+                feedback.className = 'feedback-msg success';
+                feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！两边总数相同，交换律成立！' : 'Congratulations! Both sides equal, commutative property verified!');
+              }
+              saveConceptProgress();
+              document.getElementById('conceptNextBtn').style.display = 'inline-block';
+            }
+            saveConceptProgress();
+          }
+        }
+      };
+      
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
     });
-    item.addEventListener('touchstart', (e) => {
+    
+    newItem.addEventListener('touchstart', function(e) {
+      e.preventDefault();
       if (state.completed) return;
-      startDrag(e, item, emoji, (dropZone, value) => {
-        const side = dropZone.dataset.side;
-        const idx = parseInt(dropZone.dataset.idx);
-        if (side === 'left' && !state.left[idx]) {
-          state.left[idx] = true;
-          state.leftFilled++;
-          dropZone.dataset.filled = 'true';
-          dropZone.textContent = value;
-          dropZone.classList.add('filled');
-          dropZone.classList.remove('drag-over');
-        } else if (side === 'right' && !state.right[idx]) {
-          state.right[idx] = true;
-          state.rightFilled++;
-          dropZone.dataset.filled = 'true';
-          dropZone.textContent = value;
-          dropZone.classList.add('filled');
-          dropZone.classList.remove('drag-over');
-        } else {
-          return;
-        }
-        const warehouse = document.getElementById('swapWarehouse');
-        if (warehouse && item.parentNode === warehouse) {
-          item.remove();
-        }
-        updateSwapProgress(step);
-        if (state.leftFilled === total && state.rightFilled === total) {
-          state.completed = true;
-          const feedback = document.getElementById('swapFeedback');
-          if (feedback) {
-            feedback.className = 'feedback-msg success';
-            feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！两边总数相同，交换律成立！' : 'Congratulations! Both sides equal, commutative property verified!');
+      
+      const touch = e.touches[0];
+      if (!touch) return;
+      
+      this.style.opacity = '0.3';
+      
+      const ghost = this.cloneNode(true);
+      ghost.style.cssText = `
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        font-size: 3rem;
+        left: ${touch.clientX - 20}px;
+        top: ${touch.clientY - 20}px;
+        opacity: 0.9;
+        background: rgba(255,200,100,0.2);
+        border-radius: 12px;
+        padding: 4px 8px;
+        border: 2px solid #ffaa55;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      `;
+      ghost.textContent = emoji;
+      document.body.appendChild(ghost);
+      
+      const onTouchMove = function(ev) {
+        ev.preventDefault();
+        const t = ev.touches[0];
+        if (!t) return;
+        ghost.style.left = (t.clientX - 20) + 'px';
+        ghost.style.top = (t.clientY - 20) + 'px';
+        
+        document.querySelectorAll('.drop-zone.drag-over').forEach(el => el.classList.remove('drag-over'));
+        const target = document.elementFromPoint(t.clientX, t.clientY);
+        if (target) {
+          const dz = target.closest('.drop-zone');
+          if (dz && dz.dataset.filled === 'false') {
+            dz.classList.add('drag-over');
           }
-          saveConceptProgress();
-          document.getElementById('conceptNextBtn').style.display = 'inline-block';
         }
-        saveConceptProgress();
-      });
-    }, { passive: false });
+      };
+      
+      const onTouchEnd = function(ev) {
+        document.removeEventListener('touchmove', onTouchMove);
+        document.removeEventListener('touchend', onTouchEnd);
+        ghost.remove();
+        newItem.style.opacity = '1';
+        document.querySelectorAll('.drop-zone.drag-over').forEach(el => el.classList.remove('drag-over'));
+        
+        const touchEnd = ev.changedTouches[0];
+        if (!touchEnd) return;
+        
+        const target = document.elementFromPoint(touchEnd.clientX, touchEnd.clientY);
+        if (target) {
+          const dz = target.closest('.drop-zone');
+          if (dz && dz.dataset.filled === 'false') {
+            const side = dz.dataset.side;
+            const idx = parseInt(dz.dataset.idx);
+            
+            if (side === 'left' && !state.left[idx]) {
+              state.left[idx] = true;
+              state.leftFilled++;
+              dz.dataset.filled = 'true';
+              dz.textContent = emoji;
+              dz.classList.add('filled');
+              
+              if (newItem.parentNode === warehouse) {
+                newItem.remove();
+              }
+            } else if (side === 'right' && !state.right[idx]) {
+              state.right[idx] = true;
+              state.rightFilled++;
+              dz.dataset.filled = 'true';
+              dz.textContent = emoji;
+              dz.classList.add('filled');
+              
+              if (newItem.parentNode === warehouse) {
+                newItem.remove();
+              }
+            } else {
+              return;
+            }
+            
+            updateSwapProgress(step);
+            
+            if (state.leftFilled === total && state.rightFilled === total) {
+              state.completed = true;
+              const feedback = document.getElementById('swapFeedback');
+              if (feedback) {
+                feedback.className = 'feedback-msg success';
+                feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！两边总数相同，交换律成立！' : 'Congratulations! Both sides equal, commutative property verified!');
+              }
+              saveConceptProgress();
+              document.getElementById('conceptNextBtn').style.display = 'inline-block';
+            }
+            saveConceptProgress();
+          }
+        }
+      };
+      
+      document.addEventListener('touchmove', onTouchMove, { passive: false });
+      document.addEventListener('touchend', onTouchEnd, { passive: false });
+    }, { passive: true });
   });
   
   const resetBtn = document.getElementById('swapReset');
@@ -2399,21 +2662,37 @@ function bindTreasureEvents(step) {
   const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
   const state = conceptState.dragStates[dragKey];
   
-  document.querySelectorAll('.treasure-table td[data-row]').forEach(cell => {
-    cell.addEventListener('click', function() {
+  const table = document.querySelector('.treasure-table');
+  if (!table) {
+    setTimeout(() => bindTreasureEvents(step), 100);
+    return;
+  }
+  
+  // 检查表格单元格是否存在
+  const cells = document.querySelectorAll('.treasure-table td[data-row]');
+  if (cells.length === 0) {
+    setTimeout(() => bindTreasureEvents(step), 100);
+    return;
+  }
+  
+  // 移除旧的事件监听（通过克隆替换）
+  cells.forEach(cell => {
+    const newCell = cell.cloneNode(true);
+    cell.parentNode.replaceChild(newCell, cell);
+    
+    newCell.addEventListener('click', function() {
       if (state.completed) return;
+      
       const row = parseInt(this.dataset.row);
       const col = parseInt(this.dataset.col);
       const target = state.targets[state.currentTarget];
       if (!target) return;
       
-      // 检查是否点击了目标或对称位置
       if ((row === target.row && col === target.col) || 
           (row === target.pair.row && col === target.pair.col)) {
-        // 标记为已找到
         target.done = true;
         state.found++;
-        // 高亮两个位置
+        
         document.querySelectorAll('.treasure-table td[data-row]').forEach(td => {
           const r = parseInt(td.dataset.row);
           const c = parseInt(td.dataset.col);
@@ -2430,7 +2709,6 @@ function bindTreasureEvents(step) {
           feedback.textContent = `✅ ${target.row} × ${target.col} = ${target.pair.row} × ${target.pair.col} = ${target.row * target.col}`;
         }
         
-        // 移到下一个目标
         state.currentTarget++;
         if (state.currentTarget >= state.targets.length) {
           state.completed = true;
@@ -2441,13 +2719,11 @@ function bindTreasureEvents(step) {
           saveConceptProgress();
           document.getElementById('conceptNextBtn').style.display = 'inline-block';
         } else {
-          // 更新任务描述
           const nextTarget = state.targets[state.currentTarget];
           const taskEl = document.querySelector('.treasure-task');
           if (taskEl) {
             taskEl.textContent = `🎯 ${currentLang === 'zh' ? '找到' : 'Find'} ${nextTarget.row} × ${nextTarget.col} ${currentLang === 'zh' ? '的对称位置！' : '\'s symmetrical position!'}`;
           }
-          // 更新高亮
           document.querySelectorAll('.treasure-table td[data-row]').forEach(td => {
             td.classList.remove('target-highlight');
             const r = parseInt(td.dataset.row);
@@ -2460,7 +2736,6 @@ function bindTreasureEvents(step) {
         updateTreasureStats(step);
         saveConceptProgress();
       } else {
-        // 错误点击
         this.classList.add('wrong');
         const feedback = document.getElementById('treasureFeedback');
         if (feedback) {
@@ -2478,7 +2753,6 @@ function bindTreasureEvents(step) {
     });
   });
   
-  // 重置按钮
   const resetBtn = document.getElementById('treasureReset');
   if (resetBtn) {
     resetBtn.onclick = function() {
