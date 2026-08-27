@@ -67,6 +67,8 @@ body{min-height:100vh;background:linear-gradient(135deg,#0a0f2a,#0a1a3a,#0a0f2a)
 .level-buttons{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:25px;width:100%;margin-top:20px}
 .level-btn{padding:35px 20px;font-size:2rem;background:linear-gradient(135deg,rgba(100,80,200,0.6),rgba(80,60,180,0.8));border:3px solid #ffcc66;backdrop-filter:blur(5px)}
 .level-btn span{font-size:.9rem;display:block;margin-top:10px;color:#FFE5B4}
+
+/* ===== 具象化概念学习样式 ===== */
 .concept-welcome{text-align:center;max-width:700px;width:100%}
 .concept-welcome h2{font-size:2.8rem;color:#FFE5B4;margin-bottom:10px}
 .concept-welcome p{font-size:1.2rem;color:#ddd;margin-bottom:20px}
@@ -75,24 +77,123 @@ body{min-height:100vh;background:linear-gradient(135deg,#0a0f2a,#0a1a3a,#0a0f2a)
 .concept-welcome .highlight-box li::before{content:"⭐ "}
 .concept-welcome .btn-group{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:20px}
 .concept-welcome .already-done{color:#4CAF50;font-size:1.2rem;margin-top:15px}
-.concept-lesson{max-width:800px;width:100%;padding:10px}
-.concept-lesson .lesson-header{display:flex;justify-content:space-between;align-items:center;width:100%;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+
+.concept-lesson{max-width:900px;width:100%;padding:10px}
+.concept-lesson .lesson-header{display:flex;justify-content:space-between;align-items:center;width:100%;margin-bottom:15px;flex-wrap:wrap;gap:10px}
 .concept-lesson .lesson-header .lesson-title{font-size:1.8rem;color:#FFE5B4}
 .concept-lesson .lesson-header .lesson-progress{color:#aaa;font-size:1rem}
-.concept-lesson .progress-dots{display:flex;gap:10px;margin:10px 0 20px 0;width:100%;justify-content:center}
+.concept-lesson .progress-dots{display:flex;gap:10px;margin:10px 0 15px 0;width:100%;justify-content:center}
 .concept-lesson .progress-dots .dot{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all .3s}
 .concept-lesson .progress-dots .dot.active{background:#ffaa55;transform:scale(1.2)}
 .concept-lesson .progress-dots .dot.completed{background:#4CAF50}
-.concept-lesson .step-content{background:rgba(255,255,255,0.08);border-radius:30px;padding:30px;min-height:300px;width:100%}
+.concept-lesson .step-content{background:rgba(255,255,255,0.08);border-radius:30px;padding:30px;min-height:350px;width:100%}
+
+/* 概念步骤样式 */
 .concept-lesson .step-content .step-title{font-size:1.6rem;color:#FFE5B4;margin-bottom:15px}
-.concept-lesson .step-content .step-text{font-size:1.2rem;color:#ddd;line-height:1.8}
-.concept-lesson .step-content .step-example{font-size:2rem;color:#ffcc88;text-align:center;padding:20px;margin:15px 0;background:rgba(255,200,100,0.1);border-radius:20px}
-.concept-lesson .step-content .step-visual{display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;padding:20px 0}
-.concept-lesson .step-content .step-visual .grid-container{display:grid;gap:6px;padding:15px;background:rgba(255,255,255,0.05);border-radius:16px}
-.concept-lesson .step-content .step-visual .grid-cell{width:44px;height:44px;border-radius:8px;background:rgba(255,200,100,0.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:all .3s}
-.concept-lesson .step-content .step-visual .grid-cell.filled{background:rgba(255,200,100,0.4);animation:popIn .3s ease-out}
-@keyframes popIn{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
-.concept-lesson .step-content .step-visual .formula-display{font-size:2.2rem;color:#ffcc88;font-weight:bold;padding:15px 25px;background:rgba(255,200,100,0.1);border-radius:20px;min-width:120px;text-align:center}
+.concept-lesson .step-content .step-text{font-size:1.2rem;color:#ddd;line-height:1.8;margin-bottom:15px}
+
+/* 动态加法动画 */
+.concept-lesson .step-content .addition-animation{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;font-size:2.5rem;padding:20px;min-height:100px}
+.concept-lesson .step-content .addition-animation .num{color:#ffcc88;font-weight:bold;opacity:0;transform:scale(0.5);transition:all .4s ease-out}
+.concept-lesson .step-content .addition-animation .num.show{opacity:1;transform:scale(1)}
+.concept-lesson .step-content .addition-animation .num.bounce{animation:bounceNum .5s ease-out}
+@keyframes bounceNum{0%{transform:scale(0.3)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+.concept-lesson .step-content .addition-animation .operator{color:#aaa;font-size:2rem;opacity:0;transition:opacity .3s}
+.concept-lesson .step-content .addition-animation .operator.show{opacity:1}
+.concept-lesson .step-content .addition-animation .result{color:#4CAF50;font-weight:bold;opacity:0;transform:scale(0.5);transition:all .5s ease-out}
+.concept-lesson .step-content .addition-animation .result.show{opacity:1;transform:scale(1)}
+.concept-lesson .step-content .animation-controls{text-align:center;margin-top:10px}
+.concept-lesson .step-content .animation-controls button{padding:10px 24px;border-radius:40px;border:none;background:#ffaa55;color:#221c0f;font-size:1rem;cursor:pointer;font-weight:bold;transition:all .3s}
+.concept-lesson .step-content .animation-controls button:hover{transform:scale(1.05);background:#ffbb66}
+.concept-lesson .step-content .animation-controls button:disabled{opacity:0.5;cursor:not-allowed}
+
+/* 实物类比分组 */
+.concept-lesson .step-content .grouped-items{display:flex;flex-direction:column;align-items:center;gap:10px;padding:15px}
+.concept-lesson .step-content .grouped-items .item-row{display:flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(255,255,255,0.05);border-radius:16px;flex-wrap:wrap}
+.concept-lesson .step-content .grouped-items .row-label{color:#aaa;font-size:.9rem;margin-right:8px}
+.concept-lesson .step-content .grouped-items .item{font-size:2rem;transition:all .3s;display:inline-block}
+.concept-lesson .step-content .grouped-items .item.pop{animation:popItem .4s ease-out}
+@keyframes popItem{0%{transform:scale(0);opacity:0}70%{transform:scale(1.3)}100%{transform:scale(1);opacity:1}}
+.concept-lesson .step-content .grouped-items .total-text{font-size:1.2rem;color:#ffcc88;font-weight:bold;margin-top:10px;padding:8px 20px;background:rgba(255,200,100,0.15);border-radius:20px}
+
+/* 拖拽构建点阵图 - 太空花园 */
+.concept-lesson .step-content .drag-garden{display:flex;flex-direction:column;align-items:center;gap:15px;width:100%}
+.concept-lesson .step-content .drag-garden .warehouse{display:flex;flex-wrap:wrap;gap:6px;padding:12px 18px;background:rgba(255,255,255,0.06);border-radius:20px;min-height:60px;justify-content:center;border:2px dashed rgba(255,255,255,0.15)}
+.concept-lesson .step-content .drag-garden .warehouse .drag-item{font-size:2rem;cursor:grab;padding:4px 6px;border-radius:8px;transition:all .2s;touch-action:none;user-select:none;-webkit-user-select:none}
+.concept-lesson .step-content .drag-garden .warehouse .drag-item:active{cursor:grabbing}
+.concept-lesson .step-content .drag-garden .warehouse .drag-item.dragging{opacity:0.4;transform:scale(0.8)}
+.concept-lesson .step-content .drag-garden .garden-grid{display:grid;gap:8px;padding:15px;background:rgba(255,255,255,0.04);border-radius:20px;border:2px solid rgba(255,200,100,0.2);min-height:150px;width:100%;max-width:400px}
+.concept-lesson .step-content .drag-garden .garden-grid .drop-zone{width:50px;height:50px;border:3px dashed rgba(255,255,255,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:2rem;transition:all .3s;background:rgba(255,255,255,0.03)}
+.concept-lesson .step-content .drag-garden .garden-grid .drop-zone.drag-over{border-color:#ffaa55;background:rgba(255,170,85,0.15);transform:scale(1.05)}
+.concept-lesson .step-content .drag-garden .garden-grid .drop-zone.filled{border-color:#4CAF50;background:rgba(76,175,80,0.15);animation:popItem .3s ease-out}
+.concept-lesson .step-content .drag-garden .garden-grid .drop-zone.highlight{border-color:#ff6b6b;background:rgba(255,107,107,0.1)}
+.concept-lesson .step-content .drag-garden .garden-grid .drop-zone.wrong{animation:shake .4s ease-in-out;border-color:#f44336}
+.concept-lesson .step-content .drag-garden .garden-label{color:#aaa;font-size:.9rem}
+.concept-lesson .step-content .drag-garden .progress-bar{width:100%;max-width:400px;height:10px;background:rgba(255,255,255,0.1);border-radius:10px;overflow:hidden}
+.concept-lesson .step-content .drag-garden .progress-bar .fill{height:100%;background:linear-gradient(90deg,#ffaa44,#4CAF50);width:0%;border-radius:10px;transition:width .5s}
+.concept-lesson .step-content .drag-garden .drag-controls{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.concept-lesson .step-content .drag-garden .drag-controls button{padding:10px 24px;border-radius:40px;border:none;font-size:1rem;cursor:pointer;font-weight:bold;transition:all .3s;font-family:inherit}
+.concept-lesson .step-content .drag-garden .drag-controls .btn-reset{background:rgba(255,255,255,0.15);color:#ddd}
+.concept-lesson .step-content .drag-garden .drag-controls .btn-reset:hover{background:rgba(255,255,255,0.25)}
+.concept-lesson .step-content .drag-garden .drag-controls .btn-check{background:#4CAF50;color:#fff}
+.concept-lesson .step-content .drag-garden .drag-controls .btn-check:hover{background:#45a049}
+.concept-lesson .step-content .drag-garden .drag-controls .btn-hint{background:rgba(255,170,68,0.3);color:#ffcc88}
+.concept-lesson .step-content .drag-garden .drag-controls .btn-hint:hover{background:rgba(255,170,68,0.5)}
+.concept-lesson .step-content .drag-garden .feedback-msg{font-size:1.1rem;padding:10px 20px;border-radius:16px;text-align:center}
+.concept-lesson .step-content .drag-garden .feedback-msg.success{color:#4CAF50;background:rgba(76,175,80,0.15)}
+.concept-lesson .step-content .drag-garden .feedback-msg.error{color:#ff6b6b;background:rgba(255,107,107,0.15)}
+
+/* 数轴拖拽 */
+.concept-lesson .step-content .number-line{width:100%;padding:10px 0}
+.concept-lesson .step-content .number-line .line-container{position:relative;width:100%;height:60px;margin:20px 0;overflow-x:auto}
+.concept-lesson .step-content .number-line .line-container svg{width:100%;height:100%;min-width:600px}
+.concept-lesson .step-content .number-line .line-container .tick{font-size:.8rem;fill:#aaa;text-anchor:middle}
+.concept-lesson .step-content .number-line .line-container .tick-label{font-size:.7rem;fill:#888;text-anchor:middle}
+.concept-lesson .step-content .number-line .rocket-warehouse{display:flex;flex-wrap:wrap;gap:6px;padding:12px 18px;background:rgba(255,255,255,0.06);border-radius:20px;min-height:55px;justify-content:center;border:2px dashed rgba(255,255,255,0.15)}
+.concept-lesson .step-content .number-line .rocket-warehouse .drag-item{font-size:1.2rem;padding:6px 12px;background:rgba(255,255,255,0.08);border-radius:12px;cursor:grab;transition:all .2s;touch-action:none;user-select:none;-webkit-user-select:none}
+.concept-lesson .step-content .number-line .rocket-warehouse .drag-item:active{cursor:grabbing}
+.concept-lesson .step-content .number-line .rocket-warehouse .drag-item.dragging{opacity:0.4;transform:scale(0.9)}
+.concept-lesson .step-content .number-line .drop-target{position:absolute;width:40px;height:50px;border:3px dashed rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:#aaa;transition:all .3s;cursor:pointer;background:rgba(255,255,255,0.03)}
+.concept-lesson .step-content .number-line .drop-target.drag-over{border-color:#ffaa55;background:rgba(255,170,85,0.15);transform:scale(1.1)}
+.concept-lesson .step-content .number-line .drop-target.filled{border-color:#4CAF50;background:rgba(76,175,80,0.15);font-weight:bold;color:#4CAF50}
+.concept-lesson .step-content .number-line .drop-target.correct{animation:popItem .3s ease-out}
+.concept-lesson .step-content .number-line .drop-target.wrong{animation:shake .4s ease-in-out;border-color:#f44336}
+.concept-lesson .step-content .number-line .line-stats{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:10px;color:#aaa}
+.concept-lesson .step-content .number-line .line-stats span{font-size:1rem}
+
+/* 分组交换（第三课） */
+.concept-lesson .step-content .swap-container{display:flex;flex-direction:column;gap:15px;width:100%}
+.concept-lesson .step-content .swap-container .swap-groups{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+.concept-lesson .step-content .swap-container .swap-groups .group-box{flex:1;min-width:200px;max-width:350px;padding:15px;background:rgba(255,255,255,0.04);border-radius:20px;border:2px solid rgba(255,255,255,0.08);text-align:center}
+.concept-lesson .step-content .swap-container .swap-groups .group-box .group-title{color:#ffcc88;font-size:1.1rem;margin-bottom:10px}
+.concept-lesson .step-content .swap-container .swap-groups .group-box .group-grid{display:grid;gap:6px;padding:10px;min-height:80px}
+.concept-lesson .step-content .swap-container .swap-groups .group-box .group-grid .drop-zone{width:40px;height:40px;border:3px dashed rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:all .3s;background:rgba(255,255,255,0.02)}
+.concept-lesson .step-content .swap-container .swap-groups .group-box .group-grid .drop-zone.drag-over{border-color:#ffaa55;background:rgba(255,170,85,0.15);transform:scale(1.05)}
+.concept-lesson .step-content .swap-container .swap-groups .group-box .group-grid .drop-zone.filled{border-color:#4CAF50;background:rgba(76,175,80,0.15);animation:popItem .3s ease-out}
+.concept-lesson .step-content .swap-container .swap-groups .group-box .group-count{color:#aaa;font-size:.9rem;margin-top:8px}
+.concept-lesson .step-content .swap-container .swap-warehouse{display:flex;flex-wrap:wrap;gap:6px;padding:12px 18px;background:rgba(255,255,255,0.06);border-radius:20px;min-height:55px;justify-content:center;border:2px dashed rgba(255,255,255,0.15)}
+.concept-lesson .step-content .swap-container .swap-warehouse .drag-item{font-size:1.8rem;cursor:grab;padding:4px 6px;border-radius:8px;transition:all .2s;touch-action:none;user-select:none;-webkit-user-select:none}
+.concept-lesson .step-content .swap-container .swap-warehouse .drag-item:active{cursor:grabbing}
+.concept-lesson .step-content .swap-container .swap-warehouse .drag-item.dragging{opacity:0.4;transform:scale(0.8)}
+.concept-lesson .step-content .swap-container .swap-controls{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+
+/* 乘法表宝藏（第四课） */
+.concept-lesson .step-content .treasure-table{width:100%;overflow-x:auto;padding:10px 0}
+.concept-lesson .step-content .treasure-table table{border-collapse:collapse;margin:0 auto;font-size:.9rem}
+.concept-lesson .step-content .treasure-table th,.concept-lesson .step-content .treasure-table td{padding:6px 10px;text-align:center;border:1px solid rgba(255,255,255,0.08);min-width:32px;cursor:pointer;transition:all .3s}
+.concept-lesson .step-content .treasure-table th{background:rgba(255,200,100,0.15);color:#aaa;font-weight:bold}
+.concept-lesson .step-content .treasure-table td{color:#ddd}
+.concept-lesson .step-content .treasure-table td:hover{background:rgba(255,200,100,0.1)}
+.concept-lesson .step-content .treasure-table td.highlight{background:rgba(255,170,68,0.3);border-color:#ffaa55;transform:scale(1.05)}
+.concept-lesson .step-content .treasure-table td.pair-highlight{background:rgba(76,175,80,0.3);border-color:#4CAF50}
+.concept-lesson .step-content .treasure-table td.found{background:rgba(76,175,80,0.2)}
+.concept-lesson .step-content .treasure-table td.wrong{animation:shake .4s ease-in-out;background:rgba(255,107,107,0.3)}
+.concept-lesson .step-content .treasure-table td.target-highlight{background:rgba(255,200,100,0.4);border-color:#ffaa55;box-shadow:0 0 20px rgba(255,170,68,0.3)}
+.concept-lesson .step-content .treasure-task{text-align:center;color:#ffcc88;font-size:1.1rem;margin-bottom:10px}
+.concept-lesson .step-content .treasure-stats{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;color:#aaa;font-size:1rem;margin-top:10px}
+.concept-lesson .step-content .treasure-controls{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+
+/* 检查题 */
 .concept-lesson .step-content .check-question{margin-top:20px;padding-top:20px;border-top:2px solid rgba(255,255,255,0.1)}
 .concept-lesson .step-content .check-question .q-text{font-size:1.3rem;color:#FFE5B4;margin-bottom:15px}
 .concept-lesson .step-content .check-question .q-options{display:flex;gap:15px;flex-wrap:wrap;justify-content:center}
@@ -100,12 +201,13 @@ body{min-height:100vh;background:linear-gradient(135deg,#0a0f2a,#0a1a3a,#0a0f2a)
 .concept-lesson .step-content .check-question .q-options button:hover{background:rgba(255,200,100,0.2);transform:scale(1.05)}
 .concept-lesson .step-content .check-question .q-options button.correct{background:rgba(76,175,80,0.4);border-color:#4CAF50}
 .concept-lesson .step-content .check-question .q-options button.wrong{background:rgba(244,67,54,0.4);border-color:#f44336;animation:shake .4s ease-in-out}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-15px)}75%{transform:translateX(15px)}}
 .concept-lesson .step-content .check-question .feedback-text{margin-top:12px;font-size:1.1rem;text-align:center}
 .concept-lesson .step-content .check-question .feedback-text.success{color:#4CAF50}
 .concept-lesson .step-content .check-question .feedback-text.error{color:#ff6b6b}
+
 .concept-lesson .lesson-nav{display:flex;gap:15px;justify-content:center;margin-top:20px;flex-wrap:wrap}
 .concept-lesson .lesson-nav button{padding:12px 28px;font-size:1.1rem}
+
 .concept-complete-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:300;display:none;justify-content:center;align-items:center}
 .concept-complete-overlay.active{display:flex}
 .concept-complete-overlay .complete-box{background:linear-gradient(135deg,#1a2a4a,#2a1a3a);border-radius:60px;padding:50px 60px;max-width:500px;width:90%;text-align:center;border:3px solid #ffcc88;animation:popIn .5s ease-out}
@@ -114,6 +216,8 @@ body{min-height:100vh;background:linear-gradient(135deg,#0a0f2a,#0a1a3a,#0a0f2a)
 .concept-complete-overlay .complete-box p{font-size:1.2rem;color:#ddd;margin:10px 0}
 .concept-complete-overlay .complete-box .badge-unlock{font-size:1.3rem;color:#ffcc88;margin:15px 0}
 .concept-complete-overlay .complete-box .btn-group{margin-top:20px;display:flex;gap:15px;justify-content:center;flex-wrap:wrap}
+
+/* 通用 */
 .timer-container{width:100%;position:relative;margin-bottom:10px}
 .timer-bar{width:100%;height:20px;background:rgba(0,0,0,0.4);border-radius:20px;overflow:hidden;border:1px solid #ffaa66}
 .timer-progress{height:100%;background:linear-gradient(90deg,#ffaa44,#ff6644);width:100%;border-radius:20px;box-shadow:0 0 10px #ff8844}
@@ -125,49 +229,30 @@ body{min-height:100vh;background:linear-gradient(135deg,#0a0f2a,#0a1a3a,#0a0f2a)
 .input-answer{background:rgba(30,40,70,0.9);border:3px solid #ffaa66;border-radius:60px;width:300px;height:130px;font-size:4rem;text-align:center;color:#FFE5B4;outline:none;font-weight:bold;transition:all .3s}
 .input-answer:focus{border-color:#ffcc88;box-shadow:0 0 30px rgba(255,200,100,0.5);transform:scale(1.05)}
 .button-group{display:flex;gap:20px;justify-content:center;margin-top:20px;flex-wrap:wrap}
-.report-card,.teacher-card,.tutorial-card,.wrong-questions-card{background:rgba(20,30,55,0.8);backdrop-filter:blur(15px);border-radius:60px;padding:35px;width:100%;border:2px solid #ffcc88;max-height:800px;overflow-y:auto;color:#FFE5B4}
-.report-row{display:flex;justify-content:space-between;padding:15px 0;border-bottom:2px solid rgba(255,200,100,0.3);font-size:1.2rem;font-weight:500;color:#FFE5B4}
-.table-item{display:flex;justify-content:space-between;font-size:1.1rem;padding:12px 20px;background:rgba(255,200,100,0.15);border-radius:40px;transition:all .3s;color:#FFE5B4}
-.table-item:hover{background:rgba(255,200,100,0.3);transform:translateX(5px)}
-.history-item{background:rgba(100,150,255,0.2);margin-top:12px;padding:15px;border-radius:30px;transition:all .3s;color:#FFE5B4}
-.history-item:hover{background:rgba(100,150,255,0.4);transform:translateX(8px)}
-.rank-item{background:rgba(255,200,100,0.15);margin:10px 0;padding:15px;border-radius:30px;display:flex;align-items:center;gap:15px;transition:all .3s;color:#FFE5B4}
-.rank-item:hover{background:rgba(255,200,100,0.3);transform:translateX(5px)}
-.rank-item strong{color:#FFE5B4}
-.class-item{background:rgba(255,200,100,0.15);margin:10px 0;padding:15px;border-radius:30px;cursor:pointer;transition:all .3s;color:#FFE5B4}
-.class-item:hover{background:rgba(255,200,100,0.3);transform:translateX(5px)}
-.class-item strong{color:#FFE5B4}
-.suggestion-box{background:rgba(255,200,100,0.2);border-left:5px solid #ffaa55;padding:15px;border-radius:20px;margin:15px 0;color:#FFE5B4}
-.wrong-question-item{background:rgba(255,100,80,0.2);margin:10px 0;padding:15px;border-radius:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;color:#FFE5B4}
-.stat-card{background:rgba(255,200,100,0.2);padding:20px;border-radius:40px;text-align:center;color:#FFE5B4}
-.multiplication-card{background:rgba(255,200,100,0.12);padding:12px;border-radius:20px;text-align:center;transition:all .3s;color:#FFE5B4}
-.rank-list{max-height:300px;overflow-y:auto}
-.rank-number{width:40px;height:40px;background:#ffaa55;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#221c0f}
-.rank-number.gold{background:#ffd700}
-.rank-number.silver{background:#c0c0c0}
-.rank-number.bronze{background:#cd7f32}
-.clear-history-btn{background:rgba(255,100,80,0.4);border:1px solid #ff8866;padding:10px 25px;border-radius:40px;margin-top:15px;cursor:pointer;font-size:.9rem}
-.filter-bar{display:flex;gap:15px;margin-bottom:20px;flex-wrap:wrap;justify-content:center}
-.filter-bar input{padding:10px 20px;border-radius:40px;border:2px solid #ffaa66;background:rgba(30,40,70,0.8);color:#fff;font-size:1rem;outline:none}
-.class-list{max-height:400px;overflow-y:auto}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin:20px 0}
-.stat-number{font-size:2rem;font-weight:bold;color:#ffcc88}
-canvas{max-height:300px;margin:20px 0}
-.loading{text-align:center;padding:40px;color:#ffcc88;font-size:1.2rem}
-.multiplication-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:15px;max-height:400px;overflow-y:auto}
-.multiplication-card{background:rgba(255,200,100,0.12);padding:12px;border-radius:20px;text-align:center;transition:all .3s}
-.multiplication-card:hover{background:rgba(255,200,100,0.25);transform:translateY(-3px)}
-.multiplication-title{font-size:1.2rem;font-weight:bold;margin-bottom:8px}
-.multiplication-stats{font-size:.85rem;color:#ddd}
-.multiplication-percent{font-size:1.3rem;font-weight:bold;margin-top:5px}
-.multiplication-level{font-size:.85rem;margin-top:5px}
-.tutorial-step{background:rgba(255,200,100,0.1);border-radius:30px;padding:20px;margin:15px 0;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-.tutorial-number{width:50px;height:50px;background:#ffaa55;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:bold;color:#221c0f}
-.heatmap-table{overflow-x:auto;margin-top:10px}
-.heatmap-table table{border-collapse:collapse;width:100%;color:#fff}
-.heatmap-table th,.heatmap-table td{padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.2)}
-.heatmap-table th{background:rgba(255,200,100,0.2)}
-@media(max-width:700px){.app-container{padding:30px 20px}.title{font-size:2rem}.question{font-size:3rem;letter-spacing:5px}.option-btn{width:90px;height:90px;font-size:2rem}.input-answer{width:220px;height:100px;font-size:2.5rem}.level-btn{font-size:1.5rem;padding:20px}.lang-switch{top:15px;right:15px;padding:6px 15px;font-size:.8rem}.nav-buttons{top:15px;left:15px;gap:8px}.nav-btn,.teacher-btn,.tutorial-btn{padding:6px 12px;font-size:.75rem}.multiplication-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}.table-checkbox-grid{grid-template-columns:repeat(3,1fr)}.concept-lesson .step-content{padding:20px;min-height:200px}.concept-lesson .step-content .step-visual .grid-cell{width:34px;height:34px;font-size:1.1rem}.concept-lesson .step-content .step-visual .formula-display{font-size:1.6rem;padding:10px 18px}.concept-welcome h2{font-size:2rem}.concept-start-btn{font-size:1.2rem;padding:16px 32px}.concept-complete-overlay .complete-box{padding:30px 25px}}
+
+@media(max-width:700px){
+  .app-container{padding:30px 20px}
+  .title{font-size:2rem}
+  .question{font-size:3rem;letter-spacing:5px}
+  .option-btn{width:90px;height:90px;font-size:2rem}
+  .input-answer{width:220px;height:100px;font-size:2.5rem}
+  .level-btn{font-size:1.5rem;padding:20px}
+  .lang-switch{top:15px;right:15px;padding:6px 15px;font-size:.8rem}
+  .nav-buttons{top:15px;left:15px;gap:8px}
+  .nav-btn,.teacher-btn,.tutorial-btn{padding:6px 12px;font-size:.75rem}
+  .concept-lesson .step-content{padding:20px;min-height:250px}
+  .concept-lesson .step-content .drag-garden .garden-grid{max-width:100%}
+  .concept-lesson .step-content .drag-garden .garden-grid .drop-zone{width:40px;height:40px;font-size:1.5rem}
+  .concept-lesson .step-content .swap-container .swap-groups .group-box{min-width:150px}
+  .concept-lesson .step-content .swap-container .swap-groups .group-box .group-grid .drop-zone{width:34px;height:34px;font-size:1.2rem}
+  .concept-lesson .step-content .number-line .line-container svg{min-width:400px}
+  .concept-lesson .step-content .addition-animation{font-size:1.8rem}
+  .concept-welcome h2{font-size:2rem}
+  .concept-start-btn{font-size:1.2rem;padding:16px 32px}
+  .concept-complete-overlay .complete-box{padding:30px 25px}
+  .concept-lesson .step-content .treasure-table table{font-size:.7rem}
+  .concept-lesson .step-content .treasure-table th,.concept-lesson .step-content .treasure-table td{padding:4px 6px;min-width:24px}
+}
 </style>
 </head>
 <body>
@@ -190,7 +275,6 @@ canvas{max-height:300px;margin:20px 0}
   </div>
   <button class="lang-switch" id="langBtn">🌙 EN</button>
 
-  <!-- 学生信息页面 -->
   <div class="screen active" id="infoScreen">
     <h1 class="title" id="mainTitle">🚀 太空乘法任务 🌟</h1>
     <p class="subtitle" id="infoSubtitle">✦ 填写宇航员资料 ✦</p>
@@ -202,25 +286,29 @@ canvas{max-height:300px;margin:20px 0}
     </div>
   </div>
 
-  <!-- 概念学习欢迎页面 -->
   <div class="screen" id="welcomeScreen">
     <div class="concept-welcome">
-      <h2 id="conceptWelcomeTitle">📚 乘法概念小课堂</h2>
-      <p id="conceptWelcomeDesc">先理解概念，再开始练习和挑战！</p>
+      <h2 id="conceptWelcomeTitle">🌌 太空乘法概念小课堂</h2>
+      <p id="conceptWelcomeDesc">先动手探索，再开始练习！</p>
       <div class="highlight-box">
-        <div style="font-weight:bold;color:#ffcc88;margin-bottom:12px;font-size:1.2rem;" id="conceptWelcomeLearnTitle">🎯 你将学到：</div>
-        <ul id="conceptWelcomeLearnList"><li>什么是乘法（重复相加）</li><li>乘法表的规律（×0, ×1, ×2, ×5, ×9）</li><li>交换律（4×3 = 3×4）</li><li>乘法表的宝藏（已知推未知）</li></ul>
-        <div style="margin-top:12px;color:#aaa;font-size:1rem;" id="conceptWelcomeTime">⏱️ 约 10 分钟</div>
+        <div style="font-weight:bold;color:#ffcc88;margin-bottom:12px;font-size:1.2rem;" id="conceptWelcomeLearnTitle">🚀 你将通过以下方式学习：</div>
+        <ul id="conceptWelcomeLearnList">
+          <li>🌟 观看动态加法动画</li>
+          <li>🌙 拖拽星星建造花园</li>
+          <li>🚀 在数轴上放置火箭</li>
+          <li>🪐 交换土星验证交换律</li>
+          <li>💎 探索乘法表的宝藏</li>
+        </ul>
+        <div style="margin-top:12px;color:#aaa;font-size:1rem;" id="conceptWelcomeTime">⏱️ 约 12 分钟</div>
       </div>
       <div id="conceptWelcomeStatus" style="display:none;" class="already-done">✅ 已完成概念学习！可以随时重新学习。</div>
       <div class="btn-group">
-        <button class="concept-start-btn" id="conceptStartBtn">🚀 开始学习</button>
+        <button class="concept-start-btn" id="conceptStartBtn">🚀 开始探索</button>
         <button class="concept-skip-btn" id="conceptSkipBtn" disabled>⏭️ 跳过 <span id="skipCountdown">5</span>s</button>
       </div>
     </div>
   </div>
 
-  <!-- 概念学习课程页面 -->
   <div class="screen" id="conceptScreen">
     <div class="concept-lesson">
       <div class="lesson-header"><span class="lesson-title" id="conceptLessonTitle">第一课：什么是乘法？</span><span class="lesson-progress" id="conceptLessonProgress">1 / 4</span></div>
@@ -234,7 +322,6 @@ canvas{max-height:300px;margin:20px 0}
     </div>
   </div>
 
-  <!-- 等级选择页面 -->
   <div class="screen" id="levelScreen">
     <h1 class="title" id="levelTitle">🪐 选择任务等级 🪐</h1>
     <div class="level-buttons" id="levelButtons">
@@ -248,7 +335,6 @@ canvas{max-height:300px;margin:20px 0}
     <button class="back-btn" id="backToWelcomeBtn">◀ 返回概念学习</button>
   </div>
 
-  <!-- 答题页面 -->
   <div class="screen" id="quizScreen">
     <div class="timer-container"><div class="timer-bar"><div class="timer-progress" id="timerProgress"></div></div></div>
     <div class="question" id="questionDisplay">3 × 4 = ?</div>
@@ -257,7 +343,6 @@ canvas{max-height:300px;margin:20px 0}
     <div class="button-group"><button class="back-btn" id="backToLevelBtn">◀ 返回选等级</button><button class="submit-btn" id="submitBtn">✨ 确认答案 ✨</button></div>
   </div>
 
-  <!-- 报告页面 -->
   <div class="screen" id="reportScreen">
     <h2 class="title" id="reportTitle">📋 星际评估报告 🌟</h2>
     <div class="report-lang" style="display:flex;gap:15px;justify-content:center;margin-bottom:15px;">
@@ -273,21 +358,18 @@ canvas{max-height:300px;margin:20px 0}
     </div>
   </div>
 
-  <!-- 错题本页面 -->
   <div class="screen" id="wrongQuestionsScreen">
     <h2 class="title" id="wrongTitle">📝 我的错题本 📝</h2>
     <div class="wrong-questions-card" id="wrongQuestionsCard"></div>
     <div class="button-group"><button class="back-btn" id="backToReportBtn">◀ 返回报告</button><button class="restart-btn" id="clearWrongBtn" style="background:linear-gradient(135deg,#ff6644,#cc4422);">🗑️ 清空错题本</button></div>
   </div>
 
-  <!-- 排行榜页面 -->
   <div class="screen" id="rankScreen">
     <h2 class="title" id="rankTitle">🏆 星际排行榜 🏆</h2>
     <div class="teacher-card" id="rankCard"></div>
     <div class="button-group"><button class="back-btn" id="backToReportFromRankBtn">◀ 返回报告</button></div>
   </div>
 
-  <!-- 教师后台页面 -->
   <div class="screen" id="teacherScreen">
     <h2 class="title" id="teacherTitle">👩‍🏫 教师后台管理系统</h2>
     <div class="filter-bar">
@@ -306,37 +388,35 @@ canvas{max-height:300px;margin:20px 0}
     <div class="teacher-card" id="teacherCard"><div class="loading">请输入密码进入教师后台 / Enter password to access</div></div>
   </div>
 
-  <!-- 教程页面 -->
   <div class="screen" id="tutorialScreen">
     <h2 class="title" id="tutorialTitle">📖 使用教程</h2>
     <div class="tutorial-card">
       <div class="tutorial-step"><div class="tutorial-number">1</div><div><h3 id="step1Title">📝 填写宇航员资料</h3><p id="step1Desc">输入学校、班级和姓名，点击"发射启程"开始太空数学之旅！</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">2</div><div><h3 id="step2Title">📚 乘法概念小课堂</h3><p id="step2Desc">首次登录先学习乘法概念（什么是乘法、规律、交换律），完成后才能进入练习模式！</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">3</div><div><h3 id="step3Title">🎯 选择任务等级</h3><p id="step3Desc">5种模式：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)，以及✨自选练习✨ - 可自由勾选需要练习的乘法表（至少选3个）！</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">4</div><div><h3 id="step4Title">⏱️ 限时答题</h3><p id="step4Desc">低级：20秒选择题；高级：25秒输入答案。自选模式：每个乘法表按难度出8题（简单2题+中等3题+困难3题），全面考察掌握程度！</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">5</div><div><h3 id="step5Title">📊 查看评估报告</h3><p id="step5Desc">测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议、排行榜，还有🏅成就徽章系统！</p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">2</div><div><h3 id="step2Title">🌌 概念探索</h3><p id="step2Desc">通过动画、拖拽和动手操作，直观理解乘法的含义！</p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">3</div><div><h3 id="step3Title">🎯 选择任务等级</h3><p id="step3Desc">5种模式：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)，以及✨自选练习✨</p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">4</div><div><h3 id="step4Title">⏱️ 限时答题</h3><p id="step4Desc">低级：20秒选择题；高级：25秒输入答案</p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">5</div><div><h3 id="step5Title">📊 查看评估报告</h3><p id="step5Desc">测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议、排行榜和🏅成就徽章！</p></div></div>
       <div class="tutorial-step"><div class="tutorial-number">6</div><div><h3 id="step6Title">📝 错题本功能</h3><p id="step6Desc">做错的题目自动收集到错题本，可以随时复习和重做！</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">7</div><div><h3 id="step7Title">🏆 排行榜与成就</h3><p id="step7Desc">查看全班排行榜，收集乘法大师徽章！教师还可以点击学生姓名查看其进步曲线图！</p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">7</div><div><h3 id="step7Title">🏆 排行榜与成就</h3><p id="step7Desc">查看全班排行榜，收集乘法大师徽章！</p></div></div>
       <div style="text-align:center;margin-top:20px;"><p id="tutorialFooter">🚀 太空乘法任务 - 让学习乘法变得有趣！ 🌟</p></div>
     </div>
     <button class="back-btn" id="backFromTutorialBtn" style="margin-top:20px;">◀ 返回首页</button>
   </div>
 </div>
 
-<!-- 概念学习完成弹窗 -->
 <div class="concept-complete-overlay" id="conceptCompleteOverlay">
   <div class="complete-box">
     <div class="big-icon">🎉</div>
-    <h2 id="completeTitle">恭喜完成概念学习！</h2>
-    <p id="completeDesc">你已经掌握了乘法的核心概念，可以开始练习了！</p>
-    <div class="badge-unlock" id="completeBadge">🏅 获得徽章：📚 概念小达人</div>
+    <h2 id="completeTitle">恭喜完成概念探索！</h2>
+    <p id="completeDesc">你已经通过动手操作理解了乘法的核心概念，可以开始练习了！</p>
+    <div class="badge-unlock" id="completeBadge">🏅 获得徽章：🌌 太空探索者</div>
     <div class="btn-group"><button class="start-btn" id="completeGoBtn">🚀 开始练习</button><button class="back-btn" id="completeReviewBtn">🔄 重新学习</button></div>
   </div>
 </div>
 
 <script>
 // ============================================================
-// 完整的 JavaScript（所有功能完整，无简化）
+// 完整的具象化概念学习 JavaScript
 // ============================================================
 
 // ==================== Supabase 配置 ====================
@@ -350,8 +430,6 @@ function initSupabase() {
   if (typeof supabase !== 'undefined' && supabase.createClient) {
     supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('✅ Supabase 已连接');
-  } else {
-    console.warn('⚠️ Supabase SDK 未加载，使用本地存储');
   }
 }
 setTimeout(initSupabase, 1000);
@@ -384,7 +462,8 @@ let conceptState = {
   totalChecks: 0,
   allCorrect: false,
   stepHistory: [],
-  lessonCompleted: false
+  lessonCompleted: false,
+  dragStates: {}
 };
 let skipTimer = null;
 let skipCountdown = 5;
@@ -421,64 +500,49 @@ const BADGES = {
   rank_champion: { name: '🏆 排行榜冠军', nameEn: '🏆 Ranking Champion', condition: (s) => s.rankFirst >= 1 },
   practice_master: { name: '🔥 练习达人', nameEn: '🔥 Practice Master', condition: (s) => s.totalTests >= 10 },
   multiplication_master: { name: '🌟 乘法大师', nameEn: '🌟 Multiplication Master', condition: (s) => s.allTablesMastered },
-  concept_master: { name: '📚 概念小达人', nameEn: '📚 Concept Master', condition: (s) => s.conceptCompleted }
+  concept_master: { name: '🌌 太空探索者', nameEn: '🌌 Space Explorer', condition: (s) => s.conceptCompleted }
 };
 
-// ==================== 概念课程数据 ====================
+// ==================== 概念课程数据（具象化版本） ====================
 const conceptLessons = {
   zh: [
     {
       id: 1, title: '什么是乘法？', icon: '🌟', estimatedTime: '3 分钟',
       steps: [
-        { type: 'concept', title: '乘法就是重复相加！', content: '3 × 4 就是 3 个 4 加在一起：4 + 4 + 4 = 12', visual: 'grid', gridData: { rows: 3, cols: 4 }, example: '4 + 4 + 4 = 12' },
-        { type: 'concept', title: '再看一个例子！', content: '5 × 3 就是 5 个 3 加在一起：3 + 3 + 3 + 3 + 3 = 15', visual: 'grid', gridData: { rows: 5, cols: 3 }, example: '3 + 3 + 3 + 3 + 3 = 15' },
-        { type: 'concept', title: '记住这个关键！', content: '"×" 就是 "个" 的意思。3 × 4 = 3 个 4', visual: 'none' }
-      ],
-      checkQuestions: [
-        { question: '以下哪个选项不能表示 4 × 3？', options: ['4 + 4 + 4', '3 + 3 + 3 + 3', '4 × 4 × 4'], correct: 2 },
-        { question: '看这个点阵图（2行×5列），它代表什么？', options: ['2 + 2 + 2 + 2 + 2', '5 + 5', '2 × 2 × 2 × 2 × 2'], correct: 1 },
-        { question: '6 × 2 可以写成什么？', options: ['6 + 2', '2 + 2 + 2 + 2 + 2 + 2', '6 × 6'], correct: 1 }
+        { type: 'concept', title: '乘法就是重复相加！', content: '3 × 4 就是 3 个 4 加在一起：4 + 4 + 4 = 12', visual: 'concept' },
+        { type: 'animation', title: '看！数字在跳舞！', content: '点击播放，看看 4 + 4 + 4 是怎么变成 3 × 4 的', numbers: [4, 4, 4], target: 12 },
+        { type: 'grouped', title: '星星分组', content: '3 组，每组 4 颗星星，一共多少颗？', rows: 3, cols: 4, emoji: '⭐' },
+        { type: 'drag', title: '建造星星花园', content: '拖拽星星到花园中，每行放 4 颗！', rows: 3, cols: 4, emoji: '⭐', total: 12 },
+        { type: 'check', title: '检查理解', content: '4 × 3 表示什么意思？', question: '以下哪个选项不能表示 4 × 3？', options: ['4 + 4 + 4', '3 + 3 + 3 + 3', '4 × 4 × 4'], correct: 2 }
       ]
     },
     {
       id: 2, title: '乘法表的规律', icon: '📊', estimatedTime: '3 分钟',
       steps: [
-        { type: 'concept', title: '×0 规律', content: '任何数 × 0 = 0。比如 5 × 0 = 0，100 × 0 = 0', visual: 'none' },
-        { type: 'concept', title: '×1 规律', content: '任何数 × 1 = 它本身。比如 7 × 1 = 7', visual: 'none' },
-        { type: 'concept', title: '×2 规律', content: '×2 就是双倍。比如 6 × 2 = 12，就是 6 的两倍', visual: 'none' },
-        { type: 'concept', title: '×5 规律', content: '×5 的结果末尾总是 0 或 5：5, 10, 15, 20, 25...', visual: 'none' },
-        { type: 'concept', title: '×9 的手指法', content: '弯曲第 n 根手指，左边是十位，右边是个位！比如 3×9：弯曲第3根手指，左边2根，右边7根 → 27', visual: 'none' }
-      ],
-      checkQuestions: [
-        { question: '8 × 0 = ？', options: ['0', '8', '80'], correct: 0 },
-        { question: '7 × 2 = ？', options: ['7', '14', '21'], correct: 1 },
-        { question: '4 × 5 = ？', options: ['15', '20', '25'], correct: 1 }
+        { type: 'concept', title: '×0 规律', content: '任何数 × 0 = 0。比如 5 × 0 = 0', visual: 'concept' },
+        { type: 'concept', title: '×1 规律', content: '任何数 × 1 = 它本身。比如 7 × 1 = 7', visual: 'concept' },
+        { type: 'concept', title: '×2 规律', content: '×2 就是双倍。比如 6 × 2 = 12，是 6 的两倍', visual: 'concept' },
+        { type: 'concept', title: '×5 规律', content: '×5 的结果末尾总是 0 或 5：5, 10, 15, 20, 25...', visual: 'concept' },
+        { type: 'drag-numberline', title: '火箭数轴', content: '把火箭拖到 ×5 的正确位置！', total: 12 },
+        { type: 'check', title: '检查理解', content: '4 × 5 = ？', question: '4 × 5 等于多少？', options: ['15', '20', '25'], correct: 1 }
       ]
     },
     {
       id: 3, title: '交换律', icon: '🔄', estimatedTime: '2 分钟',
       steps: [
-        { type: 'concept', title: '什么是交换律？', content: '在乘法中，交换两个数的位置，答案不变。这叫交换律。', visual: 'none' },
-        { type: 'concept', title: '看这个例子！', content: '4 × 3 = 3 × 4 = 12', visual: 'grid', gridData: { rows: 3, cols: 4 }, example: '4 × 3 = 3 × 4 = 12' },
-        { type: 'concept', title: '实用技巧', content: '如果忘记 7 × 8，可以想 8 × 7，结果一样！', visual: 'none' }
-      ],
-      checkQuestions: [
-        { question: '6 × 4 和 4 × 6 的结果一样吗？', options: ['一样', '不一样'], correct: 0 },
-        { question: '以下哪个算式和 5 × 9 的结果相同？', options: ['9 × 5', '5 + 9', '9 + 5'], correct: 0 },
-        { question: '小明说 3 × 8 = 8 × 3，他说得对吗？', options: ['对', '不对'], correct: 0 }
+        { type: 'concept', title: '什么是交换律？', content: '在乘法中，交换两个数的位置，答案不变！', visual: 'concept' },
+        { type: 'concept', title: '看这个例子！', content: '4 × 3 = 3 × 4 = 12', visual: 'concept' },
+        { type: 'drag-swap', title: '土星交换实验室', content: '把土星拖到两组中，验证总数是否相同！', rows: 3, cols: 4, emoji: '🪐', total: 12 },
+        { type: 'check', title: '检查理解', content: '以下哪个算式和 5 × 9 的结果相同？', question: '以下哪个算式和 5 × 9 的结果相同？', options: ['9 × 5', '5 + 9', '9 + 5'], correct: 0 }
       ]
     },
     {
       id: 4, title: '乘法表的宝藏', icon: '💎', estimatedTime: '2 分钟',
       steps: [
-        { type: 'concept', title: '已知推未知', content: '知道 6 × 5 = 30，那么 6 × 7 = 6 × 5 + 6 × 2 = 30 + 12 = 42', visual: 'none' },
-        { type: 'concept', title: '乘法表的对称性', content: '乘法表对角线的两边是对称的！4 × 7 = 28，7 × 4 = 28', visual: 'none' },
-        { type: 'concept', title: '发现规律', content: '如果我们知道 4 × 6 = 24，我们还知道 6 × 4 = 24！', visual: 'none' }
-      ],
-      checkQuestions: [
-        { question: '如果知道 7 × 6 = 42，怎么算 7 × 8？', options: ['42 + 7 + 7 = 56', '42 × 2 = 84', '42 + 8 = 50'], correct: 0 },
-        { question: '看乘法表：4 × 7 = 28，那么 7 × 4 = ？', options: ['24', '28', '32'], correct: 1 },
-        { question: '如果知道 8 × 5 = 40，怎么算 8 × 6？', options: ['40 + 8 = 48', '40 + 5 = 45', '40 × 6 = 240'], correct: 0 }
+        { type: 'concept', title: '已知推未知', content: '知道 6 × 5 = 30，那么 6 × 7 = 6 × 5 + 6 × 2 = 42', visual: 'concept' },
+        { type: 'concept', title: '乘法表的对称性', content: '乘法表是对称的！4 × 7 = 28，7 × 4 = 28', visual: 'concept' },
+        { type: 'drag-treasure', title: '乘法表宝藏探测器', content: '点击或拖拽高亮对称位置！', total: 4 },
+        { type: 'check', title: '检查理解', content: '如果知道 8 × 5 = 40，怎么算 8 × 6？', question: '如果知道 8 × 5 = 40，怎么算 8 × 6？', options: ['40 + 8 = 48', '40 + 5 = 45', '40 × 6 = 240'], correct: 0 }
       ]
     }
   ],
@@ -486,55 +550,40 @@ const conceptLessons = {
     {
       id: 1, title: 'What is Multiplication?', icon: '🌟', estimatedTime: '3 min',
       steps: [
-        { type: 'concept', title: 'Multiplication is repeated addition!', content: '3 × 4 means 3 groups of 4: 4 + 4 + 4 = 12', visual: 'grid', gridData: { rows: 3, cols: 4 }, example: '4 + 4 + 4 = 12' },
-        { type: 'concept', title: 'Another example!', content: '5 × 3 means 5 groups of 3: 3 + 3 + 3 + 3 + 3 = 15', visual: 'grid', gridData: { rows: 5, cols: 3 }, example: '3 + 3 + 3 + 3 + 3 = 15' },
-        { type: 'concept', title: 'Remember this key point!', content: '"×" means "groups of". 3 × 4 = 3 groups of 4', visual: 'none' }
-      ],
-      checkQuestions: [
-        { question: 'Which option cannot represent 4 × 3?', options: ['4 + 4 + 4', '3 + 3 + 3 + 3', '4 × 4 × 4'], correct: 2 },
-        { question: 'Looking at this grid (2 rows × 5 cols), what does it represent?', options: ['2 + 2 + 2 + 2 + 2', '5 + 5', '2 × 2 × 2 × 2 × 2'], correct: 1 },
-        { question: 'What can 6 × 2 be written as?', options: ['6 + 2', '2 + 2 + 2 + 2 + 2 + 2', '6 × 6'], correct: 1 }
+        { type: 'concept', title: 'Multiplication is repeated addition!', content: '3 × 4 means 3 groups of 4: 4 + 4 + 4 = 12', visual: 'concept' },
+        { type: 'animation', title: 'Watch the numbers dance!', content: 'See how 4 + 4 + 4 becomes 3 × 4', numbers: [4, 4, 4], target: 12 },
+        { type: 'grouped', title: 'Star Groups', content: '3 groups of 4 stars each. How many stars?', rows: 3, cols: 4, emoji: '⭐' },
+        { type: 'drag', title: 'Build a Star Garden', content: 'Drag stars into the garden, 4 per row!', rows: 3, cols: 4, emoji: '⭐', total: 12 },
+        { type: 'check', title: 'Check Understanding', content: 'Which option cannot represent 4 × 3?', question: 'Which option cannot represent 4 × 3?', options: ['4 + 4 + 4', '3 + 3 + 3 + 3', '4 × 4 × 4'], correct: 2 }
       ]
     },
     {
       id: 2, title: 'Times Table Patterns', icon: '📊', estimatedTime: '3 min',
       steps: [
-        { type: 'concept', title: '×0 Pattern', content: 'Any number × 0 = 0. For example: 5 × 0 = 0, 100 × 0 = 0', visual: 'none' },
-        { type: 'concept', title: '×1 Pattern', content: 'Any number × 1 = itself. For example: 7 × 1 = 7', visual: 'none' },
-        { type: 'concept', title: '×2 Pattern', content: '×2 means double. For example: 6 × 2 = 12, which is double 6', visual: 'none' },
-        { type: 'concept', title: '×5 Pattern', content: '×5 always ends in 0 or 5: 5, 10, 15, 20, 25...', visual: 'none' },
-        { type: 'concept', title: '×9 Finger Trick', content: 'Bend the nth finger. Left side = tens, right side = ones! For 3×9: bend 3rd finger, 2 on left, 7 on right → 27', visual: 'none' }
-      ],
-      checkQuestions: [
-        { question: '8 × 0 = ?', options: ['0', '8', '80'], correct: 0 },
-        { question: '7 × 2 = ?', options: ['7', '14', '21'], correct: 1 },
-        { question: '4 × 5 = ?', options: ['15', '20', '25'], correct: 1 }
+        { type: 'concept', title: '×0 Pattern', content: 'Any number × 0 = 0. For example: 5 × 0 = 0', visual: 'concept' },
+        { type: 'concept', title: '×1 Pattern', content: 'Any number × 1 = itself. For example: 7 × 1 = 7', visual: 'concept' },
+        { type: 'concept', title: '×2 Pattern', content: '×2 means double. For example: 6 × 2 = 12', visual: 'concept' },
+        { type: 'concept', title: '×5 Pattern', content: '×5 always ends in 0 or 5: 5, 10, 15, 20, 25...', visual: 'concept' },
+        { type: 'drag-numberline', title: 'Rocket Number Line', content: 'Drag rockets to the correct ×5 positions!', total: 12 },
+        { type: 'check', title: 'Check Understanding', content: '4 × 5 = ?', question: 'What is 4 × 5?', options: ['15', '20', '25'], correct: 1 }
       ]
     },
     {
       id: 3, title: 'Commutative Property', icon: '🔄', estimatedTime: '2 min',
       steps: [
-        { type: 'concept', title: 'What is the Commutative Property?', content: 'In multiplication, swapping the two numbers gives the same answer. This is the commutative property.', visual: 'none' },
-        { type: 'concept', title: 'Look at this example!', content: '4 × 3 = 3 × 4 = 12', visual: 'grid', gridData: { rows: 3, cols: 4 }, example: '4 × 3 = 3 × 4 = 12' },
-        { type: 'concept', title: 'Helpful Tip', content: 'If you forget 7 × 8, just think 8 × 7 — the answer is the same!', visual: 'none' }
-      ],
-      checkQuestions: [
-        { question: 'Are 6 × 4 and 4 × 6 the same?', options: ['Yes', 'No'], correct: 0 },
-        { question: 'Which expression has the same result as 5 × 9?', options: ['9 × 5', '5 + 9', '9 + 5'], correct: 0 },
-        { question: 'Xiao Ming says 3 × 8 = 8 × 3. Is he right?', options: ['Yes', 'No'], correct: 0 }
+        { type: 'concept', title: 'What is the Commutative Property?', content: 'Swapping numbers gives the same answer!', visual: 'concept' },
+        { type: 'concept', title: 'Look at this example!', content: '4 × 3 = 3 × 4 = 12', visual: 'concept' },
+        { type: 'drag-swap', title: 'Saturn Swap Lab', content: 'Drag Saturn to both groups and compare totals!', rows: 3, cols: 4, emoji: '🪐', total: 12 },
+        { type: 'check', title: 'Check Understanding', content: 'Which equals 5 × 9?', question: 'Which equals 5 × 9?', options: ['9 × 5', '5 + 9', '9 + 5'], correct: 0 }
       ]
     },
     {
       id: 4, title: 'Treasures of the Times Table', icon: '💎', estimatedTime: '2 min',
       steps: [
-        { type: 'concept', title: 'Known to Unknown', content: 'If you know 6 × 5 = 30, then 6 × 7 = 6 × 5 + 6 × 2 = 30 + 12 = 42', visual: 'none' },
-        { type: 'concept', title: 'Symmetry in the Times Table', content: 'The times table is symmetrical! 4 × 7 = 28 and 7 × 4 = 28', visual: 'none' },
-        { type: 'concept', title: 'Discover Patterns', content: 'If we know 4 × 6 = 24, we also know 6 × 4 = 24!', visual: 'none' }
-      ],
-      checkQuestions: [
-        { question: 'If 7 × 6 = 42, how do you calculate 7 × 8?', options: ['42 + 7 + 7 = 56', '42 × 2 = 84', '42 + 8 = 50'], correct: 0 },
-        { question: 'In the times table: 4 × 7 = 28, what is 7 × 4 = ?', options: ['24', '28', '32'], correct: 1 },
-        { question: 'If 8 × 5 = 40, how do you calculate 8 × 6?', options: ['40 + 8 = 48', '40 + 5 = 45', '40 × 6 = 240'], correct: 0 }
+        { type: 'concept', title: 'Known to Unknown', content: 'If 6 × 5 = 30, then 6 × 7 = 6 × 5 + 6 × 2 = 42', visual: 'concept' },
+        { type: 'concept', title: 'Symmetry in the Times Table', content: '4 × 7 = 28, and 7 × 4 = 28', visual: 'concept' },
+        { type: 'drag-treasure', title: 'Treasure Finder', content: 'Click or drag to highlight symmetrical positions!', total: 4 },
+        { type: 'check', title: 'Check Understanding', content: 'If 8 × 5 = 40, how do you calculate 8 × 6?', question: 'If 8 × 5 = 40, how do you calculate 8 × 6?', options: ['40 + 8 = 48', '40 + 5 = 45', '40 × 6 = 240'], correct: 0 }
       ]
     }
   ]
@@ -611,18 +660,18 @@ const texts = {
     suggestionStrongTables: '已经掌握的乘法表',
     step1Title: '📝 填写宇航员资料',
     step1Desc: '输入学校、班级和姓名，点击"发射启程"开始太空数学之旅！',
-    step2Title: '📚 乘法概念小课堂',
-    step2Desc: '首次登录先学习乘法概念（什么是乘法、规律、交换律），完成后才能进入练习模式！',
+    step2Title: '🌌 概念探索',
+    step2Desc: '通过动画、拖拽和动手操作，直观理解乘法的含义！',
     step3Title: '🎯 选择任务等级',
-    step3Desc: '5种模式：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)，以及✨自选练习✨ - 可自由勾选需要练习的乘法表（至少选3个）！',
+    step3Desc: '5种模式：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)，以及✨自选练习✨',
     step4Title: '⏱️ 限时答题',
-    step4Desc: '低级：20秒选择题；高级：25秒输入答案。自选模式：每个乘法表按难度出8题（简单2题+中等3题+困难3题），全面考察掌握程度！',
+    step4Desc: '低级：20秒选择题；高级：25秒输入答案',
     step5Title: '📊 查看评估报告',
-    step5Desc: '测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议、排行榜，还有🏅成就徽章系统！',
+    step5Desc: '测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议、排行榜和🏅成就徽章！',
     step6Title: '📝 错题本功能',
     step6Desc: '做错的题目自动收集到错题本，可以随时复习和重做！',
     step7Title: '🏆 排行榜与成就',
-    step7Desc: '查看全班排行榜，收集乘法大师徽章！教师还可以点击学生姓名查看其进步曲线图！',
+    step7Desc: '查看全班排行榜，收集乘法大师徽章！',
     tutorialFooter: '🚀 太空乘法任务 - 让学习乘法变得有趣！ 🌟',
     feedback: '📝 填写问卷',
     customTitle: '✨ 自选乘法表 ✨',
@@ -672,26 +721,42 @@ const texts = {
     certLevel4: '银河霸主',
     certLevel5: '错题练习',
     certLevel6: '自选练习',
-    conceptWelcomeTitle: '📚 乘法概念小课堂',
-    conceptWelcomeDesc: '先理解概念，再开始练习和挑战！',
-    conceptWelcomeLearnTitle: '🎯 你将学到：',
-    conceptWelcomeLearnList: ['什么是乘法（重复相加）', '乘法表的规律（×0, ×1, ×2, ×5, ×9）', '交换律（4×3 = 3×4）', '乘法表的宝藏（已知推未知）'],
-    conceptWelcomeTime: '⏱️ 约 10 分钟',
+    conceptWelcomeTitle: '🌌 太空乘法概念小课堂',
+    conceptWelcomeDesc: '先动手探索，再开始练习！',
+    conceptWelcomeLearnTitle: '🚀 你将通过以下方式学习：',
+    conceptWelcomeLearnList: ['🌟 观看动态加法动画', '🌙 拖拽星星建造花园', '🚀 在数轴上放置火箭', '🪐 交换土星验证交换律', '💎 探索乘法表的宝藏'],
+    conceptWelcomeTime: '⏱️ 约 12 分钟',
     conceptWelcomeDone: '✅ 已完成概念学习！可以随时重新学习。',
-    conceptStartBtn: '🚀 开始学习',
+    conceptStartBtn: '🚀 开始探索',
     conceptSkipBtn: '⏭️ 跳过',
     conceptBackBtn: '◀ 上一步',
     conceptNextBtn: '下一步 ➤',
     conceptExitBtn: '✕ 退出',
-    conceptCompleteTitle: '🎉 恭喜完成概念学习！',
-    conceptCompleteDesc: '你已经掌握了乘法的核心概念，可以开始练习了！',
-    conceptCompleteBadge: '🏅 获得徽章：📚 概念小达人',
+    conceptCompleteTitle: '🎉 恭喜完成概念探索！',
+    conceptCompleteDesc: '你已经通过动手操作理解了乘法的核心概念，可以开始练习了！',
+    conceptCompleteBadge: '🏅 获得徽章：🌌 太空探索者',
     conceptCompleteGo: '🚀 开始练习',
     conceptCompleteReview: '🔄 重新学习',
     conceptCheckTitle: '✅ 检查理解',
     conceptCheckCorrect: '✅ 回答正确！',
     conceptCheckWrong: '❌ 再想想，答案是 ',
     conceptCheckTryAgain: '再试一次',
+    dragHint: '💡 提示：拖拽',
+    dragReset: '🔄 重置',
+    dragCheck: '✅ 检查答案',
+    dragPlaced: '已放置',
+    dragOf: '/',
+    dragProgress: '进度',
+    dragCorrect: '🎉 恭喜！你完成了',
+    dragWrong: '❌ 再检查一下，每行需要放',
+    dragCheckTitle: '检查答案',
+    dragGroupLeft: '3组 × 4个',
+    dragGroupRight: '4组 × 3个',
+    dragTarget: '🎯 任务：找到',
+    dragTargetPair: '的对称位置',
+    dragFound: '已找到：',
+    dragComplete: '🎉 恭喜！你找到了所有对称位置！',
+    treasureTask: '找到 $1 × $2 的对称位置！',
   },
   en: {
     mainTitle: '🚀 Space Math Mission 🌟',
@@ -762,18 +827,18 @@ const texts = {
     suggestionStrongTables: 'Tables mastered',
     step1Title: '📝 Fill in Astronaut Info',
     step1Desc: 'Enter school, class and name, then click "Launch" to start!',
-    step2Title: '📚 Concept Classroom',
-    step2Desc: 'First, learn multiplication concepts (what is multiplication, patterns, commutative property), then unlock practice mode!',
+    step2Title: '🌌 Concept Exploration',
+    step2Desc: 'Learn multiplication through animations, drag-and-drop activities!',
     step3Title: '🎯 Select Mission Level',
-    step3Desc: '5 modes: Novice, Moon Explorer, Solar Warrior, Galaxy Master, plus ✨Custom Practice✨ - select at least 3 tables!',
+    step3Desc: '5 modes: Novice, Moon Explorer, Solar Warrior, Galaxy Master, plus ✨Custom Practice✨',
     step4Title: '⏱️ Timed Questions',
-    step4Desc: 'Easy: 20s multiple choice; Hard: 25s input. Custom mode: 8 questions per table (2 easy + 3 medium + 3 hard)',
+    step4Desc: 'Easy: 20s multiple choice; Hard: 25s input',
     step5Title: '📊 View Assessment Report',
     step5Desc: 'Shows mastery, suggestions, ranking, and 🏅achievement badges!',
     step6Title: '📝 Wrong Questions Book',
     step6Desc: 'Wrong answers saved automatically. Review anytime!',
     step7Title: '🏆 Ranking & Achievements',
-    step7Desc: 'View class ranking and collect badges! Teachers can view student progress charts!',
+    step7Desc: 'View class ranking and collect badges!',
     tutorialFooter: '🚀 Space Math Mission - Making multiplication fun! 🌟',
     feedback: '📝 Feedback',
     customTitle: '✨ Custom Selection ✨',
@@ -823,26 +888,42 @@ const texts = {
     certLevel4: 'Galaxy Master',
     certLevel5: 'Wrong Questions Practice',
     certLevel6: 'Custom Practice',
-    conceptWelcomeTitle: '📚 Concept Classroom',
-    conceptWelcomeDesc: 'Learn the concepts first, then start practicing!',
-    conceptWelcomeLearnTitle: '🎯 You will learn:',
-    conceptWelcomeLearnList: ['What is multiplication (repeated addition)', 'Times table patterns (×0, ×1, ×2, ×5, ×9)', 'Commutative property (4×3 = 3×4)', 'Treasures of the times table (known to unknown)'],
-    conceptWelcomeTime: '⏱️ About 10 minutes',
+    conceptWelcomeTitle: '🌌 Space Multiplication Classroom',
+    conceptWelcomeDesc: 'Explore first with hands-on activities!',
+    conceptWelcomeLearnTitle: '🚀 You will learn through:',
+    conceptWelcomeLearnList: ['🌟 Watch addition animations', '🌙 Drag stars to build a garden', '🚀 Place rockets on a number line', '🪐 Swap Saturn to verify the commutative property', '💎 Discover treasures of the times table'],
+    conceptWelcomeTime: '⏱️ About 12 minutes',
     conceptWelcomeDone: '✅ Concept learning completed! You can review anytime.',
-    conceptStartBtn: '🚀 Start Learning',
+    conceptStartBtn: '🚀 Start Exploring',
     conceptSkipBtn: '⏭️ Skip',
     conceptBackBtn: '◀ Back',
     conceptNextBtn: 'Next ➤',
     conceptExitBtn: '✕ Exit',
     conceptCompleteTitle: '🎉 Congratulations!',
-    conceptCompleteDesc: 'You have mastered the core concepts of multiplication! Ready to practice?',
-    conceptCompleteBadge: '🏅 Badge Earned: 📚 Concept Master',
+    conceptCompleteDesc: 'You have mastered multiplication concepts through hands-on exploration!',
+    conceptCompleteBadge: '🏅 Badge Earned: 🌌 Space Explorer',
     conceptCompleteGo: '🚀 Start Practicing',
     conceptCompleteReview: '🔄 Review Again',
-    conceptCheckTitle: '✅ Check Your Understanding',
+    conceptCheckTitle: '✅ Check Understanding',
     conceptCheckCorrect: '✅ Correct!',
     conceptCheckWrong: '❌ Try again. The answer is ',
     conceptCheckTryAgain: 'Try Again',
+    dragHint: '💡 Hint: Drag and drop',
+    dragReset: '🔄 Reset',
+    dragCheck: '✅ Check Answer',
+    dragPlaced: 'Placed',
+    dragOf: '/',
+    dragProgress: 'Progress',
+    dragCorrect: '🎉 Congratulations! You completed',
+    dragWrong: '❌ Check again. Each row needs',
+    dragCheckTitle: 'Check Answer',
+    dragGroupLeft: '3 groups × 4 items',
+    dragGroupRight: '4 groups × 3 items',
+    dragTarget: '🎯 Task: Find',
+    dragTargetPair: '\'s symmetrical position',
+    dragFound: 'Found:',
+    dragComplete: '🎉 Congratulations! You found all symmetrical positions!',
+    treasureTask: 'Find the symmetrical position of $1 × $2!',
   }
 };
 
@@ -1021,7 +1102,7 @@ function startPracticeQuestion(question) {
   showCurrentQuestion();
 }
 
-// ==================== 错误类型分析（完整版） ====================
+// ==================== 错误类型分析 ====================
 function classifyError(correct, user, lang) {
   const t = texts[lang];
   if (user === null || user === undefined || user === '') return t.errorTypeTimeout;
@@ -1051,12 +1132,13 @@ function analyzeErrors(lang) {
   return errors;
 }
 
-// ==================== 概念学习功能（完整版） ====================
+// ==================== 概念学习功能（具象化完整版） ====================
 function loadConceptProgress() {
   try {
     const key = `concept_${currentStudentData.school}_${currentStudentData.className}_${currentStudentData.name}`;
     const saved = localStorage.getItem(key);
     if (saved) conceptState = { ...conceptState, ...JSON.parse(saved) };
+    if (!conceptState.dragStates) conceptState.dragStates = {};
   } catch(e) { /* ignore */ }
 }
 function saveConceptProgress() {
@@ -1110,15 +1192,137 @@ function renderConceptWelcome() {
   }, 1000);
 }
 
+// ==================== 拖拽系统（支持鼠标 + 触摸） ====================
+let dragSystem = {
+  dragData: null,
+  ghost: null,
+  offsetX: 0,
+  offsetY: 0,
+  isDragging: false,
+  touchId: null
+};
+
+function initDragSystem() {
+  document.addEventListener('mousemove', onDragMove);
+  document.addEventListener('mouseup', onDragEnd);
+  document.addEventListener('touchmove', onTouchDragMove, { passive: false });
+  document.addEventListener('touchend', onTouchDragEnd, { passive: false });
+}
+
+function startDrag(e, element, value, callback) {
+  e.preventDefault();
+  const rect = element.getBoundingClientRect();
+  const clientX = e.clientX || e.touches?.[0]?.clientX || 0;
+  const clientY = e.clientY || e.touches?.[0]?.clientY || 0;
+  
+  dragSystem.isDragging = true;
+  dragSystem.dragData = { element, value, callback };
+  dragSystem.offsetX = clientX - rect.left;
+  dragSystem.offsetY = clientY - rect.top;
+  
+  // 创建幽灵元素
+  dragSystem.ghost = element.cloneNode(true);
+  dragSystem.ghost.style.cssText = `
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.85;
+    transform: scale(1.1) rotate(-2deg);
+    transition: none;
+    font-size: ${window.getComputedStyle(element).fontSize || '2rem'};
+    padding: 4px 8px;
+    background: rgba(255,200,100,0.15);
+    border-radius: 12px;
+    border: 2px solid #ffaa55;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  `;
+  dragSystem.ghost.textContent = element.textContent;
+  document.body.appendChild(dragSystem.ghost);
+  updateGhostPosition(clientX, clientY);
+  element.classList.add('dragging');
+}
+
+function updateGhostPosition(clientX, clientY) {
+  if (!dragSystem.ghost) return;
+  dragSystem.ghost.style.left = (clientX - dragSystem.offsetX) + 'px';
+  dragSystem.ghost.style.top = (clientY - dragSystem.offsetY) + 'px';
+}
+
+function onDragMove(e) {
+  if (!dragSystem.isDragging || !dragSystem.ghost) return;
+  e.preventDefault();
+  updateGhostPosition(e.clientX, e.clientY);
+  // 检测悬停
+  checkHover(e.clientX, e.clientY);
+}
+
+function onTouchDragMove(e) {
+  if (!dragSystem.isDragging || !dragSystem.ghost) return;
+  e.preventDefault();
+  const touch = e.touches[0];
+  updateGhostPosition(touch.clientX, touch.clientY);
+  checkHover(touch.clientX, touch.clientY);
+}
+
+function onDragEnd(e) {
+  if (!dragSystem.isDragging) return;
+  const clientX = e.clientX || 0;
+  const clientY = e.clientY || 0;
+  finishDrag(clientX, clientY);
+}
+
+function onTouchDragEnd(e) {
+  if (!dragSystem.isDragging) return;
+  const touch = e.changedTouches?.[0];
+  if (!touch) return;
+  finishDrag(touch.clientX, touch.clientY);
+}
+
+function finishDrag(clientX, clientY) {
+  const target = document.elementFromPoint(clientX, clientY);
+  if (target && dragSystem.dragData) {
+    const dropZone = target.closest('.drop-zone');
+    if (dropZone && !dropZone.dataset.filled) {
+      dragSystem.dragData.callback(dropZone, dragSystem.dragData.value);
+    }
+  }
+  cleanupDrag();
+}
+
+function cleanupDrag() {
+  if (dragSystem.ghost) {
+    dragSystem.ghost.remove();
+    dragSystem.ghost = null;
+  }
+  if (dragSystem.dragData?.element) {
+    dragSystem.dragData.element.classList.remove('dragging');
+  }
+  dragSystem.isDragging = false;
+  dragSystem.dragData = null;
+  // 移除所有高亮
+  document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+}
+
+function checkHover(clientX, clientY) {
+  document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+  const target = document.elementFromPoint(clientX, clientY);
+  if (target) {
+    const dropZone = target.closest('.drop-zone');
+    if (dropZone && !dropZone.dataset.filled) {
+      dropZone.classList.add('drag-over');
+    }
+  }
+}
+
+// ==================== 具象化步骤渲染 ====================
 function renderConceptLesson() {
   const t = texts[currentLang];
   const lessons = conceptLessons[currentLang] || conceptLessons.zh;
   const lesson = lessons[conceptState.currentLesson];
   const totalSteps = lesson.steps.length;
-  const hasChecks = lesson.checkQuestions && lesson.checkQuestions.length > 0;
-  const isCheckStep = conceptState.currentStep >= totalSteps;
-  const checkIndex = isCheckStep ? conceptState.currentStep - totalSteps : 0;
+  const step = lesson.steps[conceptState.currentStep];
   
+  // 更新标题
   document.getElementById('conceptLessonTitle').textContent = `${lesson.icon} ${lesson.title}`;
   document.getElementById('conceptLessonProgress').textContent = `${conceptState.currentLesson + 1} / ${lessons.length}`;
   
@@ -1132,125 +1336,59 @@ function renderConceptLesson() {
   const container = document.getElementById('conceptStepContent');
   let html = '';
   
-  if (isCheckStep && checkIndex < lesson.checkQuestions.length) {
-    const q = lesson.checkQuestions[checkIndex];
-    html = `
-      <div class="check-question">
-        <div class="q-text">${t.conceptCheckTitle} (${checkIndex+1}/${lesson.checkQuestions.length})</div>
-        <div class="q-text" style="font-size:1.4rem;margin-bottom:15px;">${q.question}</div>
-        <div class="q-options" id="qOptions">
-          ${q.options.map((opt, idx) => `<button data-optidx="${idx}" class="q-opt-btn">${opt}</button>`).join('')}
-        </div>
-        <div class="feedback-text" id="qFeedback"></div>
-      </div>
-    `;
-    container.innerHTML = html;
-    
-    document.querySelectorAll('.q-opt-btn').forEach(btn => {
-      btn.onclick = function() {
-        const idx = parseInt(this.dataset.optidx);
-        const qData = lesson.checkQuestions[checkIndex];
-        const isCorrect = idx === qData.correct;
-        const feedback = document.getElementById('qFeedback');
-        const allBtns = document.querySelectorAll('.q-opt-btn');
-        
-        allBtns.forEach(b => b.disabled = true);
-        
-        if (isCorrect) {
-          this.classList.add('correct');
-          feedback.className = 'feedback-text success';
-          feedback.textContent = t.conceptCheckCorrect;
-          conceptState.totalCheckCorrect++;
-          conceptState.checkCorrect++;
-          conceptState.totalChecks++;
-          
-          setTimeout(() => {
-            conceptState.currentStep++;
-            // 检查当前课程是否所有检查题都完成了
-            if (conceptState.currentStep >= totalSteps + lesson.checkQuestions.length) {
-              // 当前课程完成，检查是否所有课程都完成了
-              if (conceptState.currentLesson >= lessons.length - 1) {
-                // ===== 所有课程完成！ =====
-                conceptState.completed = true;
-                conceptState.allCorrect = conceptState.totalCheckCorrect === conceptState.totalChecks;
-                saveConceptProgress();
-                studentAchievements.conceptCompleted = true;
-                studentAchievements.conceptScore = conceptState.totalChecks > 0 ? 
-                  Math.round((conceptState.totalCheckCorrect / conceptState.totalChecks) * 100) : 0;
-                if (conceptState.allCorrect && conceptState.totalChecks > 0) {
-                  studentAchievements.badges.concept_master = true;
-                }
-                saveAchievements();
-                document.getElementById('completeTitle').textContent = t.conceptCompleteTitle;
-                document.getElementById('completeDesc').textContent = t.conceptCompleteDesc;
-                document.getElementById('completeBadge').textContent = t.conceptCompleteBadge;
-                document.getElementById('completeGoBtn').textContent = t.conceptCompleteGo;
-                document.getElementById('completeReviewBtn').textContent = t.conceptCompleteReview;
-                document.getElementById('conceptCompleteOverlay').classList.add('active');
-                return;
-              } else {
-                conceptState.currentLesson++;
-                conceptState.currentStep = 0;
-                conceptState.checkCorrect = 0;
-                renderConceptLesson();
-                saveConceptProgress();
-                return;
-              }
-            }
-            renderConceptLesson();
-            saveConceptProgress();
-          }, 800);
-        } else {
-          this.classList.add('wrong');
-          feedback.className = 'feedback-text error';
-          feedback.textContent = t.conceptCheckWrong + q.options[qData.correct];
-          setTimeout(() => {
-            allBtns.forEach(b => {
-              b.disabled = false;
-              b.classList.remove('wrong');
-            });
-            feedback.textContent = '';
-          }, 1500);
-        }
-      };
-    });
-    
-    document.getElementById('conceptBackBtn').style.display = 'inline-block';
-    document.getElementById('conceptBackBtn').textContent = t.conceptBackBtn;
-    document.getElementById('conceptNextBtn').style.display = 'none';
-    document.getElementById('conceptExitBtn').textContent = t.conceptExitBtn;
-    return;
-  }
-  
-  // 概念步骤
-  const step = lesson.steps[conceptState.currentStep];
-  html = `
-    <div class="step-title">${step.title}</div>
-    <div class="step-text">${step.content}</div>
-  `;
-  
-  if (step.visual === 'grid' && step.gridData) {
-    html += `<div class="step-visual">`;
-    html += `<div class="grid-container" style="grid-template-columns: repeat(${step.gridData.cols}, 1fr);">`;
-    const total = step.gridData.rows * step.gridData.cols;
-    for (let i = 0; i < total; i++) {
-      const row = Math.floor(i / step.gridData.cols);
-      const fill = row < step.gridData.rows ? 'filled' : '';
-      html += `<div class="grid-cell ${fill}">${fill ? '⭐' : ''}</div>`;
-    }
-    html += `</div>`;
-    if (step.example) html += `<div class="formula-display">${step.example}</div>`;
-    html += `</div>`;
-  }
-  
-  if (conceptState.currentStep === totalSteps - 1 && hasChecks) {
-    html += `<div style="margin-top:20px;padding:15px;background:rgba(255,200,100,0.1);border-radius:16px;text-align:center;color:#ffcc88;">
-      📝 ${currentLang === 'zh' ? '接下来是检查题，检验你是否理解！' : 'Next up: Check your understanding!'}
-    </div>`;
+  // 根据步骤类型渲染
+  switch(step.type) {
+    case 'concept':
+      html = renderConceptStep(step, t);
+      break;
+    case 'animation':
+      html = renderAnimationStep(step, t);
+      break;
+    case 'grouped':
+      html = renderGroupedStep(step, t);
+      break;
+    case 'drag':
+      html = renderDragGardenStep(step, t);
+      break;
+    case 'drag-numberline':
+      html = renderNumberLineStep(step, t);
+      break;
+    case 'drag-swap':
+      html = renderSwapStep(step, t);
+      break;
+    case 'drag-treasure':
+      html = renderTreasureStep(step, t);
+      break;
+    case 'check':
+      html = renderCheckStep(step, t);
+      break;
+    default:
+      html = `<div class="step-title">${step.title}</div><div class="step-text">${step.content}</div>`;
   }
   
   container.innerHTML = html;
   
+  // 绑定事件
+  if (step.type === 'animation') {
+    bindAnimationEvents(step);
+  }
+  if (step.type === 'drag') {
+    bindDragGardenEvents(step);
+  }
+  if (step.type === 'drag-numberline') {
+    bindNumberLineEvents(step);
+  }
+  if (step.type === 'drag-swap') {
+    bindSwapEvents(step);
+  }
+  if (step.type === 'drag-treasure') {
+    bindTreasureEvents(step);
+  }
+  if (step.type === 'check') {
+    bindCheckEvents(step);
+  }
+  
+  // 更新导航按钮
   const backBtn = document.getElementById('conceptBackBtn');
   const nextBtn = document.getElementById('conceptNextBtn');
   
@@ -1261,50 +1399,1000 @@ function renderConceptLesson() {
     backBtn.textContent = t.conceptBackBtn;
   }
   
-  if (conceptState.currentStep === totalSteps - 1 && hasChecks) {
-    nextBtn.textContent = t.conceptCheckTitle;
+  // 检查步骤是否已完成
+  const isStepCompleted = conceptState.stepHistory.includes(`${conceptState.currentLesson}-${conceptState.currentStep}`);
+  if (step.type === 'check' && isStepCompleted) {
+    nextBtn.textContent = t.conceptNextBtn;
     nextBtn.style.display = 'inline-block';
+  } else if (step.type === 'check') {
+    nextBtn.style.display = 'none';
+  } else if (step.type === 'drag' || step.type === 'drag-numberline' || step.type === 'drag-swap' || step.type === 'drag-treasure') {
+    // 拖拽步骤：检查是否已完成
+    const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+    if (conceptState.dragStates && conceptState.dragStates[dragKey]?.completed) {
+      nextBtn.textContent = t.conceptNextBtn;
+      nextBtn.style.display = 'inline-block';
+    } else {
+      nextBtn.style.display = 'none';
+    }
   } else {
     nextBtn.textContent = t.conceptNextBtn;
     nextBtn.style.display = 'inline-block';
   }
+  
   document.getElementById('conceptExitBtn').textContent = t.conceptExitBtn;
 }
 
+// ==================== 各步骤渲染函数 ====================
+
+function renderConceptStep(step, t) {
+  return `
+    <div class="step-title">${step.title}</div>
+    <div class="step-text">${step.content}</div>
+    ${step.visual === 'concept' ? '<div style="text-align:center;padding:10px;color:#ffcc88;font-size:1.1rem;">🌟 理解乘法的第一步！</div>' : ''}
+  `;
+}
+
+function renderAnimationStep(step, t) {
+  const numbers = step.numbers || [];
+  const target = step.target || 0;
+  const numStr = numbers.join(' + ');
+  
+  return `
+    <div class="step-title">${step.title}</div>
+    <div class="step-text">${step.content}</div>
+    <div class="addition-animation" id="animContainer">
+      ${numbers.map((n, i) => `
+        <span class="num" data-idx="${i}" style="transition-delay:${i * 0.5}s">${n}</span>
+        ${i < numbers.length - 1 ? `<span class="operator" data-idx="${i}">+</span>` : ''}
+      `).join('')}
+      <span class="result">= ${target}</span>
+    </div>
+    <div class="animation-controls">
+      <button id="playAnimBtn">▶ ${currentLang === 'zh' ? '播放动画' : 'Play'}</button>
+      <button id="resetAnimBtn">↺ ${currentLang === 'zh' ? '重置' : 'Reset'}</button>
+    </div>
+  `;
+}
+
+function renderGroupedStep(step, t) {
+  const { rows, cols, emoji } = step;
+  let itemsHtml = '';
+  for (let r = 0; r < rows; r++) {
+    itemsHtml += `<div class="item-row"><span class="row-label">${currentLang === 'zh' ? `第 ${r+1} 组：` : `Group ${r+1}:`}</span>`;
+    for (let c = 0; c < cols; c++) {
+      itemsHtml += `<span class="item pop">${emoji}</span>`;
+    }
+    itemsHtml += `</div>`;
+  }
+  
+  return `
+    <div class="step-title">${step.title}</div>
+    <div class="step-text">${step.content}</div>
+    <div class="grouped-items">
+      ${itemsHtml}
+      <div class="total-text">${currentLang === 'zh' ? `共 ${rows * cols} 个 ${emoji}` : `Total: ${rows * cols} ${emoji}`}</div>
+    </div>
+  `;
+}
+
+function renderDragGardenStep(step, t) {
+  const { rows, cols, emoji, total } = step;
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  if (!conceptState.dragStates) conceptState.dragStates = {};
+  if (!conceptState.dragStates[dragKey]) {
+    conceptState.dragStates[dragKey] = { filled: 0, grid: Array(rows * cols).fill(false), completed: false };
+  }
+  const state = conceptState.dragStates[dragKey];
+  
+  let gridHtml = '';
+  for (let i = 0; i < rows * cols; i++) {
+    const filled = state.grid[i] || false;
+    gridHtml += `<div class="drop-zone" data-idx="${i}" data-filled="${filled}">${filled ? emoji : ''}</div>`;
+  }
+  
+  const remaining = total - state.filled;
+  const progress = total > 0 ? Math.round((state.filled / total) * 100) : 0;
+  
+  return `
+    <div class="step-title">${step.title}</div>
+    <div class="step-text">${step.content}</div>
+    <div class="drag-garden">
+      <div class="warehouse" id="gardenWarehouse">
+        ${Array(remaining).fill(0).map(() => `<span class="drag-item" draggable="false">${emoji}</span>`).join('')}
+        ${remaining === 0 ? `<span style="color:#4CAF50;">✅ ${currentLang === 'zh' ? '所有星星已放置！' : 'All stars placed!'}</span>` : ''}
+      </div>
+      <div class="garden-grid" style="grid-template-columns: repeat(${cols}, 1fr);">
+        ${gridHtml}
+      </div>
+      <div class="garden-label">${currentLang === 'zh' ? `${rows} 行 × ${cols} 列 = ${total} 颗星星` : `${rows} rows × ${cols} columns = ${total} stars`}</div>
+      <div class="progress-bar"><div class="fill" style="width:${progress}%"></div></div>
+      <div class="drag-controls">
+        <button class="btn-hint" id="gardenHint">💡 ${t.dragHint}</button>
+        <button class="btn-reset" id="gardenReset">${t.dragReset}</button>
+        <button class="btn-check" id="gardenCheck">${t.dragCheck}</button>
+      </div>
+      <div id="gardenFeedback" class="feedback-msg"></div>
+    </div>
+  `;
+}
+
+function renderNumberLineStep(step, t) {
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  if (!conceptState.dragStates) conceptState.dragStates = {};
+  if (!conceptState.dragStates[dragKey]) {
+    conceptState.dragStates[dragKey] = { filled: 0, positions: Array(12).fill(null), completed: false };
+  }
+  const state = conceptState.dragStates[dragKey];
+  
+  const values = [5,10,15,20,25,30,35,40,45,50,55,60];
+  const placed = state.positions.filter(v => v !== null).length;
+  
+  // 数轴SVG
+  let svgHtml = `<svg viewBox="0 0 640 60" xmlns="http://www.w3.org/2000/svg">
+    <line x1="20" y1="35" x2="620" y2="35" stroke="#666" stroke-width="2"/>
+    ${values.map((v, i) => {
+      const x = 20 + i * 50;
+      const placedVal = state.positions[i];
+      return `
+        <line x1="${x}" y1="30" x2="${x}" y2="40" stroke="#888" stroke-width="2"/>
+        <text x="${x}" y="55" class="tick-label">${i+1}</text>
+        ${placedVal ? `<text x="${x}" y="25" fill="#4CAF50" font-size="12" text-anchor="middle">${placedVal}</text>` : 
+                      `<rect x="${x-18}" y="10" width="36" height="24" rx="6" class="drop-target" data-idx="${i}" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="4,4"/>`}
+      `;
+    }).join('')}
+  </svg>`;
+  
+  const remaining = values.length - placed;
+  
+  return `
+    <div class="step-title">${step.title}</div>
+    <div class="step-text">${step.content}</div>
+    <div class="number-line">
+      <div class="line-container">${svgHtml}</div>
+      <div class="rocket-warehouse" id="numberLineWarehouse">
+        ${values.filter(v => !state.positions.includes(v)).map(v => 
+          `<span class="drag-item" draggable="false">🚀 ${v}</span>`
+        ).join('')}
+        ${remaining === 0 ? `<span style="color:#4CAF50;">✅ ${currentLang === 'zh' ? '所有火箭已放置！' : 'All rockets placed!'}</span>` : ''}
+      </div>
+      <div class="line-stats">
+        <span>⭐ ${currentLang === 'zh' ? '已放置' : 'Placed'}: ${placed} / ${values.length}</span>
+        <span>🔥 ${currentLang === 'zh' ? '进度' : 'Progress'}: ${Math.round((placed/values.length)*100)}%</span>
+      </div>
+      <div class="drag-controls">
+        <button class="btn-hint" id="nlHint">💡 ${t.dragHint}</button>
+        <button class="btn-reset" id="nlReset">${t.dragReset}</button>
+        <button class="btn-check" id="nlCheck">${t.dragCheck}</button>
+      </div>
+      <div id="nlFeedback" class="feedback-msg"></div>
+    </div>
+  `;
+}
+
+function renderSwapStep(step, t) {
+  const { rows, cols, emoji, total } = step;
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  if (!conceptState.dragStates) conceptState.dragStates = {};
+  if (!conceptState.dragStates[dragKey]) {
+    conceptState.dragStates[dragKey] = { 
+      left: Array(rows * cols).fill(false), 
+      right: Array(cols * rows).fill(false),
+      leftFilled: 0, rightFilled: 0, 
+      completed: false 
+    };
+  }
+  const state = conceptState.dragStates[dragKey];
+  
+  let leftGrid = '', rightGrid = '';
+  for (let i = 0; i < rows * cols; i++) {
+    leftGrid += `<div class="drop-zone" data-side="left" data-idx="${i}" data-filled="${state.left[i]}">${state.left[i] ? emoji : ''}</div>`;
+  }
+  for (let i = 0; i < cols * rows; i++) {
+    rightGrid += `<div class="drop-zone" data-side="right" data-idx="${i}" data-filled="${state.right[i]}">${state.right[i] ? emoji : ''}</div>`;
+  }
+  
+  const remaining = total - state.leftFilled - state.rightFilled;
+  
+  return `
+    <div class="step-title">${step.title}</div>
+    <div class="step-text">${step.content}</div>
+    <div class="swap-container">
+      <div class="swap-warehouse" id="swapWarehouse">
+        ${Array(remaining).fill(0).map(() => `<span class="drag-item" draggable="false">${emoji}</span>`).join('')}
+        ${remaining === 0 ? `<span style="color:#4CAF50;">✅ ${currentLang === 'zh' ? '所有土星已放置！' : 'All Saturn placed!'}</span>` : ''}
+      </div>
+      <div class="swap-groups">
+        <div class="group-box">
+          <div class="group-title">${currentLang === 'zh' ? '🌟 3组 × 4个' : '🌟 3 groups × 4'}</div>
+          <div class="group-grid" style="grid-template-columns: repeat(${cols}, 1fr);">${leftGrid}</div>
+          <div class="group-count">${currentLang === 'zh' ? '已放置' : 'Placed'}: ${state.leftFilled} / ${total}</div>
+        </div>
+        <div class="group-box">
+          <div class="group-title">${currentLang === 'zh' ? '🌟 4组 × 3个' : '🌟 4 groups × 3'}</div>
+          <div class="group-grid" style="grid-template-columns: repeat(${rows}, 1fr);">${rightGrid}</div>
+          <div class="group-count">${currentLang === 'zh' ? '已放置' : 'Placed'}: ${state.rightFilled} / ${total}</div>
+        </div>
+      </div>
+      <div class="swap-controls">
+        <button class="btn-hint" id="swapHint">💡 ${t.dragHint}</button>
+        <button class="btn-reset" id="swapReset">${t.dragReset}</button>
+        <button class="btn-check" id="swapCheck">${t.dragCheck}</button>
+      </div>
+      <div id="swapFeedback" class="feedback-msg"></div>
+    </div>
+  `;
+}
+
+function renderTreasureStep(step, t) {
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  if (!conceptState.dragStates) conceptState.dragStates = {};
+  if (!conceptState.dragStates[dragKey]) {
+    conceptState.dragStates[dragKey] = { 
+      found: 0, 
+      targets: [
+        { row: 4, col: 7, pair: { row: 7, col: 4 }, done: false },
+        { row: 5, col: 6, pair: { row: 6, col: 5 }, done: false },
+        { row: 3, col: 8, pair: { row: 8, col: 3 }, done: false },
+        { row: 9, col: 2, pair: { row: 2, col: 9 }, done: false }
+      ],
+      completed: false,
+      currentTarget: 0,
+      highlighted: null
+    };
+  }
+  const state = conceptState.dragStates[dragKey];
+  const target = state.targets[state.currentTarget] || state.targets[0];
+  
+  let tableHtml = '<table><tr><th></th>';
+  for (let i = 1; i <= 12; i++) tableHtml += `<th>${i}</th>`;
+  tableHtml += '</tr>';
+  for (let r = 1; r <= 12; r++) {
+    tableHtml += `<tr><th>${r}</th>`;
+    for (let c = 1; c <= 12; c++) {
+      const val = r * c;
+      const isTarget = (r === target.row && c === target.col) || (r === target.pair.row && c === target.pair.col);
+      const isFound = state.targets.some(t => 
+        (t.row === r && t.col === c) || (t.pair.row === r && t.pair.col === c) && t.done
+      );
+      let cls = '';
+      if (isFound && state.targets.some(t => t.done && ((t.row === r && t.col === c) || (t.pair.row === r && t.pair.col === c)))) {
+        cls = 'found';
+      }
+      if (isTarget && state.targets.some(t => t.row === r && t.col === c && !t.done)) {
+        cls = 'target-highlight';
+      }
+      tableHtml += `<td class="${cls}" data-row="${r}" data-col="${c}">${val}</td>`;
+    }
+    tableHtml += '</tr>';
+  }
+  tableHtml += '</table>';
+  
+  return `
+    <div class="step-title">${step.title}</div>
+    <div class="step-text">${step.content}</div>
+    <div class="treasure-table">
+      <div class="treasure-task">
+        🎯 ${currentLang === 'zh' ? '找到' : 'Find'} ${target.row} × ${target.col} ${currentLang === 'zh' ? '的对称位置！' : '\'s symmetrical position!'}
+      </div>
+      ${tableHtml}
+      <div class="treasure-stats">
+        <span>⭐ ${currentLang === 'zh' ? '已找到' : 'Found'}: ${state.targets.filter(t => t.done).length} / ${state.targets.length}</span>
+        <span>🔥 ${currentLang === 'zh' ? '进度' : 'Progress'}: ${Math.round((state.targets.filter(t => t.done).length / state.targets.length) * 100)}%</span>
+      </div>
+      <div class="treasure-controls">
+        <button class="btn-hint" id="treasureHint">💡 ${t.dragHint}</button>
+        <button class="btn-reset" id="treasureReset">${t.dragReset}</button>
+      </div>
+      <div id="treasureFeedback" class="feedback-msg"></div>
+    </div>
+  `;
+}
+
+function renderCheckStep(step, t) {
+  // 检查是否已经完成
+  const stepKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  const isCompleted = conceptState.stepHistory.includes(stepKey);
+  
+  let html = `
+    <div class="step-title">${step.title}</div>
+    <div class="step-text">${step.content}</div>
+    <div class="check-question">
+      <div class="q-text">${step.question}</div>
+      <div class="q-options" id="checkOptions">
+        ${step.options.map((opt, idx) => `
+          <button data-optidx="${idx}" ${isCompleted ? 'disabled' : ''}>${opt}</button>
+        `).join('')}
+      </div>
+      <div class="feedback-text" id="checkFeedback">${isCompleted ? '✅ ' + t.conceptCheckCorrect : ''}</div>
+    </div>
+  `;
+  return html;
+}
+
+// ==================== 事件绑定函数 ====================
+
+function bindAnimationEvents(step) {
+  const playBtn = document.getElementById('playAnimBtn');
+  const resetBtn = document.getElementById('resetAnimBtn');
+  const container = document.getElementById('animContainer');
+  if (!container) return;
+  
+  const nums = container.querySelectorAll('.num');
+  const operators = container.querySelectorAll('.operator');
+  const result = container.querySelector('.result');
+  
+  // 初始状态：全部隐藏
+  nums.forEach(el => el.classList.remove('show'));
+  operators.forEach(el => el.classList.remove('show'));
+  result.classList.remove('show');
+  
+  let animRunning = false;
+  
+  if (playBtn) {
+    playBtn.onclick = function() {
+      if (animRunning) return;
+      animRunning = true;
+      this.disabled = true;
+      
+      // 重置
+      nums.forEach(el => { el.classList.remove('show', 'bounce'); });
+      operators.forEach(el => el.classList.remove('show'));
+      result.classList.remove('show');
+      
+      // 依次显示
+      nums.forEach((el, idx) => {
+        setTimeout(() => {
+          el.classList.add('show', 'bounce');
+          if (idx < operators.length) {
+            setTimeout(() => {
+              operators[idx].classList.add('show');
+            }, 200);
+          }
+        }, idx * 700);
+      });
+      
+      // 显示结果
+      setTimeout(() => {
+        result.classList.add('show');
+        animRunning = false;
+        this.disabled = false;
+      }, nums.length * 700 + 500);
+    };
+  }
+  
+  if (resetBtn) {
+    resetBtn.onclick = function() {
+      animRunning = false;
+      if (playBtn) playBtn.disabled = false;
+      nums.forEach(el => el.classList.remove('show', 'bounce'));
+      operators.forEach(el => el.classList.remove('show'));
+      result.classList.remove('show');
+    };
+  }
+}
+
+function bindDragGardenEvents(step) {
+  const { rows, cols, emoji, total } = step;
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  const state = conceptState.dragStates[dragKey];
+  
+  // 绑定拖拽
+  document.querySelectorAll('#gardenWarehouse .drag-item').forEach(item => {
+    item.addEventListener('mousedown', (e) => {
+      if (state.completed) return;
+      startDrag(e, item, emoji, (dropZone, value) => {
+        const idx = parseInt(dropZone.dataset.idx);
+        if (!state.grid[idx]) {
+          state.grid[idx] = true;
+          state.filled++;
+          dropZone.dataset.filled = 'true';
+          dropZone.textContent = value;
+          dropZone.classList.add('filled');
+          dropZone.classList.remove('drag-over');
+          updateGardenProgress(step);
+          // 移除仓库中的这个元素
+          const warehouse = document.getElementById('gardenWarehouse');
+          if (warehouse && item.parentNode === warehouse) {
+            item.remove();
+          }
+          // 检查是否完成
+          if (state.filled === total) {
+            state.completed = true;
+            const feedback = document.getElementById('gardenFeedback');
+            if (feedback) {
+              feedback.className = 'feedback-msg success';
+              feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！你建造了星星花园！' : 'Congratulations! You built the star garden!');
+            }
+            saveConceptProgress();
+            document.getElementById('conceptNextBtn').style.display = 'inline-block';
+          }
+          saveConceptProgress();
+        }
+      });
+    });
+    item.addEventListener('touchstart', (e) => {
+      if (state.completed) return;
+      startDrag(e, item, emoji, (dropZone, value) => {
+        const idx = parseInt(dropZone.dataset.idx);
+        if (!state.grid[idx]) {
+          state.grid[idx] = true;
+          state.filled++;
+          dropZone.dataset.filled = 'true';
+          dropZone.textContent = value;
+          dropZone.classList.add('filled');
+          dropZone.classList.remove('drag-over');
+          updateGardenProgress(step);
+          const warehouse = document.getElementById('gardenWarehouse');
+          if (warehouse && item.parentNode === warehouse) {
+            item.remove();
+          }
+          if (state.filled === total) {
+            state.completed = true;
+            const feedback = document.getElementById('gardenFeedback');
+            if (feedback) {
+              feedback.className = 'feedback-msg success';
+              feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！你建造了星星花园！' : 'Congratulations! You built the star garden!');
+            }
+            saveConceptProgress();
+            document.getElementById('conceptNextBtn').style.display = 'inline-block';
+          }
+          saveConceptProgress();
+        }
+      });
+    }, { passive: false });
+  });
+  
+  // 重置按钮
+  const resetBtn = document.getElementById('gardenReset');
+  if (resetBtn) {
+    resetBtn.onclick = function() {
+      state.grid = Array(rows * cols).fill(false);
+      state.filled = 0;
+      state.completed = false;
+      saveConceptProgress();
+      renderConceptLesson();
+    };
+  }
+  
+  // 检查按钮
+  const checkBtn = document.getElementById('gardenCheck');
+  if (checkBtn) {
+    checkBtn.onclick = function() {
+      const feedback = document.getElementById('gardenFeedback');
+      if (!feedback) return;
+      if (state.filled === total) {
+        feedback.className = 'feedback-msg success';
+        feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '完全正确！' : 'Perfect!');
+      } else {
+        feedback.className = 'feedback-msg error';
+        feedback.textContent = `${currentLang === 'zh' ? '还差' : 'Need'} ${total - state.filled} ${currentLang === 'zh' ? '颗星星' : 'more stars'}!`;
+      }
+    };
+  }
+  
+  // 提示按钮
+  const hintBtn = document.getElementById('gardenHint');
+  if (hintBtn) {
+    hintBtn.onclick = function() {
+      const feedback = document.getElementById('gardenFeedback');
+      if (!feedback) return;
+      feedback.className = 'feedback-msg';
+      feedback.textContent = `💡 ${currentLang === 'zh' ? `每行放 ${cols} 颗星星，共 ${rows} 行` : `Put ${cols} stars per row, ${rows} rows total`}`;
+    };
+  }
+}
+
+function updateGardenProgress(step) {
+  const { rows, cols, total } = step;
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  const state = conceptState.dragStates[dragKey];
+  const progress = total > 0 ? Math.round((state.filled / total) * 100) : 0;
+  const fill = document.querySelector('.progress-bar .fill');
+  if (fill) fill.style.width = progress + '%';
+}
+
+function bindNumberLineEvents(step) {
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  const state = conceptState.dragStates[dragKey];
+  const values = [5,10,15,20,25,30,35,40,45,50,55,60];
+  
+  document.querySelectorAll('#numberLineWarehouse .drag-item').forEach(item => {
+    const val = parseInt(item.textContent.replace('🚀', '').trim());
+    item.addEventListener('mousedown', (e) => {
+      if (state.completed) return;
+      startDrag(e, item, val, (dropZone, value) => {
+        const idx = parseInt(dropZone.dataset.idx);
+        if (state.positions[idx] === null && value === values[idx]) {
+          state.positions[idx] = value;
+          state.filled++;
+          dropZone.textContent = value;
+          dropZone.classList.add('filled', 'correct');
+          dropZone.classList.remove('drag-over');
+          // 移除仓库中的元素
+          const warehouse = document.getElementById('numberLineWarehouse');
+          if (warehouse && item.parentNode === warehouse) {
+            item.remove();
+          }
+          updateNumberLineProgress();
+          if (state.filled === values.length) {
+            state.completed = true;
+            const feedback = document.getElementById('nlFeedback');
+            if (feedback) {
+              feedback.className = 'feedback-msg success';
+              feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！你完成了数轴！' : 'Congratulations! You completed the number line!');
+            }
+            saveConceptProgress();
+            document.getElementById('conceptNextBtn').style.display = 'inline-block';
+          }
+          saveConceptProgress();
+        } else if (value !== values[idx]) {
+          const feedback = document.getElementById('nlFeedback');
+          if (feedback) {
+            feedback.className = 'feedback-msg error';
+            feedback.textContent = `❌ ${value} ${currentLang === 'zh' ? '不是正确的位置！' : 'is not the correct position!'}`;
+            setTimeout(() => { feedback.className = 'feedback-msg'; feedback.textContent = ''; }, 1500);
+          }
+        }
+      });
+    });
+    item.addEventListener('touchstart', (e) => {
+      if (state.completed) return;
+      startDrag(e, item, val, (dropZone, value) => {
+        const idx = parseInt(dropZone.dataset.idx);
+        if (state.positions[idx] === null && value === values[idx]) {
+          state.positions[idx] = value;
+          state.filled++;
+          dropZone.textContent = value;
+          dropZone.classList.add('filled', 'correct');
+          dropZone.classList.remove('drag-over');
+          const warehouse = document.getElementById('numberLineWarehouse');
+          if (warehouse && item.parentNode === warehouse) {
+            item.remove();
+          }
+          updateNumberLineProgress();
+          if (state.filled === values.length) {
+            state.completed = true;
+            const feedback = document.getElementById('nlFeedback');
+            if (feedback) {
+              feedback.className = 'feedback-msg success';
+              feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！你完成了数轴！' : 'Congratulations! You completed the number line!');
+            }
+            saveConceptProgress();
+            document.getElementById('conceptNextBtn').style.display = 'inline-block';
+          }
+          saveConceptProgress();
+        } else if (value !== values[idx]) {
+          const feedback = document.getElementById('nlFeedback');
+          if (feedback) {
+            feedback.className = 'feedback-msg error';
+            feedback.textContent = `❌ ${value} ${currentLang === 'zh' ? '不是正确的位置！' : 'is not the correct position!'}`;
+            setTimeout(() => { feedback.className = 'feedback-msg'; feedback.textContent = ''; }, 1500);
+          }
+        }
+      });
+    }, { passive: false });
+  });
+  
+  // 重置按钮
+  const resetBtn = document.getElementById('nlReset');
+  if (resetBtn) {
+    resetBtn.onclick = function() {
+      state.positions = Array(12).fill(null);
+      state.filled = 0;
+      state.completed = false;
+      saveConceptProgress();
+      renderConceptLesson();
+    };
+  }
+  
+  // 检查按钮
+  const checkBtn = document.getElementById('nlCheck');
+  if (checkBtn) {
+    checkBtn.onclick = function() {
+      const feedback = document.getElementById('nlFeedback');
+      if (!feedback) return;
+      const correct = state.positions.filter((v, i) => v === values[i]).length;
+      if (correct === values.length) {
+        feedback.className = 'feedback-msg success';
+        feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '完全正确！' : 'Perfect!');
+      } else {
+        feedback.className = 'feedback-msg error';
+        feedback.textContent = `${currentLang === 'zh' ? '正确' : 'Correct'}: ${correct}/${values.length}`;
+      }
+    };
+  }
+  
+  const hintBtn = document.getElementById('nlHint');
+  if (hintBtn) {
+    hintBtn.onclick = function() {
+      const feedback = document.getElementById('nlFeedback');
+      if (!feedback) return;
+      feedback.className = 'feedback-msg';
+      feedback.textContent = `💡 ${currentLang === 'zh' ? '×5 的规律：5, 10, 15, 20...' : '×5 pattern: 5, 10, 15, 20...'}`;
+    };
+  }
+}
+
+function updateNumberLineProgress() {
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  const state = conceptState.dragStates[dragKey];
+  const total = 12;
+  const placed = state.positions.filter(v => v !== null).length;
+  const stats = document.querySelector('.line-stats');
+  if (stats) {
+    stats.innerHTML = `
+      <span>⭐ ${currentLang === 'zh' ? '已放置' : 'Placed'}: ${placed} / ${total}</span>
+      <span>🔥 ${currentLang === 'zh' ? '进度' : 'Progress'}: ${Math.round((placed/total)*100)}%</span>
+    `;
+  }
+}
+
+function bindSwapEvents(step) {
+  const { rows, cols, emoji, total } = step;
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  const state = conceptState.dragStates[dragKey];
+  
+  document.querySelectorAll('#swapWarehouse .drag-item').forEach(item => {
+    item.addEventListener('mousedown', (e) => {
+      if (state.completed) return;
+      startDrag(e, item, emoji, (dropZone, value) => {
+        const side = dropZone.dataset.side;
+        const idx = parseInt(dropZone.dataset.idx);
+        if (side === 'left' && !state.left[idx]) {
+          state.left[idx] = true;
+          state.leftFilled++;
+          dropZone.dataset.filled = 'true';
+          dropZone.textContent = value;
+          dropZone.classList.add('filled');
+          dropZone.classList.remove('drag-over');
+        } else if (side === 'right' && !state.right[idx]) {
+          state.right[idx] = true;
+          state.rightFilled++;
+          dropZone.dataset.filled = 'true';
+          dropZone.textContent = value;
+          dropZone.classList.add('filled');
+          dropZone.classList.remove('drag-over');
+        } else {
+          return;
+        }
+        // 移除仓库中的元素
+        const warehouse = document.getElementById('swapWarehouse');
+        if (warehouse && item.parentNode === warehouse) {
+          item.remove();
+        }
+        updateSwapProgress(step);
+        if (state.leftFilled === total && state.rightFilled === total) {
+          state.completed = true;
+          const feedback = document.getElementById('swapFeedback');
+          if (feedback) {
+            feedback.className = 'feedback-msg success';
+            feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！两边总数相同，交换律成立！' : 'Congratulations! Both sides equal, commutative property verified!');
+          }
+          saveConceptProgress();
+          document.getElementById('conceptNextBtn').style.display = 'inline-block';
+        }
+        saveConceptProgress();
+      });
+    });
+    item.addEventListener('touchstart', (e) => {
+      if (state.completed) return;
+      startDrag(e, item, emoji, (dropZone, value) => {
+        const side = dropZone.dataset.side;
+        const idx = parseInt(dropZone.dataset.idx);
+        if (side === 'left' && !state.left[idx]) {
+          state.left[idx] = true;
+          state.leftFilled++;
+          dropZone.dataset.filled = 'true';
+          dropZone.textContent = value;
+          dropZone.classList.add('filled');
+          dropZone.classList.remove('drag-over');
+        } else if (side === 'right' && !state.right[idx]) {
+          state.right[idx] = true;
+          state.rightFilled++;
+          dropZone.dataset.filled = 'true';
+          dropZone.textContent = value;
+          dropZone.classList.add('filled');
+          dropZone.classList.remove('drag-over');
+        } else {
+          return;
+        }
+        const warehouse = document.getElementById('swapWarehouse');
+        if (warehouse && item.parentNode === warehouse) {
+          item.remove();
+        }
+        updateSwapProgress(step);
+        if (state.leftFilled === total && state.rightFilled === total) {
+          state.completed = true;
+          const feedback = document.getElementById('swapFeedback');
+          if (feedback) {
+            feedback.className = 'feedback-msg success';
+            feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！两边总数相同，交换律成立！' : 'Congratulations! Both sides equal, commutative property verified!');
+          }
+          saveConceptProgress();
+          document.getElementById('conceptNextBtn').style.display = 'inline-block';
+        }
+        saveConceptProgress();
+      });
+    }, { passive: false });
+  });
+  
+  const resetBtn = document.getElementById('swapReset');
+  if (resetBtn) {
+    resetBtn.onclick = function() {
+      state.left = Array(rows * cols).fill(false);
+      state.right = Array(cols * rows).fill(false);
+      state.leftFilled = 0;
+      state.rightFilled = 0;
+      state.completed = false;
+      saveConceptProgress();
+      renderConceptLesson();
+    };
+  }
+  
+  const checkBtn = document.getElementById('swapCheck');
+  if (checkBtn) {
+    checkBtn.onclick = function() {
+      const feedback = document.getElementById('swapFeedback');
+      if (!feedback) return;
+      if (state.leftFilled === total && state.rightFilled === total) {
+        feedback.className = 'feedback-msg success';
+        feedback.textContent = '🎉 ' + (currentLang === 'zh' ? `${total} = ${total}，交换律成立！` : `${total} = ${total}, commutative property verified!`);
+      } else {
+        feedback.className = 'feedback-msg error';
+        feedback.textContent = `${currentLang === 'zh' ? '左' : 'Left'}: ${state.leftFilled}, ${currentLang === 'zh' ? '右' : 'Right'}: ${state.rightFilled} - ${currentLang === 'zh' ? '两边都需要放满' : 'Both sides need to be full'}`;
+      }
+    };
+  }
+  
+  const hintBtn = document.getElementById('swapHint');
+  if (hintBtn) {
+    hintBtn.onclick = function() {
+      const feedback = document.getElementById('swapFeedback');
+      if (!feedback) return;
+      feedback.className = 'feedback-msg';
+      feedback.textContent = `💡 ${currentLang === 'zh' ? `左边放 ${rows} 行 × ${cols} 列，右边放 ${cols} 行 × ${rows} 列` : `Left: ${rows} rows × ${cols} cols, Right: ${cols} rows × ${rows} cols`}`;
+    };
+  }
+}
+
+function updateSwapProgress(step) {
+  const { total } = step;
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  const state = conceptState.dragStates[dragKey];
+  // 更新计数显示
+  document.querySelectorAll('.group-count').forEach((el, idx) => {
+    if (idx === 0) el.textContent = `${currentLang === 'zh' ? '已放置' : 'Placed'}: ${state.leftFilled} / ${total}`;
+    else if (idx === 1) el.textContent = `${currentLang === 'zh' ? '已放置' : 'Placed'}: ${state.rightFilled} / ${total}`;
+  });
+}
+
+function bindTreasureEvents(step) {
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  const state = conceptState.dragStates[dragKey];
+  
+  document.querySelectorAll('.treasure-table td[data-row]').forEach(cell => {
+    cell.addEventListener('click', function() {
+      if (state.completed) return;
+      const row = parseInt(this.dataset.row);
+      const col = parseInt(this.dataset.col);
+      const target = state.targets[state.currentTarget];
+      if (!target) return;
+      
+      // 检查是否点击了目标或对称位置
+      if ((row === target.row && col === target.col) || 
+          (row === target.pair.row && col === target.pair.col)) {
+        // 标记为已找到
+        target.done = true;
+        state.found++;
+        // 高亮两个位置
+        document.querySelectorAll('.treasure-table td[data-row]').forEach(td => {
+          const r = parseInt(td.dataset.row);
+          const c = parseInt(td.dataset.col);
+          if ((r === target.row && c === target.col) || 
+              (r === target.pair.row && c === target.pair.col)) {
+            td.classList.add('found');
+            td.classList.remove('target-highlight');
+          }
+        });
+        
+        const feedback = document.getElementById('treasureFeedback');
+        if (feedback) {
+          feedback.className = 'feedback-msg success';
+          feedback.textContent = `✅ ${target.row} × ${target.col} = ${target.pair.row} × ${target.pair.col} = ${target.row * target.col}`;
+        }
+        
+        // 移到下一个目标
+        state.currentTarget++;
+        if (state.currentTarget >= state.targets.length) {
+          state.completed = true;
+          if (feedback) {
+            feedback.className = 'feedback-msg success';
+            feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！你找到了所有对称位置！' : 'Congratulations! You found all symmetrical positions!');
+          }
+          saveConceptProgress();
+          document.getElementById('conceptNextBtn').style.display = 'inline-block';
+        } else {
+          // 更新任务描述
+          const nextTarget = state.targets[state.currentTarget];
+          const taskEl = document.querySelector('.treasure-task');
+          if (taskEl) {
+            taskEl.textContent = `🎯 ${currentLang === 'zh' ? '找到' : 'Find'} ${nextTarget.row} × ${nextTarget.col} ${currentLang === 'zh' ? '的对称位置！' : '\'s symmetrical position!'}`;
+          }
+          // 更新高亮
+          document.querySelectorAll('.treasure-table td[data-row]').forEach(td => {
+            td.classList.remove('target-highlight');
+            const r = parseInt(td.dataset.row);
+            const c = parseInt(td.dataset.col);
+            if (r === nextTarget.row && c === nextTarget.col) {
+              td.classList.add('target-highlight');
+            }
+          });
+        }
+        updateTreasureStats(step);
+        saveConceptProgress();
+      } else {
+        // 错误点击
+        this.classList.add('wrong');
+        const feedback = document.getElementById('treasureFeedback');
+        if (feedback) {
+          feedback.className = 'feedback-msg error';
+          feedback.textContent = `❌ ${currentLang === 'zh' ? '这不是正确的对称位置！' : 'This is not the correct symmetrical position!'}`;
+        }
+        setTimeout(() => {
+          this.classList.remove('wrong');
+          if (feedback) {
+            feedback.className = 'feedback-msg';
+            feedback.textContent = '';
+          }
+        }, 1000);
+      }
+    });
+  });
+  
+  // 重置按钮
+  const resetBtn = document.getElementById('treasureReset');
+  if (resetBtn) {
+    resetBtn.onclick = function() {
+      state.found = 0;
+      state.currentTarget = 0;
+      state.completed = false;
+      state.targets.forEach(t => t.done = false);
+      saveConceptProgress();
+      renderConceptLesson();
+    };
+  }
+  
+  const hintBtn = document.getElementById('treasureHint');
+  if (hintBtn) {
+    hintBtn.onclick = function() {
+      const target = state.targets[state.currentTarget];
+      const feedback = document.getElementById('treasureFeedback');
+      if (!feedback || !target) return;
+      feedback.className = 'feedback-msg';
+      feedback.textContent = `💡 ${currentLang === 'zh' ? `找 ${target.row} × ${target.col} 的对称位置` : `Find the symmetrical position of ${target.row} × ${target.col}`}`;
+    };
+  }
+}
+
+function updateTreasureStats(step) {
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  const state = conceptState.dragStates[dragKey];
+  const total = state.targets.length;
+  const found = state.targets.filter(t => t.done).length;
+  const stats = document.querySelector('.treasure-stats');
+  if (stats) {
+    stats.innerHTML = `
+      <span>⭐ ${currentLang === 'zh' ? '已找到' : 'Found'}: ${found} / ${total}</span>
+      <span>🔥 ${currentLang === 'zh' ? '进度' : 'Progress'}: ${Math.round((found/total)*100)}%</span>
+    `;
+  }
+}
+
+// ==================== 检查题事件绑定 ====================
+function bindCheckEvents(step) {
+  const stepKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  if (conceptState.stepHistory.includes(stepKey)) return;
+  
+  document.querySelectorAll('#checkOptions button').forEach(btn => {
+    btn.onclick = function() {
+      const idx = parseInt(this.dataset.optidx);
+      const isCorrect = idx === step.correct;
+      const feedback = document.getElementById('checkFeedback');
+      const allBtns = document.querySelectorAll('#checkOptions button');
+      
+      allBtns.forEach(b => b.disabled = true);
+      
+      if (isCorrect) {
+        this.classList.add('correct');
+        feedback.className = 'feedback-text success';
+        feedback.textContent = texts[currentLang].conceptCheckCorrect;
+        conceptState.totalCheckCorrect++;
+        conceptState.totalChecks++;
+        conceptState.stepHistory.push(stepKey);
+        saveConceptProgress();
+        setTimeout(() => {
+          document.getElementById('conceptNextBtn').style.display = 'inline-block';
+        }, 500);
+      } else {
+        this.classList.add('wrong');
+        feedback.className = 'feedback-text error';
+        feedback.textContent = texts[currentLang].conceptCheckWrong + step.options[step.correct];
+        setTimeout(() => {
+          allBtns.forEach(b => {
+            b.disabled = false;
+            b.classList.remove('wrong');
+          });
+          feedback.className = 'feedback-text';
+          feedback.textContent = '';
+        }, 1500);
+      }
+    };
+  });
+}
+
+// ==================== 概念导航 ====================
 function conceptNextStep() {
   const lessons = conceptLessons[currentLang] || conceptLessons.zh;
   const lesson = lessons[conceptState.currentLesson];
   const totalSteps = lesson.steps.length;
-  const hasChecks = lesson.checkQuestions && lesson.checkQuestions.length > 0;
   
-  if (conceptState.currentStep < totalSteps) {
-    if (conceptState.currentStep === totalSteps - 1 && hasChecks) {
-      conceptState.currentStep = totalSteps;
-      renderConceptLesson();
-      saveConceptProgress();
+  // 检查当前步骤是否是拖拽或检查步骤，且未完成
+  const step = lesson.steps[conceptState.currentStep];
+  if (step.type === 'drag' || step.type === 'drag-numberline' || step.type === 'drag-swap' || step.type === 'drag-treasure') {
+    const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+    if (!conceptState.dragStates[dragKey]?.completed) {
       return;
     }
-    if (conceptState.currentStep < totalSteps - 1) {
-      conceptState.currentStep++;
+  }
+  if (step.type === 'check') {
+    const stepKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+    if (!conceptState.stepHistory.includes(stepKey)) {
+      return;
+    }
+  }
+  
+  if (conceptState.currentStep < totalSteps - 1) {
+    conceptState.currentStep++;
+    renderConceptLesson();
+    saveConceptProgress();
+  } else {
+    // 所有步骤完成，进入下一课
+    if (conceptState.currentLesson >= lessons.length - 1) {
+      // 所有课程完成
+      conceptState.completed = true;
+      conceptState.allCorrect = conceptState.totalCheckCorrect === conceptState.totalChecks;
+      saveConceptProgress();
+      studentAchievements.conceptCompleted = true;
+      studentAchievements.conceptScore = conceptState.totalChecks > 0 ? 
+        Math.round((conceptState.totalCheckCorrect / conceptState.totalChecks) * 100) : 0;
+      if (conceptState.allCorrect && conceptState.totalChecks > 0) {
+        studentAchievements.badges.concept_master = true;
+      }
+      saveAchievements();
+      const t = texts[currentLang];
+      document.getElementById('completeTitle').textContent = t.conceptCompleteTitle;
+      document.getElementById('completeDesc').textContent = t.conceptCompleteDesc;
+      document.getElementById('completeBadge').textContent = t.conceptCompleteBadge;
+      document.getElementById('completeGoBtn').textContent = t.conceptCompleteGo;
+      document.getElementById('completeReviewBtn').textContent = t.conceptCompleteReview;
+      document.getElementById('conceptCompleteOverlay').classList.add('active');
+    } else {
+      conceptState.currentLesson++;
+      conceptState.currentStep = 0;
+      conceptState.checkCorrect = 0;
       renderConceptLesson();
       saveConceptProgress();
-      return;
     }
   }
 }
 
 function conceptPrevStep() {
-  const lessons = conceptLessons[currentLang] || conceptLessons.zh;
-  const lesson = lessons[conceptState.currentLesson];
-  const totalSteps = lesson.steps.length;
-  
-  if (conceptState.currentStep > totalSteps) {
-    conceptState.currentStep = totalSteps - 1;
-  } else if (conceptState.currentStep > 0) {
+  if (conceptState.currentStep > 0) {
     conceptState.currentStep--;
+    renderConceptLesson();
+    saveConceptProgress();
   }
-  renderConceptLesson();
-  saveConceptProgress();
 }
 
 // ==================== 核心游戏函数 ====================
@@ -1514,25 +2602,13 @@ function predictNextScore(history) {
 
 function startSmartReview() {
   const t = texts[currentLang];
-  
-  // 检查是否有错题
-  if (wrongQuestions.length === 0) {
-    alert(t.smartReviewNoData);
-    return;
-  }
-  
-  // 提取不重复错题
-  const uniqueQuestions = [];
-  const seen = new Set();
+  if (wrongQuestions.length === 0) { alert(t.smartReviewNoData); return; }
+  const uniqueQuestions = [], seen = new Set();
   wrongQuestions.forEach(item => {
     const key = `${item.question.a}x${item.question.b}`;
-    if (!seen.has(key)) {
-      seen.add(key);
-      uniqueQuestions.push(item.question);
-    }
+    if (!seen.has(key)) { seen.add(key); uniqueQuestions.push(item.question); }
   });
-  
-  // ✅ 如果错题少于3道，提示用户
+  // 如果错题少于3道，提示用户
   if (uniqueQuestions.length < 3) {
     const msg = currentLang === 'zh' 
       ? `你当前有 ${wrongQuestions.length} 道错题（${uniqueQuestions.length} 道不重复）。\n建议选择其他模式进行更多练习。\n\n是否继续智能复习？`
@@ -1541,8 +2617,6 @@ function startSmartReview() {
       return;
     }
   }
-  
-  // 开始复习
   currentLevel = 6;
   questions = uniqueQuestions;
   currentIndex = 0;
@@ -1646,7 +2720,6 @@ function renderReport(history, accuracy) {
     html += `<div class="table-item"><span>${mult} ${rt.timesTable}</span><span>${percent >= 85 ? rt.mastered : (percent >= 60 ? rt.basic : rt.needs)} (${percent}%)</span></div>`;
   }
   
-  // 错误分析（完整版）
   const errors = analyzeErrors(reportLang);
   if (errors.length === 0) {
     html += `<div class="suggestion-box">${rt.noErrors}</div>`;
@@ -2129,7 +3202,7 @@ function applyUILang() {
     'classLabel': t.classLabel, 'nameLabel': t.nameLabel, 'startBtn': t.startBtn,
     'levelTitle': t.levelTitle, 'submitBtn': t.submitBtn, 'reportTitle': t.reportTitle,
     'restartBtn': t.restartBtn, 'homeBtn': t.homeBtn, 'teacherBtn': t.teacherBtn,
-    'tutorialBtn': t.tutorialBtn, 'tutorialTitle': t.tutorialTitle, 'backToInfoBtn': t.backToInfo,
+    'tutorialBtn': t.tutorialBtn, 'tutorialTitle': t.tutorialTitle,
     'backToLevelBtn': t.backToLevel, 'backToWelcomeBtn': t.backToWelcome,
     'backToLevelFromReportBtn': t.backToLevel, 'backFromTutorialBtn': t.backHome,
     'backFromTeacherBtn': t.backHome, 'teacherTitle': t.teacherTitle, 'wrongTitle': t.wrongTitle,
@@ -2168,11 +3241,12 @@ function applyUILang() {
   for (const [id, text] of Object.entries(elements)) {
     const el = document.getElementById(id);
     if (el) {
-      const innerHTMLIds = ['homeBtn', 'teacherBtn', 'tutorialBtn', 'backToInfoBtn', 'backToLevelBtn',
-        'backToLevelFromReportBtn', 'backToReportBtn', 'backToReportFromRankBtn', 'backFromTeacherBtn',
+      const innerHTMLIds = ['homeBtn', 'teacherBtn', 'tutorialBtn',
+        'backToLevelBtn', 'backToLevelFromReportBtn', 'backToReportBtn', 'backToReportFromRankBtn', 'backFromTeacherBtn',
         'backFromTutorialBtn', 'cancelCustomBtn', 'confirmCustomBtn', 'closeProgressBtn',
         'practiceWrongBtn', 'clearWrongBtn', 'deleteDataBtn', 'exportBtn', 'exportStudentDetailBtn',
-        'backToWelcomeBtn', 'completeGoBtn', 'completeReviewBtn'];
+        'backToWelcomeBtn', 'completeGoBtn', 'completeReviewBtn', 'conceptStartBtn', 'conceptSkipBtn',
+        'conceptBackBtn', 'conceptNextBtn', 'conceptExitBtn'];
       if (innerHTMLIds.includes(id)) el.innerHTML = text;
       else el.textContent = text;
     }
@@ -2286,7 +3360,7 @@ function createStars() {
 }
 createStars();
 
-// ==================== 事件绑定（使用安全方式） ====================
+// ==================== 事件绑定 ====================
 let loadTimeout = null;
 
 function safeAddEventListener(id, event, handler) {
@@ -2377,6 +3451,8 @@ safeAddEventListener('startBtn', 'click', () => {
   loadWrongQuestions();
   loadAchievements();
   loadConceptProgress();
+  // 初始化拖拽系统
+  initDragSystem();
   document.getElementById('infoScreen')?.classList.remove('active');
   document.getElementById('welcomeScreen')?.classList.add('active');
   renderConceptWelcome();
@@ -2448,6 +3524,7 @@ safeAddEventListener('conceptStartBtn', 'click', () => {
     conceptState.totalCheckCorrect = 0;
     conceptState.totalChecks = 0;
     conceptState.allCorrect = false;
+    conceptState.dragStates = {};
     saveConceptProgress();
   }
   document.getElementById('welcomeScreen')?.classList.remove('active');
@@ -2455,7 +3532,6 @@ safeAddEventListener('conceptStartBtn', 'click', () => {
   renderConceptLesson();
 });
 
-// 安全绑定 conceptSkipBtn
 const skipBtnElement = document.getElementById('conceptSkipBtn');
 if (skipBtnElement) {
   skipBtnElement.addEventListener('click', () => {
@@ -2465,8 +3541,6 @@ if (skipBtnElement) {
     const smartBtn = document.getElementById('smartReviewBtn');
     if (smartBtn) smartBtn.style.display = wrongQuestions.length > 0 ? 'inline-block' : 'none';
   });
-} else {
-  console.warn('⚠️ conceptSkipBtn 元素未找到');
 }
 
 safeAddEventListener('conceptNextBtn', 'click', conceptNextStep);
@@ -2498,6 +3572,7 @@ safeAddEventListener('completeReviewBtn', 'click', () => {
   conceptState.totalCheckCorrect = 0;
   conceptState.totalChecks = 0;
   conceptState.allCorrect = false;
+  conceptState.dragStates = {};
   saveConceptProgress();
   document.getElementById('conceptScreen')?.classList.add('active');
   renderConceptLesson();
@@ -2586,6 +3661,7 @@ window.addEventListener('load', () => {
     loadAchievements();
     loadWrongQuestions();
     loadConceptProgress();
+    initDragSystem();
   }
   setTimeout(initSupabase, 500);
 });
