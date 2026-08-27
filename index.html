@@ -336,8 +336,7 @@ canvas{max-height:300px;margin:20px 0}
 
 <script>
 // ============================================================
-// ============================================================
-// 第 2 部分：完整的 JavaScript（功能完整，无简化）
+// 完整的 JavaScript（所有功能完整，无简化）
 // ============================================================
 
 // ==================== Supabase 配置 ====================
@@ -376,7 +375,6 @@ let selectedTables = [];
 let classRecords = [];
 let currentStudentData = { school: '', className: '', name: '' };
 
-// 概念学习状态
 let conceptState = {
   currentLesson: 0,
   currentStep: 0,
@@ -2262,10 +2260,9 @@ function createStars() {
 }
 createStars();
 
-// ==================== 事件绑定 ====================
+// ==================== 事件绑定（使用安全方式） ====================
 let loadTimeout = null;
 
-// 安全绑定函数
 function safeAddEventListener(id, event, handler) {
   const el = document.getElementById(id);
   if (el) {
@@ -2433,7 +2430,7 @@ safeAddEventListener('conceptStartBtn', 'click', () => {
   renderConceptLesson();
 });
 
-// 修复：安全绑定 conceptSkipBtn
+// 安全绑定 conceptSkipBtn
 const skipBtnElement = document.getElementById('conceptSkipBtn');
 if (skipBtnElement) {
   skipBtnElement.addEventListener('click', () => {
@@ -2567,8 +2564,6 @@ window.addEventListener('load', () => {
   }
   setTimeout(initSupabase, 500);
 });
-// ============================================================
 </script>
 </body>
 </html>
-
