@@ -1626,8 +1626,8 @@ function renderNumberLineStep(step, t) {
       return `
         <line x1="${x}" y1="30" x2="${x}" y2="40" stroke="#888" stroke-width="2"/>
         <text x="${x}" y="55" class="tick-label">${i+1}</text>
-        ${placedVal ? `<text x="${x}" y="25" fill="#4CAF50" font-size="12" text-anchor="middle">${placedVal}</text>` : 
-                      `<rect x="${x-18}" y="10" width="36" height="24" rx="6" class="drop-target" data-idx="${i}" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="4,4"/>`}
+        ${placedVal ? `<text x="${x}" y="27" fill="#4CAF50" font-size="14" text-anchor="middle" font-weight="bold">🚀 ${placedVal}</text>` : 
+              `<rect x="${x-18}" y="6" width="36" height="30" rx="6" class="drop-target" data-idx="${i}" fill="rgba(255,255,255,0.05)" stroke="rgba(255,200,100,0.3)" stroke-width="2" stroke-dasharray="4,4"/>`}
       `;
     }).join('')}
   </svg>`;
@@ -2198,6 +2198,9 @@ function bindNumberLineEvents(step) {
               state.filled++;
               dz.textContent = '🚀 ' + val;
               dz.classList.add('filled', 'correct');
+              dz.style.color = '#4CAF50';
+              dz.style.fontSize = '14px';
+              dz.style.fontWeight = 'bold';
               
               if (newItem.parentNode === warehouse) {
                 newItem.remove();
@@ -2296,6 +2299,9 @@ function bindNumberLineEvents(step) {
               state.filled++;
               dz.textContent = '🚀 ' + val;
               dz.classList.add('filled', 'correct');
+              dz.style.color = '#4CAF50';
+              dz.style.fontSize = '14px';
+              dz.style.fontWeight = 'bold';
               
               if (newItem.parentNode === warehouse) {
                 newItem.remove();
