@@ -1864,6 +1864,7 @@ function bindAnimationEvents(step) {
 function bindDragGardenEvents(step) {
   const { rows, cols, emoji, total } = step;
   const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  // ✅ 只声明一次 state
   const state = conceptState.dragStates[dragKey];
   
   // 获取仓库中的星星元素
@@ -1908,7 +1909,6 @@ function bindDragGardenEvents(step) {
         ghost.style.left = (ev.clientX - offsetX) + 'px';
         ghost.style.top = (ev.clientY - offsetY) + 'px';
         
-        // 检测悬停
         document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
         const target = document.elementFromPoint(ev.clientX, ev.clientY);
         if (target) {
@@ -1926,7 +1926,6 @@ function bindDragGardenEvents(step) {
         item.style.opacity = '1';
         document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
         
-        // 检测放置位置
         const target = document.elementFromPoint(ev.clientX, ev.clientY);
         let dropZone = null;
         if (target) {
@@ -1943,15 +1942,12 @@ function bindDragGardenEvents(step) {
             dropZone.classList.add('filled');
             dropZone.classList.remove('drag-over');
             
-            // 从仓库移除这个星星
             if (item.parentNode === warehouse) {
               item.remove();
             }
             
-            // 更新进度
             updateGardenProgress(step);
             
-            // 检查是否完成
             if (state.filled === total) {
               state.completed = true;
               const feedback = document.getElementById('gardenFeedback');
@@ -1981,7 +1977,6 @@ function bindDragGardenEvents(step) {
       const offsetX = touch.clientX - rect.left;
       const offsetY = touch.clientY - rect.top;
       
-      // 创建幽灵元素
       const ghost = this.cloneNode(true);
       ghost.style.cssText = `
         position: fixed;
@@ -2013,7 +2008,6 @@ function bindDragGardenEvents(step) {
           ghost.style.left = (t.clientX - offsetX) + 'px';
           ghost.style.top = (t.clientY - offsetY) + 'px';
           
-          // 检测悬停
           document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
           const target = document.elementFromPoint(t.clientX, t.clientY);
           if (target) {
@@ -2035,7 +2029,6 @@ function bindDragGardenEvents(step) {
         const touchEnd = ev.changedTouches[0];
         if (!touchEnd) return;
         
-        // 检测放置位置
         const target = document.elementFromPoint(touchEnd.clientX, touchEnd.clientY);
         let dropZone = null;
         if (target) {
