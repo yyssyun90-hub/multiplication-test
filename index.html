@@ -435,7 +435,7 @@ const conceptLessons = {
         { type: 'concept', title: '记住这个关键！', content: '"×" 就是 "个" 的意思。3 × 4 = 3 个 4', visual: 'none' }
       ],
       checkQuestions: [
-        { question: '4 × 3 等于什么？', options: ['4 + 4 + 4', '3 + 3 + 3 + 3', '4 × 4 × 4'], correct: 0 },
+        { question: '以下哪个选项不能表示 4 × 3？', options: ['4 + 4 + 4', '3 + 3 + 3 + 3', '4 × 4 × 4'], correct: 2 },
         { question: '看这个点阵图（2行×5列），它代表什么？', options: ['2 + 2 + 2 + 2 + 2', '5 + 5', '2 × 2 × 2 × 2 × 2'], correct: 1 },
         { question: '6 × 2 可以写成什么？', options: ['6 + 2', '2 + 2 + 2 + 2 + 2 + 2', '6 × 6'], correct: 1 }
       ]
@@ -491,7 +491,7 @@ const conceptLessons = {
         { type: 'concept', title: 'Remember this key point!', content: '"×" means "groups of". 3 × 4 = 3 groups of 4', visual: 'none' }
       ],
       checkQuestions: [
-        { question: 'What does 4 × 3 equal?', options: ['4 + 4 + 4', '3 + 3 + 3 + 3', '4 × 4 × 4'], correct: 0 },
+        { question: 'Which option cannot represent 4 × 3?', options: ['4 + 4 + 4', '3 + 3 + 3 + 3', '4 × 4 × 4'], correct: 2 },
         { question: 'Looking at this grid (2 rows × 5 cols), what does it represent?', options: ['2 + 2 + 2 + 2 + 2', '5 + 5', '2 × 2 × 2 × 2 × 2'], correct: 1 },
         { question: 'What can 6 × 2 be written as?', options: ['6 + 2', '2 + 2 + 2 + 2 + 2 + 2', '6 × 6'], correct: 1 }
       ]
@@ -1514,19 +1514,45 @@ function predictNextScore(history) {
 
 function startSmartReview() {
   const t = texts[currentLang];
-  if (wrongQuestions.length === 0) { alert(t.smartReviewNoData); return; }
-  const uniqueQuestions = [], seen = new Set();
+  
+  // 检查是否有错题
+  if (wrongQuestions.length === 0) {
+    alert(t.smartReviewNoData);
+    return;
+  }
+  
+  // 提取不重复错题
+  const uniqueQuestions = [];
+  const seen = new Set();
   wrongQuestions.forEach(item => {
     const key = `${item.question.a}x${item.question.b}`;
-    if (!seen.has(key)) { seen.add(key); uniqueQuestions.push(item.question); }
+    if (!seen.has(key)) {
+      seen.add(key);
+      uniqueQuestions.push(item.question);
+    }
   });
+  
+  // ✅ 如果错题少于3道，提示用户
+  if (uniqueQuestions.length < 3) {
+    const msg = currentLang === 'zh' 
+      ? `你当前有 ${wrongQuestions.length} 道错题（${uniqueQuestions.length} 道不重复）。\n建议选择其他模式进行更多练习。\n\n是否继续智能复习？`
+      : `You have ${wrongQuestions.length} wrong questions (${uniqueQuestions.length} unique).\nConsider other modes for more practice.\n\nContinue with smart review?`;
+    if (!confirm(msg)) {
+      return;
+    }
+  }
+  
+  // 开始复习
   currentLevel = 6;
   questions = uniqueQuestions;
   currentIndex = 0;
   correctCount = 0;
   gameStarted = true;
   stats = {};
-  uniqueQuestions.forEach(q => { if (!stats[q.a]) stats[q.a] = { total: 0, correct: 0, wrongQuestions: [] }; stats[q.a].total += 1; });
+  uniqueQuestions.forEach(q => {
+    if (!stats[q.a]) stats[q.a] = { total: 0, correct: 0, wrongQuestions: [] };
+    stats[q.a].total += 1;
+  });
   document.getElementById('levelScreen').classList.remove('active');
   document.getElementById('quizScreen').classList.add('active');
   showCurrentQuestion();
