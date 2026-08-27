@@ -1893,20 +1893,46 @@ function bindAnimationEvents(step) {
 function bindDragGardenEvents(step) {
   const { rows, cols, emoji, total } = step;
   const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
-  // ✅ 只声明一次 state
   const state = conceptState.dragStates[dragKey];
   
-  // 获取仓库中的星星元素
+  // 如果已经完成，不绑定事件
+  if (state.completed) {
+    return;
+  }
+  
   const warehouse = document.getElementById('gardenWarehouse');
-  if (!warehouse) return;
+  if (!warehouse) {
+    setTimeout(() => bindDragGardenEvents(step), 100);
+    return;
+  }
+  
+  // 获取仓库中的星星元素
+  let items = warehouse.querySelectorAll('.drag-item');
+  if (items.length === 0) {
+    setTimeout(() => bindDragGardenEvents(step), 100);
+    return;
+  }
   
   // 为每个星星绑定事件
-  const items = warehouse.querySelectorAll('.drag-item');
   items.forEach(item => {
+    // 克隆替换以清除旧事件
+    const newItem = item.cloneNode(true);
+    item.parentNode.replaceChild(newItem, item);
+    
     // 鼠标拖拽
-    item.addEventListener('mousedown', function(e) {
+    newItem.addEventListener('mousedown', function(e) {
       e.preventDefault();
       if (state.completed) return;
+      
+      // 检查是否还有剩余星星
+      if (state.filled >= total) {
+        const feedback = document.getElementById('gardenFeedback');
+        if (feedback) {
+          feedback.className = 'feedback-msg';
+          feedback.textContent = '✅ ' + (currentLang === 'zh' ? '所有星星已放置完毕！' : 'All stars have been placed!');
+        }
+        return;
+      }
       
       const rect = this.getBoundingClientRect();
       const offsetX = e.clientX - rect.left;
@@ -1938,11 +1964,11 @@ function bindDragGardenEvents(step) {
         ghost.style.left = (ev.clientX - offsetX) + 'px';
         ghost.style.top = (ev.clientY - offsetY) + 'px';
         
-        document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+        document.querySelectorAll('.drop-zone.drag-over').forEach(el => el.classList.remove('drag-over'));
         const target = document.elementFromPoint(ev.clientX, ev.clientY);
         if (target) {
           const dropZone = target.closest('.drop-zone');
-          if (dropZone && !dropZone.dataset.filled) {
+          if (dropZone && dropZone.dataset.filled === 'false') {
             dropZone.classList.add('drag-over');
           }
         }
@@ -1952,7 +1978,7 @@ function bindDragGardenEvents(step) {
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
         ghost.remove();
-        item.style.opacity = '1';
+        newItem.style.opacity = '1';
         document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
         
         const target = document.elementFromPoint(ev.clientX, ev.clientY);
@@ -1961,7 +1987,7 @@ function bindDragGardenEvents(step) {
           dropZone = target.closest('.drop-zone');
         }
         
-        if (dropZone && !dropZone.dataset.filled) {
+        if (dropZone && dropZone.dataset.filled === 'false') {
           const idx = parseInt(dropZone.dataset.idx);
           if (!state.grid[idx]) {
             state.grid[idx] = true;
@@ -1971,23 +1997,22 @@ function bindDragGardenEvents(step) {
             dropZone.classList.add('filled');
             dropZone.classList.remove('drag-over');
             
-            if (item.parentNode === warehouse) {
-              item.remove();
-            }
-            
-            updateGardenProgress(step);
+            // 重新渲染整个步骤
+            saveConceptProgress();
+            renderConceptLesson();
             
             if (state.filled === total) {
               state.completed = true;
+              saveConceptProgress();
+              // 重新渲染以显示完成状态
+              renderConceptLesson();
               const feedback = document.getElementById('gardenFeedback');
               if (feedback) {
                 feedback.className = 'feedback-msg success';
                 feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！你建造了星星花园！' : 'Congratulations! You built the star garden!');
               }
-              saveConceptProgress();
               document.getElementById('conceptNextBtn').style.display = 'inline-block';
             }
-            saveConceptProgress();
           }
         }
       };
@@ -1997,11 +2022,22 @@ function bindDragGardenEvents(step) {
     });
     
     // 触摸拖拽（移动端）
-    item.addEventListener('touchstart', function(e) {
+    newItem.addEventListener('touchstart', function(e) {
       e.preventDefault();
       if (state.completed) return;
       
+      if (state.filled >= total) {
+        const feedback = document.getElementById('gardenFeedback');
+        if (feedback) {
+          feedback.className = 'feedback-msg';
+          feedback.textContent = '✅ ' + (currentLang === 'zh' ? '所有星星已放置完毕！' : 'All stars have been placed!');
+        }
+        return;
+      }
+      
       const touch = e.touches[0];
+      if (!touch) return;
+      
       const rect = this.getBoundingClientRect();
       const offsetX = touch.clientX - rect.left;
       const offsetY = touch.clientY - rect.top;
@@ -2027,23 +2063,19 @@ function bindDragGardenEvents(step) {
       document.body.appendChild(ghost);
       this.style.opacity = '0.3';
       
-      let lastTouch = touch;
-      
       const onTouchMove = function(ev) {
         ev.preventDefault();
         const t = ev.touches[0];
-        if (t) {
-          lastTouch = t;
-          ghost.style.left = (t.clientX - offsetX) + 'px';
-          ghost.style.top = (t.clientY - offsetY) + 'px';
-          
-          document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-          const target = document.elementFromPoint(t.clientX, t.clientY);
-          if (target) {
-            const dropZone = target.closest('.drop-zone');
-            if (dropZone && !dropZone.dataset.filled) {
-              dropZone.classList.add('drag-over');
-            }
+        if (!t) return;
+        ghost.style.left = (t.clientX - offsetX) + 'px';
+        ghost.style.top = (t.clientY - offsetY) + 'px';
+        
+        document.querySelectorAll('.drop-zone.drag-over').forEach(el => el.classList.remove('drag-over'));
+        const target = document.elementFromPoint(t.clientX, t.clientY);
+        if (target) {
+          const dropZone = target.closest('.drop-zone');
+          if (dropZone && dropZone.dataset.filled === 'false') {
+            dropZone.classList.add('drag-over');
           }
         }
       };
@@ -2052,7 +2084,7 @@ function bindDragGardenEvents(step) {
         document.removeEventListener('touchmove', onTouchMove);
         document.removeEventListener('touchend', onTouchEnd);
         ghost.remove();
-        item.style.opacity = '1';
+        newItem.style.opacity = '1';
         document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
         
         const touchEnd = ev.changedTouches[0];
@@ -2064,7 +2096,7 @@ function bindDragGardenEvents(step) {
           dropZone = target.closest('.drop-zone');
         }
         
-        if (dropZone && !dropZone.dataset.filled) {
+        if (dropZone && dropZone.dataset.filled === 'false') {
           const idx = parseInt(dropZone.dataset.idx);
           if (!state.grid[idx]) {
             state.grid[idx] = true;
@@ -2074,23 +2106,20 @@ function bindDragGardenEvents(step) {
             dropZone.classList.add('filled');
             dropZone.classList.remove('drag-over');
             
-            if (item.parentNode === warehouse) {
-              item.remove();
-            }
-            
-            updateGardenProgress(step);
+            saveConceptProgress();
+            renderConceptLesson();
             
             if (state.filled === total) {
               state.completed = true;
+              saveConceptProgress();
+              renderConceptLesson();
               const feedback = document.getElementById('gardenFeedback');
               if (feedback) {
                 feedback.className = 'feedback-msg success';
                 feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！你建造了星星花园！' : 'Congratulations! You built the star garden!');
               }
-              saveConceptProgress();
               document.getElementById('conceptNextBtn').style.display = 'inline-block';
             }
-            saveConceptProgress();
           }
         }
       };
