@@ -1192,14 +1192,15 @@ function renderConceptWelcome() {
   }, 1000);
 }
 
-// ==================== 拖拽系统（支持鼠标 + 触摸） ====================
+// ==================== 拖拽系统（完整修复版） ====================
 let dragSystem = {
   dragData: null,
   ghost: null,
   offsetX: 0,
   offsetY: 0,
   isDragging: false,
-  touchId: null
+  touchId: null,
+  lastTouch: null
 };
 
 function initDragSystem() {
@@ -1207,32 +1208,42 @@ function initDragSystem() {
   document.addEventListener('mouseup', onDragEnd);
   document.addEventListener('touchmove', onTouchDragMove, { passive: false });
   document.addEventListener('touchend', onTouchDragEnd, { passive: false });
+  document.addEventListener('touchcancel', onTouchDragEnd, { passive: false });
 }
 
 function startDrag(e, element, value, callback) {
   e.preventDefault();
   const rect = element.getBoundingClientRect();
-  const clientX = e.clientX || e.touches?.[0]?.clientX || 0;
-  const clientY = e.clientY || e.touches?.[0]?.clientY || 0;
+  let clientX, clientY;
+  
+  if (e.touches && e.touches.length > 0) {
+    clientX = e.touches[0].clientX;
+    clientY = e.touches[0].clientY;
+  } else {
+    clientX = e.clientX;
+    clientY = e.clientY;
+  }
   
   dragSystem.isDragging = true;
   dragSystem.dragData = { element, value, callback };
   dragSystem.offsetX = clientX - rect.left;
   dragSystem.offsetY = clientY - rect.top;
+  dragSystem.lastTouch = { clientX, clientY };
   
   // 创建幽灵元素
   dragSystem.ghost = element.cloneNode(true);
+  const size = window.innerWidth < 700 ? '2.5rem' : '3rem';
   dragSystem.ghost.style.cssText = `
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.85;
-    transform: scale(1.1) rotate(-2deg);
+    opacity: 0.9;
+    transform: scale(1.15);
     transition: none;
-    font-size: ${window.getComputedStyle(element).fontSize || '2rem'};
-    padding: 4px 8px;
-    background: rgba(255,200,100,0.15);
-    border-radius: 12px;
+    font-size: ${size};
+    padding: 6px 10px;
+    background: rgba(255,200,100,0.2);
+    border-radius: 14px;
     border: 2px solid #ffaa55;
     box-shadow: 0 10px 30px rgba(0,0,0,0.4);
   `;
@@ -1251,17 +1262,22 @@ function updateGhostPosition(clientX, clientY) {
 function onDragMove(e) {
   if (!dragSystem.isDragging || !dragSystem.ghost) return;
   e.preventDefault();
-  updateGhostPosition(e.clientX, e.clientY);
-  // 检测悬停
-  checkHover(e.clientX, e.clientY);
+  const clientX = e.clientX;
+  const clientY = e.clientY;
+  dragSystem.lastTouch = { clientX, clientY };
+  updateGhostPosition(clientX, clientY);
+  checkHover(clientX, clientY);
 }
 
 function onTouchDragMove(e) {
   if (!dragSystem.isDragging || !dragSystem.ghost) return;
   e.preventDefault();
   const touch = e.touches[0];
-  updateGhostPosition(touch.clientX, touch.clientY);
-  checkHover(touch.clientX, touch.clientY);
+  if (touch) {
+    dragSystem.lastTouch = { clientX: touch.clientX, clientY: touch.clientY };
+    updateGhostPosition(touch.clientX, touch.clientY);
+    checkHover(touch.clientX, touch.clientY);
+  }
 }
 
 function onDragEnd(e) {
@@ -1273,19 +1289,63 @@ function onDragEnd(e) {
 
 function onTouchDragEnd(e) {
   if (!dragSystem.isDragging) return;
-  const touch = e.changedTouches?.[0];
-  if (!touch) return;
-  finishDrag(touch.clientX, touch.clientY);
+  let clientX = 0, clientY = 0;
+  if (e.changedTouches && e.changedTouches.length > 0) {
+    clientX = e.changedTouches[0].clientX;
+    clientY = e.changedTouches[0].clientY;
+  } else if (dragSystem.lastTouch) {
+    clientX = dragSystem.lastTouch.clientX;
+    clientY = dragSystem.lastTouch.clientY;
+  }
+  finishDrag(clientX, clientY);
 }
 
 function finishDrag(clientX, clientY) {
-  const target = document.elementFromPoint(clientX, clientY);
-  if (target && dragSystem.dragData) {
-    const dropZone = target.closest('.drop-zone');
+  if (!dragSystem.dragData) {
+    cleanupDrag();
+    return;
+  }
+  
+  // 方法1: 使用 elementFromPoint
+  let target = null;
+  try {
+    target = document.elementFromPoint(clientX, clientY);
+  } catch(e) { /* ignore */ }
+  
+  // 方法2: 如果方法1失败，手动查找（对于触摸设备）
+  if (!target) {
+    const allDropZones = document.querySelectorAll('.drop-zone');
+    for (const zone of allDropZones) {
+      const rect = zone.getBoundingClientRect();
+      if (clientX >= rect.left && clientX <= rect.right &&
+          clientY >= rect.top && clientY <= rect.bottom) {
+        target = zone;
+        break;
+      }
+    }
+  }
+  
+  if (target) {
+    // 查找最近的 drop-zone
+    let dropZone = null;
+    if (target.closest) {
+      dropZone = target.closest('.drop-zone');
+    } else {
+      let el = target;
+      while (el && el !== document) {
+        if (el.classList && el.classList.contains('drop-zone')) {
+          dropZone = el;
+          break;
+        }
+        el = el.parentNode;
+      }
+    }
+    
     if (dropZone && !dropZone.dataset.filled) {
       dragSystem.dragData.callback(dropZone, dragSystem.dragData.value);
     }
   }
+  
   cleanupDrag();
 }
 
@@ -1299,15 +1359,44 @@ function cleanupDrag() {
   }
   dragSystem.isDragging = false;
   dragSystem.dragData = null;
+  dragSystem.lastTouch = null;
   // 移除所有高亮
   document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
 }
 
 function checkHover(clientX, clientY) {
   document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-  const target = document.elementFromPoint(clientX, clientY);
+  let target = null;
+  try {
+    target = document.elementFromPoint(clientX, clientY);
+  } catch(e) { /* ignore */ }
+  
+  if (!target) {
+    const allDropZones = document.querySelectorAll('.drop-zone');
+    for (const zone of allDropZones) {
+      const rect = zone.getBoundingClientRect();
+      if (clientX >= rect.left && clientX <= rect.right &&
+          clientY >= rect.top && clientY <= rect.bottom) {
+        target = zone;
+        break;
+      }
+    }
+  }
+  
   if (target) {
-    const dropZone = target.closest('.drop-zone');
+    let dropZone = null;
+    if (target.closest) {
+      dropZone = target.closest('.drop-zone');
+    } else {
+      let el = target;
+      while (el && el !== document) {
+        if (el.classList && el.classList.contains('drop-zone')) {
+          dropZone = el;
+          break;
+        }
+        el = el.parentNode;
+      }
+    }
     if (dropZone && !dropZone.dataset.filled) {
       dropZone.classList.add('drag-over');
     }
