@@ -1618,16 +1618,19 @@ function renderNumberLineStep(step, t) {
   const placed = state.positions.filter(v => v !== null).length;
   
   // 数轴SVG
-  let svgHtml = `<svg viewBox="0 0 640 60" xmlns="http://www.w3.org/2000/svg">
+  let svgHtml = `<svg viewBox="0 0 640 65" xmlns="http://www.w3.org/2000/svg">
     <line x1="20" y1="35" x2="620" y2="35" stroke="#666" stroke-width="2"/>
     ${values.map((v, i) => {
       const x = 20 + i * 50;
       const placedVal = state.positions[i];
       return `
         <line x1="${x}" y1="30" x2="${x}" y2="40" stroke="#888" stroke-width="2"/>
-        <text x="${x}" y="55" class="tick-label">${i+1}</text>
-        ${placedVal ? `<text x="${x}" y="27" fill="#4CAF50" font-size="14" text-anchor="middle" font-weight="bold">🚀 ${placedVal}</text>` : 
-              `<rect x="${x-18}" y="6" width="36" height="30" rx="6" class="drop-target" data-idx="${i}" fill="rgba(255,255,255,0.05)" stroke="rgba(255,200,100,0.3)" stroke-width="2" stroke-dasharray="4,4"/>`}
+        <text x="${x}" y="58" fill="#aaa" font-size="11" text-anchor="middle">${i+1}</text>
+        ${placedVal ? 
+          `<text x="${x}" y="28" fill="#4CAF50" font-size="14" text-anchor="middle" font-weight="bold">🚀 ${placedVal}</text>` : 
+          `<rect x="${x-20}" y="8" width="40" height="28" rx="6" class="drop-target" data-idx="${i}" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="4,4"/>
+           <text x="${x}" y="26" fill="#666" font-size="10" text-anchor="middle">?</text>`
+        }
       `;
     }).join('')}
   </svg>`;
@@ -1655,60 +1658,6 @@ function renderNumberLineStep(step, t) {
         <button class="btn-check" id="nlCheck">${t.dragCheck}</button>
       </div>
       <div id="nlFeedback" class="feedback-msg"></div>
-    </div>
-  `;
-}
-
-function renderSwapStep(step, t) {
-  const { rows, cols, emoji, total } = step;
-  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
-  if (!conceptState.dragStates) conceptState.dragStates = {};
-  if (!conceptState.dragStates[dragKey]) {
-    conceptState.dragStates[dragKey] = { 
-      left: Array(rows * cols).fill(false), 
-      right: Array(cols * rows).fill(false),
-      leftFilled: 0, rightFilled: 0, 
-      completed: false 
-    };
-  }
-  const state = conceptState.dragStates[dragKey];
-  
-  let leftGrid = '', rightGrid = '';
-  for (let i = 0; i < rows * cols; i++) {
-    leftGrid += `<div class="drop-zone" data-side="left" data-idx="${i}" data-filled="${state.left[i]}">${state.left[i] ? emoji : ''}</div>`;
-  }
-  for (let i = 0; i < cols * rows; i++) {
-    rightGrid += `<div class="drop-zone" data-side="right" data-idx="${i}" data-filled="${state.right[i]}">${state.right[i] ? emoji : ''}</div>`;
-  }
-  
-  const remaining = total - state.leftFilled - state.rightFilled;
-  
-  return `
-    <div class="step-title">${step.title}</div>
-    <div class="step-text">${step.content}</div>
-    <div class="swap-container">
-      <div class="swap-warehouse" id="swapWarehouse">
-        ${Array(remaining).fill(0).map(() => `<span class="drag-item" draggable="false">${emoji}</span>`).join('')}
-        ${remaining === 0 ? `<span style="color:#4CAF50;">✅ ${currentLang === 'zh' ? '所有土星已放置！' : 'All Saturn placed!'}</span>` : ''}
-      </div>
-      <div class="swap-groups">
-        <div class="group-box">
-          <div class="group-title">${currentLang === 'zh' ? '🌟 3组 × 4个' : '🌟 3 groups × 4'}</div>
-          <div class="group-grid" style="grid-template-columns: repeat(${cols}, 1fr);">${leftGrid}</div>
-          <div class="group-count">${currentLang === 'zh' ? '已放置' : 'Placed'}: ${state.leftFilled} / ${total}</div>
-        </div>
-        <div class="group-box">
-          <div class="group-title">${currentLang === 'zh' ? '🌟 4组 × 3个' : '🌟 4 groups × 3'}</div>
-          <div class="group-grid" style="grid-template-columns: repeat(${rows}, 1fr);">${rightGrid}</div>
-          <div class="group-count">${currentLang === 'zh' ? '已放置' : 'Placed'}: ${state.rightFilled} / ${total}</div>
-        </div>
-      </div>
-      <div class="swap-controls">
-        <button class="btn-hint" id="swapHint">💡 ${t.dragHint}</button>
-        <button class="btn-reset" id="swapReset">${t.dragReset}</button>
-        <button class="btn-check" id="swapCheck">${t.dragCheck}</button>
-      </div>
-      <div id="swapFeedback" class="feedback-msg"></div>
     </div>
   `;
 }
@@ -2182,55 +2131,55 @@ function bindNumberLineEvents(step) {
       };
       
       const onMouseUp = function(ev) {
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-        ghost.remove();
-        newItem.style.opacity = '1';
-        document.querySelectorAll('.drop-target.drag-over').forEach(el => el.classList.remove('drag-over'));
-        
-        const target = document.elementFromPoint(ev.clientX, ev.clientY);
-        if (target) {
-          const dz = target.closest('.drop-target');
-          if (dz) {
-            const idx = parseInt(dz.dataset.idx);
-            if (state.positions[idx] === null && val === values[idx]) {
-              state.positions[idx] = val;
-              state.filled++;
-              dz.textContent = '🚀 ' + val;
-              dz.classList.add('filled', 'correct');
-              dz.style.color = '#4CAF50';
-              dz.style.fontSize = '14px';
-              dz.style.fontWeight = 'bold';
-              
-              if (newItem.parentNode === warehouse) {
-                newItem.remove();
-              }
-              
-              updateNumberLineProgress();
-              
-              if (state.filled === values.length) {
-                state.completed = true;
-                const feedback = document.getElementById('nlFeedback');
-                if (feedback) {
-                  feedback.className = 'feedback-msg success';
-                  feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！你完成了数轴！' : 'Congratulations! You completed the number line!');
-                }
-                saveConceptProgress();
-                document.getElementById('conceptNextBtn').style.display = 'inline-block';
-              }
-              saveConceptProgress();
-            } else if (val !== values[idx]) {
-              const feedback = document.getElementById('nlFeedback');
-              if (feedback) {
-                feedback.className = 'feedback-msg error';
-                feedback.textContent = `❌ ${val} ${currentLang === 'zh' ? '不是正确的位置！' : 'is not the correct position!'}`;
-                setTimeout(() => { feedback.className = 'feedback-msg'; feedback.textContent = ''; }, 1500);
-              }
-            }
-          }
+  document.removeEventListener('mousemove', onMouseMove);
+  document.removeEventListener('mouseup', onMouseUp);
+  ghost.remove();
+  newItem.style.opacity = '1';
+  document.querySelectorAll('.drop-target.drag-over').forEach(el => el.classList.remove('drag-over'));
+
+  const target = document.elementFromPoint(ev.clientX, ev.clientY);
+  if (target) {
+    const dz = target.closest('.drop-target');
+    if (dz) {
+      const idx = parseInt(dz.dataset.idx);
+      if (state.positions[idx] === null && val === values[idx]) {
+        // ✅ 放置火箭
+        state.positions[idx] = val;
+        state.filled++;
+
+        // 移除仓库中的火箭
+        if (newItem.parentNode === warehouse) {
+          newItem.remove();
         }
-      };
-      
+
+        // ✅ 重新渲染数轴
+        renderConceptLesson();
+        saveConceptProgress();
+
+        if (state.filled === values.length) {
+          state.completed = true;
+          const feedback = document.getElementById('nlFeedback');
+          if (feedback) {
+            feedback.className = 'feedback-msg success';
+            feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！你完成了数轴！' : 'Congratulations! You completed the number line!');
+          }
+          saveConceptProgress();
+          document.getElementById('conceptNextBtn').style.display = 'inline-block';
+        }
+        return;
+      } else if (val !== values[idx]) {
+        // ❌ 错误位置
+        const feedback = document.getElementById('nlFeedback');
+        if (feedback) {
+          feedback.className = 'feedback-msg error';
+          feedback.textContent = `❌ ${val} ${currentLang === 'zh' ? '不是正确的位置！' : 'is not the correct position!'}`;
+          setTimeout(() => { feedback.className = 'feedback-msg'; feedback.textContent = ''; }, 1500);
+        }
+      }
+    }
+  }
+};
+
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
     });
