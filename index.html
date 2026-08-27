@@ -1662,6 +1662,124 @@ function renderNumberLineStep(step, t) {
   `;
 }
 
+function renderSwapStep(step, t) {
+  const { rows, cols, emoji, total } = step;
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  if (!conceptState.dragStates) conceptState.dragStates = {};
+  if (!conceptState.dragStates[dragKey]) {
+    conceptState.dragStates[dragKey] = { 
+      left: Array(rows * cols).fill(false), 
+      right: Array(cols * rows).fill(false),
+      leftFilled: 0, rightFilled: 0, 
+      completed: false 
+    };
+  }
+  const state = conceptState.dragStates[dragKey];
+  
+  let leftGrid = '', rightGrid = '';
+  for (let i = 0; i < rows * cols; i++) {
+    leftGrid += `<div class="drop-zone" data-side="left" data-idx="${i}" data-filled="${state.left[i]}">${state.left[i] ? emoji : ''}</div>`;
+  }
+  for (let i = 0; i < cols * rows; i++) {
+    rightGrid += `<div class="drop-zone" data-side="right" data-idx="${i}" data-filled="${state.right[i]}">${state.right[i] ? emoji : ''}</div>`;
+  }
+  
+  const remaining = total - state.leftFilled - state.rightFilled;
+  
+  return `
+    <div class="step-title">${step.title}</div>
+    <div class="step-text">${step.content}</div>
+    <div class="swap-container">
+      <div class="swap-warehouse" id="swapWarehouse">
+        ${Array(remaining).fill(0).map(() => `<span class="drag-item" draggable="false">${emoji}</span>`).join('')}
+        ${remaining === 0 ? `<span style="color:#4CAF50;">✅ ${currentLang === 'zh' ? '所有土星已放置！' : 'All Saturn placed!'}</span>` : ''}
+      </div>
+      <div class="swap-groups">
+        <div class="group-box">
+          <div class="group-title">${currentLang === 'zh' ? '🌟 3组 × 4个' : '🌟 3 groups × 4'}</div>
+          <div class="group-grid" style="grid-template-columns: repeat(${cols}, 1fr);">${leftGrid}</div>
+          <div class="group-count">${currentLang === 'zh' ? '已放置' : 'Placed'}: ${state.leftFilled} / ${total}</div>
+        </div>
+        <div class="group-box">
+          <div class="group-title">${currentLang === 'zh' ? '🌟 4组 × 3个' : '🌟 4 groups × 3'}</div>
+          <div class="group-grid" style="grid-template-columns: repeat(${rows}, 1fr);">${rightGrid}</div>
+          <div class="group-count">${currentLang === 'zh' ? '已放置' : 'Placed'}: ${state.rightFilled} / ${total}</div>
+        </div>
+      </div>
+      <div class="swap-controls">
+        <button class="btn-hint" id="swapHint">💡 ${t.dragHint}</button>
+        <button class="btn-reset" id="swapReset">${t.dragReset}</button>
+        <button class="btn-check" id="swapCheck">${t.dragCheck}</button>
+      </div>
+      <div id="swapFeedback" class="feedback-msg"></div>
+    </div>
+  `;
+}
+
+function renderTreasureStep(step, t) {
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  if (!conceptState.dragStates) conceptState.dragStates = {};
+  if (!conceptState.dragStates[dragKey]) {
+    conceptState.dragStates[dragKey] = { 
+      found: 0, 
+      targets: [
+        { row: 4, col: 7, pair: { row: 7, col: 4 }, done: false },
+        { row: 5, col: 6, pair: { row: 6, col: 5 }, done: false },
+        { row: 3, col: 8, pair: { row: 8, col: 3 }, done: false },
+        { row: 9, col: 2, pair: { row: 2, col: 9 }, done: false }
+      ],
+      completed: false,
+      currentTarget: 0,
+      highlighted: null
+    };
+  }
+  const state = conceptState.dragStates[dragKey];
+  const target = state.targets[state.currentTarget] || state.targets[0];
+  
+  let tableHtml = '<table><tr><th></th>';
+  for (let i = 1; i <= 12; i++) tableHtml += `<th>${i}</th>`;
+  tableHtml += '</tr>';
+  for (let r = 1; r <= 12; r++) {
+    tableHtml += `<tr><th>${r}</th>`;
+    for (let c = 1; c <= 12; c++) {
+      const val = r * c;
+      const isFound = state.targets.some(t => 
+        (t.row === r && t.col === c) || (t.pair.row === r && t.pair.col === c) && t.done
+      );
+      let cls = '';
+      if (isFound && state.targets.some(t => t.done && ((t.row === r && t.col === c) || (t.pair.row === r && t.pair.col === c)))) {
+        cls = 'found';
+      }
+      if (r === target.row && c === target.col && !target.done) {
+        cls = 'target-highlight';
+      }
+      tableHtml += `<td class="${cls}" data-row="${r}" data-col="${c}">${val}</td>`;
+    }
+    tableHtml += '</tr>';
+  }
+  tableHtml += '</table>';
+  
+  return `
+    <div class="step-title">${step.title}</div>
+    <div class="step-text">${step.content}</div>
+    <div class="treasure-table">
+      <div class="treasure-task">
+        🎯 ${currentLang === 'zh' ? '找到' : 'Find'} ${target.row} × ${target.col} ${currentLang === 'zh' ? '的对称位置！' : '\'s symmetrical position!'}
+      </div>
+      ${tableHtml}
+      <div class="treasure-stats">
+        <span>⭐ ${currentLang === 'zh' ? '已找到' : 'Found'}: ${state.targets.filter(t => t.done).length} / ${state.targets.length}</span>
+        <span>🔥 ${currentLang === 'zh' ? '进度' : 'Progress'}: ${Math.round((state.targets.filter(t => t.done).length / state.targets.length) * 100)}%</span>
+      </div>
+      <div class="treasure-controls">
+        <button class="btn-hint" id="treasureHint">💡 ${t.dragHint}</button>
+        <button class="btn-reset" id="treasureReset">${t.dragReset}</button>
+      </div>
+      <div id="treasureFeedback" class="feedback-msg"></div>
+    </div>
+  `;
+}
+
 function renderTreasureStep(step, t) {
   const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
   if (!conceptState.dragStates) conceptState.dragStates = {};
