@@ -1704,7 +1704,10 @@ function renderSwapStep(step, t) {
     rightGrid += `<div class="drop-zone" data-side="right" data-idx="${i}" data-filled="${state.right[i]}">${state.right[i] ? emoji : ''}</div>`;
   }
   
-  const remaining = total - state.leftFilled - state.rightFilled;
+  // 总共需要的土星数量 = 左边(12) + 右边(12) = 24
+  const totalNeeded = total * 2;
+  const placed = state.leftFilled + state.rightFilled;
+  const remaining = totalNeeded - placed;
   
   return `
     <div class="step-title">${step.title}</div>
@@ -1713,6 +1716,7 @@ function renderSwapStep(step, t) {
       <div class="swap-warehouse" id="swapWarehouse">
         ${Array(Math.max(0, remaining)).fill(0).map(() => `<span class="drag-item" draggable="false">${emoji}</span>`).join('')}
         ${remaining <= 0 ? `<span style="color:#4CAF50;">✅ ${currentLang === 'zh' ? '所有土星已放置！' : 'All Saturn placed!'}</span>` : ''}
+        <span style="color:#aaa;font-size:0.8rem;width:100%;text-align:center;">${currentLang === 'zh' ? `💡 拖拽土星到任意一组，两组会同时增加` : `💡 Drag Saturn to either group, both groups increase together`}</span>
       </div>
       <div class="swap-groups">
         <div class="group-box">
@@ -2417,10 +2421,49 @@ function updateNumberLineProgress() {
   renderConceptLesson();
 }
 
+function updateSwapDisplay(step) {
+  const { total } = step;
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  const state = conceptState.dragStates[dragKey];
+  
+  // 更新计数显示
+  document.querySelectorAll('.group-count').forEach((el, idx) => {
+    if (idx === 0) el.textContent = `${currentLang === 'zh' ? '已放置' : 'Placed'}: ${state.leftFilled} / ${total}`;
+    else if (idx === 1) el.textContent = `${currentLang === 'zh' ? '已放置' : 'Placed'}: ${state.rightFilled} / ${total}`;
+  });
+  
+  // 更新仓库中的土星数量
+  const warehouse = document.getElementById('swapWarehouse');
+  if (warehouse) {
+    const totalNeeded = total * 2;
+    const placed = state.leftFilled + state.rightFilled;
+    const remaining = totalNeeded - placed;
+    
+    // 移除旧的土星
+    warehouse.querySelectorAll('.drag-item').forEach(el => el.remove());
+    // 添加新的土星
+    for (let i = 0; i < remaining; i++) {
+      const item = document.createElement('span');
+      item.className = 'drag-item';
+      item.draggable = false;
+      item.textContent = '🪐';
+      warehouse.appendChild(item);
+    }
+    
+    if (remaining <= 0) {
+      const msg = document.createElement('span');
+      msg.style.color = '#4CAF50';
+      msg.textContent = '✅ ' + (currentLang === 'zh' ? '所有土星已放置！' : 'All Saturn placed!');
+      warehouse.appendChild(msg);
+    }
+  }
+}
+
 function bindSwapEvents(step) {
   const { rows, cols, emoji, total } = step;
   const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
   const state = conceptState.dragStates[dragKey];
+  const totalNeeded = total * 2;
   
   const warehouse = document.getElementById('swapWarehouse');
   if (!warehouse) {
@@ -2434,13 +2477,77 @@ function bindSwapEvents(step) {
     return;
   }
   
+  // 拖拽放置函数：两边同时增加
+function placeSaturn(side, idx) {
+  if (state.completed) return false;
+  
+  const placed = state.leftFilled + state.rightFilled;
+  if (placed >= totalNeeded) return false;
+  
+  if (side === 'left' && !state.left[idx]) {
+    state.left[idx] = true;
+    state.leftFilled++;
+  } else if (side === 'right' && !state.right[idx]) {
+    state.right[idx] = true;
+    state.rightFilled++;
+  } else {
+    return false;
+  }
+  
+  if (side === 'left') {
+    for (let i = 0; i < state.right.length; i++) {
+      if (!state.right[i]) {
+        state.right[i] = true;
+        state.rightFilled++;
+        break;
+      }
+    }
+  } else {
+    for (let i = 0; i < state.left.length; i++) {
+      if (!state.left[i]) {
+        state.left[i] = true;
+        state.leftFilled++;
+        break;
+      }
+    }
+  }
+  
+  // 更新UI - 只更新显示，不重新渲染整个步骤
+  updateSwapDisplay(step);
+  
+  if (state.leftFilled === total && state.rightFilled === total) {
+    state.completed = true;
+    const feedback = document.getElementById('swapFeedback');
+    if (feedback) {
+      feedback.className = 'feedback-msg success';
+      feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！' + total + ' = ' + total + '，交换律成立！' : 'Congratulations! ' + total + ' = ' + total + ', commutative property verified!');
+    }
+    saveConceptProgress();
+    document.getElementById('conceptNextBtn').style.display = 'inline-block';
+  }
+  saveConceptProgress();
+  return true;
+}
+  
   items.forEach(item => {
     const newItem = item.cloneNode(true);
     item.parentNode.replaceChild(newItem, item);
     
+    // 鼠标拖拽
     newItem.addEventListener('mousedown', function(e) {
       e.preventDefault();
       if (state.completed) return;
+      
+      // 检查是否还有剩余
+      const placed = state.leftFilled + state.rightFilled;
+      if (placed >= totalNeeded) {
+        const feedback = document.getElementById('swapFeedback');
+        if (feedback) {
+          feedback.className = 'feedback-msg';
+          feedback.textContent = currentLang === 'zh' ? '✅ 所有土星已放置完毕！' : '✅ All Saturns have been placed!';
+        }
+        return;
+      }
       
       this.style.opacity = '0.3';
       
@@ -2490,43 +2597,16 @@ function bindSwapEvents(step) {
             const side = dz.dataset.side;
             const idx = parseInt(dz.dataset.idx);
             
-            if (side === 'left' && !state.left[idx]) {
-              state.left[idx] = true;
-              state.leftFilled++;
-              dz.dataset.filled = 'true';
-              dz.textContent = emoji;
-              dz.classList.add('filled');
-              
+            // 尝试放置
+            const success = placeSaturn(side, idx);
+            
+            if (success) {
               if (newItem.parentNode === warehouse) {
                 newItem.remove();
               }
-            } else if (side === 'right' && !state.right[idx]) {
-              state.right[idx] = true;
-              state.rightFilled++;
-              dz.dataset.filled = 'true';
-              dz.textContent = emoji;
-              dz.classList.add('filled');
-              
-              if (newItem.parentNode === warehouse) {
-                newItem.remove();
-              }
-            } else {
-              return;
+              // 只更新显示，不重新渲染整个步骤
+              updateSwapDisplay(step);
             }
-            
-            updateSwapProgress(step);
-            
-            if (state.leftFilled === total && state.rightFilled === total) {
-              state.completed = true;
-              const feedback = document.getElementById('swapFeedback');
-              if (feedback) {
-                feedback.className = 'feedback-msg success';
-                feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！两边总数相同，交换律成立！' : 'Congratulations! Both sides equal, commutative property verified!');
-              }
-              saveConceptProgress();
-              document.getElementById('conceptNextBtn').style.display = 'inline-block';
-            }
-            saveConceptProgress();
           }
         }
       };
@@ -2535,9 +2615,20 @@ function bindSwapEvents(step) {
       document.addEventListener('mouseup', onMouseUp);
     });
     
+    // 触摸拖拽（移动端）
     newItem.addEventListener('touchstart', function(e) {
       e.preventDefault();
       if (state.completed) return;
+      
+      const placed = state.leftFilled + state.rightFilled;
+      if (placed >= totalNeeded) {
+        const feedback = document.getElementById('swapFeedback');
+        if (feedback) {
+          feedback.className = 'feedback-msg';
+          feedback.textContent = currentLang === 'zh' ? '✅ 所有土星已放置完毕！' : '✅ All Saturns have been placed!';
+        }
+        return;
+      }
       
       const touch = e.touches[0];
       if (!touch) return;
@@ -2596,43 +2687,14 @@ function bindSwapEvents(step) {
             const side = dz.dataset.side;
             const idx = parseInt(dz.dataset.idx);
             
-            if (side === 'left' && !state.left[idx]) {
-              state.left[idx] = true;
-              state.leftFilled++;
-              dz.dataset.filled = 'true';
-              dz.textContent = emoji;
-              dz.classList.add('filled');
-              
+            const success = placeSaturn(side, idx);
+            
+            if (success) {
               if (newItem.parentNode === warehouse) {
                 newItem.remove();
               }
-            } else if (side === 'right' && !state.right[idx]) {
-              state.right[idx] = true;
-              state.rightFilled++;
-              dz.dataset.filled = 'true';
-              dz.textContent = emoji;
-              dz.classList.add('filled');
-              
-              if (newItem.parentNode === warehouse) {
-                newItem.remove();
-              }
-            } else {
-              return;
+              updateSwapDisplay(step);
             }
-            
-            updateSwapProgress(step);
-            
-            if (state.leftFilled === total && state.rightFilled === total) {
-              state.completed = true;
-              const feedback = document.getElementById('swapFeedback');
-              if (feedback) {
-                feedback.className = 'feedback-msg success';
-                feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！两边总数相同，交换律成立！' : 'Congratulations! Both sides equal, commutative property verified!');
-              }
-              saveConceptProgress();
-              document.getElementById('conceptNextBtn').style.display = 'inline-block';
-            }
-            saveConceptProgress();
           }
         }
       };
@@ -2642,6 +2704,7 @@ function bindSwapEvents(step) {
     }, { passive: true });
   });
   
+  // 重置按钮
   const resetBtn = document.getElementById('swapReset');
   if (resetBtn) {
     resetBtn.onclick = function() {
@@ -2655,6 +2718,7 @@ function bindSwapEvents(step) {
     };
   }
   
+  // 检查按钮
   const checkBtn = document.getElementById('swapCheck');
   if (checkBtn) {
     checkBtn.onclick = function() {
@@ -2665,31 +2729,21 @@ function bindSwapEvents(step) {
         feedback.textContent = '🎉 ' + (currentLang === 'zh' ? `${total} = ${total}，交换律成立！` : `${total} = ${total}, commutative property verified!`);
       } else {
         feedback.className = 'feedback-msg error';
-        feedback.textContent = `${currentLang === 'zh' ? '左' : 'Left'}: ${state.leftFilled}, ${currentLang === 'zh' ? '右' : 'Right'}: ${state.rightFilled} - ${currentLang === 'zh' ? '两边都需要放满' : 'Both sides need to be full'}`;
+        feedback.textContent = `${currentLang === 'zh' ? '左' : 'Left'}: ${state.leftFilled}/${total}, ${currentLang === 'zh' ? '右' : 'Right'}: ${state.rightFilled}/${total}`;
       }
     };
   }
   
+  // 提示按钮
   const hintBtn = document.getElementById('swapHint');
   if (hintBtn) {
     hintBtn.onclick = function() {
       const feedback = document.getElementById('swapFeedback');
       if (!feedback) return;
       feedback.className = 'feedback-msg';
-      feedback.textContent = `💡 ${currentLang === 'zh' ? `左边放 ${rows} 行 × ${cols} 列，右边放 ${cols} 行 × ${rows} 列` : `Left: ${rows} rows × ${cols} cols, Right: ${cols} rows × ${rows} cols`}`;
+      feedback.textContent = `💡 ${currentLang === 'zh' ? `拖拽土星到任意一组，两组会同时增加！目标：两边都放满 ${total} 颗` : `Drag Saturn to either group, both groups increase together! Target: ${total} on each side`}`;
     };
   }
-}
-
-function updateSwapProgress(step) {
-  const { total } = step;
-  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
-  const state = conceptState.dragStates[dragKey];
-  // 更新计数显示
-  document.querySelectorAll('.group-count').forEach((el, idx) => {
-    if (idx === 0) el.textContent = `${currentLang === 'zh' ? '已放置' : 'Placed'}: ${state.leftFilled} / ${total}`;
-    else if (idx === 1) el.textContent = `${currentLang === 'zh' ? '已放置' : 'Placed'}: ${state.rightFilled} / ${total}`;
-  });
 }
 
 function bindTreasureEvents(step) {
