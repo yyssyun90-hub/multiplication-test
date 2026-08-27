@@ -2421,44 +2421,6 @@ function updateNumberLineProgress() {
   renderConceptLesson();
 }
 
-function updateSwapDisplay(step) {
-  const { total } = step;
-  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
-  const state = conceptState.dragStates[dragKey];
-  
-  // 更新计数显示
-  document.querySelectorAll('.group-count').forEach((el, idx) => {
-    if (idx === 0) el.textContent = `${currentLang === 'zh' ? '已放置' : 'Placed'}: ${state.leftFilled} / ${total}`;
-    else if (idx === 1) el.textContent = `${currentLang === 'zh' ? '已放置' : 'Placed'}: ${state.rightFilled} / ${total}`;
-  });
-  
-  // 更新仓库中的土星数量
-  const warehouse = document.getElementById('swapWarehouse');
-  if (warehouse) {
-    const totalNeeded = total * 2;
-    const placed = state.leftFilled + state.rightFilled;
-    const remaining = totalNeeded - placed;
-    
-    // 移除旧的土星
-    warehouse.querySelectorAll('.drag-item').forEach(el => el.remove());
-    // 添加新的土星
-    for (let i = 0; i < remaining; i++) {
-      const item = document.createElement('span');
-      item.className = 'drag-item';
-      item.draggable = false;
-      item.textContent = '🪐';
-      warehouse.appendChild(item);
-    }
-    
-    if (remaining <= 0) {
-      const msg = document.createElement('span');
-      msg.style.color = '#4CAF50';
-      msg.textContent = '✅ ' + (currentLang === 'zh' ? '所有土星已放置！' : 'All Saturn placed!');
-      warehouse.appendChild(msg);
-    }
-  }
-}
-
 function bindSwapEvents(step) {
   const { rows, cols, emoji, total } = step;
   const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
@@ -2512,20 +2474,25 @@ function placeSaturn(side, idx) {
     }
   }
   
-  // 更新UI - 只更新显示，不重新渲染整个步骤
-  updateSwapDisplay(step);
+  // ✅ 直接保存进度，不更新UI
+  saveConceptProgress();
   
   if (state.leftFilled === total && state.rightFilled === total) {
     state.completed = true;
+    saveConceptProgress();
+    // 重新渲染以显示完成状态
+    renderConceptLesson();
     const feedback = document.getElementById('swapFeedback');
     if (feedback) {
       feedback.className = 'feedback-msg success';
       feedback.textContent = '🎉 ' + (currentLang === 'zh' ? '恭喜！' + total + ' = ' + total + '，交换律成立！' : 'Congratulations! ' + total + ' = ' + total + ', commutative property verified!');
     }
-    saveConceptProgress();
     document.getElementById('conceptNextBtn').style.display = 'inline-block';
+    return true;
   }
-  saveConceptProgress();
+  
+  // ✅ 每次放置后重新渲染
+  renderConceptLesson();
   return true;
 }
   
@@ -2584,32 +2551,26 @@ function placeSaturn(side, idx) {
       };
       
       const onMouseUp = function(ev) {
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-        ghost.remove();
-        newItem.style.opacity = '1';
-        document.querySelectorAll('.drop-zone.drag-over').forEach(el => el.classList.remove('drag-over'));
-        
-        const target = document.elementFromPoint(ev.clientX, ev.clientY);
-        if (target) {
-          const dz = target.closest('.drop-zone');
-          if (dz && dz.dataset.filled === 'false') {
-            const side = dz.dataset.side;
-            const idx = parseInt(dz.dataset.idx);
-            
-            // 尝试放置
-            const success = placeSaturn(side, idx);
-            
-            if (success) {
-              if (newItem.parentNode === warehouse) {
-                newItem.remove();
-              }
-              // 只更新显示，不重新渲染整个步骤
-              updateSwapDisplay(step);
-            }
-          }
-        }
-      };
+  document.removeEventListener('mousemove', onMouseMove);
+  document.removeEventListener('mouseup', onMouseUp);
+  ghost.remove();
+  newItem.style.opacity = '1';
+  document.querySelectorAll('.drop-zone.drag-over').forEach(el => el.classList.remove('drag-over'));
+  
+  const target = document.elementFromPoint(ev.clientX, ev.clientY);
+  if (target) {
+    const dz = target.closest('.drop-zone');
+    if (dz && dz.dataset.filled === 'false') {
+      const side = dz.dataset.side;
+      const idx = parseInt(dz.dataset.idx);
+      
+      const success = placeSaturn(side, idx);
+      
+      // ✅ placeSaturn 内部已经调用 renderConceptLesson，这里不需要再调用
+      // 但需要移除仓库中的土星（因为重新渲染会重建所有元素）
+    }
+  }
+};
       
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
@@ -2689,12 +2650,7 @@ function placeSaturn(side, idx) {
             
             const success = placeSaturn(side, idx);
             
-            if (success) {
-              if (newItem.parentNode === warehouse) {
-                newItem.remove();
-              }
-              updateSwapDisplay(step);
-            }
+            // ✅ placeSaturn 内部已经调用 renderConceptLesson，这里不需要再调用
           }
         }
       };
