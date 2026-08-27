@@ -426,13 +426,32 @@ const TEACHER_PASSWORD = 'SJKHK';
 const FEEDBACK_FORM_URL = 'https://forms.gle/8FXhqXPQsHGjFpvKA';
 
 let supabaseClient = null;
+let supabaseInitialized = false;
+
 function initSupabase() {
-  if (typeof supabase !== 'undefined' && supabase.createClient) {
-    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log('✅ Supabase 已连接');
+  if (supabaseInitialized) {
+    console.log('✅ Supabase 已初始化');
+    return;
+  }
+  
+  try {
+    if (typeof supabase !== 'undefined' && supabase.createClient) {
+      supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      supabaseInitialized = true;
+      console.log('✅ Supabase 已连接');
+    } else {
+      console.warn('⚠️ Supabase 库未加载，稍后重试...');
+    }
+  } catch (e) {
+    console.warn('⚠️ Supabase 初始化失败:', e.message);
+    setTimeout(initSupabase, 2000);
   }
 }
-setTimeout(initSupabase, 1000);
+
+// 页面加载完成后自动初始化
+document.addEventListener('DOMContentLoaded', function() {
+  initSupabase();
+});
 
 // ==================== 全局变量 ====================
 let currentLang = 'zh';
@@ -4180,7 +4199,6 @@ window.addEventListener('load', () => {
     loadConceptProgress();
     initDragSystem();
   }
-  setTimeout(initSupabase, 500);
 });
 </script>
 </body>
