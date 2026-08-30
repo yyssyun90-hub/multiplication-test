@@ -485,7 +485,7 @@ canvas {
 <div class="planet" style="width:80px;height:80px;background:radial-gradient(circle,#66aaff,#3366aa);bottom:15%;left:3%;opacity:0.4;"></div>
 <div class="rocket">🚀</div>
 <div class="ufo">🛸</div>
-<button class="feedback-btn" id="feedbackBtn">📝 填写问卷</button>
+<button class="feedback-btn" id="feedbackBtn"></button>
 
 <div class="modal" id="customModal"><div class="modal-content"><h3 id="modalTitle" style="text-align:center;margin-bottom:20px;">✨ 自选乘法表 ✨</h3><p id="modalHint" style="text-align:center;margin-bottom:10px;">请至少选择3个乘法表</p><div class="table-checkbox-grid" id="tableCheckboxGrid"></div><div class="modal-buttons"><button class="back-btn" id="cancelCustomBtn">◀ 取消</button><button class="start-btn" id="confirmCustomBtn">✅ 开始练习</button></div></div></div>
 
@@ -516,13 +516,7 @@ canvas {
       <p id="conceptWelcomeDesc">先动手探索，再开始练习！</p>
       <div class="highlight-box">
         <div style="font-weight:bold;color:#ffcc88;margin-bottom:12px;font-size:1.2rem;" id="conceptWelcomeLearnTitle">🚀 你将通过以下方式学习：</div>
-        <ul id="conceptWelcomeLearnList">
-          <li>🌟 观看动态加法动画</li>
-          <li>🌙 拖拽星星建造花园</li>
-          <li>🚀 在数轴上放置火箭</li>
-          <li>🪐 交换土星验证交换律</li>
-          <li>💎 探索乘法表的宝藏</li>
-        </ul>
+        <ul id="conceptWelcomeLearnList"></ul>    
         <div style="margin-top:12px;color:#aaa;font-size:1rem;" id="conceptWelcomeTime">⏱️ 约 12 分钟</div>
       </div>
       <div id="conceptWelcomeStatus" style="display:none;" class="already-done">✅ 已完成概念学习！可以随时重新学习。</div>
@@ -615,14 +609,14 @@ canvas {
   <div class="screen" id="tutorialScreen">
     <h2 class="title" id="tutorialTitle">📖 使用教程</h2>
     <div class="tutorial-card">
-      <div class="tutorial-step"><div class="tutorial-number">1</div><div><h3 id="step1Title">📝 填写宇航员资料</h3><p id="step1Desc">输入学校、班级和姓名，点击"发射启程"开始太空数学之旅！</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">2</div><div><h3 id="step2Title">🌌 概念探索</h3><p id="step2Desc">通过动画、拖拽和动手操作，直观理解乘法的含义！</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">3</div><div><h3 id="step3Title">🎯 选择任务等级</h3><p id="step3Desc">5种模式：新手宇航员(2的乘法表)、月球探险家(0-5)、太阳勇士(2-9)、银河霸主(0-12)，以及✨自选练习✨</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">4</div><div><h3 id="step4Title">⏱️ 限时答题</h3><p id="step4Desc">低级：20秒选择题；高级：25秒输入答案</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">5</div><div><h3 id="step5Title">📊 查看评估报告</h3><p id="step5Desc">测试结束后自动生成报告，显示每个乘法表的掌握程度、学习建议、排行榜和🏅成就徽章！</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">6</div><div><h3 id="step6Title">📝 错题本功能</h3><p id="step6Desc">做错的题目自动收集到错题本，可以随时复习和重做！</p></div></div>
-      <div class="tutorial-step"><div class="tutorial-number">7</div><div><h3 id="step7Title">🏆 排行榜与成就</h3><p id="step7Desc">查看全班排行榜，收集乘法大师徽章！</p></div></div>
-      <div style="text-align:center;margin-top:20px;"><p id="tutorialFooter">🚀 太空乘法任务 - 让学习乘法变得有趣！ 🌟</p></div>
+      <div class="tutorial-step"><div class="tutorial-number">1</div><div><h3 id="step1Title"></h3><p id="step1Desc"></p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">2</div><div><h3 id="step2Title"></h3><p id="step2Desc"></p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">3</div><div><h3 id="step3Title"></h3><p id="step3Desc"></p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">4</div><div><h3 id="step4Title"></h3><p id="step4Desc"></p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">5</div><div><h3 id="step5Title"></h3><p id="step5Desc"></p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">6</div><div><h3 id="step6Title"></h3><p id="step6Desc"></p></div></div>
+      <div class="tutorial-step"><div class="tutorial-number">7</div><div><h3 id="step7Title"></h3><p id="step7Desc"></p></div></div>
+      <div style="text-align:center;margin-top:20px;"><p id="tutorialFooter"></p></div>
     </div>
     <button class="back-btn" id="backFromTutorialBtn" style="margin-top:20px;">◀ 返回首页</button>
   </div>
@@ -4394,8 +4388,14 @@ safeAddEventListener('conceptStartBtn', 'click', () => {
 
 const skipBtnElement = document.getElementById('conceptSkipBtn');
 if (skipBtnElement) {
+// 找到 skipBtnElement 的点击事件（约第 2900 行）
   skipBtnElement.addEventListener('click', () => {
     if (skipTimer) clearInterval(skipTimer);
+    
+    // ✅ 添加这两行
+    conceptState.completed = true;
+    saveConceptProgress();
+    
     document.getElementById('welcomeScreen')?.classList.remove('active');
     document.getElementById('levelScreen')?.classList.add('active');
     const smartBtn = document.getElementById('smartReviewBtn');
