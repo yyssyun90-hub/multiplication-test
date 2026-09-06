@@ -1787,24 +1787,28 @@ function renderConceptLesson() {
   }
   
   // 检查步骤是否已完成
-  const isStepCompleted = conceptState.stepHistory.includes(`${conceptState.currentLesson}-${conceptState.currentStep}`);
-  if (step.type === 'check' && isStepCompleted) {
+  // ✅ 检查步骤是否已完成
+const isStepCompleted = conceptState.stepHistory.includes(`${conceptState.currentLesson}-${conceptState.currentStep}`);
+if (step.type === 'check') {
+  // ✅ 检查题：只有答对了才显示下一步
+  if (isStepCompleted) {
     nextBtn.textContent = t.conceptNextBtn;
     nextBtn.style.display = 'inline-block';
-  } else if (step.type === 'check') {
-    nextBtn.style.display = 'none';
-  } else if (step.type === 'drag' || step.type === 'drag-numberline' || step.type === 'drag-swap' || step.type === 'drag-treasure') {
-    const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
-    if (conceptState.dragStates && conceptState.dragStates[dragKey]?.completed) {
-      nextBtn.textContent = t.conceptNextBtn;
-      nextBtn.style.display = 'inline-block';
-    } else {
-      nextBtn.style.display = 'none';
-    }
   } else {
+    nextBtn.style.display = 'none';
+  }
+} else if (step.type === 'drag' || step.type === 'drag-numberline' || step.type === 'drag-swap' || step.type === 'drag-treasure') {
+  const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  if (conceptState.dragStates && conceptState.dragStates[dragKey]?.completed) {
     nextBtn.textContent = t.conceptNextBtn;
     nextBtn.style.display = 'inline-block';
+  } else {
+    nextBtn.style.display = 'none';
   }
+} else {
+  nextBtn.textContent = t.conceptNextBtn;
+  nextBtn.style.display = 'inline-block';
+}
   
   document.getElementById('conceptExitBtn').textContent = t.conceptExitBtn;
 }
@@ -2089,8 +2093,9 @@ function renderTreasureStep(step, t) {
 
 function renderCheckStep(step, t) {
   const stepKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  // ✅ 修改 renderCheckStep 函数
   const isCompleted = conceptState.stepHistory.includes(stepKey);
-  
+
   let html = `
     <div class="step-title">${step.title}</div>
     <div class="step-text">${step.content}</div>
@@ -3146,14 +3151,38 @@ function updateTreasureStats(step) {
 // ==================== 检查题事件绑定 ====================
 function bindCheckEvents(step) {
   const stepKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
-  if (conceptState.stepHistory.includes(stepKey)) return;
   
+  // ✅ 强制重置状态，防止已完成的标记影响
+  const isCompleted = conceptState.stepHistory.includes(stepKey);
+  
+  // ✅ 清除所有按钮的旧事件（通过克隆替换）
+  const container = document.getElementById('checkOptions');
+  if (container) {
+    const btns = container.querySelectorAll('button');
+    btns.forEach(btn => {
+      const newBtn = btn.cloneNode(true);
+      btn.parentNode.replaceChild(newBtn, btn);
+    });
+  }
+  
+  // ✅ 如果已经完成，显示正确信息但不阻止重新答题
+  const feedback = document.getElementById('checkFeedback');
+  if (isCompleted) {
+    feedback.className = 'feedback-text success';
+    feedback.textContent = '✅ ' + texts[currentLang].conceptCheckCorrect;
+    document.getElementById('conceptNextBtn').style.display = 'inline-block';
+  }
+  
+  // ✅ 重新绑定事件
   document.querySelectorAll('#checkOptions button').forEach(btn => {
-    btn.onclick = function() {
+    btn.addEventListener('click', function() {
       const idx = parseInt(this.dataset.optidx);
       const isCorrect = idx === step.correct;
       const feedback = document.getElementById('checkFeedback');
       const allBtns = document.querySelectorAll('#checkOptions button');
+      
+      // ✅ 如果已经完成，不允许再次答题
+      if (conceptState.stepHistory.includes(stepKey)) return;
       
       allBtns.forEach(b => b.disabled = true);
       
@@ -3165,9 +3194,7 @@ function bindCheckEvents(step) {
         conceptState.totalChecks++;
         conceptState.stepHistory.push(stepKey);
         saveConceptProgress();
-        setTimeout(() => {
-          document.getElementById('conceptNextBtn').style.display = 'inline-block';
-        }, 500);
+        document.getElementById('conceptNextBtn').style.display = 'inline-block';
       } else {
         this.classList.add('wrong');
         feedback.className = 'feedback-text error';
@@ -3181,7 +3208,7 @@ function bindCheckEvents(step) {
           feedback.textContent = '';
         }, 1500);
       }
-    };
+    });
   });
 }
 
