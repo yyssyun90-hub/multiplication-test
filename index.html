@@ -1448,6 +1448,20 @@ function saveConceptProgress() {
 
 function renderConceptWelcome() {
   const t = texts[currentLang];
+// ✅ 如果是新学生，重置概念学习状态
+  const studentKey = `${currentStudentData.school}_${currentStudentData.className}_${currentStudentData.name}`;
+  const savedState = localStorage.getItem(`concept_${studentKey}`);
+  
+  // ✅ 如果当前学生的概念状态不存在，重置为未完成
+  if (!savedState) {
+    conceptState.completed = false;
+    conceptState.currentLesson = 0;
+    conceptState.currentStep = 0;
+    conceptState.stepHistory = [];
+    conceptState.dragStates = {};
+    saveConceptProgress();
+  }
+
   document.getElementById('conceptWelcomeTitle').textContent = t.conceptWelcomeTitle;
   document.getElementById('conceptWelcomeDesc').textContent = t.conceptWelcomeDesc;
   document.getElementById('conceptWelcomeLearnTitle').textContent = t.conceptWelcomeLearnTitle;
@@ -1703,6 +1717,12 @@ function checkHover(clientX, clientY) {
 
 // ==================== 具象化步骤渲染 ====================
 function renderConceptLesson() {
+    // ✅ 确保概念状态正确
+  if (!conceptState.completed && conceptState.stepHistory.length === 0) {
+    // 新课程，从头开始
+    conceptState.currentLesson = 0;
+    conceptState.currentStep = 0;
+  }
   const t = texts[currentLang];
   const lessons = conceptLessons[currentLang] || conceptLessons.zh;
   const lesson = lessons[conceptState.currentLesson];
@@ -3152,10 +3172,18 @@ function updateTreasureStats(step) {
 function bindCheckEvents(step) {
   const stepKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
   
-  // ✅ 强制重置状态，防止已完成的标记影响
-  const isCompleted = conceptState.stepHistory.includes(stepKey);
+  // ✅ 如果已经完成，不绑定事件，但显示正确信息
+  if (conceptState.stepHistory.includes(stepKey)) {
+    const feedback = document.getElementById('checkFeedback');
+    if (feedback) {
+      feedback.className = 'feedback-text success';
+      feedback.textContent = '✅ ' + texts[currentLang].conceptCheckCorrect;
+    }
+    document.getElementById('conceptNextBtn').style.display = 'inline-block';
+    return;
+  }
   
-  // ✅ 清除所有按钮的旧事件（通过克隆替换）
+  // ✅ 清除旧事件并重新绑定
   const container = document.getElementById('checkOptions');
   if (container) {
     const btns = container.querySelectorAll('button');
@@ -3165,15 +3193,7 @@ function bindCheckEvents(step) {
     });
   }
   
-  // ✅ 如果已经完成，显示正确信息但不阻止重新答题
-  const feedback = document.getElementById('checkFeedback');
-  if (isCompleted) {
-    feedback.className = 'feedback-text success';
-    feedback.textContent = '✅ ' + texts[currentLang].conceptCheckCorrect;
-    document.getElementById('conceptNextBtn').style.display = 'inline-block';
-  }
-  
-  // ✅ 重新绑定事件
+  // ✅ 重新绑定点击事件
   document.querySelectorAll('#checkOptions button').forEach(btn => {
     btn.addEventListener('click', function() {
       const idx = parseInt(this.dataset.optidx);
@@ -3181,7 +3201,7 @@ function bindCheckEvents(step) {
       const feedback = document.getElementById('checkFeedback');
       const allBtns = document.querySelectorAll('#checkOptions button');
       
-      // ✅ 如果已经完成，不允许再次答题
+      // ✅ 防止重复提交
       if (conceptState.stepHistory.includes(stepKey)) return;
       
       allBtns.forEach(b => b.disabled = true);
@@ -3210,70 +3230,6 @@ function bindCheckEvents(step) {
       }
     });
   });
-}
-
-// ==================== 概念导航 ====================
-function conceptNextStep() {
-  const lessons = conceptLessons[currentLang] || conceptLessons.zh;
-  const lesson = lessons[conceptState.currentLesson];
-  const totalSteps = lesson.steps.length;
-  
-  // 检查当前步骤是否是拖拽或检查步骤，且未完成
-  const step = lesson.steps[conceptState.currentStep];
-  if (step.type === 'drag' || step.type === 'drag-numberline' || step.type === 'drag-swap' || step.type === 'drag-treasure') {
-    const dragKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
-    if (!conceptState.dragStates[dragKey]?.completed) {
-      return;
-    }
-  }
-  if (step.type === 'check') {
-    const stepKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
-    if (!conceptState.stepHistory.includes(stepKey)) {
-      return;
-    }
-  }
-  
-  if (conceptState.currentStep < totalSteps - 1) {
-    conceptState.currentStep++;
-    renderConceptLesson();
-    saveConceptProgress();
-  } else {
-    // 所有步骤完成，进入下一课
-    if (conceptState.currentLesson >= lessons.length - 1) {
-      // 所有课程完成
-      conceptState.completed = true;
-      conceptState.allCorrect = conceptState.totalCheckCorrect === conceptState.totalChecks;
-      saveConceptProgress();
-      studentAchievements.conceptCompleted = true;
-      studentAchievements.conceptScore = conceptState.totalChecks > 0 ? 
-        Math.round((conceptState.totalCheckCorrect / conceptState.totalChecks) * 100) : 0;
-      if (conceptState.allCorrect && conceptState.totalChecks > 0) {
-        studentAchievements.badges.concept_master = true;
-      }
-      saveAchievements();
-      const t = texts[currentLang];
-      document.getElementById('completeTitle').textContent = t.conceptCompleteTitle;
-      document.getElementById('completeDesc').textContent = t.conceptCompleteDesc;
-      document.getElementById('completeBadge').textContent = t.conceptCompleteBadge;
-      document.getElementById('completeGoBtn').textContent = t.conceptCompleteGo;
-      document.getElementById('completeReviewBtn').textContent = t.conceptCompleteReview;
-      document.getElementById('conceptCompleteOverlay').classList.add('active');
-    } else {
-      conceptState.currentLesson++;
-      conceptState.currentStep = 0;
-      conceptState.checkCorrect = 0;
-      renderConceptLesson();
-      saveConceptProgress();
-    }
-  }
-}
-
-function conceptPrevStep() {
-  if (conceptState.currentStep > 0) {
-    conceptState.currentStep--;
-    renderConceptLesson();
-    saveConceptProgress();
-  }
 }
 
 // ==================== 核心游戏函数 ====================
