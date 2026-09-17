@@ -3923,10 +3923,12 @@ function generateClassDiagnosis(records, t) {
 async function renderClassComparison() {
   if (!supabaseClient) return;
   const schoolFilter = document.getElementById('filterSchool').value.trim();
+  const classFilter = document.getElementById('filterClass').value.trim();       // ✅ 定义变量
+  const nameFilter = document.getElementById('filterStudentName').value.trim();  // ✅ 定义变量
   let query = supabaseClient.from('math_records').select('*');
   if (schoolFilter) query = query.eq('school', schoolFilter);
-  if (classFilter) query = query.eq('class', classFilter);      // ✅ 新增
-  if (nameFilter) query = query.eq('name', nameFilter);          // ✅ 新增
+  if (classFilter) query = query.eq('class', classFilter);
+  if (nameFilter) query = query.eq('name', nameFilter);
   const { data } = await query;
   if (!data || data.length === 0) return;
   const classStats = {};
