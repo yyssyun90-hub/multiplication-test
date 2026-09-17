@@ -1448,18 +1448,23 @@ function saveConceptProgress() {
 
 function renderConceptWelcome() {
   const t = texts[currentLang];
-// ✅ 如果是新学生，重置概念学习状态
   const studentKey = `${currentStudentData.school}_${currentStudentData.className}_${currentStudentData.name}`;
   const savedState = localStorage.getItem(`concept_${studentKey}`);
   
-  // ✅ 如果当前学生的概念状态不存在，重置为未完成
   if (!savedState) {
+    // 新学生：重置
     conceptState.completed = false;
     conceptState.currentLesson = 0;
     conceptState.currentStep = 0;
     conceptState.stepHistory = [];
     conceptState.dragStates = {};
+    conceptState.totalCheckCorrect = 0;
+    conceptState.totalChecks = 0;
     saveConceptProgress();
+  } else {
+    // ✅ 已存在：确保 stepHistory 是数组
+    if (!Array.isArray(conceptState.stepHistory)) conceptState.stepHistory = [];
+    if (!conceptState.dragStates) conceptState.dragStates = {};
   }
 
   document.getElementById('conceptWelcomeTitle').textContent = t.conceptWelcomeTitle;
@@ -4442,6 +4447,7 @@ safeAddEventListener('conceptStartBtn', 'click', () => {
     conceptState.totalChecks = 0;
     conceptState.allCorrect = false;
     conceptState.dragStates = {};
+    conceptState.stepHistory = [];   // ✅ 清空步骤历史
     saveConceptProgress();
   }
   document.getElementById('welcomeScreen')?.classList.remove('active');
@@ -4451,12 +4457,17 @@ safeAddEventListener('conceptStartBtn', 'click', () => {
 
 const skipBtnElement = document.getElementById('conceptSkipBtn');
 if (skipBtnElement) {
-// 找到 skipBtnElement 的点击事件（约第 2900 行）
   skipBtnElement.addEventListener('click', () => {
     if (skipTimer) clearInterval(skipTimer);
     
-    // ✅ 添加这两行
+    // ✅ 跳过也要清空概念学习历史
     conceptState.completed = true;
+    conceptState.currentLesson = 0;
+    conceptState.currentStep = 0;
+    conceptState.stepHistory = [];
+    conceptState.dragStates = {};
+    conceptState.totalCheckCorrect = 0;
+    conceptState.totalChecks = 0;
     saveConceptProgress();
     
     document.getElementById('welcomeScreen')?.classList.remove('active');
@@ -4496,6 +4507,7 @@ safeAddEventListener('completeReviewBtn', 'click', () => {
   conceptState.totalChecks = 0;
   conceptState.allCorrect = false;
   conceptState.dragStates = {};
+  conceptState.stepHistory = [];   // ✅ 清空步骤历史
   saveConceptProgress();
   document.getElementById('conceptScreen')?.classList.add('active');
   renderConceptLesson();
