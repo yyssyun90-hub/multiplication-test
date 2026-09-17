@@ -205,7 +205,7 @@ body{min-height:100vh;background:linear-gradient(135deg,#0a0f2a,#0a1a3a,#0a0f2a)
 .concept-lesson .step-content .check-question .feedback-text.success{color:#4CAF50}
 .concept-lesson .step-content .check-question .feedback-text.error{color:#ff6b6b}
 
-.concept-lesson .lesson-nav{display:flex;gap:15px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.concept-lesson .lesson-nav{display:flex;gap:15px;justify-content:center;margin-top:20px;flex-wrap:wrap;position:relative;z-index:10}
 .concept-lesson .lesson-nav button{padding:12px 28px;font-size:1.1rem}
 
 .concept-complete-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:300;display:none;justify-content:center;align-items:center}
@@ -1833,6 +1833,76 @@ if (step.type === 'check') {
   document.getElementById('conceptExitBtn').textContent = t.conceptExitBtn;
 }
 
+// ==================== 概念步骤导航 ====================
+function conceptNextStep() {
+  const t = texts[currentLang];
+  const lessons = conceptLessons[currentLang] || conceptLessons.zh;
+  const lesson = lessons[conceptState.currentLesson];
+  const step = lesson.steps[conceptState.currentStep];
+  const stepKey = `${conceptState.currentLesson}-${conceptState.currentStep}`;
+  
+  // ✅ 检查是否允许进入下一步
+  if (step.type === 'check' && !conceptState.stepHistory.includes(stepKey)) {
+    alert(currentLang === 'zh' ? '请先答对检查题才能继续！' : 'Please answer the question correctly first!');
+    return;
+  }
+  if (step.type === 'drag' || step.type === 'drag-numberline' || step.type === 'drag-swap' || step.type === 'drag-treasure') {
+    const dragKey = stepKey;
+    if (!conceptState.dragStates?.[dragKey]?.completed) {
+      alert(currentLang === 'zh' ? '请先完成这个活动才能继续！' : 'Please complete this activity first!');
+      return;
+    }
+  }
+  
+  // 记录步骤历史
+  if (!conceptState.stepHistory.includes(stepKey)) {
+    conceptState.stepHistory.push(stepKey);
+  }
+  
+  if (conceptState.currentStep < lesson.steps.length - 1) {
+    // 同一课还有下一步
+    conceptState.currentStep++;
+    saveConceptProgress();
+    renderConceptLesson();
+  } else if (conceptState.currentLesson < lessons.length - 1) {
+    // 进入下一课
+    conceptState.currentLesson++;
+    conceptState.currentStep = 0;
+    saveConceptProgress();
+    renderConceptLesson();
+  } else {
+    // ✅ 所有课程完成
+    conceptState.completed = true;
+    conceptState.allCorrect = conceptState.totalCheckCorrect === conceptState.totalChecks;
+    studentAchievements.conceptCompleted = true;
+    saveAchievements();
+    saveConceptProgress();
+    
+    // 显示完成弹窗
+    document.getElementById('completeTitle').textContent = t.conceptCompleteTitle;
+    document.getElementById('completeDesc').textContent = t.conceptCompleteDesc;
+    document.getElementById('completeBadge').textContent = t.conceptCompleteBadge;
+    document.getElementById('completeGoBtn').textContent = t.conceptCompleteGo;
+    document.getElementById('completeReviewBtn').textContent = t.conceptCompleteReview;
+    document.getElementById('conceptCompleteOverlay').classList.add('active');
+  }
+}
+
+function conceptPrevStep() {
+  if (conceptState.currentStep > 0) {
+    conceptState.currentStep--;
+    saveConceptProgress();
+    renderConceptLesson();
+  } else if (conceptState.currentLesson > 0) {
+    // 回上一课的最后一步
+    conceptState.currentLesson--;
+    const lessons = conceptLessons[currentLang] || conceptLessons.zh;
+    conceptState.currentStep = lessons[conceptState.currentLesson].steps.length - 1;
+    saveConceptProgress();
+    renderConceptLesson();
+  }
+}
+
 // Add these function definitions before renderConceptLesson
 
 // ==================== 各步骤渲染函数 (完整版) ====================
@@ -3350,13 +3420,19 @@ function showCurrentQuestion() {
   document.getElementById('questionDisplay').textContent = `${q.a} × ${q.b} = ?`;
   const optDiv = document.getElementById('optionsContainer');
   const inputField = document.getElementById('answerInput');
+  const submitBtn = document.getElementById('submitBtn');
+
   if (currentLevel === 1 || currentLevel === 2) {
+    // 选择题模式
     inputField.style.display = 'none';
     optDiv.style.display = 'flex';
+    if (submitBtn) submitBtn.style.display = 'none';   // ✅ 隐藏提交按钮
     renderOptions(q.ans, currentLevel === 1 ? 4 : 5);
   } else {
+    // 输入模式
     optDiv.style.display = 'none';
     inputField.style.display = 'block';
+    if (submitBtn) submitBtn.style.display = 'inline-block'; // ✅ 显示提交按钮
     inputField.value = '';
     inputField.focus();
   }
@@ -3849,6 +3925,8 @@ async function renderClassComparison() {
   const schoolFilter = document.getElementById('filterSchool').value.trim();
   let query = supabaseClient.from('math_records').select('*');
   if (schoolFilter) query = query.eq('school', schoolFilter);
+  if (classFilter) query = query.eq('class', classFilter);      // ✅ 新增
+  if (nameFilter) query = query.eq('name', nameFilter);          // ✅ 新增
   const { data } = await query;
   if (!data || data.length === 0) return;
   const classStats = {};
@@ -4425,8 +4503,24 @@ safeAddEventListener('submitBtn', 'click', () => {
   if ((currentLevel === 3 || currentLevel === 4 || currentLevel === 5 || currentLevel === 6) && gameStarted) {
     const input = document.getElementById('answerInput');
     if (!input) return;
-    const val = parseInt(input.value);
-    if (isNaN(val)) return;
+    const raw = input.value.trim();
+    const t = texts[currentLang];
+
+    // ✅ 空输入提示
+    if (raw === '') {
+      alert(currentLang === 'zh' ? '⚠️ 请输入答案后再提交！' : '⚠️ Please enter an answer first!');
+      input.focus();
+      return;
+    }
+
+    const val = parseInt(raw);
+    if (isNaN(val)) {
+      alert(currentLang === 'zh' ? '⚠️ 请输入有效的数字！' : '⚠️ Please enter a valid number!');
+      input.value = '';
+      input.focus();
+      return;
+    }
+
     checkAnswer(val);
   }
 });
@@ -4436,9 +4530,24 @@ if (answerInput) {
   answerInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && gameStarted) {
       e.preventDefault();
-      const val = parseInt(this.value);
-      if (isNaN(val)) return;
-      if ((currentLevel === 3 || currentLevel === 4 || currentLevel === 5 || currentLevel === 6)) checkAnswer(val);
+      const raw = this.value.trim();
+
+      // ✅ 空输入提示
+      if (raw === '') {
+        alert(currentLang === 'zh' ? '⚠️ 请输入答案后再提交！' : '⚠️ Please enter an answer first!');
+        return;
+      }
+
+      const val = parseInt(raw);
+      if (isNaN(val)) {
+        alert(currentLang === 'zh' ? '⚠️ 请输入有效的数字！' : '⚠️ Please enter a valid number!');
+        this.value = '';
+        return;
+      }
+
+      if (currentLevel === 3 || currentLevel === 4 || currentLevel === 5 || currentLevel === 6) {
+        checkAnswer(val);
+      }
     }
   });
 }
